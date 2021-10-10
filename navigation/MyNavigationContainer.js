@@ -3,7 +3,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
-import MealDeatailScreen from "../screens/MealDeatailScreen";
+import MealDetailScreen from "../screens/MealDetailScreen";
 
 const MyStack = createNativeStackNavigator();
 
@@ -28,8 +28,8 @@ const MyNavigationContainer = (props) => {
         />
         <MyStack.Screen
           name="Details"
-          component={MealDeatailScreen}
-          options={{ title: "My Details" }}
+          component={MealDetailScreen}
+          options={{ title: "My Dummy" }}
         />
       </MyStack.Navigator>
     </NavigationContainer>

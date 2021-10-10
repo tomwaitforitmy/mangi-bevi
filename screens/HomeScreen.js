@@ -1,6 +1,6 @@
 import React from "react";
 import MealList from "../components/MealList";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { MEALS } from "../data/DummyMeals";
 
 function HomeScreen({ navigation }) {
