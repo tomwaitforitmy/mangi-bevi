@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 
 const HomeScreen = (props) => {
   return (
     <View style={styles.homeScreen}>
       <Text>Tommy's Home Screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate("Details")}
+      />
     </View>
   );
 };
@@ -12,7 +16,7 @@ const HomeScreen = (props) => {
 const styles = StyleSheet.create({
   homeScreen: {
     flex: 1,
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
   },
 });

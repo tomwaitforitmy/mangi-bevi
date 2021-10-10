@@ -3,6 +3,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
+import MealDeatailScreen from "../screens/MealDeatailScreen";
 
 const MyStack = createNativeStackNavigator();
 
@@ -11,6 +12,7 @@ const MyNavigationContainer = (props) => {
     <NavigationContainer>
       <MyStack.Navigator>
         <MyStack.Screen name="Home" component={HomeScreen} />
+        <MyStack.Screen name="Details" component={MealDeatailScreen} />
       </MyStack.Navigator>
     </NavigationContainer>
   );
