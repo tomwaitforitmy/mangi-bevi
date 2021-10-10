@@ -1,19 +1,14 @@
 import React from "react";
+import MealList from "../components/MealList";
 import { View, Text, StyleSheet, Button } from "react-native";
+import { MEALS } from "../data/DummyMeals";
 
 function HomeScreen({ navigation }) {
+  const displayedMeals = MEALS;
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => {
-          /* 1. Navigate to the Details route with params */ navigation.navigate(
-            "Details",
-            { itemId: 86, otherParam: "anything you want here" }
-          );
-        }}
-      />
+      <MealList mealsList={displayedMeals} navigation={navigation}></MealList>
     </View>
   );
 }
