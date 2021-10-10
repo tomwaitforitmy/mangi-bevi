@@ -10,9 +10,27 @@ const MyStack = createNativeStackNavigator();
 const MyNavigationContainer = (props) => {
   return (
     <NavigationContainer>
-      <MyStack.Navigator>
-        <MyStack.Screen name="Home" component={HomeScreen} />
-        <MyStack.Screen name="Details" component={MealDeatailScreen} />
+      <MyStack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#f4511e",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <MyStack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "Home" }}
+        />
+        <MyStack.Screen
+          name="Details"
+          component={MealDeatailScreen}
+          options={{ title: "My Details" }}
+        />
       </MyStack.Navigator>
     </NavigationContainer>
   );
