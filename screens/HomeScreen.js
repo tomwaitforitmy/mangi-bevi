@@ -1,17 +1,22 @@
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 
-const HomeScreen = (props) => {
+function HomeScreen({ navigation }) {
   return (
-    <View style={styles.homeScreen}>
-      <Text>Tommy's Home Screen</Text>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Home Screen</Text>
       <Button
         title="Go to Details"
-        onPress={() => props.navigation.navigate("Details")}
+        onPress={() => {
+          /* 1. Navigate to the Details route with params */ navigation.navigate(
+            "Details",
+            { itemId: 86, otherParam: "anything you want here" }
+          );
+        }}
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   homeScreen: {
