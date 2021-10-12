@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
+import Colors from "../constants/Colors";
 
 const MyStack = createNativeStackNavigator();
 
@@ -13,9 +14,9 @@ const MyNavigationContainer = (props) => {
       <MyStack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#f4511e",
+            backgroundColor: Colors.primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: "white",
           headerTitleStyle: {
             fontWeight: "bold",
           },
@@ -29,7 +30,7 @@ const MyNavigationContainer = (props) => {
         <MyStack.Screen
           name="Details"
           component={MealDetailScreen}
-          options={{ title: "My Dummy" }}
+          options={({ route }) => ({ title: route.params.mealTitle })}
         />
       </MyStack.Navigator>
     </NavigationContainer>
