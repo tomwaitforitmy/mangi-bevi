@@ -14,7 +14,7 @@ const defaultScreenOptions = {
   headerStyle: {
     backgroundColor: Colors.primary,
   },
-  headerTintColor: "yellow",
+  headerTintColor: Colors.white,
   headerTitleStyle: {
     fontWeight: "bold",
   },
@@ -22,7 +22,7 @@ const defaultScreenOptions = {
 
 const Tab = createMaterialBottomTabNavigator();
 
-function MyTabs() {
+function MainTabNavigator() {
   return (
     <Tab.Navigator
       activeColor={Colors.white}
@@ -47,37 +47,51 @@ function MyTabs() {
         tabBarColor: Colors.primary,
       })}
     >
-      <Tab.Screen name="Mangi & Bevi" component={HomeStack} />
-      <Tab.Screen name="Favorites" component={FavoritesScreen} />
+      <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
+      <Tab.Screen name="Favorites" component={FavoritesStackContainer} />
       <Tab.Screen name="Filters" component={FiltersScreen} />
       <Tab.Screen name="New" component={NewScreen} />
     </Tab.Navigator>
   );
 }
 
-const MyStack = createNativeStackNavigator();
+const MealsStack = createNativeStackNavigator();
 
-function HomeStack({ route }) {
+function MealsStackContainer({ route }) {
   return (
-    <MyStack.Navigator screenOptions={defaultScreenOptions}>
-      <MyStack.Screen
+    <MealsStack.Navigator screenOptions={defaultScreenOptions}>
+      <MealsStack.Screen
         name="Home"
         component={HomeScreen}
         options={{ title: "Home" }}
       />
-      <MyStack.Screen
+      <MealsStack.Screen
         name="Details"
         component={MealDetailScreen}
         options={({ route }) => ({ title: route.params.mealTitle })}
       />
-    </MyStack.Navigator>
+    </MealsStack.Navigator>
+  );
+}
+
+const FavoritesStack = createNativeStackNavigator();
+
+function FavoritesStackContainer({ route }) {
+  return (
+    <FavoritesStack.Navigator screenOptions={defaultScreenOptions}>
+      <FavoritesStack.Screen
+        name="FavoritesScreen"
+        component={FavoritesScreen}
+        options={{ title: "Favorites" }}
+      />
+    </FavoritesStack.Navigator>
   );
 }
 
 const MyNavigationContainer = (props) => {
   return (
     <NavigationContainer>
-      <MyTabs></MyTabs>
+      <MainTabNavigator></MainTabNavigator>
     </NavigationContainer>
   );
 };
