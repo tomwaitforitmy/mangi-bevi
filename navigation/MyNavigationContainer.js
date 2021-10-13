@@ -1,5 +1,5 @@
 import React from "react";
-
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
@@ -24,8 +24,30 @@ const Tab = createMaterialBottomTabNavigator();
 
 function MyTabs() {
   return (
-    <Tab.Navigator screenOptions={defaultScreenOptions}>
-      <Tab.Screen name="HomeStack" component={HomeStack} />
+    <Tab.Navigator
+      activeColor={Colors.white}
+      inactiveColor={Colors.second}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color }) => {
+          let iconName;
+
+          if (route.name === "Mangi & Bevi") {
+            iconName = focused ? "ios-restaurant" : "ios-restaurant-outline";
+          } else if (route.name === "Filters") {
+            iconName = focused ? "ios-filter" : "ios-filter-outline";
+          } else if (route.name === "New") {
+            iconName = focused ? "ios-create" : "ios-create-outline";
+          } else if (route.name === "Favorites") {
+            iconName = focused ? "ios-star" : "ios-star-outline";
+          }
+
+          return <Ionicons name={iconName} size={25} color={color} />;
+        },
+
+        tabBarColor: Colors.primary,
+      })}
+    >
+      <Tab.Screen name="Mangi & Bevi" component={HomeStack} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Filters" component={FiltersScreen} />
       <Tab.Screen name="New" component={NewScreen} />
