@@ -32,4 +32,94 @@ export const MEALS = [
       "Bake the toast for round about 10 minutes in the oven at 200°C",
     ]
   ),
+
+  new Meal(
+    "Pancakes",
+    "m3",
+    "https://cdn.pixabay.com/photo/2018/07/10/21/23/pancake-3529653_1280.jpg",
+    [
+      "1 Slice White Bread",
+      "1 Slice Ham",
+      "1 Slice Pineapple",
+      "1-2 Slices of Cheese",
+      "Butter",
+    ],
+    [
+      "Butter one side of the white bread",
+      "Layer ham, the pineapple and cheese on the white bread",
+      "Bake the toast for round about 10 minutes in the oven at 200°C",
+    ]
+  ),
+
+  new Meal(
+    "Delicious Orange Mousse",
+    "m4",
+    "https://cdn.pixabay.com/photo/2017/05/01/05/18/pastry-2274750_1280.jpg",
+    [
+      "1 Slice White Bread",
+      "1 Slice Ham",
+      "1 Slice Pineapple",
+      "1-2 Slices of Cheese",
+      "Butter",
+    ],
+    [
+      "Butter one side of the white bread",
+      "Layer ham, the pineapple and cheese on the white bread",
+      "Bake the toast for round about 10 minutes in the oven at 200°C",
+    ]
+  ),
+
+  new Meal(
+    "Salad with Smoked Salmon",
+    "m5",
+    "https://cdn.pixabay.com/photo/2016/10/25/13/29/smoked-salmon-salad-1768890_1280.jpg",
+    [
+      "1 Slice White Bread",
+      "1 Slice Ham",
+      "1 Slice Pineapple",
+      "1-2 Slices of Cheese",
+      "Butter",
+    ],
+    [
+      "Butter one side of the white bread",
+      "Layer ham, the pineapple and cheese on the white bread",
+      "Bake the toast for round about 10 minutes in the oven at 200°C",
+    ]
+  ),
+
+  new Meal(
+    "Wiener Schnitzel",
+    "m6",
+    "https://cdn.pixabay.com/photo/2018/03/31/19/29/schnitzel-3279045_1280.jpg",
+    [
+      "1 Slice White Bread",
+      "1 Slice Ham",
+      "1 Slice Pineapple",
+      "1-2 Slices of Cheese",
+      "Butter",
+    ],
+    [
+      "Butter one side of the white bread",
+      "Layer ham, the pineapple and cheese on the white bread",
+      "Bake the toast for round about 10 minutes in the oven at 200°C",
+    ]
+  ),
+
+  new Meal(
+    "Classic Hamburger",
+    "m7",
+    "https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg",
+    [
+      "1 Slice White Bread",
+      "1 Slice Ham",
+      "1 Slice Pineapple",
+      "1-2 Slices of Cheese",
+      "Butter",
+    ],
+    [
+      "Butter one side of the white bread",
+      "Layer ham, the pineapple and cheese on the white bread",
+      "Bake the toast for round about 10 minutes in the oven at 200°C",
+    ]
+  ),
 ];
