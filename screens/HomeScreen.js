@@ -1,14 +1,14 @@
 import React from "react";
 import MealList from "../components/MealList";
 import { View, StyleSheet } from "react-native";
-import { MEALS } from "../data/DummyMeals";
+import { useSelector } from "react-redux";
 
 function HomeScreen({ navigation }) {
-  const displayedMeals = MEALS;
+  const availableMeals = useSelector((state) => state.meals.filteredMeals);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <MealList mealsList={displayedMeals} navigation={navigation}></MealList>
+      <MealList mealsList={availableMeals} navigation={navigation}></MealList>
     </View>
   );
 }
