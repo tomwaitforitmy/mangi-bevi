@@ -1,4 +1,4 @@
-import Meal from "../models/meal";
+import Meal from "../models/Meal";
 
 export const MEALS = [
   new Meal(

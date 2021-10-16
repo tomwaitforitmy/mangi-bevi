@@ -3,7 +3,7 @@ import MealList from "../components/MealList";
 import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
-function HomeScreen({ navigation }) {
+function MealsScreen({ navigation }) {
   const availableMeals = useSelector((state) => state.meals.filteredMeals);
 
   return (
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default MealsScreen;

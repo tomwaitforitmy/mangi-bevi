@@ -2,7 +2,7 @@ import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/HomeScreen";
+import MealsScreen from "../screens/MealsScreen";
 import FiltersScreen from "../screens/FiltersScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
@@ -61,9 +61,9 @@ function MealsStackContainer({ route }) {
   return (
     <MealsStack.Navigator screenOptions={defaultScreenOptions}>
       <MealsStack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ title: "Home" }}
+        name="Meals"
+        component={MealsScreen}
+        options={{ title: "Meals" }}
       />
       <MealsStack.Screen
         name="Details"
