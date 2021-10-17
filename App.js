@@ -2,15 +2,20 @@
 
 import * as React from "react";
 import MyNavigationContainer from "./navigation/MyNavigationContainer";
+import ReduxThunk from "redux-thunk";
 
 // Redux Store
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mealsReducer from "./store/reducers/mealsReducer";
+import authReducer from "./store/reducers/authReducer";
 
-const rootReducer = combineReducers({ meals: mealsReducer });
+const rootReducer = combineReducers({
+  meals: mealsReducer,
+  auth: authReducer,
+});
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 function App() {
   return (

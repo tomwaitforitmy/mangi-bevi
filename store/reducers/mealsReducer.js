@@ -1,5 +1,9 @@
 import { MEALS } from "../../data/DummyMeals";
-import { SET_FILTERS, TOGGLE_FAVORITE } from "../actions/mealsAction";
+import {
+  SET_FILTERS,
+  TOGGLE_FAVORITE,
+  SET_MEALS,
+} from "../actions/mealsAction";
 
 const initialState = {
   meals: MEALS,
@@ -8,6 +12,7 @@ const initialState = {
 };
 
 const mealsReducer = (state = initialState, action) => {
+  console.log("mealsReducer" + action.type.toString());
   switch (action.type) {
     case TOGGLE_FAVORITE: {
       const existingIndex = state.favoriteMeals.findIndex(
@@ -41,6 +46,10 @@ const mealsReducer = (state = initialState, action) => {
       // });
 
       return { ...state, filteredMeals: filteredMeals };
+    }
+    case SET_MEALS: {
+      const newMeals = action.meals;
+      return { ...state, meals: newMeals };
     }
     default:
       return state;
