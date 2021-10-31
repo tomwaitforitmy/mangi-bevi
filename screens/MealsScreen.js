@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MealList from "../components/MealList";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as mealsActions from "../store/actions/mealsAction";
 import * as authActions from "../store/actions/authAction";
@@ -10,6 +10,14 @@ function MealsScreen({ navigation }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    dispatch(mealsActions.fetchMeals()).then(() => {
+      setRefreshing(false);
+    });
+  }, []);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -42,7 +50,13 @@ function MealsScreen({ navigation }) {
 
   return (
     <View style={styles.mealsScreen}>
-      <MealList mealsList={availableMeals} navigation={navigation}></MealList>
+      <MealList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        mealsList={availableMeals}
+        navigation={navigation}
+      ></MealList>
     </View>
   );
 }

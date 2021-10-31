@@ -24,6 +24,7 @@ const MealList = (props) => {
   return (
     <View style={{ ...styles.list, ...props.style }}>
       <FlatList
+        refreshControl={props.refreshControl}
         data={props.mealsList}
         renderItem={renderMealItem}
         style={{ width: "100%" }}
