@@ -34,6 +34,11 @@ function NewScreen({ navigation }) {
       throw err;
     }
     setIsLoading(false);
+    setSteps([]);
+    setStep();
+    setIngredients([]);
+    setIngredient();
+    setTitle();
   }, [dispatch, title, ingredients, steps]);
 
   if (isLoading) {
