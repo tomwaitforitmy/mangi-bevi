@@ -59,14 +59,11 @@ function NewScreen({ navigation }) {
           <Input
             ref={inputIngrident}
             onChangeText={(value) => setIngredient(value)}
-          ></Input>
-          <Button
-            title="Add ingredient"
-            onPress={() => {
+            onBlur={() => {
               setIngredients((prevState) => [...prevState, ingredient]);
               inputIngrident.current.clear();
             }}
-          ></Button>
+          ></Input>
         </View>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Steps</Text>
@@ -77,14 +74,11 @@ function NewScreen({ navigation }) {
           <Input
             ref={inputStep}
             onChangeText={(value) => setStep(value)}
-          ></Input>
-          <Button
-            title="Add step"
-            onPress={() => {
+            onBlur={() => {
               setSteps((prevState) => [...prevState, step]);
               inputStep.current.clear();
             }}
-          ></Button>
+          ></Input>
         </View>
         <Button title="Create" onPress={createMealHandler}></Button>
       </ScrollView>
