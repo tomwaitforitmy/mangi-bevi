@@ -41,14 +41,14 @@ function MealsScreen({ navigation }) {
   const availableMeals = useSelector((state) => state.meals.meals);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={styles.mealsScreen}>
       <MealList mealsList={availableMeals} navigation={navigation}></MealList>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  homeScreen: {
+  mealsScreen: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

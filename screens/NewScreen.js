@@ -40,41 +40,76 @@ function NewScreen({ navigation }) {
     return <LoadingIndicator />;
   }
 
+  const inputStep = React.createRef();
+  const inputIngrident = React.createRef();
+
   return (
-    <ScrollView style={styles.screen}>
-      <Input
-        placeholder="Titel"
-        onChangeText={(value) => setTitle(value)}
-      ></Input>
-      <Text>Ingredients</Text>
-      {ingredients.length > 0 &&
-        ingredients.map((step) => (
-          <MyListItem key={step} title={step}></MyListItem>
-        ))}
-      <Input onChangeText={(value) => setIngredient(value)}></Input>
-      <Button
-        title="Add ingredient"
-        onPress={() =>
-          setIngredients((prevState) => [...prevState, ingredient])
-        }
-      ></Button>
-      <Text>Steps</Text>
-      {steps.length > 0 &&
-        steps.map((step) => <MyListItem key={step} title={step}></MyListItem>)}
-      <Input onChangeText={(value) => setStep(value)}></Input>
-      <Button
-        title="Add step"
-        onPress={() => setSteps((prevState) => [...prevState, step])}
-      ></Button>
-      <Button title="Create" onPress={createMealHandler}></Button>
-    </ScrollView>
+    <View style={styles.screenContainer}>
+      <ScrollView style={styles.list}>
+        <Input
+          placeholder="Titel"
+          onChangeText={(value) => setTitle(value)}
+        ></Input>
+        <View style={styles.container}>
+          <Text style={styles.subtitle}>Ingredients</Text>
+          {ingredients.length > 0 &&
+            ingredients.map((step) => (
+              <MyListItem key={step} title={step}></MyListItem>
+            ))}
+          <Input
+            ref={inputIngrident}
+            onChangeText={(value) => setIngredient(value)}
+          ></Input>
+          <Button
+            title="Add ingredient"
+            onPress={() => {
+              setIngredients((prevState) => [...prevState, ingredient]);
+              inputIngrident.current.clear();
+            }}
+          ></Button>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.subtitle}>Steps</Text>
+          {steps.length > 0 &&
+            steps.map((step) => (
+              <MyListItem key={step} title={step}></MyListItem>
+            ))}
+          <Input
+            ref={inputStep}
+            onChangeText={(value) => setStep(value)}
+          ></Input>
+          <Button
+            title="Add step"
+            onPress={() => {
+              setSteps((prevState) => [...prevState, step]);
+              inputStep.current.clear();
+            }}
+          ></Button>
+        </View>
+        <Button title="Create" onPress={createMealHandler}></Button>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  list: {
     flex: 1,
-    padding: 10,
+    width: "100%",
+  },
+  subtitle: {
+    fontSize: 22,
+    textAlign: "center",
+  },
+  container: {
+    paddingVertical: 20,
+  },
+  screenContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
+    width: "100%",
   },
 });
 

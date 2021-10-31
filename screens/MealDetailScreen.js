@@ -15,11 +15,11 @@ function MealDetailScreen({ route, navigation }) {
         source={{ uri: selectedMeal.imageUrl }}
         style={styles.image}
       ></Image>
-      <Text style={styles.title}>Ingredients</Text>
+      <Text style={styles.subtitle}>Ingredients</Text>
       {selectedMeal.ingredients.map((ingredient) => (
         <MyListItem key={ingredient} title={ingredient}></MyListItem>
       ))}
-      <Text style={styles.title}>Steps</Text>
+      <Text style={styles.subtitle}>Steps</Text>
       {selectedMeal.steps.map((step) => (
         <MyListItem key={step} title={step}></MyListItem>
       ))}
@@ -36,18 +36,13 @@ MealDetailScreen.navigationOptions = (props) => {
 };
 
 const styles = StyleSheet.create({
-  title: {
+  subtitle: {
     fontSize: 22,
     textAlign: "center",
   },
   image: {
     width: "100%",
     height: 200,
-  },
-  details: {
-    flexDirection: "row",
-    padding: 15,
-    justifyContent: "space-around",
   },
   container: {
     flex: 1,
