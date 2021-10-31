@@ -12,8 +12,14 @@ const initialState = {
 };
 
 const mealsReducer = (state = initialState, action) => {
-  console.log("mealsReducer" + action.type.toString());
+  console.log("mealsReducer " + action.type.toString());
   switch (action.type) {
+    case SET_MEALS: {
+      return {
+        ...state,
+        meals: action.meals,
+      };
+    }
     case TOGGLE_FAVORITE: {
       const existingIndex = state.favoriteMeals.findIndex(
         (meal) => meal.id === action.mealId
@@ -46,10 +52,6 @@ const mealsReducer = (state = initialState, action) => {
       // });
 
       return { ...state, filteredMeals: filteredMeals };
-    }
-    case SET_MEALS: {
-      const newMeals = action.meals;
-      return { ...state, meals: newMeals };
     }
     default:
       return state;

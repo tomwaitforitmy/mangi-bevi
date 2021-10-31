@@ -15,6 +15,8 @@ function MealsScreen({ navigation }) {
     if (!isLoggedIn) {
       console.log("not logged in!");
       authHandler().then(setIsLoggedIn(true));
+    } else {
+      console.log("logged in as tommy");
     }
     setIsLoading(true);
     dispatch(mealsActions.fetchMeals()).then(setIsLoading(false));
@@ -36,7 +38,7 @@ function MealsScreen({ navigation }) {
     return <LoadingIndicator />;
   }
 
-  const availableMeals = useSelector((state) => state.meals.filteredMeals);
+  const availableMeals = useSelector((state) => state.meals.meals);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

@@ -81,9 +81,6 @@ export const signup = (email, password) => {
 };
 
 export const login = (email, password) => {
-  console.log("begin login");
-  email = "tommy@test.com";
-  password = "123456";
   return async (dispach) => {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
