@@ -6,6 +6,9 @@ import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
 import { Input } from "react-native-elements";
 import MyListItem from "../components/MyListItem";
+import Icon from "react-native-vector-icons/FontAwesome";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Colors from "../constants/Colors";
 
 function NewScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +20,9 @@ function NewScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const createMealHandler = useCallback(async () => {
+    if (!title || ingredients.length < 1 || steps.length < 1) {
+      return;
+    }
     const newMeal = new Meal(
       title,
       "error",
@@ -48,25 +54,52 @@ function NewScreen({ navigation }) {
   const inputStep = React.createRef();
   const inputIngrident = React.createRef();
 
+  const deleteIngredientHandler = (key) => {
+    var newIngredients = ingredients.filter((e) => e !== key);
+    setIngredients(newIngredients);
+  };
+
+  const deleteStepHandler = (key) => {
+    var newSteps = steps.filter((e) => e !== key);
+    setSteps(newSteps);
+  };
+
   return (
     <View style={styles.screenContainer}>
       <ScrollView style={styles.list}>
         <Input
-          placeholder="Titel"
+          label="Titel"
+          labelStyle={styles.title}
           onChangeText={(value) => setTitle(value)}
+          // leftIcon={
+          //   <Ionicons
+          //     name={"ios-restaurant"}
+          //     size={25}
+          //     color={Colors.primary}
+          //   />
+          // }
+          // leftIcon={{ type: "font-awesome", name: "chevron-left" }}
         ></Input>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Ingredients</Text>
           {ingredients.length > 0 &&
-            ingredients.map((step) => (
-              <MyListItem key={step} title={step}></MyListItem>
+            ingredients.map((ingredient) => (
+              <MyListItem
+                key={ingredient}
+                title={ingredient}
+                IconName={"delete"}
+                onPressDelete={deleteIngredientHandler.bind(this, ingredient)}
+              ></MyListItem>
             ))}
           <Input
             ref={inputIngrident}
             onChangeText={(value) => setIngredient(value)}
             onBlur={() => {
-              setIngredients((prevState) => [...prevState, ingredient]);
-              inputIngrident.current.clear();
+              if (ingredient) {
+                setIngredients((prevState) => [...prevState, ingredient]);
+                inputIngrident.current.clear();
+                setIngredient();
+              }
             }}
           ></Input>
         </View>
@@ -74,14 +107,22 @@ function NewScreen({ navigation }) {
           <Text style={styles.subtitle}>Steps</Text>
           {steps.length > 0 &&
             steps.map((step) => (
-              <MyListItem key={step} title={step}></MyListItem>
+              <MyListItem
+                key={step}
+                title={step}
+                IconName={"delete"}
+                onPressDelete={deleteStepHandler.bind(this, step)}
+              ></MyListItem>
             ))}
           <Input
             ref={inputStep}
             onChangeText={(value) => setStep(value)}
             onBlur={() => {
-              setSteps((prevState) => [...prevState, step]);
-              inputStep.current.clear();
+              if (step) {
+                setSteps((prevState) => [...prevState, step]);
+                inputStep.current.clear();
+                setStep();
+              }
             }}
           ></Input>
         </View>
@@ -96,12 +137,16 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  subtitle: {
+  title: {
     fontSize: 22,
-    textAlign: "center",
+    color: "black",
+  },
+  subtitle: {
+    fontSize: 18,
+    textAlign: "left",
   },
   container: {
-    paddingVertical: 20,
+    padding: 10,
   },
   screenContainer: {
     flex: 1,

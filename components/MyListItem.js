@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { ListItem, Button } from "react-native-elements";
+import { ListItem, Button, Icon } from "react-native-elements";
 
 const MyListItem = (props) => {
   return (
@@ -9,6 +9,9 @@ const MyListItem = (props) => {
         <ListItem.Content>
           <ListItem.Title>{props.title}</ListItem.Title>
         </ListItem.Content>
+        {props.IconName && (
+          <Icon name={props.IconName} onPress={props.onPressDelete} />
+        )}
       </ListItem>
     </View>
   );
