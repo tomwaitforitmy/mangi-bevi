@@ -6,9 +6,6 @@ import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
 import { Input } from "react-native-elements";
 import MyListItem from "../components/MyListItem";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import Colors from "../constants/Colors";
 
 function NewScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,29 +66,22 @@ function NewScreen({ navigation }) {
       <ScrollView style={styles.list}>
         <Input
           label="Titel"
+          placeholder="Enter title"
           labelStyle={styles.title}
           onChangeText={(value) => setTitle(value)}
-          // leftIcon={
-          //   <Ionicons
-          //     name={"ios-restaurant"}
-          //     size={25}
-          //     color={Colors.primary}
-          //   />
-          // }
-          // leftIcon={{ type: "font-awesome", name: "chevron-left" }}
         ></Input>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Ingredients</Text>
-          {ingredients.length > 0 &&
-            ingredients.map((ingredient) => (
-              <MyListItem
-                key={ingredient}
-                title={ingredient}
-                IconName={"delete"}
-                onPressDelete={deleteIngredientHandler.bind(this, ingredient)}
-              ></MyListItem>
-            ))}
+          {ingredients.map((ingredient) => (
+            <MyListItem
+              key={ingredient}
+              title={ingredient}
+              IconName={"delete"}
+              onPressIcon={deleteIngredientHandler.bind(this, ingredient)}
+            ></MyListItem>
+          ))}
           <Input
+            placeholder="Enter ingredient"
             ref={inputIngrident}
             onChangeText={(value) => setIngredient(value)}
             onBlur={() => {
@@ -105,16 +95,16 @@ function NewScreen({ navigation }) {
         </View>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Steps</Text>
-          {steps.length > 0 &&
-            steps.map((step) => (
-              <MyListItem
-                key={step}
-                title={step}
-                IconName={"delete"}
-                onPressDelete={deleteStepHandler.bind(this, step)}
-              ></MyListItem>
-            ))}
+          {steps.map((step) => (
+            <MyListItem
+              key={step}
+              title={step}
+              IconName={"delete"}
+              onPressIcon={deleteStepHandler.bind(this, step)}
+            ></MyListItem>
+          ))}
           <Input
+            placeholder="Enter step"
             ref={inputStep}
             onChangeText={(value) => setStep(value)}
             onBlur={() => {
