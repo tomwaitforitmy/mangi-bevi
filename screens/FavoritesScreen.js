@@ -4,6 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import { storage } from "../firebase";
 import uuid from "uuid";
 import LoadingIndicator from "../components/LoadingIndicator";
+import getPictureBlob from "../firebase/getPictureBlob";
 
 function FavoritesScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +23,6 @@ function FavoritesScreen({ navigation }) {
     }
   };
 
-  const [image, setImage] = useState(null);
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -35,32 +34,15 @@ function FavoritesScreen({ navigation }) {
     console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      uploadImageToBucket(result.uri);
     }
   };
 
-  const getPictureBlob = (uri) => {
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", image, true);
-      xhr.send(null);
-    });
-  };
-
-  const uploadImageToBucket = async () => {
+  const uploadImageToBucket = async (uri) => {
     let blob;
     try {
       setIsLoading(true);
-      blob = await getPictureBlob(image);
+      blob = await getPictureBlob(uri);
 
       const ref = await storage.ref().child(uuid.v4());
       const snapshot = await ref.put(blob);
@@ -82,7 +64,6 @@ function FavoritesScreen({ navigation }) {
     <View style={styles.screen}>
       <Text> Favorites not implemented, yet. Push Tommy :)</Text>
       <Button title="Pick Image" onPress={pickImage}></Button>
-      <Button title="Upload Image" onPress={uploadImageToBucket}></Button>
     </View>
   );
 }
