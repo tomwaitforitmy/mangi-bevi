@@ -111,7 +111,7 @@ function NewScreen({ navigation }) {
       setTitle();
       setImageUri();
     }
-  }, [dispatch, title, ingredients, steps]);
+  }, [dispatch, title, ingredients, steps, imageUri]);
 
   if (isLoading) {
     return <LoadingIndicator />;
