@@ -42,6 +42,9 @@ export const fetchMeals = () => {
         );
       }
 
+      //Invert order to show newest
+      loadedMeals.reverse();
+
       dispatch({
         type: SET_MEALS,
         meals: loadedMeals,
