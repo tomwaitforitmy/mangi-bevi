@@ -3,6 +3,7 @@ import {
   SET_FILTERS,
   TOGGLE_FAVORITE,
   SET_MEALS,
+  CREATE_MEAL,
 } from "../actions/mealsAction";
 
 const initialState = {
@@ -52,6 +53,12 @@ const mealsReducer = (state = initialState, action) => {
       // });
 
       return { ...state, filteredMeals: filteredMeals };
+    }
+    case CREATE_MEAL: {
+      return {
+        ...state,
+        meals: [action.meal].concat(state.meals),
+      };
     }
     default:
       return state;

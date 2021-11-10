@@ -64,7 +64,9 @@ export const createMeal = (meal) => {
   return async (dispatch, getState) => {
     console.log("Begin createMeal");
     const token = getState().auth.token;
-    console.log(token);
+    if (!token) {
+      console.log("No tokken found! Request will fail! Reload App tommy");
+    }
 
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals.json?auth=${token}`,
