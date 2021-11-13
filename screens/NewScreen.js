@@ -51,14 +51,13 @@ function NewScreen({ navigation }) {
     });
 
     if (!result.cancelled) {
-      uploadImageToBucket(result.uri).then((uri) => setImageUri(uri));
+      setImageUri(result.uri);
     }
   };
 
   const uploadImageToBucket = async (uri) => {
     let blob;
     try {
-      setIsLoading(true);
       blob = await getPictureBlob(uri);
 
       const ref = await storage.ref().child(uuid.v4());
@@ -69,22 +68,25 @@ function NewScreen({ navigation }) {
       alert(e.message);
     } finally {
       blob.close();
-      setIsLoading(false);
     }
   };
 
-  const getMeal = (uri) => {
-    if (uri) {
-      return new Meal(title, "error", uri, ingredients, steps);
-    } else {
-      return new Meal(
-        title,
-        "error",
-        "https://dummyimage.com/300x200&text=No+image+reinhold+messner",
-        ingredients,
-        steps
-      );
-    }
+  const getMeal = async (uri) => {
+    return await uploadImageToBucket(uri)
+      .then((uri) => {
+        console.log("image uploaded successfuly " + uri);
+        return new Meal(title, "error", uri, ingredients, steps);
+      })
+      .catch((err) => {
+        console.log("error uploading image: " + uri + " error: " + err);
+        return new Meal(
+          title,
+          "error",
+          "https://dummyimage.com/300x200&text=No+image+reinhold+messner",
+          ingredients,
+          steps
+        );
+      });
   };
 
   const createMealHandler = useCallback(async () => {
@@ -92,12 +94,9 @@ function NewScreen({ navigation }) {
       return;
     }
 
-    const newMeal = getMeal(imageUri);
-
-    console.log(newMeal);
-
     try {
       setIsLoading(true);
+      const newMeal = await getMeal(imageUri);
 
       await dispatch(mealActions.createMeal(newMeal));
     } catch (err) {
@@ -132,13 +131,22 @@ function NewScreen({ navigation }) {
 
   return (
     <View style={styles.screenContainer}>
-      <ScrollView style={styles.list}>
+      <View style={styles.list}>
+        <Button
+          title="Create"
+          color={"orange"}
+          onPress={createMealHandler}
+        ></Button>
         <Input
           label="Titel"
           placeholder="Enter title"
           labelStyle={styles.title}
           onChangeText={(value) => setTitle(value)}
         ></Input>
+      </View>
+      <ScrollView style={styles.list}>
+        <Button title="Select image" onPress={pickImage}></Button>
+        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
         <View style={styles.container}>
           <Text style={styles.subtitle}>Ingredients</Text>
           {ingredients.map((ingredient) => (
@@ -185,9 +193,6 @@ function NewScreen({ navigation }) {
             }}
           ></Input>
         </View>
-        <Button title="Select image" onPress={pickImage}></Button>
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-        <Button title="Create" onPress={createMealHandler}></Button>
       </ScrollView>
     </View>
   );
@@ -195,7 +200,6 @@ function NewScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   list: {
-    flex: 1,
     width: "100%",
   },
   image: {
