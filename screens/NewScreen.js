@@ -144,7 +144,7 @@ function NewScreen({ navigation }) {
             ref={inputIngrident}
             onChangeText={(value) => setIngredient(value)}
             onBlur={() => {
-              if (ingredient) {
+              if (ingredient && !ingredients.includes(ingredient)) {
                 setIngredients((prevState) => [...prevState, ingredient]);
                 inputIngrident.current.clear();
                 setIngredient();
@@ -167,7 +167,7 @@ function NewScreen({ navigation }) {
             ref={inputStep}
             onChangeText={(value) => setStep(value)}
             onBlur={() => {
-              if (step) {
+              if (step && !steps.includes(step)) {
                 setSteps((prevState) => [...prevState, step]);
                 inputStep.current.clear();
                 setStep();
