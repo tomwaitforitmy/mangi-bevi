@@ -14,9 +14,7 @@ import Meal from "../models/Meal";
 import { Input } from "react-native-elements";
 import MyListItem from "../components/MyListItem";
 import * as ImagePicker from "expo-image-picker";
-import { storage } from "../firebase";
-import uuid from "uuid";
-import getPictureBlob from "../firebase/getPictureBlob";
+import uploadImageToBucket from "../firebase/uploadImageToBucket";
 
 function NewScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -52,22 +50,6 @@ function NewScreen({ navigation }) {
 
     if (!result.cancelled) {
       setImageUri(result.uri);
-    }
-  };
-
-  const uploadImageToBucket = async (uri) => {
-    let blob;
-    try {
-      blob = await getPictureBlob(uri);
-
-      const ref = await storage.ref().child(uuid.v4());
-      const snapshot = await ref.put(blob);
-
-      return await snapshot.ref.getDownloadURL();
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      blob.close();
     }
   };
 
