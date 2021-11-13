@@ -23,8 +23,7 @@ const MyListItem = (props) => {
 const styles = StyleSheet.create({
   listItemView: {
     marginHorizontal: 10,
-    // borderColor: "#ccc",
-    // borderWidth: 1,
+    padding: 2,
   },
 });
 
