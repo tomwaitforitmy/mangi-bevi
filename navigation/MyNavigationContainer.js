@@ -63,7 +63,7 @@ function MealsStackContainer({ route }) {
       <MealsStack.Screen
         name="Meals"
         component={MealsScreen}
-        options={{ title: "Meals" }}
+        options={{ title: "Mangi & Bevi" }}
       />
       <MealsStack.Screen
         name="Details"
@@ -96,7 +96,7 @@ function NewMealStackContainer({ route }) {
       <NewMealStack.Screen
         name="NewScreen"
         component={NewScreen}
-        options={{ title: "New mangi" }}
+        options={{ title: "New Mangi / Bevi" }}
       />
     </NewMealStack.Navigator>
   );
