@@ -44,8 +44,8 @@ function NewScreen({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: [16, 9],
+      quality: 0.3,
     });
 
     if (!result.cancelled) {
