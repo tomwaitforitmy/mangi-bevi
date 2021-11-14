@@ -1,4 +1,9 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import { useDispatch } from "react-redux";
 import {
   View,
@@ -11,7 +16,7 @@ import {
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
-import { Input } from "react-native-elements";
+import { Icon, Input } from "react-native-elements";
 import MyListItem from "../components/MyListItem";
 import * as ImagePicker from "expo-image-picker";
 import uploadImageToBucket from "../firebase/uploadImageToBucket";
@@ -29,6 +34,14 @@ function NewScreen({ navigation }) {
   useEffect(() => {
     getPermission();
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Icon name={"save"} onPress={createMealHandler} color="white" />
+      ),
+    });
+  }, [navigation]);
 
   const getPermission = async () => {
     if (Platform.OS !== "web") {
@@ -73,6 +86,7 @@ function NewScreen({ navigation }) {
 
   const createMealHandler = useCallback(async () => {
     if (!title || ingredients.length < 1 || steps.length < 1) {
+      alert("We need a title and at least one ingredient and one step!");
       return;
     }
 
@@ -114,11 +128,6 @@ function NewScreen({ navigation }) {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.list}>
-        <Button
-          title="Create"
-          color={"orange"}
-          onPress={createMealHandler}
-        ></Button>
         <Input
           label="Titel"
           placeholder="Enter title"
