@@ -21,7 +21,6 @@ import * as ImagePicker from "expo-image-picker";
 import uploadImageToBucket from "../firebase/uploadImageToBucket";
 import MyListItem from "../components/MyListItem";
 
-const FORM_UPDATE = "UPDATE";
 const CHANGE_TITLE = "CHANGE_TITLE";
 const CHANGE_IMAGE = "CHANGE_IMAGE";
 const SUBMITTED = "SUBMITTED";
@@ -49,7 +48,7 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === ADD_INGREDIENT) {
-    if (state.ingredients.includes(action.value)) {
+    if (state.ingredients.includes(action.value) || action.value === "") {
       return state;
     } else {
       return {
@@ -61,7 +60,7 @@ const formReducer = (state, action) => {
   }
 
   if (action.type === ADD_STEP) {
-    if (state.steps.includes(action.value)) {
+    if (state.steps.includes(action.value) || action.value === "") {
       return state;
     } else {
       return {
@@ -109,7 +108,12 @@ const formReducer = (state, action) => {
 
   if (action.type === SUBMITTED) {
     return {
-      ...state,
+      title: "",
+      imageUrl: null,
+      ingredients: [],
+      steps: [],
+      ingredientValue: "",
+      stepValue: "",
       isLoading: false,
     };
   }
@@ -118,7 +122,7 @@ const formReducer = (state, action) => {
 };
 
 function NewScreen({ route, navigation }) {
-  const { mealId } = route.params;
+  const mealId = route.params?.mealId;
 
   let inputMeal;
   if (mealId) {
@@ -128,10 +132,10 @@ function NewScreen({ route, navigation }) {
   }
 
   const initialState = {
-    title: inputMeal.title,
-    imageUrl: inputMeal.imageUrl,
-    ingredients: inputMeal.ingredients,
-    steps: inputMeal.steps,
+    title: mealId ? inputMeal.title : "",
+    imageUrl: mealId ? inputMeal.imageUrl : null,
+    ingredients: mealId ? inputMeal.ingredients : [],
+    steps: mealId ? inputMeal.steps : [],
     ingredientValue: "",
     stepValue: "",
     isLoading: false,
@@ -180,16 +184,22 @@ function NewScreen({ route, navigation }) {
     return await uploadImageToBucket(url)
       .then((url) => {
         console.log("image uploaded successfuly " + url);
-        return new Meal(title, "error", url, ingredients, steps);
+        return new Meal(
+          formState.title,
+          "error",
+          url,
+          formState.ingredients,
+          formState.steps
+        );
       })
       .catch((err) => {
         console.log("error uploading image: " + url + " error: " + err);
         return new Meal(
-          title,
+          formState.title,
           "error",
           "https://dummyimage.com/300x200&text=No+image+reinhold+messner",
-          ingredients,
-          steps
+          formState.ingredients,
+          formState.steps
         );
       });
   };
@@ -230,7 +240,7 @@ function NewScreen({ route, navigation }) {
           },
         });
       } else {
-        const newMeal = await createNewMeal(imageUrl);
+        const newMeal = await createNewMeal(formState.imageUrl);
         await dispatch(mealActions.createMeal(newMeal));
         formDispatch({ type: SUBMITTED });
       }
