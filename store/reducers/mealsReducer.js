@@ -4,6 +4,7 @@ import {
   TOGGLE_FAVORITE,
   SET_MEALS,
   CREATE_MEAL,
+  EDIT_MEAL,
 } from "../actions/mealsAction";
 
 const initialState = {
@@ -60,6 +61,17 @@ const mealsReducer = (state = initialState, action) => {
         meals: [action.meal].concat(state.meals),
       };
     }
+    case EDIT_MEAL: {
+      const mealIndex = state.meals.findIndex((m) => m.id === action.meal.id);
+      const updatedMeals = [...state.meals];
+      updatedMeals[mealIndex] = action.meal;
+
+      return {
+        ...state,
+        meals: updatedMeals,
+      };
+    }
+
     default:
       return state;
   }

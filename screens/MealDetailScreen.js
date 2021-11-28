@@ -27,14 +27,6 @@ function MealDetailScreen({ route, navigation }) {
   );
 }
 
-MealDetailScreen.navigationOptions = (props) => {
-  const { mealTitle } = props.route.params;
-
-  return {
-    headerTitle: mealTitle,
-  };
-};
-
 const styles = StyleSheet.create({
   subtitle: {
     fontSize: 22,

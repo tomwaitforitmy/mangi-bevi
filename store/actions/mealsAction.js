@@ -18,7 +18,7 @@ export const setFilters = (filtersSettings) => {
 };
 
 export const fetchMeals = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin fetchMeals");
     try {
       const response = await fetch(
@@ -85,6 +85,31 @@ export const createMeal = (meal) => {
 
     meal = { ...meal, id: responseData.name };
 
+    console.log("End createMeal");
+
     dispatch({ type: CREATE_MEAL, meal: meal });
+  };
+};
+
+export const editMeal = (meal) => {
+  return async (dispatch, getState) => {
+    console.log("begin edit meal");
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        header: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(meal, replacer),
+      }
+    );
+
+    await HandleResponseError(response);
+
+    console.log("end edit meal");
+
+    dispatch({ type: EDIT_MEAL, meal: meal });
   };
 };
