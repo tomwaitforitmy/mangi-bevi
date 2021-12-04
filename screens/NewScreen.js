@@ -12,6 +12,8 @@ import {
   ScrollView,
   Button,
   Image,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealActions from "../store/actions/mealsAction";
@@ -49,8 +51,11 @@ const formReducer = (state, action) => {
 
   if (action.type === ADD_INGREDIENT) {
     if (state.ingredients.includes(action.value) || action.value === "") {
+      action.ref.current.clear();
       return state;
     } else {
+      action.ref.current.clear();
+      action.ref.current.focus();
       return {
         ...state,
         ingredients: [...state.ingredients, action.value],
@@ -61,8 +66,11 @@ const formReducer = (state, action) => {
 
   if (action.type === ADD_STEP) {
     if (state.steps.includes(action.value) || action.value === "") {
+      action.ref.current.clear();
       return state;
     } else {
+      action.ref.current.clear();
+      action.ref.current.focus();
       return {
         ...state,
         steps: [...state.steps, action.value],
@@ -256,19 +264,8 @@ function NewScreen({ route, navigation }) {
   const inputStep = React.createRef();
   const inputIngrident = React.createRef();
 
-  return (
-    <View style={styles.screenContainer}>
-      <View style={styles.list}>
-        <Input
-          label="Titel"
-          value={formState.title}
-          placeholder="Enter title"
-          labelStyle={styles.title}
-          onChangeText={(value) => {
-            formDispatch({ type: CHANGE_TITLE, value: value });
-          }}
-        ></Input>
-      </View>
+  const renderInputs = () => {
+    return (
       <ScrollView style={styles.list}>
         <Button title="Select image" onPress={pickImage}></Button>
         {formState.imageUrl && (
@@ -296,8 +293,8 @@ function NewScreen({ route, navigation }) {
               formDispatch({
                 type: ADD_INGREDIENT,
                 value: formState.ingredientValue,
+                ref: inputIngrident,
               });
-              inputIngrident.current.clear();
             }}
           ></Input>
         </View>
@@ -323,12 +320,39 @@ function NewScreen({ route, navigation }) {
               formDispatch({
                 type: ADD_STEP,
                 value: formState.stepValue,
+                ref: inputStep,
               });
-              inputStep.current.clear();
             }}
           ></Input>
         </View>
       </ScrollView>
+    );
+  };
+
+  return (
+    <View style={styles.screenContainer}>
+      <View style={styles.list}>
+        <Input
+          label="Titel"
+          value={formState.title}
+          placeholder="Enter title"
+          labelStyle={styles.title}
+          onChangeText={(value) => {
+            formDispatch({ type: CHANGE_TITLE, value: value });
+          }}
+        ></Input>
+      </View>
+      {Platform.OS === "android" ? (
+        renderInputs()
+      ) : (
+        <KeyboardAvoidingView
+          style={styles.screenContainer}
+          behavior={"padding"}
+          keyboardVerticalOffset={100}
+        >
+          {renderInputs()}
+        </KeyboardAvoidingView>
+      )}
     </View>
   );
 }
