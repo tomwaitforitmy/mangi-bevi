@@ -22,112 +22,19 @@ import { Icon, Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import uploadImageToBucket from "../firebase/uploadImageToBucket";
 import MyListItem from "../components/MyListItem";
-
-const CHANGE_TITLE = "CHANGE_TITLE";
-const CHANGE_IMAGE = "CHANGE_IMAGE";
-const SUBMITTED = "SUBMITTED";
-const LOADING = "LOADING";
-const ADD_INGREDIENT = "ADD_INGREDIENT";
-const ADD_STEP = "ADD_STEP";
-const SET_INGREDIENT_VALUE = "SET_INGREDIENT_VALUE";
-const SET_STEP_VALUE = "SET_STEP_VALUE";
-const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
-const REMOVE_STEP = "REMOVE_STEP";
-
-const formReducer = (state, action) => {
-  if (action.type === CHANGE_TITLE) {
-    return {
-      ...state,
-      title: action.value,
-    };
-  }
-
-  if (action.type === CHANGE_IMAGE) {
-    return {
-      ...state,
-      imageUrl: action.value,
-    };
-  }
-
-  if (action.type === ADD_INGREDIENT) {
-    if (state.ingredients.includes(action.value) || action.value === "") {
-      action.ref.current.clear();
-      return state;
-    } else {
-      action.ref.current.clear();
-      action.ref.current.focus();
-      return {
-        ...state,
-        ingredients: [...state.ingredients, action.value],
-        ingredientValue: "",
-      };
-    }
-  }
-
-  if (action.type === ADD_STEP) {
-    if (state.steps.includes(action.value) || action.value === "") {
-      action.ref.current.clear();
-      return state;
-    } else {
-      action.ref.current.clear();
-      action.ref.current.focus();
-      return {
-        ...state,
-        steps: [...state.steps, action.value],
-        stepValue: "",
-      };
-    }
-  }
-
-  if (action.type === SET_STEP_VALUE) {
-    return {
-      ...state,
-      stepValue: action.value,
-    };
-  }
-
-  if (action.type === SET_INGREDIENT_VALUE) {
-    return {
-      ...state,
-      ingredientValue: action.value,
-    };
-  }
-
-  if (action.type === REMOVE_STEP) {
-    return {
-      ...state,
-      steps: state.steps.filter((e) => e !== action.key),
-    };
-  }
-
-  if (action.type === REMOVE_INGREDIENT) {
-    return {
-      ...state,
-      ingredients: state.ingredients.filter((e) => e !== action.key),
-    };
-  }
-
-  if (action.type === LOADING) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  }
-
-  if (action.type === SUBMITTED) {
-    return {
-      title: "",
-      imageUrl: null,
-      ingredients: [],
-      steps: [],
-      ingredientValue: "",
-      stepValue: "",
-      isLoading: false,
-    };
-  }
-
-  return state;
-};
+import newMealFormReducer from "../store/reducers/newMealFormReducer";
+import {
+  CHANGE_TITLE,
+  CHANGE_IMAGE,
+  ADD_INGREDIENT,
+  ADD_STEP,
+  SET_STEP_VALUE,
+  SET_INGREDIENT_VALUE,
+  REMOVE_STEP,
+  REMOVE_INGREDIENT,
+  LOADING,
+  SUBMITTED,
+} from "../store/reducers/newMealFormReducer";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -149,7 +56,10 @@ function NewScreen({ route, navigation }) {
     isLoading: false,
   };
 
-  const [formState, formDispatch] = useReducer(formReducer, initialState);
+  const [formState, formDispatch] = useReducer(
+    newMealFormReducer,
+    initialState
+  );
 
   const dispatch = useDispatch();
 
@@ -212,13 +122,13 @@ function NewScreen({ route, navigation }) {
       });
   };
 
-  const isFormValid = () => {
+  function isFormValid() {
     return (
       !formState.title ||
       formState.ingredients.length < 1 ||
       formState.steps.length < 1
     );
-  };
+  }
 
   const createMealHandler = useCallback(async () => {
     if (isFormValid()) {
