@@ -11,10 +11,10 @@ import {
   Text,
   ScrollView,
   Button,
-  Image,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { Image } from "react-native-elements";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
@@ -177,9 +177,15 @@ function NewScreen({ route, navigation }) {
   const renderInputs = () => {
     return (
       <ScrollView style={styles.list}>
-        <Button title="Select image" onPress={pickImage}></Button>
-        {formState.imageUrl && (
-          <Image source={{ uri: formState.imageUrl }} style={styles.image} />
+        {formState.imageUrl ? (
+          <Image
+            source={{ uri: formState.imageUrl }}
+            style={styles.image}
+            onPress={pickImage}
+            PlaceholderContent={<LoadingIndicator />}
+          />
+        ) : (
+          <Button title="Select image" onPress={pickImage}></Button>
         )}
         <View style={styles.container}>
           <Text style={styles.subtitle}>Ingredients</Text>
