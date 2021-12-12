@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, ScrollView, Image, Text } from "react-native";
+import { StyleSheet, ScrollView, Text } from "react-native";
 import { useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
+import { Image } from "react-native-elements";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -14,6 +15,12 @@ function MealDetailScreen({ route, navigation }) {
       <Image
         source={{ uri: selectedMeal.imageUrl }}
         style={styles.image}
+        onPress={() => {
+          navigation.navigate("ImagesScreen", {
+            mealId: selectedMeal.id,
+            mealTitle: selectedMeal.title,
+          });
+        }}
       ></Image>
       <Text style={styles.subtitle}>Ingredients</Text>
       {selectedMeal.ingredients.map((ingredient) => (

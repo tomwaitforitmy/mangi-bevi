@@ -10,6 +10,7 @@ import NewScreen from "../screens/NewScreen";
 import Colors from "../constants/Colors";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Icon } from "react-native-elements";
+import ImagesScreen from "../screens/ImagesScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -84,10 +85,28 @@ function MealsStackContainer({ route }) {
           ),
         })}
       />
-      <NewMealStack.Screen
+      <MealsStack.Screen
         name="EditScreen"
         component={NewScreen}
         options={{ title: "Edit Mangi / Bevi" }}
+      />
+      <MealsStack.Screen
+        name="ImagesScreen"
+        component={ImagesScreen}
+        options={({ navigation, route }) => ({
+          title: route.params.mealTitle,
+          headerRight: () => (
+            <Icon
+              name={"edit"}
+              onPress={() =>
+                navigation.navigate("EditScreen", {
+                  mealId: route.params.mealId,
+                })
+              }
+              color="white"
+            />
+          ),
+        })}
       />
     </MealsStack.Navigator>
   );
