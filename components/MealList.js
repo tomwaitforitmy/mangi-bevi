@@ -16,7 +16,7 @@ const MealList = (props) => {
             },
           });
         }}
-        image={itemData.item.imageUrl}
+        image={itemData.item.primaryImageUrl}
       />
     );
   };

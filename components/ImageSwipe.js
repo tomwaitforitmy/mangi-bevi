@@ -13,11 +13,12 @@ const ImageSwipe = (props) => {
         snapToAlignment={"center"}
         pinchGestureEnabled={true}
       >
-        {props.images.map((item, index) => (
-          <View style={{ width: props.width }} key={index}>
-            <Image source={{ uri: item.url }} style={styles.image}></Image>
-          </View>
-        ))}
+        {props.images &&
+          props.images.map((item, index) => (
+            <View style={{ width: props.width }} key={index}>
+              <Image source={{ uri: item }} style={styles.image}></Image>
+            </View>
+          ))}
       </ScrollView>
     </View>
   );

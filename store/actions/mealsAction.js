@@ -35,9 +35,10 @@ export const fetchMeals = () => {
           new Meal(
             responseData[key].title,
             key,
-            responseData[key].imageUrl,
+            responseData[key].primaryImageUrl,
             responseData[key].ingredients,
-            responseData[key].steps
+            responseData[key].steps,
+            responseData[key].imageUrls
           )
         );
       }

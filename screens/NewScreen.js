@@ -13,6 +13,7 @@ import {
   Button,
   KeyboardAvoidingView,
   Platform,
+  Dimensions,
 } from "react-native";
 import { Image } from "react-native-elements";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -28,6 +29,7 @@ import {
   CHANGE_IMAGE,
   ADD_INGREDIENT,
   ADD_STEP,
+  ADD_IMAGE,
   SET_STEP_VALUE,
   SET_INGREDIENT_VALUE,
   REMOVE_STEP,
@@ -35,6 +37,7 @@ import {
   LOADING,
   SUBMITTED,
 } from "../store/reducers/newMealFormReducer";
+import ImageSwipe from "../components/ImageSwipe";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -48,9 +51,10 @@ function NewScreen({ route, navigation }) {
 
   const initialState = {
     title: mealId ? inputMeal.title : "",
-    imageUrl: mealId ? inputMeal.imageUrl : null,
+    primaryImageUrl: mealId ? inputMeal.primaryImageUrl : null,
     ingredients: mealId ? inputMeal.ingredients : [],
     steps: mealId ? inputMeal.steps : [],
+    imageUrls: mealId ? inputMeal.imageUrls : [],
     ingredientValue: "",
     stepValue: "",
     isLoading: false,
@@ -94,32 +98,36 @@ function NewScreen({ route, navigation }) {
     });
 
     if (!result.cancelled) {
-      formDispatch({ type: CHANGE_IMAGE, value: result.uri });
+      formDispatch({ type: ADD_IMAGE, value: result.uri });
     }
   };
 
-  const createNewMeal = async (url) => {
-    return await uploadImageToBucket(url)
-      .then((url) => {
-        console.log("image uploaded successfuly " + url);
-        return new Meal(
-          formState.title,
-          "error",
-          url,
-          formState.ingredients,
-          formState.steps
-        );
+  const createNewMeal = async (urls) => {
+    let uploadedImages = [];
+    await Promise.all(
+      urls.map(async (item) => {
+        await uploadImageToBucket(item)
+          .then((uploadedUrl) => {
+            console.log("image uploaded successfuly " + uploadedUrl);
+            uploadedImages = uploadedImages.concat(uploadedUrl);
+          })
+          .catch((err) => {
+            console.log("error uploading image: " + item + " error: " + err);
+            uploadedImages = uploadedImages.concat(
+              "https://dummyimage.com/300x200&text=No+image+reinhold+messner"
+            );
+          });
       })
-      .catch((err) => {
-        console.log("error uploading image: " + url + " error: " + err);
-        return new Meal(
-          formState.title,
-          "error",
-          "https://dummyimage.com/300x200&text=No+image+reinhold+messner",
-          formState.ingredients,
-          formState.steps
-        );
-      });
+    );
+    console.log(uploadedImages);
+    return new Meal(
+      formState.title,
+      "error",
+      uploadedImages[0],
+      formState.ingredients,
+      formState.steps,
+      uploadedImages
+    );
   };
 
   function isFormValid() {
@@ -143,9 +151,10 @@ function NewScreen({ route, navigation }) {
         const editedMeal = new Meal(
           formState.title,
           mealId,
-          formState.imageUrl,
+          formState.primaryImageUrl,
           formState.ingredients,
-          formState.steps
+          formState.steps,
+          formState.imageUrls
         );
 
         await dispatch(mealActions.editMeal(editedMeal));
@@ -158,7 +167,7 @@ function NewScreen({ route, navigation }) {
           },
         });
       } else {
-        const newMeal = await createNewMeal(formState.imageUrl);
+        const newMeal = await createNewMeal(formState.imageUrls);
         await dispatch(mealActions.createMeal(newMeal));
         formDispatch({ type: SUBMITTED });
       }
@@ -174,19 +183,17 @@ function NewScreen({ route, navigation }) {
   const inputStep = React.createRef();
   const inputIngrident = React.createRef();
 
+  const { width } = Dimensions.get("window");
+
   const renderInputs = () => {
     return (
       <ScrollView style={styles.list}>
-        {formState.imageUrl ? (
-          <Image
-            source={{ uri: formState.imageUrl }}
-            style={styles.image}
-            onPress={pickImage}
-            PlaceholderContent={<LoadingIndicator />}
-          />
-        ) : (
-          <Button title="Select image" onPress={pickImage}></Button>
-        )}
+        <ImageSwipe
+          images={formState.imageUrls}
+          width={width}
+          style={styles.image}
+        />
+        <Button title="Add image" onPress={pickImage}></Button>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Ingredients</Text>
           {formState.ingredients.map((ingredient) => (

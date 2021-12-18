@@ -4,6 +4,7 @@ export const SUBMITTED = "SUBMITTED";
 export const LOADING = "LOADING";
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const ADD_STEP = "ADD_STEP";
+export const ADD_IMAGE = "ADD_IMAGE";
 export const SET_INGREDIENT_VALUE = "SET_INGREDIENT_VALUE";
 export const SET_STEP_VALUE = "SET_STEP_VALUE";
 export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
@@ -20,7 +21,14 @@ export default function newMealFormReducer(state, action) {
   if (action.type === CHANGE_IMAGE) {
     return {
       ...state,
-      imageUrl: action.value,
+      primaryImageUrl: action.value,
+    };
+  }
+
+  if (action.type === ADD_IMAGE) {
+    return {
+      ...state,
+      imageUrls: [...state.imageUrls, action.value],
     };
   }
 
@@ -92,11 +100,12 @@ export default function newMealFormReducer(state, action) {
   if (action.type === SUBMITTED) {
     return {
       title: "",
-      imageUrl: null,
+      primaryImageUrl: null,
       ingredients: [],
       steps: [],
       ingredientValue: "",
       stepValue: "",
+      imageUrls: [],
       isLoading: false,
     };
   }
