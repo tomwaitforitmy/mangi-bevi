@@ -103,6 +103,18 @@ function NewScreen({ route, navigation }) {
   };
 
   const createNewMeal = async (urls) => {
+    let uploadedImages = await uploadImages(urls);
+    return new Meal(
+      formState.title,
+      "error",
+      uploadedImages[0],
+      formState.ingredients,
+      formState.steps,
+      uploadedImages
+    );
+  };
+
+  async function uploadImages(urls) {
     let uploadedImages = [];
     await Promise.all(
       urls.map(async (item) => {
@@ -119,16 +131,8 @@ function NewScreen({ route, navigation }) {
           });
       })
     );
-    console.log(uploadedImages);
-    return new Meal(
-      formState.title,
-      "error",
-      uploadedImages[0],
-      formState.ingredients,
-      formState.steps,
-      uploadedImages
-    );
-  };
+    return uploadedImages;
+  }
 
   function isFormValid() {
     return (
@@ -148,13 +152,22 @@ function NewScreen({ route, navigation }) {
       formDispatch({ type: LOADING });
 
       if (mealId) {
+        const imagesToUpload = formState.imageUrls.filter(
+          (url) => !url.startsWith("https://firebasestorage")
+        );
+        const imagesAlreadyUploaded = formState.imageUrls.filter((url) =>
+          url.startsWith("https://firebasestorage")
+        );
+
+        let uploadedImages = await uploadImages(imagesToUpload);
+
         const editedMeal = new Meal(
           formState.title,
           mealId,
           formState.primaryImageUrl,
           formState.ingredients,
           formState.steps,
-          formState.imageUrls
+          imagesAlreadyUploaded.concat(uploadedImages)
         );
 
         await dispatch(mealActions.editMeal(editedMeal));
