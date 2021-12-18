@@ -7,29 +7,6 @@ import ImageSwipe from "../components/ImageSwipe";
 function FiltersScreen({ navigation }) {
   // const [activeIndex, setActiveIndex] = useState(0);
 
-  const { width } = Dimensions.get("window");
-
-  const images = [
-    {
-      url: "https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    },
-    {
-      url: "https://images.pexels.com/photos/9413/animal-cute-kitten-cat.jpg?cs=srgb&dl=adorable-animal-cat-9413.jpg&fm=jpg",
-    },
-    {
-      url: "https://i.pinimg.com/236x/c6/6b/11/c66b111bf4df809e87a1208f75d2788b.jpg",
-    },
-    {
-      url: "https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    },
-    {
-      url: "https://images.pexels.com/photos/9413/animal-cute-kitten-cat.jpg?cs=srgb&dl=adorable-animal-cat-9413.jpg&fm=jpg",
-    },
-    {
-      url: "https://i.pinimg.com/236x/c6/6b/11/c66b111bf4df809e87a1208f75d2788b.jpg",
-    },
-  ];
-
   // renderItem = ({ item, index }) => {
   //   return (
   //     <View style={styles.slide}>
@@ -41,7 +18,7 @@ function FiltersScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 50 }}>
-      <ImageSwipe images={images} width={width} />
+      {/* <ImageSwipe images={images} width={width} /> */}
     </SafeAreaView>
   );
 }
