@@ -23,6 +23,10 @@ const ImageSwipe = (props) => {
                 <View style={styles.iconMenuView}>
                   {props.onTrashCallback && (
                     <Icon
+                      color="#ccc"
+                      reverse
+                      reverseColor="black"
+                      size={14}
                       type="feather"
                       name="trash"
                       onPress={() => props.onTrashCallback(index)}
@@ -30,6 +34,10 @@ const ImageSwipe = (props) => {
                   )}
                   {props.onCheckCallback && (
                     <Icon
+                      color="#ccc"
+                      reverse
+                      reverseColor="black"
+                      size={14}
                       type="feather"
                       name="check-circle"
                       onPress={() => props.onCheckCallback(index)}
@@ -55,7 +63,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   iconMenuView: {
-    width: "90%", //this is because icon "overflow" to right
+    width: "100%", //this is because icon "overflow" to right
     height: "100%",
     flexDirection: "column",
     alignItems: "flex-end",
