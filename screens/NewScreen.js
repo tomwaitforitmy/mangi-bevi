@@ -23,6 +23,7 @@ import { Icon, Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import uploadImages from "../firebase/uploadImages";
 import MyListItem from "../components/MyListItem";
+import newMealFormReducer from "../store/reducers/newMealFormReducer";
 import {
   CHANGE_TITLE,
   CHANGE_PRIMARY_IMAGE,
@@ -186,53 +187,55 @@ function NewScreen({ route, navigation }) {
   const renderInputs = () => {
     return (
       <ScrollView style={styles.list}>
-        <ImageSwipe
-          images={formState.imageUrls}
-          width={width}
-          style={styles.image}
-          onCheckCallback={(index) => {
-            Alert.alert(
-              "Make preview image?",
-              "Do you want to show this image as preview?",
-              [
-                {
-                  text: "Yes",
-                  onPress: () => {
-                    formDispatch({
-                      type: CHANGE_PRIMARY_IMAGE,
-                      value: formState.imageUrls[index],
-                    });
+        {formState.imageUrls && (
+          <ImageSwipe
+            images={formState.imageUrls}
+            width={width}
+            style={styles.image}
+            onCheckCallback={(index) => {
+              Alert.alert(
+                "Make preview image?",
+                "Do you want to show this image as preview?",
+                [
+                  {
+                    text: "Yes",
+                    onPress: () => {
+                      formDispatch({
+                        type: CHANGE_PRIMARY_IMAGE,
+                        value: formState.imageUrls[index],
+                      });
+                    },
                   },
-                },
-                {
-                  text: "No",
-                  style: "cancel",
-                },
-              ]
-            );
-          }}
-          onTrashCallback={(index) => {
-            Alert.alert(
-              "Remove image?",
-              "Do you really want to delete this image?",
-              [
-                {
-                  text: "Yes",
-                  onPress: () => {
-                    formDispatch({
-                      type: REMOVE_IMAGE,
-                      key: index,
-                    });
+                  {
+                    text: "No",
+                    style: "cancel",
                   },
-                },
-                {
-                  text: "No",
-                  style: "cancel",
-                },
-              ]
-            );
-          }}
-        />
+                ]
+              );
+            }}
+            onTrashCallback={(index) => {
+              Alert.alert(
+                "Remove image?",
+                "Do you really want to delete this image?",
+                [
+                  {
+                    text: "Yes",
+                    onPress: () => {
+                      formDispatch({
+                        type: REMOVE_IMAGE,
+                        key: index,
+                      });
+                    },
+                  },
+                  {
+                    text: "No",
+                    style: "cancel",
+                  },
+                ]
+              );
+            }}
+          />
+        )}
         <Button title="Add image" onPress={pickImage}></Button>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Ingredients</Text>
