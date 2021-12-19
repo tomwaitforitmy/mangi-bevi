@@ -102,7 +102,7 @@ function NewScreen({ route, navigation }) {
     }
   };
 
-  const createNewMeal = async (urls) => {
+  async function createMeal(urls) {
     let uploadedImages = await uploadImages(urls);
     return new Meal(
       formState.title,
@@ -112,7 +112,28 @@ function NewScreen({ route, navigation }) {
       formState.steps,
       uploadedImages
     );
-  };
+  }
+
+  async function editMeal() {
+    const imagesToUpload = formState.imageUrls.filter(
+      (url) => !url.startsWith("https://firebasestorage")
+    );
+    const imagesAlreadyUploaded = formState.imageUrls.filter((url) =>
+      url.startsWith("https://firebasestorage")
+    );
+
+    let uploadedImages = await uploadImages(imagesToUpload);
+
+    const editedMeal = new Meal(
+      formState.title,
+      mealId,
+      formState.primaryImageUrl,
+      formState.ingredients,
+      formState.steps,
+      imagesAlreadyUploaded.concat(uploadedImages)
+    );
+    return editedMeal;
+  }
 
   async function uploadImages(urls) {
     let uploadedImages = [];
@@ -152,23 +173,7 @@ function NewScreen({ route, navigation }) {
       formDispatch({ type: LOADING });
 
       if (mealId) {
-        const imagesToUpload = formState.imageUrls.filter(
-          (url) => !url.startsWith("https://firebasestorage")
-        );
-        const imagesAlreadyUploaded = formState.imageUrls.filter((url) =>
-          url.startsWith("https://firebasestorage")
-        );
-
-        let uploadedImages = await uploadImages(imagesToUpload);
-
-        const editedMeal = new Meal(
-          formState.title,
-          mealId,
-          formState.primaryImageUrl,
-          formState.ingredients,
-          formState.steps,
-          imagesAlreadyUploaded.concat(uploadedImages)
-        );
+        const editedMeal = await editMeal();
 
         await dispatch(mealActions.editMeal(editedMeal));
         formDispatch({ type: SUBMITTED });
@@ -180,7 +185,7 @@ function NewScreen({ route, navigation }) {
           },
         });
       } else {
-        const newMeal = await createNewMeal(formState.imageUrls);
+        const newMeal = await createMeal(formState.imageUrls);
         await dispatch(mealActions.createMeal(newMeal));
         formDispatch({ type: SUBMITTED });
       }
