@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     height: 200,
     // width: "100%",
     backgroundColor: "#ccc",
-    borderRadius: 15,
+    borderRadius: 3,
     overflow: "hidden",
     margin: 10,
   },
@@ -45,14 +45,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   mealHeader: {
-    height: "85%",
+    height: "100%", //change back to 85% tommy if you want more space below item
   },
-  mealDetail: {
-    paddingHorizontal: 10,
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: "15%",
-  },
+  // mealDetail: {
+  //   paddingHorizontal: 10,
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   height: "15%",
+  // },
   backgroundImage: {
     width: "100%",
     height: "100%",
