@@ -14,6 +14,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Dimensions,
+  Alert,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealActions from "../store/actions/mealsAction";
@@ -22,10 +23,9 @@ import { Icon, Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import uploadImages from "../firebase/uploadImages";
 import MyListItem from "../components/MyListItem";
-import newMealFormReducer from "../store/reducers/newMealFormReducer";
 import {
   CHANGE_TITLE,
-  CHANGE_IMAGE,
+  CHANGE_PRIMARY_IMAGE,
   ADD_INGREDIENT,
   ADD_STEP,
   ADD_IMAGE,
@@ -33,6 +33,7 @@ import {
   SET_INGREDIENT_VALUE,
   REMOVE_STEP,
   REMOVE_INGREDIENT,
+  REMOVE_IMAGE,
   LOADING,
   SUBMITTED,
 } from "../store/reducers/newMealFormReducer";
@@ -189,6 +190,48 @@ function NewScreen({ route, navigation }) {
           images={formState.imageUrls}
           width={width}
           style={styles.image}
+          onCheckCallback={(index) => {
+            Alert.alert(
+              "Make preview image?",
+              "Do you want to show this image as preview?",
+              [
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    formDispatch({
+                      type: CHANGE_PRIMARY_IMAGE,
+                      value: formState.imageUrls[index],
+                    });
+                  },
+                },
+                {
+                  text: "No",
+                  style: "cancel",
+                },
+              ]
+            );
+          }}
+          onTrashCallback={(index) => {
+            Alert.alert(
+              "Remove image?",
+              "Do you really want to delete this image?",
+              [
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    formDispatch({
+                      type: REMOVE_IMAGE,
+                      key: index,
+                    });
+                  },
+                },
+                {
+                  text: "No",
+                  style: "cancel",
+                },
+              ]
+            );
+          }}
         />
         <Button title="Add image" onPress={pickImage}></Button>
         <View style={styles.container}>

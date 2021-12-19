@@ -1,5 +1,5 @@
 export const CHANGE_TITLE = "CHANGE_TITLE";
-export const CHANGE_IMAGE = "CHANGE_IMAGE";
+export const CHANGE_PRIMARY_IMAGE = "CHANGE_PRIMARY_IMAGE";
 export const SUBMITTED = "SUBMITTED";
 export const LOADING = "LOADING";
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
@@ -9,6 +9,7 @@ export const SET_INGREDIENT_VALUE = "SET_INGREDIENT_VALUE";
 export const SET_STEP_VALUE = "SET_STEP_VALUE";
 export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 export const REMOVE_STEP = "REMOVE_STEP";
+export const REMOVE_IMAGE = "REMOVE_IMAGE";
 
 export default function newMealFormReducer(state, action) {
   if (action.type === CHANGE_TITLE) {
@@ -18,7 +19,7 @@ export default function newMealFormReducer(state, action) {
     };
   }
 
-  if (action.type === CHANGE_IMAGE) {
+  if (action.type === CHANGE_PRIMARY_IMAGE) {
     return {
       ...state,
       primaryImageUrl: action.value,
@@ -88,6 +89,36 @@ export default function newMealFormReducer(state, action) {
       ...state,
       ingredients: state.ingredients.filter((e) => e !== action.key),
     };
+  }
+
+  if (action.type === REMOVE_IMAGE) {
+    const newImageUrls = state.imageUrls.filter(
+      (url, index) => index !== action.key
+    );
+
+    //no image left, return default values
+    if (newImageUrls.length === 0) {
+      return {
+        ...state,
+        primaryImageUrl: null,
+        imageUrls: [],
+      };
+    }
+
+    //primary image was not deleted, we can keep it
+    if (newImageUrls.includes(state.primaryImageUrl)) {
+      return {
+        ...state,
+        imageUrls: newImageUrls,
+      };
+    } else {
+      //make first available image the primary
+      return {
+        ...state,
+        imageUrls: newImageUrls,
+        primaryImageUrl: newImageUrls[0],
+      };
+    }
   }
 
   if (action.type === LOADING) {
