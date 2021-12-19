@@ -15,13 +15,12 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import { Image } from "react-native-elements";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
 import { Icon, Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import uploadImageToBucket from "../firebase/uploadImageToBucket";
+import uploadImages from "../firebase/uploadImages";
 import MyListItem from "../components/MyListItem";
 import newMealFormReducer from "../store/reducers/newMealFormReducer";
 import {
@@ -133,26 +132,6 @@ function NewScreen({ route, navigation }) {
       imagesAlreadyUploaded.concat(uploadedImages)
     );
     return editedMeal;
-  }
-
-  async function uploadImages(urls) {
-    let uploadedImages = [];
-    await Promise.all(
-      urls.map(async (item) => {
-        await uploadImageToBucket(item)
-          .then((uploadedUrl) => {
-            console.log("image uploaded successfuly " + uploadedUrl);
-            uploadedImages = uploadedImages.concat(uploadedUrl);
-          })
-          .catch((err) => {
-            console.log("error uploading image: " + item + " error: " + err);
-            uploadedImages = uploadedImages.concat(
-              "https://dummyimage.com/300x200&text=No+image+reinhold+messner"
-            );
-          });
-      })
-    );
-    return uploadedImages;
   }
 
   function isFormValid() {
