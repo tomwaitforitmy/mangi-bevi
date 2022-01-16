@@ -187,7 +187,7 @@ function NewScreen({ route, navigation }) {
   const renderInputs = () => {
     return (
       <ScrollView style={styles.list}>
-        {formState.imageUrls.length > 0 && (
+        {formState.imageUrls && formState.imageUrls.length > 0 && (
           <ImageSwipe
             images={formState.imageUrls}
             width={width}
