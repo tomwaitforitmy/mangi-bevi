@@ -14,7 +14,11 @@ const MealItem = (props) => {
         <View>
           <View style={{ ...styles.mealRow, ...styles.mealHeader }}>
             <ImageBackground
-              source={{ uri: props.image }}
+              source={{
+                uri: props.image
+                  ? props.image
+                  : "https://dummyimage.com/300x200&text=No+image+yet",
+              }}
               style={styles.backgroundImage}
             >
               <View style={styles.titleContainer}>

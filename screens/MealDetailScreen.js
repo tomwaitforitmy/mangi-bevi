@@ -13,7 +13,11 @@ function MealDetailScreen({ route, navigation }) {
   return (
     <ScrollView style={styles.container}>
       <Image
-        source={{ uri: selectedMeal.primaryImageUrl }}
+        source={{
+          uri: selectedMeal.primaryImageUrl
+            ? selectedMeal.primaryImageUrl
+            : "https://dummyimage.com/300x200&text=No+image+yet",
+        }}
         style={styles.image}
         onPress={() => {
           navigation.navigate("ImagesScreen", {

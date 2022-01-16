@@ -3,9 +3,6 @@ import uuid from "uuid";
 import getPictureBlob from "../firebase/getPictureBlob";
 
 export const uploadImageToBucket = async (uri) => {
-  if (!uri) {
-    return "https://dummyimage.com/300x200&text=No+image+reinhold+messner";
-  }
   let blob;
   try {
     blob = await getPictureBlob(uri);

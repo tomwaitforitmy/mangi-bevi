@@ -11,9 +11,7 @@ export async function uploadImages(urls) {
         })
         .catch((err) => {
           console.log("error uploading image: " + item + " error: " + err);
-          uploadedImages = uploadedImages.concat(
-            "https://dummyimage.com/300x200&text=No+image+reinhold+messner"
-          );
+          uploadedImages = uploadedImages.concat(item);
         });
     })
   );
