@@ -27,6 +27,14 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === ADD_IMAGE) {
+    if (!state.primaryImageUrl) {
+      return {
+        ...state,
+        primaryImageUrl: action.value,
+        imageUrls: [...state.imageUrls, action.value],
+      };
+    }
+
     return {
       ...state,
       imageUrls: [...state.imageUrls, action.value],
