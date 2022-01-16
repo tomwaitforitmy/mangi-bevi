@@ -123,12 +123,18 @@ function NewScreen({ route, navigation }) {
       url.startsWith("https://firebasestorage")
     );
 
+    //Check if we upload the primary image
+    let primarImageIndex = imagesToUpload.indexOf(formState.primaryImageUrl);
+
     let uploadedImages = await uploadImages(imagesToUpload);
 
     const editedMeal = new Meal(
       formState.title,
       mealId,
-      formState.primaryImageUrl,
+      //if the primary images is uploaded, take it from here
+      primarImageIndex != -1
+        ? uploadedImages[primarImageIndex]
+        : formState.primaryImageUrl,
       formState.ingredients,
       formState.steps,
       imagesAlreadyUploaded.concat(uploadedImages)
