@@ -1,5 +1,6 @@
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MealsScreen from "../screens/MealsScreen";
@@ -34,7 +35,13 @@ function MainTabNavigator() {
           let iconName;
 
           if (route.name === "Mangi & Bevi") {
-            iconName = focused ? "ios-restaurant" : "ios-restaurant-outline";
+            return (
+              <MaterialCommunityIcons
+                name={"noodles"}
+                size={25}
+                color={color}
+              />
+            );
           } else if (route.name === "Filters") {
             iconName = focused ? "ios-filter" : "ios-filter-outline";
           } else if (route.name === "New") {
@@ -65,7 +72,23 @@ function MealsStackContainer({ route }) {
       <MealsStack.Screen
         name="Meals"
         component={MealsScreen}
-        options={{ title: "Mangi & Bevi" }}
+        options={({ navigation, route }) => ({
+          title: "  Mangi & Bevi",
+          headerLeft: () => (
+            <MaterialCommunityIcons
+              name={"noodles"}
+              size={25}
+              color="white"
+              onPress={
+                () => {}
+                // navigation.navigate("EditScreen", {
+                //   mealId: route.params.mealId,
+                // })
+              }
+              color="white"
+            />
+          ),
+        })}
       />
       <MealsStack.Screen
         name="Details"
