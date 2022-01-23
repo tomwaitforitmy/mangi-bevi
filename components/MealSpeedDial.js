@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Share } from "react-native";
+import { StyleSheet, Share } from "react-native";
 import Colors from "../constants/Colors";
 import { SpeedDial } from "react-native-elements";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
@@ -28,36 +28,56 @@ const MealSpeedDial = (props) => {
     }
   };
 
+  const iconType = "ionicon";
+
   return (
-    // <View style={{ ...styles.container, ...props.style }}>
     <SpeedDial
       color={Colors.primary}
       isOpen={open}
-      icon={{ name: "add", color: "#fff" }}
-      openIcon={{ name: "close", color: "#fff" }}
+      icon={{
+        name: "add",
+        color: Colors.speedDiealIcon,
+        type: iconType,
+      }}
+      openIcon={{
+        name: "close",
+        color: Colors.speedDiealIcon,
+        type: iconType,
+      }}
       onOpen={() => setOpen(!open)}
       onClose={() => setOpen(!open)}
     >
       <SpeedDial.Action
-        icon={{ name: "tag", color: "#fff" }}
+        icon={{
+          name: "pricetags",
+          color: Colors.speedDiealIcon,
+          type: iconType,
+        }}
         title="Tag"
         color={Colors.primary}
         onPress={() => console.log("Add Something")}
       />
       <SpeedDial.Action
-        icon={{ name: "share", color: "#fff" }}
+        icon={{
+          name: "share-social",
+          color: Colors.speedDiealIcon,
+          type: iconType,
+        }}
         title="Share"
         color={Colors.primary}
         onPress={shareMeal}
       />
       <SpeedDial.Action
-        icon={{ name: "star", color: "#fff" }}
+        icon={{
+          name: "star",
+          color: Colors.speedDiealIcon,
+          type: iconType,
+        }}
         title="Rate"
         color={Colors.primary}
         onPress={() => console.log("Delete Something")}
       />
     </SpeedDial>
-    // </View>
   );
 };
 

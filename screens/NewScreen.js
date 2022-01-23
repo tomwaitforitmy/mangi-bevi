@@ -39,6 +39,7 @@ import {
   SUBMITTED,
 } from "../store/reducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
+import Colors from "../constants/Colors";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -75,7 +76,12 @@ function NewScreen({ route, navigation }) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Icon name={"save"} onPress={createMealHandler} color="white" />
+        <Icon
+          name={"save"}
+          onPress={createMealHandler}
+          color={Colors.navigationIcon}
+          type={"ionicon"}
+        />
       ),
     });
   }, [navigation, formState]);

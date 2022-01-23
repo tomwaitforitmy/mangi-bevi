@@ -28,7 +28,7 @@ const Tab = createMaterialBottomTabNavigator();
 function MainTabNavigator() {
   return (
     <Tab.Navigator
-      activeColor={Colors.white}
+      activeColor={Colors.navigationIcon}
       inactiveColor={Colors.second}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
@@ -78,14 +78,13 @@ function MealsStackContainer({ route }) {
             <MaterialCommunityIcons
               name={"noodles"}
               size={25}
-              color="white"
+              color={Colors.navigationIcon}
               onPress={
                 () => {}
                 // navigation.navigate("EditScreen", {
                 //   mealId: route.params.mealId,
                 // })
               }
-              color="white"
             />
           ),
         })}
@@ -97,13 +96,14 @@ function MealsStackContainer({ route }) {
           title: route.params.mealTitle,
           headerRight: () => (
             <Icon
-              name={"edit"}
+              name={"create-outline"}
               onPress={() =>
                 navigation.navigate("EditScreen", {
                   mealId: route.params.mealId,
                 })
               }
-              color="white"
+              type="ionicon"
+              color={Colors.navigationIcon}
             />
           ),
         })}
@@ -120,13 +120,14 @@ function MealsStackContainer({ route }) {
           title: route.params.mealTitle,
           headerRight: () => (
             <Icon
-              name={"edit"}
+              name={"create-outline"}
               onPress={() =>
                 navigation.navigate("EditScreen", {
                   mealId: route.params.mealId,
                 })
               }
-              color="white"
+              type="ionicon"
+              color={Colors.navigationIcon}
             />
           ),
         })}
