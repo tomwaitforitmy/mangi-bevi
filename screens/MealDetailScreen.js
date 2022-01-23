@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
-import { Image, SpeedDial } from "react-native-elements";
-import Colors from "../constants/Colors";
+import { Image } from "react-native-elements";
+import MealSpeedDial from "../components/MealSpeedDial";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
-  const [open, setOpen] = useState(false);
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
@@ -38,33 +37,11 @@ function MealDetailScreen({ route, navigation }) {
           <MyListItem key={step} title={step}></MyListItem>
         ))}
       </ScrollView>
-      <SpeedDial
-        color={Colors.primary}
-        isOpen={open}
-        icon={{ name: "add", color: "#fff" }}
-        openIcon={{ name: "close", color: "#fff" }}
-        onOpen={() => setOpen(!open)}
-        onClose={() => setOpen(!open)}
-      >
-        <SpeedDial.Action
-          icon={{ name: "tag", color: "#fff" }}
-          title="Tag"
-          color={Colors.primary}
-          onPress={() => console.log("Add Something")}
-        />
-        <SpeedDial.Action
-          icon={{ name: "share", color: "#fff" }}
-          title="Share"
-          color={Colors.primary}
-          onPress={() => console.log("Add Something")}
-        />
-        <SpeedDial.Action
-          icon={{ name: "star", color: "#fff" }}
-          title="Rate"
-          color={Colors.primary}
-          onPress={() => console.log("Delete Something")}
-        />
-      </SpeedDial>
+      <MealSpeedDial
+        title={selectedMeal.title}
+        ingredients={selectedMeal.ingredients}
+        steps={selectedMeal.steps}
+      ></MealSpeedDial>
     </View>
   );
 }
