@@ -3,14 +3,25 @@ import { StyleSheet, Share } from "react-native";
 import Colors from "../constants/Colors";
 import { SpeedDial } from "react-native-elements";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
+import { useDispatch, useSelector } from "react-redux";
+import * as mealActions from "../store/actions/mealsAction";
 
 const MealSpeedDial = (props) => {
   const [open, setOpen] = useState(false);
 
+  const { mealId } = props;
+
+  const availableMeals = useSelector((state) => state.meals.meals);
+  const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+
   const shareMeal = async () => {
     try {
       const result = await Share.share({
-        message: GetMealSummary(props.title, props.ingredients, props.steps),
+        message: GetMealSummary(
+          selectedMeal.title,
+          selectedMeal.ingredients,
+          selectedMeal.steps
+        ),
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -29,6 +40,8 @@ const MealSpeedDial = (props) => {
   };
 
   const iconType = "ionicon";
+
+  const dispatch = useDispatch();
 
   return (
     <SpeedDial
@@ -55,7 +68,11 @@ const MealSpeedDial = (props) => {
         }}
         title="Tag"
         color={Colors.primary}
-        onPress={() => console.log("Add Something")}
+        onPress={async () => {
+          selectedMeal.tags = selectedMeal.tags.concat("myTag");
+          console.log(selectedMeal);
+          await dispatch(mealActions.editMeal(selectedMeal));
+        }}
       />
       <SpeedDial.Action
         icon={{

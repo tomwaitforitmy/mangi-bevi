@@ -117,7 +117,9 @@ function NewScreen({ route, navigation }) {
       uploadedImages[0],
       formState.ingredients,
       formState.steps,
-      uploadedImages
+      uploadedImages,
+      [],
+      0
     );
   }
 
@@ -143,7 +145,9 @@ function NewScreen({ route, navigation }) {
         : formState.primaryImageUrl,
       formState.ingredients,
       formState.steps,
-      imagesAlreadyUploaded.concat(uploadedImages)
+      imagesAlreadyUploaded.concat(uploadedImages),
+      inputMeal.tags,
+      inputMeal.rating
     );
     return editedMeal;
   }

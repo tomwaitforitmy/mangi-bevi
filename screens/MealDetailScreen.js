@@ -37,11 +37,7 @@ function MealDetailScreen({ route, navigation }) {
           <MyListItem key={step} title={step}></MyListItem>
         ))}
       </ScrollView>
-      <MealSpeedDial
-        title={selectedMeal.title}
-        ingredients={selectedMeal.ingredients}
-        steps={selectedMeal.steps}
-      ></MealSpeedDial>
+      <MealSpeedDial mealId={selectedMeal.id}></MealSpeedDial>
     </View>
   );
 }

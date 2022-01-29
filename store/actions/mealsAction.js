@@ -38,7 +38,9 @@ export const fetchMeals = () => {
             responseData[key].primaryImageUrl,
             responseData[key].ingredients,
             responseData[key].steps,
-            responseData[key].imageUrls ? responseData[key].imageUrls : []
+            responseData[key].imageUrls ? responseData[key].imageUrls : [],
+            responseData[key].tags ? responseData[key].tags : [],
+            responseData[key].rating ? responseData[key].rating : 0
           )
         );
       }
