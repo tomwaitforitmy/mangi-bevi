@@ -8,7 +8,7 @@ import { LogBox } from "react-native";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBK-NbCaWKt412ZW0uBZP5N87RQHck8KwA",
+  apiKey: process.env.firebaseApiKey ?? process.env.REACT_APP_firebaseApiKey,
   authDomain: "testshop-39aae.firebaseapp.com",
   databaseURL:
     "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app",
