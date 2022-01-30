@@ -12,6 +12,7 @@ import Colors from "../constants/Colors";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Icon } from "react-native-elements";
 import ImagesScreen from "../screens/ImagesScreen";
+import AddTagScreen from "../screens/AddTagScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -131,6 +132,11 @@ function MealsStackContainer({ route }) {
             />
           ),
         })}
+      />
+      <MealsStack.Screen
+        name="AddTagScreen"
+        component={AddTagScreen}
+        options={{ title: "Add Tag" }}
       />
     </MealsStack.Navigator>
   );

@@ -63,6 +63,7 @@ function MealDetailScreen({ route, navigation }) {
       <MealSpeedDial
         mealId={selectedMeal.id}
         onAddTag={(meal) => addTag(meal)}
+        navigation={navigation}
       ></MealSpeedDial>
     </View>
   );

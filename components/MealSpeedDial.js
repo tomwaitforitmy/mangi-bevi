@@ -56,6 +56,13 @@ const MealSpeedDial = (props) => {
     }
   };
 
+  const navigateToAddTag = () => {
+    formDispatch({ type: CLOSE });
+    props.navigation.navigate("AddTagScreen", {
+      mealId: mealId,
+    });
+  };
+
   const addTag = async () => {
     try {
       formDispatch({ type: ADD_TAG, value: "tag x" });
@@ -105,7 +112,7 @@ const MealSpeedDial = (props) => {
         }}
         title="Tag"
         color={Colors.primary}
-        onPress={addTag}
+        onPress={navigateToAddTag}
       />
       <SpeedDial.Action
         icon={{
