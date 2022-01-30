@@ -1,15 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, ScrollView, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
-import { Image } from "react-native-elements";
+import { Image, Chip, Icon } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
+import * as mealActions from "../store/actions/mealsAction";
+import LoadingIndicator from "../components/LoadingIndicator";
+import TagList from "../components/TagList";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
+  const [isLoading, setIsLoading] = useState(false);
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+
+  const dispatch = useDispatch();
+
+  const addTag = async (meal) => {
+    setIsLoading(true);
+    try {
+      console.log(meal);
+      await dispatch(mealActions.editMeal(meal));
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <View style={styles.container}>
@@ -28,6 +50,7 @@ function MealDetailScreen({ route, navigation }) {
             });
           }}
         ></Image>
+        <TagList tags={selectedMeal.tags}></TagList>
         <Text style={styles.subtitle}>Ingredients</Text>
         {selectedMeal.ingredients.map((ingredient) => (
           <MyListItem key={ingredient} title={ingredient}></MyListItem>
@@ -37,7 +60,10 @@ function MealDetailScreen({ route, navigation }) {
           <MyListItem key={step} title={step}></MyListItem>
         ))}
       </ScrollView>
-      <MealSpeedDial mealId={selectedMeal.id}></MealSpeedDial>
+      <MealSpeedDial
+        mealId={selectedMeal.id}
+        onAddTag={(meal) => addTag(meal)}
+      ></MealSpeedDial>
     </View>
   );
 }

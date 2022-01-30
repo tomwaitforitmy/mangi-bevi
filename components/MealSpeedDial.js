@@ -1,26 +1,43 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import { StyleSheet, Share } from "react-native";
 import Colors from "../constants/Colors";
 import { SpeedDial } from "react-native-elements";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
+import mealSpeedDialReducer from "../store/reducers/mealSpeedDialReducer";
+import {
+  ADD_TAG,
+  ADD_RATING,
+  CLOSE,
+  OPEN,
+  REMOVE_TAG,
+} from "../store/reducers/mealSpeedDialReducer";
+import Meal from "../models/Meal";
 
 const MealSpeedDial = (props) => {
-  const [open, setOpen] = useState(false);
-
   const { mealId } = props;
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
+  const initialState = {
+    meal: selectedMeal,
+    tags: selectedMeal.tags,
+    isOpen: false,
+  };
+  const [formState, formDispatch] = useReducer(
+    mealSpeedDialReducer,
+    initialState
+  );
+
   const shareMeal = async () => {
     try {
       const result = await Share.share({
         message: GetMealSummary(
-          selectedMeal.title,
-          selectedMeal.ingredients,
-          selectedMeal.steps
+          formState.meal.title,
+          formState.meal.ingredients,
+          formState.meal.steps
         ),
       });
       if (result.action === Share.sharedAction) {
@@ -35,18 +52,38 @@ const MealSpeedDial = (props) => {
     } catch (error) {
       console.log(error.message);
     } finally {
-      setOpen(false);
+      formDispatch({ type: CLOSE });
     }
+  };
+
+  const addTag = async () => {
+    try {
+      formDispatch({ type: ADD_TAG, value: "tag x" });
+      const editedMeal = new Meal(
+        formState.meal.title,
+        formState.meal.id,
+        formState.meal.primaryImageUrl,
+        formState.meal.ingredients,
+        formState.meal.steps,
+        formState.meal.imageUrls,
+        formState.tags,
+        formState.rating
+      );
+      console.log("before props.onAddTag");
+      console.log(editedMeal);
+      props.onAddTag(editedMeal);
+    } catch (error) {
+      console.log(error.message);
+    }
+    formDispatch({ type: CLOSE });
   };
 
   const iconType = "ionicon";
 
-  const dispatch = useDispatch();
-
   return (
     <SpeedDial
       color={Colors.primary}
-      isOpen={open}
+      isOpen={formState.isOpen}
       icon={{
         name: "add",
         color: Colors.speedDiealIcon,
@@ -57,8 +94,8 @@ const MealSpeedDial = (props) => {
         color: Colors.speedDiealIcon,
         type: iconType,
       }}
-      onOpen={() => setOpen(!open)}
-      onClose={() => setOpen(!open)}
+      onOpen={() => formDispatch({ type: OPEN })}
+      onClose={() => formDispatch({ type: CLOSE })}
     >
       <SpeedDial.Action
         icon={{
@@ -68,11 +105,7 @@ const MealSpeedDial = (props) => {
         }}
         title="Tag"
         color={Colors.primary}
-        onPress={async () => {
-          selectedMeal.tags = selectedMeal.tags.concat("myTag");
-          console.log(selectedMeal);
-          await dispatch(mealActions.editMeal(selectedMeal));
-        }}
+        onPress={addTag}
       />
       <SpeedDial.Action
         icon={{
