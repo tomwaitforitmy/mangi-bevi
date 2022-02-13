@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useReducer } from "react";
-import { StyleSheet, ScrollView, Text, View } from "react-native";
+import { StyleSheet, ScrollView, Text, View, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -30,12 +30,23 @@ function AddTagScreen({ route, navigation }) {
 
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
 
+  const saveTagsHandler = async () => {
+    await saveTags(selectedMeal, formState.addedTags);
+    navigation.navigate({
+      name: "Details",
+      params: {
+        mealId: selectedMeal.id,
+        mealTitle: selectedMeal.title,
+      },
+    });
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <Icon
           name={"save"}
-          onPress={() => saveTags(selectedMeal, formState.addedTags)}
+          onPress={saveTagsHandler}
           color={Colors.navigationIcon}
           type={"ionicon"}
         />
@@ -85,6 +96,7 @@ function AddTagScreen({ route, navigation }) {
         onPressTag={addTagHandler}
         onIconPress={deleteTagHandler}
       ></TagList>
+      <Button title="Create new tag"></Button>
     </View>
   );
 }
