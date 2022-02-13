@@ -80,7 +80,7 @@ const MealSpeedDial = (props) => {
           color: Colors.speedDiealIcon,
           type: iconType,
         }}
-        title="Tag"
+        title="Tags"
         color={Colors.primary}
         onPress={navigateToAddTag}
       />

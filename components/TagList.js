@@ -3,24 +3,38 @@ import { View, StyleSheet } from "react-native";
 import { Chip, Icon } from "react-native-elements";
 
 const TagList = (props) => {
-  const onIconPress = (tag) => {
-    if (props.onIconPress) {
+  let useIcon = false;
+  if (props.onIconPress) {
+    useIcon = true;
+  }
+  const onIconPressHandler = (tag) => {
+    if (useIcon) {
       props.onIconPress(tag);
     } else {
       console.log("icon pressed on " + tag);
     }
   };
 
+  const onPressTagHandler = (tag) => {
+    if (props.onPressTag) {
+      props.onPressTag(tag);
+    } else {
+      console.log("pressed on tag " + tag);
+    }
+  };
+
   const closeIcon = (tag) => {
-    return (
-      <Icon
-        name="close"
-        type="font-awesome"
-        size={20}
-        color="white"
-        onPress={() => onIconPress(tag)}
-      ></Icon>
-    );
+    if (useIcon) {
+      return (
+        <Icon
+          name="close"
+          type="font-awesome"
+          size={20}
+          color="white"
+          onPress={() => onIconPressHandler(tag)}
+        ></Icon>
+      );
+    }
   };
 
   return (
@@ -31,7 +45,7 @@ const TagList = (props) => {
             title={tag}
             icon={closeIcon(tag)}
             iconRight
-            onPress={() => props.onPressTag(tag)}
+            onPress={() => onPressTagHandler(tag)}
           />
         </View>
       ))}
