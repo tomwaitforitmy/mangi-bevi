@@ -3,17 +3,9 @@ import { StyleSheet, Share } from "react-native";
 import Colors from "../constants/Colors";
 import { SpeedDial } from "react-native-elements";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
-import { useDispatch, useSelector } from "react-redux";
-import * as mealActions from "../store/actions/mealsAction";
+import { useSelector } from "react-redux";
 import mealSpeedDialReducer from "../store/reducers/mealSpeedDialReducer";
-import {
-  ADD_TAG,
-  ADD_RATING,
-  CLOSE,
-  OPEN,
-  REMOVE_TAG,
-} from "../store/reducers/mealSpeedDialReducer";
-import Meal from "../models/Meal";
+import { CLOSE, OPEN } from "../store/reducers/mealSpeedDialReducer";
 
 const MealSpeedDial = (props) => {
   const { mealId } = props;
@@ -35,9 +27,9 @@ const MealSpeedDial = (props) => {
     try {
       const result = await Share.share({
         message: GetMealSummary(
-          formState.meal.title,
-          formState.meal.ingredients,
-          formState.meal.steps
+          selectedMeal.title,
+          selectedMeal.ingredients,
+          selectedMeal.steps
         ),
       });
       if (result.action === Share.sharedAction) {
@@ -61,28 +53,6 @@ const MealSpeedDial = (props) => {
     props.navigation.navigate("AddTagScreen", {
       mealId: mealId,
     });
-  };
-
-  const addTag = async () => {
-    try {
-      formDispatch({ type: ADD_TAG, value: "tag x" });
-      const editedMeal = new Meal(
-        formState.meal.title,
-        formState.meal.id,
-        formState.meal.primaryImageUrl,
-        formState.meal.ingredients,
-        formState.meal.steps,
-        formState.meal.imageUrls,
-        formState.tags,
-        formState.rating
-      );
-      console.log("before props.onAddTag");
-      console.log(editedMeal);
-      props.onAddTag(editedMeal);
-    } catch (error) {
-      console.log(error.message);
-    }
-    formDispatch({ type: CLOSE });
   };
 
   const iconType = "ionicon";
@@ -132,7 +102,7 @@ const MealSpeedDial = (props) => {
         }}
         title="Rate"
         color={Colors.primary}
-        onPress={() => console.log("Delete Something")}
+        onPress={() => console.log("rate meal not implmenented")}
       />
     </SpeedDial>
   );
