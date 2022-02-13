@@ -1,42 +1,90 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useReducer } from "react";
 import { StyleSheet, ScrollView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import TagList from "../components/TagList";
 import { TAGS } from "../data/DummyTags";
+import tagFormReducer, {
+  ADD_TAG,
+  LOADING,
+  REMOVE_TAG,
+  SUBMITTED,
+} from "../store/reducers/tagFormReducer";
+import Colors from "../constants/Colors";
+import { Icon } from "react-native-elements";
 
 function AddTagScreen({ route, navigation }) {
   const { mealId } = route.params;
-  const [isLoading, setIsLoading] = useState(false);
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
   const dispatch = useDispatch();
 
-  const addTag = async (meal) => {
-    setIsLoading(true);
+  const initialState = {
+    addedTags: mealId ? selectedMeal.tags : [],
+    availableTags: TAGS,
+    isLoading: false,
+  };
+
+  const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Icon
+          name={"save"}
+          onPress={() => saveTags(selectedMeal, formState.addedTags)}
+          color={Colors.navigationIcon}
+          type={"ionicon"}
+        />
+      ),
+    });
+  }, [navigation, formState]);
+
+  const addTagHandler = (tag) => {
+    formDispatch({ type: ADD_TAG, value: tag });
+  };
+
+  const removeTagHandler = (tag) => {
+    formDispatch({ type: REMOVE_TAG, value: tag });
+  };
+
+  const deleteTagHandler = (tag) => {
+    console.log("deleting " + tag);
+  };
+
+  const saveTags = async (meal, tags) => {
+    formDispatch({ type: LOADING });
+    meal.tags = tags;
+
     try {
-      console.log(meal);
       await dispatch(mealActions.editMeal(meal));
     } catch (error) {
       console.log(error.message);
     } finally {
-      setIsLoading(false);
+      formDispatch({ type: SUBMITTED });
     }
   };
 
-  if (isLoading) {
+  if (formState.isLoading) {
     return <LoadingIndicator />;
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.subtitle}>Tags of {selectedMeal.title}</Text>
-      <TagList tags={selectedMeal.tags}></TagList>
+      <TagList
+        tags={formState.addedTags}
+        onPressTag={removeTagHandler}
+      ></TagList>
       <Text style={styles.subtitle}>Available Tags</Text>
-      <TagList tags={TAGS}></TagList>
+      <TagList
+        tags={formState.availableTags}
+        onPressTag={addTagHandler}
+        onIconPress={deleteTagHandler}
+      ></TagList>
     </View>
   );
 }

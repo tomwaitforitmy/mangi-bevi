@@ -3,18 +3,22 @@ import { View, StyleSheet } from "react-native";
 import { Chip, Icon } from "react-native-elements";
 
 const TagList = (props) => {
-  const onIconPress = () => {
-    console.log("icon pressed");
+  const onIconPress = (tag) => {
+    if (props.onIconPress) {
+      props.onIconPress(tag);
+    } else {
+      console.log("icon pressed on " + tag);
+    }
   };
 
-  const closeIcon = () => {
+  const closeIcon = (tag) => {
     return (
       <Icon
         name="close"
         type="font-awesome"
         size={20}
         color="white"
-        onPress={onIconPress}
+        onPress={() => onIconPress(tag)}
       ></Icon>
     );
   };
@@ -25,9 +29,9 @@ const TagList = (props) => {
         <View key={Math.random()} style={styles.tag}>
           <Chip
             title={tag}
-            icon={closeIcon}
+            icon={closeIcon(tag)}
             iconRight
-            onPress={() => console.log("pressed tag with" + tag)}
+            onPress={() => props.onPressTag(tag)}
           />
         </View>
       ))}
