@@ -10,28 +10,9 @@ import TagList from "../components/TagList";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
-  const [isLoading, setIsLoading] = useState(false);
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
-
-  const dispatch = useDispatch();
-
-  const addTag = async (meal) => {
-    setIsLoading(true);
-    try {
-      console.log(meal);
-      await dispatch(mealActions.editMeal(meal));
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (isLoading) {
-    return <LoadingIndicator />;
-  }
 
   return (
     <View style={styles.container}>
@@ -62,7 +43,6 @@ function MealDetailScreen({ route, navigation }) {
       </ScrollView>
       <MealSpeedDial
         mealId={selectedMeal.id}
-        onAddTag={(meal) => addTag(meal)}
         navigation={navigation}
       ></MealSpeedDial>
     </View>
