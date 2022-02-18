@@ -9,10 +9,12 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mealsReducer from "./store/reducers/mealsReducer";
 import authReducer from "./store/reducers/authReducer";
+import tagsReducer from "./store/reducers/tagsReducer";
 
 const rootReducer = combineReducers({
   meals: mealsReducer,
   auth: authReducer,
+  tags: tagsReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
