@@ -1,24 +1,31 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, ScrollView, Dimensions } from "react-native";
-import { Image } from "react-native-elements";
+import React from "react";
+import { StyleSheet, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ImageSwipe from "../components/ImageSwipe";
+import { useDispatch } from "react-redux";
+import { TAGS } from "../data/DummyTags";
+import Tag from "../models/Tag";
+import * as tagActions from "../store/actions/tagsAction";
 
 function FiltersScreen({ navigation }) {
-  // const [activeIndex, setActiveIndex] = useState(0);
+  const dispatch = useDispatch();
 
-  // renderItem = ({ item, index }) => {
-  //   return (
-  //     <View style={styles.slide}>
-  //       <Image source={{ uri: item.url }} style={styles.image}></Image>
-  //       {/* <Text>{item.url}</Text> */}
-  //     </View>
-  //   );
-  // };
+  const addTagsHandler = () => {
+    TAGS.forEach((tag) => {
+      const myTag = new Tag("nix", tag);
+
+      try {
+        dispatch(tagActions.createTag(myTag));
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        console.log("finally");
+      }
+    });
+  };
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: 50 }}>
-      {/* <ImageSwipe images={images} width={width} /> */}
+    <SafeAreaView style={styles.screen}>
+      <Button title={"add tags"} onPress={addTagsHandler}></Button>
     </SafeAreaView>
   );
 }
@@ -28,10 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
   },
 });
 

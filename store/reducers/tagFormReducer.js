@@ -25,7 +25,7 @@ export default function tagFormReducer(state, action) {
   if (action.type === CREATE_TAG) {
     return {
       ...state,
-      availableTags: [...state.availableTags, action.value],
+      newTagTitle: action.value,
     };
   }
 

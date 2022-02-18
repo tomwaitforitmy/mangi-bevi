@@ -68,7 +68,7 @@ export const createMeal = (meal) => {
     console.log("Begin createMeal");
     const token = getState().auth.token;
     if (!token) {
-      console.log("No tokken found! Request will fail! Reload App tommy");
+      console.log("No token found! Request will fail! Reload App tommy");
     }
 
     const response = await fetch(

@@ -1,7 +1,8 @@
-import React, { useLayoutEffect, useReducer } from "react";
+import React, { useEffect, useLayoutEffect, useReducer } from "react";
 import { StyleSheet, ScrollView, Text, View, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
+import * as tagActions from "../store/actions/tagsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import TagList from "../components/TagList";
 import { TAGS } from "../data/DummyTags";
@@ -10,9 +11,11 @@ import tagFormReducer, {
   LOADING,
   REMOVE_TAG,
   SUBMITTED,
+  CREATE_TAG,
 } from "../store/reducers/tagFormReducer";
 import Colors from "../constants/Colors";
-import { Icon } from "react-native-elements";
+import { Icon, Input } from "react-native-elements";
+import Tag from "../models/Tag";
 
 function AddTagScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -22,10 +25,18 @@ function AddTagScreen({ route, navigation }) {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    formDispatch({ type: LOADING });
+    dispatch(tagActions.fetchTags()).then(formDispatch({ type: SUBMITTED }));
+  }, [dispatch]);
+
+  const tags = useSelector((state) => state.tags.tags);
+
   const initialState = {
     addedTags: mealId ? selectedMeal.tags : [],
-    availableTags: TAGS,
+    availableTags: tags,
     isLoading: false,
+    newTagTitle: "",
   };
 
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
@@ -66,6 +77,19 @@ function AddTagScreen({ route, navigation }) {
     console.log("deleting " + tag);
   };
 
+  const createTagHandler = async () => {
+    formDispatch({ type: LOADING });
+
+    try {
+      const newTag = new Tag("nix", formState.newTagTitle);
+      await dispatch(tagActions.createTag(newTag));
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      formDispatch({ type: SUBMITTED });
+    }
+  };
+
   const saveTags = async (meal, tags) => {
     formDispatch({ type: LOADING });
     meal.tags = tags;
@@ -96,7 +120,11 @@ function AddTagScreen({ route, navigation }) {
         onPressTag={addTagHandler}
         onIconPress={deleteTagHandler}
       ></TagList>
-      <Button title="Create new tag"></Button>
+      <Input
+        placeholder="Enter tag"
+        onChangeText={(value) => formDispatch({ type: CREATE_TAG, value })}
+      ></Input>
+      <Button title="Create new tag" onPress={createTagHandler}></Button>
     </View>
   );
 }
