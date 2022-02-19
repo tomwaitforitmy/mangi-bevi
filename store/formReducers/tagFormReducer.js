@@ -25,7 +25,7 @@ export default function tagFormReducer(state, action) {
   if (action.type === CREATE_TAG) {
     return {
       ...state,
-      newTagTitle: action.value,
+      newTagTitle: action.value.replace(/^\s+|\s+$/gm, ""),
     };
   }
 

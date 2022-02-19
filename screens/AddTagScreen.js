@@ -78,11 +78,22 @@ function AddTagScreen({ route, navigation }) {
   };
 
   const createTagHandler = async () => {
+    if (!formState.newTagTitle) {
+      console.log("No title given");
+      return;
+    }
+    if (tags.some((tag) => tag.title === formState.newTagTitle)) {
+      console.log("Title already in exists: " + formState.newTagTitle);
+      return;
+    }
+
     formDispatch({ type: LOADING });
 
     try {
-      const newTag = new Tag("nix", formState.newTagTitle);
-      await dispatch(tagActions.createTag(newTag));
+      const newTag = new Tag(formState.newTagTitle, "not used");
+      console.log(formState.newTagTitle);
+      console.log(formState.newTagTitle + "-");
+      // await dispatch(tagActions.createTag(newTag));
     } catch (error) {
       console.log(error.message);
     } finally {
