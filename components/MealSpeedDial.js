@@ -4,8 +4,10 @@ import Colors from "../constants/Colors";
 import { SpeedDial } from "react-native-elements";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
 import { useSelector } from "react-redux";
-import mealSpeedDialReducer from "../store/reducers/mealSpeedDialReducer";
-import { CLOSE, OPEN } from "../store/reducers/mealSpeedDialReducer";
+import mealSpeedDialReducer, {
+  CLOSE,
+  OPEN,
+} from "../store/formReducers/mealSpeedDialReducer";
 
 const MealSpeedDial = (props) => {
   const { mealId } = props;

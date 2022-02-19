@@ -12,7 +12,7 @@ import tagFormReducer, {
   REMOVE_TAG,
   SUBMITTED,
   CREATE_TAG,
-} from "../store/reducers/tagFormReducer";
+} from "../store/formReducers/tagFormReducer";
 import Colors from "../constants/Colors";
 import { Icon, Input } from "react-native-elements";
 import Tag from "../models/Tag";

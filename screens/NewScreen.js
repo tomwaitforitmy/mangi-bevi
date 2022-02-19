@@ -23,7 +23,7 @@ import { Icon, Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import uploadImages from "../firebase/uploadImages";
 import MyListItem from "../components/MyListItem";
-import newMealFormReducer from "../store/reducers/newMealFormReducer";
+import newMealFormReducer from "../store/formReducers/newMealFormReducer";
 import {
   CHANGE_TITLE,
   CHANGE_PRIMARY_IMAGE,
@@ -37,7 +37,7 @@ import {
   REMOVE_IMAGE,
   LOADING,
   SUBMITTED,
-} from "../store/reducers/newMealFormReducer";
+} from "../store/formReducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
 import Colors from "../constants/Colors";
 
