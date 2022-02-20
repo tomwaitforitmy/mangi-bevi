@@ -14,6 +14,14 @@ function MealDetailScreen({ route, navigation }) {
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
+  const allTags = useSelector((state) => state.tags.tags);
+  const tagList = [];
+
+  selectedMeal.tags.map((tagId) => {
+    const found = allTags.find((tag) => tag.id === tagId);
+    tagList.push(found);
+  });
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container}>
@@ -31,7 +39,7 @@ function MealDetailScreen({ route, navigation }) {
             });
           }}
         ></Image>
-        <TagList tags={selectedMeal.tags}></TagList>
+        <TagList tags={tagList}></TagList>
         <Text style={styles.subtitle}>Ingredients</Text>
         {selectedMeal.ingredients.map((ingredient) => (
           <MyListItem key={ingredient} title={ingredient}></MyListItem>
