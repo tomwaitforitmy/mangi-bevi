@@ -40,9 +40,9 @@ const TagList = (props) => {
   return (
     <View style={styles.tagsContainer}>
       {props.tags.map((tag) => (
-        <View key={Math.random()} style={styles.tag}>
+        <View key={tag.id} style={styles.tag}>
           <Chip
-            title={tag}
+            title={tag.title}
             icon={closeIcon(tag)}
             iconRight
             onPress={() => onPressTagHandler(tag)}
