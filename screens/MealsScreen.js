@@ -4,6 +4,7 @@ import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as mealsActions from "../store/actions/mealsAction";
 import * as authActions from "../store/actions/authAction";
+import * as tagActions from "../store/actions/tagsAction";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -12,11 +13,15 @@ function MealsScreen({ navigation }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
+  const fetchAll = async () => {
+    dispatch(mealsActions.fetchMeals()).then(() => {
+      return dispatch(tagActions.fetchTags());
+    });
+  };
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    dispatch(mealsActions.fetchMeals()).then(() => {
-      setRefreshing(false);
-    });
+    fetchAll().then(setRefreshing(false));
   }, []);
 
   useEffect(() => {
@@ -27,7 +32,7 @@ function MealsScreen({ navigation }) {
       console.log("logged in as tommy");
     }
     setIsLoading(true);
-    dispatch(mealsActions.fetchMeals()).then(setIsLoading(false));
+    fetchAll().then(setIsLoading(false));
   }, [dispatch]);
 
   const authHandler = async () => {
