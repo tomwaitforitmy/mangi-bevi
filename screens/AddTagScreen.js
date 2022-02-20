@@ -1,11 +1,10 @@
-import React, { useEffect, useLayoutEffect, useReducer } from "react";
-import { StyleSheet, ScrollView, Text, View, Button } from "react-native";
+import React, { useLayoutEffect, useReducer } from "react";
+import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
 import * as tagActions from "../store/actions/tagsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import TagList from "../components/TagList";
-import { TAGS } from "../data/DummyTags";
 import tagFormReducer, {
   ADD_TAG,
   LOADING,
@@ -25,16 +24,23 @@ function AddTagScreen({ route, navigation }) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    formDispatch({ type: LOADING });
-    dispatch(tagActions.fetchTags()).then(formDispatch({ type: SUBMITTED }));
-  }, [dispatch]);
+  const allTags = useSelector((state) => state.tags.tags);
+  const addedTags = [];
 
-  const tags = useSelector((state) => state.tags.tags);
+  selectedMeal.tags.map((tagId) => {
+    const found = allTags.find((tag) => tag.id === tagId);
+    addedTags.push(found);
+  });
+
+  const initialAvailableTags = allTags.filter((tag) => {
+    return !addedTags.some((toFilterTag) => {
+      return toFilterTag.title === tag.title;
+    });
+  });
 
   const initialState = {
-    addedTags: mealId ? selectedMeal.tags : [],
-    availableTags: tags,
+    addedTags: addedTags ? addedTags : [],
+    availableTags: initialAvailableTags ? initialAvailableTags : [],
     isLoading: false,
     newTagTitle: "",
   };
@@ -79,21 +85,19 @@ function AddTagScreen({ route, navigation }) {
 
   const createTagHandler = async () => {
     if (!formState.newTagTitle) {
-      console.log("No title given");
+      Alert.alert("Please choose a title for your tag!");
       return;
     }
-    if (tags.some((tag) => tag.title === formState.newTagTitle)) {
-      console.log("Title already in exists: " + formState.newTagTitle);
+    if (allTags.some((tag) => tag.title === formState.newTagTitle)) {
+      Alert.alert("Tag title already exists!");
       return;
     }
 
     formDispatch({ type: LOADING });
+    const newTag = new Tag(formState.newTagTitle, "not used");
 
     try {
-      const newTag = new Tag(formState.newTagTitle, "not used");
-      console.log(formState.newTagTitle);
-      console.log(formState.newTagTitle + "-");
-      // await dispatch(tagActions.createTag(newTag));
+      await dispatch(tagActions.createTag(newTag));
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -103,7 +107,7 @@ function AddTagScreen({ route, navigation }) {
 
   const saveTags = async (meal, tags) => {
     formDispatch({ type: LOADING });
-    meal.tags = tags;
+    meal.tags = tags.map((t) => t.id);
 
     try {
       await dispatch(mealActions.editMeal(meal));
@@ -146,6 +150,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    margin: 5,
   },
   subtitle: {
     fontSize: 22,

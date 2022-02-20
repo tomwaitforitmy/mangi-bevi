@@ -1,4 +1,5 @@
 import { TAGS } from "../../data/DummyTags";
+import Tag from "../../models/Tag";
 import {
   EDIT_TAG,
   SET_TAGS,
@@ -20,9 +21,11 @@ const tagsReducer = (state = initialState, action) => {
       };
     }
     case CREATE_TAG: {
+      const newTag = new Tag(action.tag.title, action.tag.id);
+
       return {
         ...state,
-        tags: [action.tag].concat(state.tags),
+        tags: state.tags.concat(newTag),
       };
     }
     case DELETE_TAG: {
