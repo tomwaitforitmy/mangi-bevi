@@ -23,11 +23,7 @@ function AddTagScreen({ route, navigation }) {
   const dispatch = useDispatch();
 
   const allTags = useSelector((state) => state.tags.tags);
-
   const addedTags = useSelector((state) => state.tags.addedTags);
-
-  console.log(addedTags);
-
   const availableTags = useSelector((state) => state.tags.availableTags);
 
   const initialState = {
@@ -38,6 +34,8 @@ function AddTagScreen({ route, navigation }) {
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
 
   const saveTagsHandler = async () => {
+    console.log(addedTags);
+
     await saveTags(selectedMeal, addedTags);
     navigation.navigate({
       name: "Details",
@@ -63,7 +61,7 @@ function AddTagScreen({ route, navigation }) {
         />
       ),
     });
-  }, [navigation, formState]);
+  }, [navigation, formState, dispatch, addedTags]);
 
   const addTagHandler = (tag) => {
     dispatch(tagActions.addTag(tag));
@@ -101,9 +99,8 @@ function AddTagScreen({ route, navigation }) {
 
   const saveTags = async (meal, tags) => {
     formDispatch({ type: LOADING });
-    meal.tags = tags.map((t) => t.id);
 
-    console.log(meal.tags);
+    meal.tags = tags.map((t) => t.id);
 
     try {
       await dispatch(mealActions.editMeal(meal));
