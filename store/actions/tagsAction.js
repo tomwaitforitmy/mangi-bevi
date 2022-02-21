@@ -5,6 +5,21 @@ export const DELETE_TAG = "DELETE_TAG";
 export const CREATE_TAG = "CREATE_TAG";
 export const EDIT_TAG = "EDIT_TAG";
 export const SET_TAGS = "SET_TAGS";
+export const SET_ADDED_TAGS = "SET_ADDED_TAGS";
+export const ADD_TAG = "ADD_TAG";
+export const REMOVE_TAG = "REMOVE_TAG";
+
+export const setAddedTags = (tagIds) => {
+  return { type: SET_ADDED_TAGS, tagIds: tagIds };
+};
+
+export const addTag = (tag) => {
+  return { type: ADD_TAG, tag: tag };
+};
+
+export const removeTag = (tag) => {
+  return { type: REMOVE_TAG, tag: tag };
+};
 
 export const fetchTags = () => {
   return async (dispatch) => {

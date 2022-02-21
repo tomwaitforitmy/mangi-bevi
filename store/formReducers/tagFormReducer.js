@@ -1,38 +1,12 @@
 export const SUBMITTED = "SUBMITTED";
 export const LOADING = "LOADING";
-export const ADD_TAG = "ADD_TAG";
-export const REMOVE_TAG = "REMOVE_TAG";
-export const CREATE_TAG = "CREATE_TAG";
-export const DELETE_TAG = "DELETE_TAG";
+export const EDIT_TAG_TITLE = "EDIT_TAG_TITLE";
 
 export default function tagFormReducer(state, action) {
-  if (action.type === ADD_TAG) {
-    return {
-      ...state,
-      addedTags: [...state.addedTags, action.value],
-      availableTags: state.availableTags.filter((e) => e !== action.value),
-    };
-  }
-
-  if (action.type === REMOVE_TAG) {
-    return {
-      ...state,
-      addedTags: state.addedTags.filter((e) => e !== action.value),
-      availableTags: [...state.availableTags, action.value],
-    };
-  }
-
-  if (action.type === CREATE_TAG) {
+  if (action.type === EDIT_TAG_TITLE) {
     return {
       ...state,
       newTagTitle: action.value.trim(),
-    };
-  }
-
-  if (action.type === DELETE_TAG) {
-    return {
-      ...state,
-      availableTags: state.availableTags.filter((e) => e !== action.value),
     };
   }
 

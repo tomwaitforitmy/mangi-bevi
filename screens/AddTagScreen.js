@@ -6,11 +6,9 @@ import * as tagActions from "../store/actions/tagsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import TagList from "../components/TagList";
 import tagFormReducer, {
-  ADD_TAG,
   LOADING,
-  REMOVE_TAG,
   SUBMITTED,
-  CREATE_TAG,
+  EDIT_TAG_TITLE,
 } from "../store/formReducers/tagFormReducer";
 import Colors from "../constants/Colors";
 import { Icon, Input } from "react-native-elements";
@@ -25,22 +23,14 @@ function AddTagScreen({ route, navigation }) {
   const dispatch = useDispatch();
 
   const allTags = useSelector((state) => state.tags.tags);
-  const addedTags = [];
 
-  selectedMeal.tags.map((tagId) => {
-    const found = allTags.find((tag) => tag.id === tagId);
-    addedTags.push(found);
-  });
+  const addedTags = useSelector((state) => state.tags.addedTags);
 
-  const initialAvailableTags = allTags.filter((tag) => {
-    return !addedTags.some((toFilterTag) => {
-      return toFilterTag.title === tag.title;
-    });
-  });
+  console.log(addedTags);
+
+  const availableTags = useSelector((state) => state.tags.availableTags);
 
   const initialState = {
-    addedTags: addedTags ? addedTags : [],
-    availableTags: initialAvailableTags ? initialAvailableTags : [],
     isLoading: false,
     newTagTitle: "",
   };
@@ -48,7 +38,7 @@ function AddTagScreen({ route, navigation }) {
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
 
   const saveTagsHandler = async () => {
-    await saveTags(selectedMeal, formState.addedTags);
+    await saveTags(selectedMeal, addedTags);
     navigation.navigate({
       name: "Details",
       params: {
@@ -59,6 +49,8 @@ function AddTagScreen({ route, navigation }) {
   };
 
   useLayoutEffect(() => {
+    dispatch(tagActions.setAddedTags(selectedMeal.tags));
+
     navigation.setOptions({
       headerRight: () => (
         <Icon
@@ -72,11 +64,11 @@ function AddTagScreen({ route, navigation }) {
   }, [navigation, formState]);
 
   const addTagHandler = (tag) => {
-    formDispatch({ type: ADD_TAG, value: tag });
+    dispatch(tagActions.addTag(tag));
   };
 
   const removeTagHandler = (tag) => {
-    formDispatch({ type: REMOVE_TAG, value: tag });
+    dispatch(tagActions.removeTag(tag));
   };
 
   const deleteTagHandler = (tag) => {
@@ -109,6 +101,8 @@ function AddTagScreen({ route, navigation }) {
     formDispatch({ type: LOADING });
     meal.tags = tags.map((t) => t.id);
 
+    console.log(meal.tags);
+
     try {
       await dispatch(mealActions.editMeal(meal));
     } catch (error) {
@@ -125,19 +119,16 @@ function AddTagScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.subtitle}>Tags of {selectedMeal.title}</Text>
-      <TagList
-        tags={formState.addedTags}
-        onPressTag={removeTagHandler}
-      ></TagList>
+      <TagList tags={addedTags} onPressTag={removeTagHandler}></TagList>
       <Text style={styles.subtitle}>Available Tags</Text>
       <TagList
-        tags={formState.availableTags}
+        tags={availableTags}
         onPressTag={addTagHandler}
         onIconPress={deleteTagHandler}
       ></TagList>
       <Input
         placeholder="Enter tag"
-        onChangeText={(value) => formDispatch({ type: CREATE_TAG, value })}
+        onChangeText={(value) => formDispatch({ type: EDIT_TAG_TITLE, value })}
       ></Input>
       <Button title="Create new tag" onPress={createTagHandler}></Button>
     </View>
