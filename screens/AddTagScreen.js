@@ -34,8 +34,6 @@ function AddTagScreen({ route, navigation }) {
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
 
   const saveTagsHandler = async () => {
-    console.log(addedTags);
-
     await saveTags(selectedMeal, addedTags);
     navigation.navigate({
       name: "Details",
@@ -99,7 +97,6 @@ function AddTagScreen({ route, navigation }) {
 
   const saveTags = async (meal, tags) => {
     formDispatch({ type: LOADING });
-
     meal.tags = tags.map((t) => t.id);
 
     try {
