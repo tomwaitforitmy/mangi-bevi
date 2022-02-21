@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useReducer } from "react";
+import React, { useEffect, useLayoutEffect, useReducer } from "react";
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
@@ -48,9 +48,11 @@ function AddTagScreen({ route, navigation }) {
     });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(tagActions.setAddedTags(selectedMeal.tags));
+  }, [dispatch, mealId]);
 
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <Icon
