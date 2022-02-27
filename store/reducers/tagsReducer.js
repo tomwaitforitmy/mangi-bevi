@@ -71,13 +71,13 @@ const tagsReducer = (state = initialState, action) => {
       };
     }
     case DELETE_TAG: {
-      const tagIndex = state.tags.findIndex((t) => t.id === action.tag.id);
-      const updatedTags = [...state.tags];
-      updatedTags[tagIndex] = action.tag;
+      const deleteId = action.id;
 
       return {
         ...state,
-        tags: updatedTags,
+        tags: state.tags.filter((t) => t.id !== deleteId),
+        availableTags: state.availableTags.filter((t) => t.id !== deleteId),
+        addedTags: state.addedTags.filter((t) => t.id !== deleteId),
       };
     }
 

@@ -36,7 +36,6 @@ function AddTagScreen({ route, navigation }) {
   const initialState = {
     isLoading: false,
     newTagTitle: "",
-    errorMessage: "",
   };
 
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
@@ -78,7 +77,44 @@ function AddTagScreen({ route, navigation }) {
   };
 
   const deleteTagHandler = (tag) => {
-    console.log("deleting " + tag);
+    const mealsWithTag = availableMeals.filter((m) =>
+      m.tags.some((t) => t === tag.id)
+    );
+
+    Alert.alert(
+      "Warning!",
+      "Are you sure you want to delete tag '" +
+        tag.title +
+        "'. It is used in " +
+        mealsWithTag.length +
+        " mangis. This action cannot be undone!",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => deleteTag(tag, mealsWithTag) },
+      ]
+    );
+  };
+
+  const deleteTag = async (tag, mealsWithTag) => {
+    formDispatch({ type: LOADING });
+
+    try {
+      await dispatch(tagActions.deleteTag(tag.id));
+
+      await Promise.all(
+        mealsWithTag.map(async (meal) => {
+          meal.tags = meal.tags.filter((e) => e !== tag.id);
+          await dispatch(mealActions.editMeal(meal));
+        })
+      );
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      formDispatch({ type: SUBMITTED });
+    }
   };
 
   const createTagHandler = async () => {
@@ -125,11 +161,13 @@ function AddTagScreen({ route, navigation }) {
       <ScrollView style={styles.tagLists}>
         <Text style={styles.subtitle}>Added Tags</Text>
         <Divider />
-
-        <TagList tags={addedTags} onPressTag={removeTagHandler}></TagList>
+        <TagList
+          tags={addedTags}
+          onPressTag={removeTagHandler}
+          onLongPressTag={deleteTagHandler}
+        ></TagList>
         <Text style={styles.subtitle}>Available Tags</Text>
         <Divider />
-
         <TagList
           tags={availableTags}
           onPressTag={addTagHandler}

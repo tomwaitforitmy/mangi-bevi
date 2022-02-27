@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, ScrollView, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
-import { Image, Chip, Icon } from "react-native-elements";
+import { Image } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
-import * as mealActions from "../store/actions/mealsAction";
-import LoadingIndicator from "../components/LoadingIndicator";
 import TagList from "../components/TagList";
 
 function MealDetailScreen({ route, navigation }) {
@@ -19,7 +17,9 @@ function MealDetailScreen({ route, navigation }) {
 
   selectedMeal.tags.map((tagId) => {
     const found = allTags.find((tag) => tag.id === tagId);
-    tagList.push(found);
+    if (found) {
+      tagList.push(found);
+    }
   });
 
   return (

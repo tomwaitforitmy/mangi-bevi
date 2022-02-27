@@ -122,6 +122,6 @@ export const deleteTag = (id) => {
 
     await HandleResponseError(response);
 
-    dispatch({ type: DELETE_TAG, tagId: id });
+    dispatch({ type: DELETE_TAG, id: id });
   };
 };
