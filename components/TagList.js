@@ -23,6 +23,14 @@ const TagList = (props) => {
     }
   };
 
+  const onLongPressTagHandler = (tag) => {
+    if (props.onLongPressTag) {
+      props.onLongPressTag(tag);
+    } else {
+      console.log("long pressed on tag " + tag);
+    }
+  };
+
   const closeIcon = (tag) => {
     if (useIcon) {
       return (
@@ -46,6 +54,7 @@ const TagList = (props) => {
             icon={closeIcon(tag)}
             iconRight
             onPress={() => onPressTagHandler(tag)}
+            onLongPress={() => onLongPressTagHandler(tag)}
           />
         </View>
       ))}

@@ -1,5 +1,12 @@
 import React, { useEffect, useLayoutEffect, useReducer } from "react";
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Alert,
+  ScrollView,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
 import * as tagActions from "../store/actions/tagsAction";
@@ -11,7 +18,7 @@ import tagFormReducer, {
   EDIT_TAG_TITLE,
 } from "../store/formReducers/tagFormReducer";
 import Colors from "../constants/Colors";
-import { Icon, Input } from "react-native-elements";
+import { Divider, Icon, Input } from "react-native-elements";
 import Tag from "../models/Tag";
 
 function AddTagScreen({ route, navigation }) {
@@ -29,6 +36,7 @@ function AddTagScreen({ route, navigation }) {
   const initialState = {
     isLoading: false,
     newTagTitle: "",
+    errorMessage: "",
   };
 
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
@@ -114,19 +122,31 @@ function AddTagScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>Tags of {selectedMeal.title}</Text>
-      <TagList tags={addedTags} onPressTag={removeTagHandler}></TagList>
-      <Text style={styles.subtitle}>Available Tags</Text>
-      <TagList
-        tags={availableTags}
-        onPressTag={addTagHandler}
-        onIconPress={deleteTagHandler}
-      ></TagList>
-      <Input
-        placeholder="Enter tag"
-        onChangeText={(value) => formDispatch({ type: EDIT_TAG_TITLE, value })}
-      ></Input>
-      <Button title="Create new tag" onPress={createTagHandler}></Button>
+      <ScrollView style={styles.tagLists}>
+        <Text style={styles.subtitle}>Added Tags</Text>
+        <Divider />
+
+        <TagList tags={addedTags} onPressTag={removeTagHandler}></TagList>
+        <Text style={styles.subtitle}>Available Tags</Text>
+        <Divider />
+
+        <TagList
+          tags={availableTags}
+          onPressTag={addTagHandler}
+          onLongPressTag={deleteTagHandler}
+        ></TagList>
+      </ScrollView>
+      <View style={styles.createTagContainer}>
+        <Divider />
+        <Input
+          errorMessage={formState.errorMessage}
+          placeholder="Enter tag"
+          onChangeText={(value) =>
+            formDispatch({ type: EDIT_TAG_TITLE, value })
+          }
+        ></Input>
+        <Button title="Create new tag" onPress={createTagHandler}></Button>
+      </View>
     </View>
   );
 }
@@ -136,12 +156,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-    margin: 5,
+    alignItems: "stretch",
+    padding: 5,
+    width: "100%",
   },
   subtitle: {
     fontSize: 22,
     textAlign: "center",
+    color: "grey",
   },
 });
 
