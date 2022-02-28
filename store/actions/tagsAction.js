@@ -21,6 +21,16 @@ export const removeTag = (tag) => {
   return { type: REMOVE_TAG, tag: tag };
 };
 
+const compareTags = (a, b) => {
+  if (a.title < b.title) {
+    return -1;
+  }
+  if (a.title > b.title) {
+    return 1;
+  }
+  return 0;
+};
+
 export const fetchTags = () => {
   return async (dispatch) => {
     console.log("Begin fetchTags");
@@ -38,8 +48,8 @@ export const fetchTags = () => {
         loadedTags.push(new Tag(responseData[key].title, key));
       }
 
-      //Invert order to show newest
-      loadedTags.reverse();
+      //Order alphabetically
+      loadedTags.sort(compareTags);
 
       dispatch({
         type: SET_TAGS,
