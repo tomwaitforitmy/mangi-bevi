@@ -8,12 +8,17 @@ import {
   DELETE_TAG,
   ADD_TAG,
   REMOVE_TAG,
+  ADD_FILTER_TAG,
+  REMOVE_FILTER_TAG,
+  SET_FILTER_TAGS,
 } from "../actions/tagsAction";
 
 const initialState = {
   tags: TAGS,
   availableTags: TAGS,
   addedTags: [],
+  filterTags: [],
+  availableFilterTags: [],
 };
 
 const tagsReducer = (state = initialState, action) => {
@@ -40,7 +45,9 @@ const tagsReducer = (state = initialState, action) => {
 
       action.tagIds.map((tagId) => {
         const found = state.tags.find((tag) => tag.id === tagId);
-        addedTags.push(found);
+        if (found) {
+          addedTags.push(found);
+        }
       });
 
       const availableTags = state.tags.filter((tag) => {
@@ -53,6 +60,47 @@ const tagsReducer = (state = initialState, action) => {
         ...state,
         addedTags: addedTags,
         availableTags: availableTags,
+      };
+    }
+    case ADD_FILTER_TAG: {
+      return {
+        ...state,
+        filterTags: [...state.filterTags, action.tag],
+        availableFilterTags: state.availableFilterTags.filter(
+          (e) => e.id !== action.tag.id
+        ),
+      };
+    }
+    case REMOVE_FILTER_TAG: {
+      return {
+        ...state,
+        filterTags: state.filterTags.filter((e) => e.id !== action.tag.id),
+        availableFilterTags: [...state.availableFilterTags, action.tag],
+      };
+    }
+    case SET_FILTER_TAGS: {
+      console.log("begin set filter tags");
+      const filterTags = [];
+
+      action.tagIds.map((tagId) => {
+        const found = state.tags.find((tag) => tag.id === tagId);
+        if (found) {
+          filterTags.push(found);
+        }
+      });
+
+      console.log(filterTags);
+
+      const availableFilterTags = state.tags.filter((tag) => {
+        return !filterTags.some((toFilterTag) => {
+          return toFilterTag.title === tag.title;
+        });
+      });
+
+      return {
+        ...state,
+        filterTags: filterTags,
+        availableFilterTags: availableFilterTags,
       };
     }
     case SET_TAGS: {

@@ -8,6 +8,9 @@ export const SET_TAGS = "SET_TAGS";
 export const SET_ADDED_TAGS = "SET_ADDED_TAGS";
 export const ADD_TAG = "ADD_TAG";
 export const REMOVE_TAG = "REMOVE_TAG";
+export const ADD_FILTER_TAG = "ADD_FILTER_TAG";
+export const REMOVE_FILTER_TAG = "REMOVE_FILTER_TAG";
+export const SET_FILTER_TAGS = "SET_FILTER_TAGS";
 
 export const setAddedTags = (tagIds) => {
   return { type: SET_ADDED_TAGS, tagIds: tagIds };
@@ -19,6 +22,19 @@ export const addTag = (tag) => {
 
 export const removeTag = (tag) => {
   return { type: REMOVE_TAG, tag: tag };
+};
+
+export const setFilterTags = (tagIds) => {
+  console.log("actions setFilterTags" + tagIds);
+  return { type: SET_FILTER_TAGS, tagIds: tagIds };
+};
+
+export const addFilterTag = (tag) => {
+  return { type: ADD_FILTER_TAG, tag: tag };
+};
+
+export const removeFilterTag = (tag) => {
+  return { type: REMOVE_FILTER_TAG, tag: tag };
 };
 
 const compareTags = (a, b) => {
