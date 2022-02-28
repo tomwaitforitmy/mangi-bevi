@@ -59,7 +59,7 @@ function MainTabNavigator() {
     >
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
       <Tab.Screen name="Favorites" component={FavoritesStackContainer} />
-      <Tab.Screen name="Filters" component={FiltersScreen} />
+      <Tab.Screen name="Filters" component={FiltersStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
     </Tab.Navigator>
   );
@@ -153,6 +153,20 @@ function FavoritesStackContainer({ route }) {
         options={{ title: "Favorites" }}
       />
     </FavoritesStack.Navigator>
+  );
+}
+
+const FiltersStack = createNativeStackNavigator();
+
+function FiltersStackContainer({ route }) {
+  return (
+    <FiltersStack.Navigator screenOptions={defaultScreenOptions}>
+      <FiltersStack.Screen
+        name="FiltersScreen"
+        component={FiltersScreen}
+        options={{ title: "Filters" }}
+      />
+    </FiltersStack.Navigator>
   );
 }
 
