@@ -51,7 +51,19 @@ function MealsScreen({ navigation }) {
     return <LoadingIndicator />;
   }
 
-  const availableMeals = useSelector((state) => state.meals.meals);
+  const allMeals = useSelector((state) => state.meals.meals);
+  const filterTags = useSelector((state) => state.tags.filterTags);
+  const filteredMeals = [];
+
+  if (filterTags.length > 0) {
+    const validIds = filterTags.map((t) => t.id);
+
+    allMeals.map((meal) => {
+      if (validIds.some((e) => meal.tags.includes(e))) {
+        filteredMeals.push(meal);
+      }
+    });
+  }
 
   return (
     <View style={styles.mealsScreen}>
@@ -59,7 +71,7 @@ function MealsScreen({ navigation }) {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        mealsList={availableMeals}
+        mealsList={filteredMeals.length > 0 ? filteredMeals : allMeals}
         navigation={navigation}
       ></MealList>
     </View>
