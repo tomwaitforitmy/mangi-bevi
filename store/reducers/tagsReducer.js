@@ -79,7 +79,6 @@ const tagsReducer = (state = initialState, action) => {
       };
     }
     case SET_FILTER_TAGS: {
-      console.log("begin set filter tags");
       const filterTags = [];
 
       action.tagIds.map((tagId) => {
@@ -88,8 +87,6 @@ const tagsReducer = (state = initialState, action) => {
           filterTags.push(found);
         }
       });
-
-      console.log(filterTags);
 
       const availableFilterTags = state.tags.filter((tag) => {
         return !filterTags.some((toFilterTag) => {

@@ -15,12 +15,8 @@ function FiltersScreen({ navigation }) {
   );
 
   useEffect(() => {
-    console.log("useEffect set filter tags");
     dispatch(tagActions.setFilterTags([]));
   }, [dispatch]);
-
-  console.log(filterTags);
-  console.log(availableFilterTags);
 
   const addTagHandler = (tag) => {
     dispatch(tagActions.addFilterTag(tag));
