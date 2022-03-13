@@ -20,6 +20,7 @@ import tagFormReducer, {
 import Colors from "../constants/Colors";
 import { Divider, Icon, Input } from "react-native-elements";
 import Tag from "../models/Tag";
+import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 
 function AddTagScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -157,35 +158,37 @@ function AddTagScreen({ route, navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.tagLists}>
-        <Text style={styles.subtitle}>Added Tags</Text>
-        <Divider />
-        <TagList
-          tags={addedTags}
-          onPressTag={removeTagHandler}
-          onLongPressTag={deleteTagHandler}
-        ></TagList>
-        <Text style={styles.subtitle}>Available Tags</Text>
-        <Divider />
-        <TagList
-          tags={availableTags}
-          onPressTag={addTagHandler}
-          onLongPressTag={deleteTagHandler}
-        ></TagList>
-      </ScrollView>
-      <View style={styles.createTagContainer}>
-        <Divider />
-        <Input
-          errorMessage={formState.errorMessage}
-          placeholder="Enter tag"
-          onChangeText={(value) =>
-            formDispatch({ type: EDIT_TAG_TITLE, value })
-          }
-        ></Input>
-        <Button title="Create new tag" onPress={createTagHandler}></Button>
+    <MyKeyboardAvoidingView>
+      <View style={styles.container}>
+        <ScrollView style={styles.tagLists}>
+          <Text style={styles.subtitle}>Added Tags</Text>
+          <Divider />
+          <TagList
+            tags={addedTags}
+            onPressTag={removeTagHandler}
+            onLongPressTag={deleteTagHandler}
+          ></TagList>
+          <Text style={styles.subtitle}>Available Tags</Text>
+          <Divider />
+          <TagList
+            tags={availableTags}
+            onPressTag={addTagHandler}
+            onLongPressTag={deleteTagHandler}
+          ></TagList>
+        </ScrollView>
+        <View style={styles.createTagContainer}>
+          <Divider />
+          <Input
+            errorMessage={formState.errorMessage}
+            placeholder="Enter tag"
+            onChangeText={(value) =>
+              formDispatch({ type: EDIT_TAG_TITLE, value })
+            }
+          ></Input>
+          <Button title="Create new tag" onPress={createTagHandler}></Button>
+        </View>
       </View>
-    </View>
+    </MyKeyboardAvoidingView>
   );
 }
 
