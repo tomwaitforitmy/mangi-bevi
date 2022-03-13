@@ -1,5 +1,3 @@
-// In App.js in a new project
-
 import * as React from "react";
 import MyNavigationContainer from "./navigation/MyNavigationContainer";
 import ReduxThunk from "redux-thunk";
