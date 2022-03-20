@@ -27,13 +27,16 @@ import newMealFormReducer from "../store/formReducers/newMealFormReducer";
 import {
   CHANGE_TITLE,
   CHANGE_PRIMARY_IMAGE,
+  EDIT_INGREDIENT,
+  EDIT_STEP,
   ADD_INGREDIENT,
   ADD_STEP,
   ADD_IMAGE,
   SET_STEP_VALUE,
   SET_INGREDIENT_VALUE,
   REMOVE_STEP,
-  REMOVE_INGREDIENT,
+  PREPARE_EDIT_INGREDIENT,
+  PREPARE_EDIT_STEP,
   REMOVE_IMAGE,
   LOADING,
   SUBMITTED,
@@ -60,6 +63,8 @@ function NewScreen({ route, navigation }) {
     ingredientValue: "",
     stepValue: "",
     isLoading: false,
+    ingredientIndex: null,
+    stepIndex: null,
   };
 
   const [formState, formDispatch] = useReducer(
@@ -259,24 +264,36 @@ function NewScreen({ route, navigation }) {
             <MyListItem
               key={ingredient}
               title={ingredient}
-              IconName={"delete"}
+              IconName={"edit"}
               onPressIcon={() => {
-                formDispatch({ type: REMOVE_INGREDIENT, key: ingredient });
+                formDispatch({
+                  type: PREPARE_EDIT_INGREDIENT,
+                  key: ingredient,
+                  ref: inputIngrident,
+                });
               }}
             ></MyListItem>
           ))}
           <Input
             placeholder="Enter ingredient"
             ref={inputIngrident}
-            onChangeText={(value) =>
-              formDispatch({ type: SET_INGREDIENT_VALUE, value })
-            }
+            onChangeText={(value) => {
+              formDispatch({ type: SET_INGREDIENT_VALUE, value });
+            }}
             onBlur={() => {
-              formDispatch({
-                type: ADD_INGREDIENT,
-                value: formState.ingredientValue,
-                ref: inputIngrident,
-              });
+              if (formState.ingredientIndex !== null) {
+                formDispatch({
+                  type: EDIT_INGREDIENT,
+                  value: formState.ingredientValue,
+                  ref: inputIngrident,
+                });
+              } else {
+                formDispatch({
+                  type: ADD_INGREDIENT,
+                  value: formState.ingredientValue,
+                  ref: inputIngrident,
+                });
+              }
             }}
           ></Input>
         </View>
@@ -286,9 +303,13 @@ function NewScreen({ route, navigation }) {
             <MyListItem
               key={step}
               title={step}
-              IconName={"delete"}
+              IconName={"edit"}
               onPressIcon={() => {
-                formDispatch({ type: REMOVE_STEP, key: step });
+                formDispatch({
+                  type: PREPARE_EDIT_STEP,
+                  key: step,
+                  ref: inputStep,
+                });
               }}
             ></MyListItem>
           ))}
@@ -299,11 +320,19 @@ function NewScreen({ route, navigation }) {
               formDispatch({ type: SET_STEP_VALUE, value })
             }
             onBlur={() => {
-              formDispatch({
-                type: ADD_STEP,
-                value: formState.stepValue,
-                ref: inputStep,
-              });
+              if (formState.stepIndex !== null) {
+                formDispatch({
+                  type: EDIT_STEP,
+                  value: formState.stepValue,
+                  ref: inputStep,
+                });
+              } else {
+                formDispatch({
+                  type: ADD_STEP,
+                  value: formState.stepValue,
+                  ref: inputStep,
+                });
+              }
             }}
           ></Input>
         </View>
