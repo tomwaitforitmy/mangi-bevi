@@ -1,8 +1,10 @@
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Button, ScrollView } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import LoadingIndicator from "../components/LoadingIndicator";
+import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
 
 function LoginScreen({ navigation }) {
@@ -26,21 +28,48 @@ function LoginScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <Input placeholder="User"></Input>
-      <Input placeholder="Password"></Input>
-      <Button title="Login" onPress={authHandler}></Button>
-      <Button
-        title="Creat new account"
-        onPress={() => navigation.replace("SignUpScreen")}
-      ></Button>
-    </View>
+    <LinearGradient
+      colors={[Colors.second, Colors.primary]}
+      style={styles.gradient}
+    >
+      <View style={styles.innerContainer}>
+        <Input
+          placeholderTextColor="white"
+          placeholder="User"
+          inputStyle={{ color: "white" }}
+          inputContainerStyle={styles.inputContainerStyle}
+        ></Input>
+        <Input
+          inputStyle={{ color: "white" }}
+          placeholderTextColor="white"
+          placeholder="Password"
+          inputContainerStyle={styles.inputContainerStyle}
+        ></Input>
+        <Button title="Login" onPress={authHandler}></Button>
+        <Button
+          title="Creat new account"
+          onPress={() => navigation.replace("SignUpScreen")}
+        ></Button>
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  inputContainerStyle: {
+    borderBottomColor: "white",
+  },
+  innerContainer: {
     padding: 10,
+    width: "80%",
+    maxWidth: 400,
+    maxHeight: 400,
+  },
+  gradient: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
