@@ -58,7 +58,9 @@ function MainTabNavigator() {
       })}
     >
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
-      <Tab.Screen name="Favorites" component={FavoritesStackContainer} />
+      {false && (
+        <Tab.Screen name="Favorites" component={FavoritesStackContainer} />
+      )}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
     </Tab.Navigator>
