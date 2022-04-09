@@ -1,6 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Button, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Button } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -10,6 +11,29 @@ import * as authActions from "../store/actions/authAction";
 function LoginScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const tryLogin = async () => {
+      const userData = await AsyncStorage.getItem("userData");
+      if (!userData) {
+        return;
+      }
+
+      const transformedData = JSON.parse(userData);
+      const { token, userId, expericationDate } = transformedData;
+      const expericationDateTransformed = new Date(expericationDate);
+
+      if (expericationDateTransformed <= new Date() || !token || !userId) {
+        return;
+      }
+
+      const experiationTime =
+        expericationDateTransformed.getTime() - new Date().getTime();
+
+      dispatch(authActions.authenticate(token, userId, experiationTime));
+    };
+    tryLogin();
+  }, [dispatch]);
 
   const authHandler = async () => {
     let action = authActions.login("tommy@test.com", "123456");
