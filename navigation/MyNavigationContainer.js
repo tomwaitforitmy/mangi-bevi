@@ -13,6 +13,9 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { Icon } from "react-native-elements";
 import ImagesScreen from "../screens/ImagesScreen";
 import AddTagScreen from "../screens/AddTagScreen";
+import LoginScreen from "../screens/LoginScreen";
+import SignUpScreen from "../screens/SignUpScreen";
+import { useSelector } from "react-redux";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -26,7 +29,7 @@ const defaultScreenOptions = {
 
 const Tab = createMaterialBottomTabNavigator();
 
-function MainTabNavigator() {
+function AuthenticatedTabNavigator() {
   return (
     <Tab.Navigator
       activeColor={Colors.navigationIcon}
@@ -158,6 +161,25 @@ function FavoritesStackContainer({ route }) {
   );
 }
 
+const LoginStack = createNativeStackNavigator();
+
+function LoginStackContainer({ route }) {
+  return (
+    <LoginStack.Navigator screenOptions={defaultScreenOptions}>
+      <LoginStack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ title: "Login" }}
+      />
+      <LoginStack.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ title: "Sign Up" }}
+      />
+    </LoginStack.Navigator>
+  );
+}
+
 const FiltersStack = createNativeStackNavigator();
 
 function FiltersStackContainer({ route }) {
@@ -187,9 +209,16 @@ function NewMealStackContainer({ route }) {
 }
 
 const MyNavigationContainer = (props) => {
+  const token = useSelector((state) => state.auth.token);
+  const isAuthenticated = !!token;
+  console.log("isAuthenticated " + isAuthenticated);
+
   return (
     <NavigationContainer>
-      <MainTabNavigator></MainTabNavigator>
+      {!isAuthenticated && <LoginStackContainer></LoginStackContainer>}
+      {isAuthenticated && (
+        <AuthenticatedTabNavigator></AuthenticatedTabNavigator>
+      )}
     </NavigationContainer>
   );
 };
