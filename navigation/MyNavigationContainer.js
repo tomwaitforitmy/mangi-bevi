@@ -15,7 +15,8 @@ import ImagesScreen from "../screens/ImagesScreen";
 import AddTagScreen from "../screens/AddTagScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as authActions from "../store/actions/authAction";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -73,6 +74,8 @@ function AuthenticatedTabNavigator() {
 const MealsStack = createNativeStackNavigator();
 
 function MealsStackContainer({ route }) {
+  const dispatch = useDispatch();
+
   return (
     <MealsStack.Navigator screenOptions={defaultScreenOptions}>
       <MealsStack.Screen
@@ -91,6 +94,16 @@ function MealsStackContainer({ route }) {
                 //   mealId: route.params.mealId,
                 // })
               }
+            />
+          ),
+          headerRight: () => (
+            <Ionicons
+              name={"exit-outline"}
+              size={25}
+              color={Colors.navigationIcon}
+              onPress={() => {
+                dispatch(authActions.logout());
+              }}
             />
           ),
         })}
