@@ -88,12 +88,6 @@ function MealsStackContainer({ route }) {
               name={"noodles"}
               size={25}
               color={Colors.navigationIcon}
-              onPress={
-                () => {}
-                // navigation.navigate("EditScreen", {
-                //   mealId: route.params.mealId,
-                // })
-              }
             />
           ),
           headerRight: () => (
