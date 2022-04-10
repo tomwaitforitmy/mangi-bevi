@@ -11,6 +11,10 @@ import loginFormReducer, {
   EDIT_CONFIRM_PASSWORD,
   EDIT_EMAIL,
   EDIT_PASSWORD,
+  SET_CONFIRM_EMAIL_ERROR,
+  SET_CONFIRM_PASSWORD_ERROR,
+  SET_EMAIL_ERROR,
+  SET_PASSWORD_ERROR,
 } from "../store/formReducers/loginFormReducer";
 
 function LoginScreen({ navigation }) {
@@ -18,9 +22,13 @@ function LoginScreen({ navigation }) {
 
   const initialState = {
     email: "",
+    emailError: "",
     password: "",
+    passwordError: "",
     confirmEmail: "",
+    confirmEmailError: "",
     confirmPassword: "",
+    confirmPasswordError: "",
     login: true,
   };
 
@@ -32,13 +40,14 @@ function LoginScreen({ navigation }) {
     const validEmail =
       formState.email.includes("@") && formState.email.includes(".");
     if (!validEmail) {
-      Alert.alert("Invalid email", "Please check your email.");
-      return false;
+      formDispatch({ type: SET_EMAIL_ERROR, error: "Invalid email." });
     }
     const validPassword = formState.password.length > 5;
     if (!validPassword) {
-      Alert.alert("Invalid password", "Please use at least 6 characters.");
-      return false;
+      formDispatch({
+        type: SET_PASSWORD_ERROR,
+        error: "Please use at least 6 characters.",
+      });
     }
 
     if (formState.login) {
@@ -47,17 +56,17 @@ function LoginScreen({ navigation }) {
 
     const emailsAreEqual = formState.email === formState.confirmEmail;
     if (!emailsAreEqual) {
-      Alert.alert(
-        "Invalid email(s).",
-        "Your confirmed email is not equal to your email."
-      );
+      formDispatch({
+        type: SET_CONFIRM_EMAIL_ERROR,
+        error: "Emails not equal.",
+      });
     }
     const passwordsAreEqual = formState.password === formState.confirmPassword;
     if (!passwordsAreEqual) {
-      Alert.alert(
-        "Invalid password(s).",
-        "Your confirmed password is not equal to your password."
-      );
+      formDispatch({
+        type: SET_CONFIRM_PASSWORD_ERROR,
+        error: "Passwords not equal.",
+      });
     }
 
     return emailsAreEqual && passwordsAreEqual && validEmail && validPassword;
@@ -65,8 +74,12 @@ function LoginScreen({ navigation }) {
 
   const authHandler = async () => {
     if (isFormValid()) {
-      let action = authActions.login(formState.email, formState.password);
-      // let action = authActions.login("tommy@test.com", "123456");
+      let action;
+      if (formState.login) {
+        action = authActions.login(formState.email, formState.password);
+      } else {
+        action = authActions.signup(formState.email, formState.password);
+      }
 
       setIsLoading(true);
       try {
@@ -86,9 +99,6 @@ function LoginScreen({ navigation }) {
     return <LoadingIndicator />;
   }
 
-  console.log("formState.email: " + formState.field);
-  console.log(formState.password);
-
   return (
     <LinearGradient
       colors={[Colors.second, Colors.primary]}
@@ -103,6 +113,8 @@ function LoginScreen({ navigation }) {
           onChangeText={(value) =>
             formDispatch({ type: EDIT_EMAIL, value: value })
           }
+          errorMessage={formState.emailError}
+          errorStyle={{ color: "red" }}
         ></Input>
         {!formState.login && (
           <Input
@@ -113,6 +125,7 @@ function LoginScreen({ navigation }) {
             onChangeText={(value) =>
               formDispatch({ type: EDIT_CONFIRM_EMAIL, value: value })
             }
+            errorMessage={formState.confirmEmailError}
           ></Input>
         )}
         <Input
@@ -123,6 +136,8 @@ function LoginScreen({ navigation }) {
           onChangeText={(value) =>
             formDispatch({ type: EDIT_PASSWORD, value: value })
           }
+          errorMessage={formState.passwordError}
+          secureTextEntry={true}
         ></Input>
         {!formState.login && (
           <Input
@@ -133,6 +148,8 @@ function LoginScreen({ navigation }) {
             onChangeText={(value) =>
               formDispatch({ type: EDIT_CONFIRM_PASSWORD, value: value })
             }
+            errorMessage={formState.confirmPasswordError}
+            secureTextEntry={true}
           ></Input>
         )}
         <Button title="Login" onPress={authHandler}></Button>
