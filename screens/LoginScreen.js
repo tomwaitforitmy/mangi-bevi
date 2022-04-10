@@ -28,11 +28,11 @@ function LoginScreen({ navigation }) {
         return;
       }
 
-      // const credentials = await LoadCredentials();
+      const credentials = await LoadCredentials();
 
-      // if (!!credentials) {
-      //   dispatch(authActions.login(credentials.email, credentials.password));
-      // }
+      if (!!credentials) {
+        dispatch(authActions.login(credentials.email, credentials.password));
+      }
     };
     tryLogin();
   }, [dispatch]);

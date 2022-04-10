@@ -24,7 +24,7 @@ export const authenticate = (token, userId, experiationTime) => {
 export const logout = () => {
   clearLogoutTimer();
   AsyncStorage.removeItem(TOKEN);
-  // AsyncStorage.removeItem(CREDENTIALS);
+  AsyncStorage.removeItem(CREDENTIALS);
   return { type: LOGOUT };
 };
 
@@ -84,7 +84,7 @@ export const signup = (email, password) => {
       responseData.localId,
       expericationDate
     );
-    // SaveCredentialsToStorage(CREDENTIALS, email, password);
+    SaveCredentialsToStorage(email, password);
   };
 };
 
@@ -127,6 +127,6 @@ export const login = (email, password) => {
       responseData.localId,
       expericationDate
     );
-    // SaveCredentialsToStorage(CREDENTIALS, email, password);
+    SaveCredentialsToStorage(email, password);
   };
 };
