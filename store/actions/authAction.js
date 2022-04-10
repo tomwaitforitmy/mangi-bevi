@@ -47,7 +47,7 @@ const setLogoutTimer = (experiationTime) => {
   return (dispach) => {
     timer = setTimeout(() => {
       dispach(logoutTimeout());
-    }, 10000);
+    }, experiationTime);
   };
 };
 
