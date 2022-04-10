@@ -1,7 +1,9 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
+  ClearToken,
   CREDENTIALS,
+  ResetStorage,
   SaveCredentialsToStorage,
   SaveTokenDataToStorage,
   TOKEN,
@@ -23,8 +25,15 @@ export const authenticate = (token, userId, experiationTime) => {
 
 export const logout = () => {
   clearLogoutTimer();
-  AsyncStorage.removeItem(TOKEN);
-  AsyncStorage.removeItem(CREDENTIALS);
+  ResetStorage();
+
+  return { type: LOGOUT };
+};
+
+export const logoutTimeout = () => {
+  clearLogoutTimer();
+  ClearToken();
+
   return { type: LOGOUT };
 };
 
@@ -37,8 +46,8 @@ const clearLogoutTimer = () => {
 const setLogoutTimer = (experiationTime) => {
   return (dispach) => {
     timer = setTimeout(() => {
-      dispach(logout());
-    }, experiationTime);
+      dispach(logoutTimeout());
+    }, 10000);
   };
 };
 

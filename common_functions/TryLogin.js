@@ -22,7 +22,11 @@ export const LoadToken = async () => {
 
 export const LoadCredentials = async () => {
   const credentials = await AsyncStorage.getItem(CREDENTIALS);
+  console.log("LoadCredentials");
+
   if (!credentials) {
+    console.log("Found no credentials!");
+
     return;
   }
 
@@ -51,6 +55,15 @@ export const SaveCredentialsToStorage = (email, password) => {
       password: password,
     })
   );
+};
+
+export const ResetStorage = () => {
+  AsyncStorage.removeItem(TOKEN);
+  AsyncStorage.removeItem(CREDENTIALS);
+};
+
+export const ClearToken = () => {
+  AsyncStorage.removeItem(TOKEN);
 };
 
 export const TOKEN = "mangi-bevi-token";

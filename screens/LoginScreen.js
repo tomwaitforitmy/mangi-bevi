@@ -17,6 +17,7 @@ function LoginScreen({ navigation }) {
       const tokenData = await LoadToken();
 
       if (!!tokenData) {
+        console.log("authActions authenticate");
         dispatch(
           authActions.authenticate(
             tokenData.token,
@@ -31,9 +32,11 @@ function LoginScreen({ navigation }) {
       const credentials = await LoadCredentials();
 
       if (!!credentials) {
+        console.log("authActions Login");
         dispatch(authActions.login(credentials.email, credentials.password));
       }
     };
+    console.log("try Login");
     tryLogin();
   }, [dispatch]);
 
