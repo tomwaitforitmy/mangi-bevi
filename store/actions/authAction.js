@@ -1,13 +1,10 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   ClearToken,
-  CREDENTIALS,
   ResetStorage,
   SaveCredentialsToStorage,
   SaveTokenDataToStorage,
-  TOKEN,
-} from "../../common_functions/TryLogin";
+} from "../../common_functions/CredentialStorage";
 
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";

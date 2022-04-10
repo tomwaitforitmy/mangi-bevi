@@ -22,11 +22,9 @@ export const LoadToken = async () => {
 
 export const LoadCredentials = async () => {
   const credentials = await AsyncStorage.getItem(CREDENTIALS);
-  console.log("LoadCredentials");
 
   if (!credentials) {
     console.log("Found no credentials!");
-
     return;
   }
 

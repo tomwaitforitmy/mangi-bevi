@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
-import { LoadCredentials, LoadToken } from "../common_functions/TryLogin";
+import {
+  LoadCredentials,
+  LoadToken,
+} from "../common_functions/CredentialStorage";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
@@ -17,7 +20,6 @@ function LoginScreen({ navigation }) {
       const tokenData = await LoadToken();
 
       if (!!tokenData) {
-        console.log("authActions authenticate");
         dispatch(
           authActions.authenticate(
             tokenData.token,
@@ -32,11 +34,9 @@ function LoginScreen({ navigation }) {
       const credentials = await LoadCredentials();
 
       if (!!credentials) {
-        console.log("authActions Login");
         dispatch(authActions.login(credentials.email, credentials.password));
       }
     };
-    console.log("try Login");
     tryLogin();
   }, [dispatch]);
 
