@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,6 +17,11 @@ import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../store/actions/authAction";
+import {
+  LoadCredentials,
+  LoadToken,
+} from "../common_functions/CredentialStorage";
+import AppLoading from "expo-app-loading";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -219,6 +224,41 @@ const MyNavigationContainer = (props) => {
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = !!token;
   console.log("isAuthenticated " + isAuthenticated);
+  const [isTryingLogin, setIsTryingLogin] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const tryLogin = async () => {
+      setIsTryingLogin(true);
+      const tokenData = await LoadToken();
+
+      if (!!tokenData) {
+        dispatch(
+          authActions.authenticate(
+            tokenData.token,
+            tokenData.userId,
+            tokenData.experiationTime
+          )
+        );
+        setIsTryingLogin(false);
+
+        return;
+      }
+
+      const credentials = await LoadCredentials();
+
+      if (!!credentials) {
+        dispatch(authActions.login(credentials.email, credentials.password));
+      }
+      setIsTryingLogin(false);
+    };
+    tryLogin();
+  }, [dispatch]);
+
+  if (isTryingLogin) {
+    return <AppLoading />;
+  }
 
   return (
     <NavigationContainer>

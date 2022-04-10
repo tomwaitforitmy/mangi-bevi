@@ -1,12 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
-import {
-  LoadCredentials,
-  LoadToken,
-} from "../common_functions/CredentialStorage";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
@@ -14,31 +10,6 @@ import * as authActions from "../store/actions/authAction";
 function LoginScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const tryLogin = async () => {
-      const tokenData = await LoadToken();
-
-      if (!!tokenData) {
-        dispatch(
-          authActions.authenticate(
-            tokenData.token,
-            tokenData.userId,
-            tokenData.experiationTime
-          )
-        );
-
-        return;
-      }
-
-      const credentials = await LoadCredentials();
-
-      if (!!credentials) {
-        dispatch(authActions.login(credentials.email, credentials.password));
-      }
-    };
-    tryLogin();
-  }, [dispatch]);
 
   const authHandler = async () => {
     let action = authActions.login("tommy@test.com", "123456");
