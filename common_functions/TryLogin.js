@@ -1,0 +1,57 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export const LoadToken = async () => {
+  const tokenData = await AsyncStorage.getItem(TOKEN);
+  if (!tokenData) {
+    return;
+  }
+
+  const transformedData = JSON.parse(tokenData);
+  const { token, userId, expericationDate } = transformedData;
+  const expericationDateTransformed = new Date(expericationDate);
+
+  if (expericationDateTransformed <= new Date() || !token || !userId) {
+    return;
+  }
+
+  const experiationTime =
+    expericationDateTransformed.getTime() - new Date().getTime();
+
+  return { token, userId, experiationTime };
+};
+
+export const LoadCredentials = async () => {
+  const credentials = await AsyncStorage.getItem(CREDENTIALS);
+  if (!credentials) {
+    return;
+  }
+
+  const transformedData = JSON.parse(credentials);
+  const { email, password } = transformedData;
+
+  return { email, password };
+};
+
+export const SaveTokenDataToStorage = (token, userId, expericationDate) => {
+  AsyncStorage.setItem(
+    TOKEN,
+    JSON.stringify({
+      token: token,
+      userId: userId,
+      expericationDate: expericationDate.toISOString(),
+    })
+  );
+};
+
+export const SaveCredentialsToStorage = (email, password) => {
+  AsyncStorage.setItem(
+    CREDENTIALS,
+    JSON.stringify({
+      email: email,
+      password: password,
+    })
+  );
+};
+
+export const TOKEN = "mangi-bevi-token";
+export const CREDENTIALS = "mangi-bevi-credentials";

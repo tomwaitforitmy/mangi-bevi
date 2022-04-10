@@ -1,9 +1,9 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
+import { LoadCredentials, LoadToken } from "../common_functions/TryLogin";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
@@ -14,23 +14,25 @@ function LoginScreen({ navigation }) {
 
   useEffect(() => {
     const tryLogin = async () => {
-      const userData = await AsyncStorage.getItem("userData");
-      if (!userData) {
+      const tokenData = await LoadToken();
+
+      if (!!tokenData) {
+        dispatch(
+          authActions.authenticate(
+            tokenData.token,
+            tokenData.userId,
+            tokenData.experiationTime
+          )
+        );
+
         return;
       }
 
-      const transformedData = JSON.parse(userData);
-      const { token, userId, expericationDate } = transformedData;
-      const expericationDateTransformed = new Date(expericationDate);
+      // const credentials = await LoadCredentials();
 
-      if (expericationDateTransformed <= new Date() || !token || !userId) {
-        return;
-      }
-
-      const experiationTime =
-        expericationDateTransformed.getTime() - new Date().getTime();
-
-      dispatch(authActions.authenticate(token, userId, experiationTime));
+      // if (!!credentials) {
+      //   dispatch(authActions.login(credentials.email, credentials.password));
+      // }
     };
     tryLogin();
   }, [dispatch]);

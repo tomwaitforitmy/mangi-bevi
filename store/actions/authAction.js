@@ -1,5 +1,11 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  CREDENTIALS,
+  SaveCredentialsToStorage,
+  SaveTokenDataToStorage,
+  TOKEN,
+} from "../../common_functions/TryLogin";
 
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
@@ -17,7 +23,8 @@ export const authenticate = (token, userId, experiationTime) => {
 
 export const logout = () => {
   clearLogoutTimer();
-  AsyncStorage.removeItem("userData");
+  AsyncStorage.removeItem(TOKEN);
+  // AsyncStorage.removeItem(CREDENTIALS);
   return { type: LOGOUT };
 };
 
@@ -72,11 +79,12 @@ export const signup = (email, password) => {
     const expericationDate = new Date(
       new Date().getTime() + experiationTimeInMs
     );
-    saveDataToStorage(
+    SaveTokenDataToStorage(
       responseData.idToken,
       responseData.localId,
       expericationDate
     );
+    // SaveCredentialsToStorage(CREDENTIALS, email, password);
   };
 };
 
@@ -114,21 +122,11 @@ export const login = (email, password) => {
     const expericationDate = new Date(
       new Date().getTime() + experiationTimeInMs
     );
-    saveDataToStorage(
+    SaveTokenDataToStorage(
       responseData.idToken,
       responseData.localId,
       expericationDate
     );
+    // SaveCredentialsToStorage(CREDENTIALS, email, password);
   };
-};
-
-const saveDataToStorage = (token, userId, expericationDate) => {
-  AsyncStorage.setItem(
-    "userData",
-    JSON.stringify({
-      token: token,
-      userId: userId,
-      expericationDate: expericationDate.toISOString(),
-    })
-  );
 };
