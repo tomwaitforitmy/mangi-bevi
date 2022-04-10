@@ -7,10 +7,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
 import loginFormReducer, {
-  EDIT_CONFIRM_EMAIL,
-  EDIT_CONFIRM_PASSWORD,
-  EDIT_EMAIL,
-  EDIT_PASSWORD,
+  EDIT_FIELD,
   SET_CONFIRM_EMAIL_ERROR,
   SET_CONFIRM_PASSWORD_ERROR,
   SET_EMAIL_ERROR,
@@ -72,6 +69,11 @@ function LoginScreen({ navigation }) {
     return emailsAreEqual && passwordsAreEqual && validEmail && validPassword;
   }
 
+  // const emailInput = React.createRef();
+  // const confirmEmailInput = React.createRef();
+  // const passwordInput = React.createRef();
+  // const confirmPasswordInput = React.createRef();
+
   const authHandler = async () => {
     if (isFormValid()) {
       let action;
@@ -90,6 +92,10 @@ function LoginScreen({ navigation }) {
           "Please check your input and your internet connection!"
         );
         console.log(err);
+        // emailInput.current.setNativeProps({ value: formState.email });
+        // confirmEmailInput.current.setNativeProps({ value: "hello" });
+        // passwordInput.current.setNativeProps({ value: formState.password });
+        // confirmPasswordInput.current.setNativeProps({ value: "hello" });
         setIsLoading(false);
       }
     }
@@ -111,7 +117,7 @@ function LoginScreen({ navigation }) {
           inputStyle={{ color: "white" }}
           inputContainerStyle={styles.inputContainerStyle}
           onChangeText={(value) =>
-            formDispatch({ type: EDIT_EMAIL, value: value })
+            formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
           }
           errorMessage={formState.emailError}
           errorStyle={{ color: "red" }}
@@ -123,9 +129,14 @@ function LoginScreen({ navigation }) {
             inputStyle={{ color: "white" }}
             inputContainerStyle={styles.inputContainerStyle}
             onChangeText={(value) =>
-              formDispatch({ type: EDIT_CONFIRM_EMAIL, value: value })
+              formDispatch({
+                type: EDIT_FIELD,
+                value: value,
+                field: "confirmEmail",
+              })
             }
             errorMessage={formState.confirmEmailError}
+            // ref={confirmEmailInput}
           ></Input>
         )}
         <Input
@@ -134,10 +145,11 @@ function LoginScreen({ navigation }) {
           placeholder="Password"
           inputContainerStyle={styles.inputContainerStyle}
           onChangeText={(value) =>
-            formDispatch({ type: EDIT_PASSWORD, value: value })
+            formDispatch({ type: EDIT_FIELD, value: value, field: "password" })
           }
           errorMessage={formState.passwordError}
           secureTextEntry={true}
+          // ref={passwordInput}
         ></Input>
         {!formState.login && (
           <Input
@@ -146,10 +158,15 @@ function LoginScreen({ navigation }) {
             inputStyle={{ color: "white" }}
             inputContainerStyle={styles.inputContainerStyle}
             onChangeText={(value) =>
-              formDispatch({ type: EDIT_CONFIRM_PASSWORD, value: value })
+              formDispatch({
+                type: EDIT_FIELD,
+                value: value,
+                field: "confirmPassword",
+              })
             }
             errorMessage={formState.confirmPasswordError}
             secureTextEntry={true}
+            // ref={confirmPasswordInput}
           ></Input>
         )}
         <Button title="Login" onPress={authHandler}></Button>

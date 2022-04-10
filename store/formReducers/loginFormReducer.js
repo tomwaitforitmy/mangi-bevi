@@ -4,10 +4,7 @@ export const SET_EMAIL_ERROR = "SET_EMAIL_ERROR";
 export const SET_PASSWORD_ERROR = "SET_PASSWORD_ERROR";
 export const SET_CONFIRM_EMAIL_ERROR = "SET_CONFIRM_EMAIL_ERROR";
 export const SET_CONFIRM_PASSWORD_ERROR = "SET_CONFIRM_PASSWORD_ERROR";
-export const EDIT_EMAIL = "EDIT_EMAIL";
-export const EDIT_CONFIRM_EMAIL = "EDIT_CONFIRM_EMAIL";
-export const EDIT_PASSWORD = "EDIT_PASSWORD";
-export const EDIT_CONFIRM_PASSWORD = "EDIT_CONFIRM_PASSWORD";
+export const EDIT_FIELD = "EDIT_FIELD";
 
 export default function loginFormReducer(state, action) {
   if (action.type === SET_EMAIL_ERROR) {
@@ -38,35 +35,11 @@ export default function loginFormReducer(state, action) {
     };
   }
 
-  if (action.type === EDIT_EMAIL) {
+  if (action.type === EDIT_FIELD) {
     return {
       ...state,
-      email: action.value.trim(),
-      emailError: "",
-    };
-  }
-
-  if (action.type === EDIT_CONFIRM_EMAIL) {
-    return {
-      ...state,
-      confirmEmail: action.value.trim(),
-      confirmEmailError: "",
-    };
-  }
-
-  if (action.type === EDIT_PASSWORD) {
-    return {
-      ...state,
-      password: action.value.trim(),
-      passwordError: "",
-    };
-  }
-
-  if (action.type === EDIT_CONFIRM_PASSWORD) {
-    return {
-      ...state,
-      confirmPassword: action.value.trim(),
-      confirmPasswordError: "",
+      [action.field]: action.value.trim(),
+      [action.field + "Error"]: "",
     };
   }
 
