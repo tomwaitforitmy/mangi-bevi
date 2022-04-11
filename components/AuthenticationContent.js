@@ -33,12 +33,15 @@ function AuthenticationContent({ navigation, login }) {
   const [formState, formDispatch] = useReducer(loginFormReducer, initialState);
 
   const dispatch = useDispatch();
+  const emailInput = React.createRef();
+  const passwordInput = React.createRef();
 
   function isFormValid() {
     const validEmail =
       formState.email.includes("@") && formState.email.includes(".");
     if (!validEmail) {
       formDispatch({ type: SET_EMAIL_ERROR, error: "Invalid email." });
+      emailInput.current.shake();
     }
     const validPassword = formState.password.length > 5;
     if (!validPassword) {
@@ -46,6 +49,7 @@ function AuthenticationContent({ navigation, login }) {
         type: SET_PASSWORD_ERROR,
         error: "Please use at least 6 characters.",
       });
+      passwordInput.current.shake();
     }
 
     if (login) {
@@ -70,11 +74,6 @@ function AuthenticationContent({ navigation, login }) {
     return emailsAreEqual && passwordsAreEqual && validEmail && validPassword;
   }
 
-  // const emailInput = React.createRef();
-  // const confirmEmailInput = React.createRef();
-  // const passwordInput = React.createRef();
-  // const confirmPasswordInput = React.createRef();
-
   const authHandler = async () => {
     if (isFormValid()) {
       let action;
@@ -93,10 +92,6 @@ function AuthenticationContent({ navigation, login }) {
           "Please check your input and your internet connection!"
         );
         console.log(err);
-        // emailInput.current.setNativeProps({ value: formState.email });
-        // confirmEmailInput.current.setNativeProps({ value: "hello" });
-        // passwordInput.current.setNativeProps({ value: formState.password });
-        // confirmPasswordInput.current.setNativeProps({ value: "hello" });
         setIsLoading(false);
       }
     }
@@ -123,6 +118,8 @@ function AuthenticationContent({ navigation, login }) {
             }
             errorMessage={formState.emailError}
             errorStyle={{ color: "red" }}
+            value={formState.email}
+            ref={emailInput}
           ></Input>
           {!login && (
             <Input
@@ -138,7 +135,6 @@ function AuthenticationContent({ navigation, login }) {
                 })
               }
               errorMessage={formState.confirmEmailError}
-              // ref={confirmEmailInput}
             ></Input>
           )}
           <Input
@@ -155,7 +151,8 @@ function AuthenticationContent({ navigation, login }) {
             }
             errorMessage={formState.passwordError}
             secureTextEntry={true}
-            // ref={passwordInput}
+            value={formState.password}
+            ref={passwordInput}
           ></Input>
           {!login && (
             <Input
@@ -172,7 +169,6 @@ function AuthenticationContent({ navigation, login }) {
               }
               errorMessage={formState.confirmPasswordError}
               secureTextEntry={true}
-              // ref={confirmPasswordInput}
             ></Input>
           )}
           <MyButton onPress={authHandler}>
