@@ -1,7 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useReducer, useState } from "react";
-import { View, StyleSheet, Button, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -14,11 +13,10 @@ import loginFormReducer, {
   SET_EMAIL_ERROR,
   SET_PASSWORD_ERROR,
 } from "../store/formReducers/loginFormReducer";
+import MyButton from "./MyButton";
 
 function AuthenticationContent({ navigation, login }) {
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log("login var " + login);
 
   const initialState = {
     email: "",
@@ -171,21 +169,22 @@ function AuthenticationContent({ navigation, login }) {
             // ref={confirmPasswordInput}
           ></Input>
         )}
-        <Button
-          title={login ? "Login" : "Sign up"}
-          onPress={authHandler}
-        ></Button>
+        <MyButton onPress={authHandler}>{login ? "Login" : "Sign up"}</MyButton>
         {login && (
-          <Button
-            title="Creat new account"
+          <MyButton
+            style={styles.switchButton}
             onPress={() => navigation.replace("SignUpScreen")}
-          />
+          >
+            {"Creat new account"}
+          </MyButton>
         )}
         {!login && (
-          <Button
-            title="Login existing account"
+          <MyButton
+            style={styles.switchButton}
             onPress={() => navigation.replace("LoginScreen")}
-          />
+          >
+            {"Login existing account"}
+          </MyButton>
         )}
       </View>
     </LinearGradient>
@@ -195,6 +194,9 @@ function AuthenticationContent({ navigation, login }) {
 const styles = StyleSheet.create({
   inputContainerStyle: {
     borderBottomColor: "white",
+  },
+  switchButton: {
+    marginTop: 5,
   },
   innerContainer: {
     padding: 10,
