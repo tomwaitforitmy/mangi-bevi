@@ -14,6 +14,7 @@ import loginFormReducer, {
   SET_PASSWORD_ERROR,
 } from "../store/formReducers/loginFormReducer";
 import MyButton from "./MyButton";
+import MyKeyboardAvoidingViewOnScreenWithoutMaterial from "./MyKeyboardAvoidingViewOnScreenWithoutMaterial";
 
 function AuthenticationContent({ navigation, login }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -106,88 +107,96 @@ function AuthenticationContent({ navigation, login }) {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.second, Colors.primary]}
-      style={styles.gradient}
-    >
-      <View style={styles.innerContainer}>
-        <Input
-          placeholderTextColor="white"
-          placeholder="Email"
-          inputStyle={{ color: "white" }}
-          inputContainerStyle={styles.inputContainerStyle}
-          onChangeText={(value) =>
-            formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
-          }
-          errorMessage={formState.emailError}
-          errorStyle={{ color: "red" }}
-        ></Input>
-        {!login && (
+    <MyKeyboardAvoidingViewOnScreenWithoutMaterial>
+      <LinearGradient
+        colors={[Colors.second, Colors.primary]}
+        style={styles.gradient}
+      >
+        <View style={styles.innerContainer}>
           <Input
             placeholderTextColor="white"
-            placeholder="Confirm Email"
+            placeholder="Email"
             inputStyle={{ color: "white" }}
             inputContainerStyle={styles.inputContainerStyle}
             onChangeText={(value) =>
-              formDispatch({
-                type: EDIT_FIELD,
-                value: value,
-                field: "confirmEmail",
-              })
+              formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
             }
-            errorMessage={formState.confirmEmailError}
-            // ref={confirmEmailInput}
+            errorMessage={formState.emailError}
+            errorStyle={{ color: "red" }}
           ></Input>
-        )}
-        <Input
-          inputStyle={{ color: "white" }}
-          placeholderTextColor="white"
-          placeholder="Password"
-          inputContainerStyle={styles.inputContainerStyle}
-          onChangeText={(value) =>
-            formDispatch({ type: EDIT_FIELD, value: value, field: "password" })
-          }
-          errorMessage={formState.passwordError}
-          secureTextEntry={true}
-          // ref={passwordInput}
-        ></Input>
-        {!login && (
+          {!login && (
+            <Input
+              placeholderTextColor="white"
+              placeholder="Confirm Email"
+              inputStyle={{ color: "white" }}
+              inputContainerStyle={styles.inputContainerStyle}
+              onChangeText={(value) =>
+                formDispatch({
+                  type: EDIT_FIELD,
+                  value: value,
+                  field: "confirmEmail",
+                })
+              }
+              errorMessage={formState.confirmEmailError}
+              // ref={confirmEmailInput}
+            ></Input>
+          )}
           <Input
-            placeholderTextColor="white"
-            placeholder="Confirm Password"
             inputStyle={{ color: "white" }}
+            placeholderTextColor="white"
+            placeholder="Password"
             inputContainerStyle={styles.inputContainerStyle}
             onChangeText={(value) =>
               formDispatch({
                 type: EDIT_FIELD,
                 value: value,
-                field: "confirmPassword",
+                field: "password",
               })
             }
-            errorMessage={formState.confirmPasswordError}
+            errorMessage={formState.passwordError}
             secureTextEntry={true}
-            // ref={confirmPasswordInput}
+            // ref={passwordInput}
           ></Input>
-        )}
-        <MyButton onPress={authHandler}>{login ? "Login" : "Sign up"}</MyButton>
-        {login && (
-          <MyButton
-            style={styles.switchButton}
-            onPress={() => navigation.replace("SignUpScreen")}
-          >
-            {"Creat new account"}
+          {!login && (
+            <Input
+              placeholderTextColor="white"
+              placeholder="Confirm Password"
+              inputStyle={{ color: "white" }}
+              inputContainerStyle={styles.inputContainerStyle}
+              onChangeText={(value) =>
+                formDispatch({
+                  type: EDIT_FIELD,
+                  value: value,
+                  field: "confirmPassword",
+                })
+              }
+              errorMessage={formState.confirmPasswordError}
+              secureTextEntry={true}
+              // ref={confirmPasswordInput}
+            ></Input>
+          )}
+          <MyButton onPress={authHandler}>
+            {login ? "Login" : "Sign up"}
           </MyButton>
-        )}
-        {!login && (
-          <MyButton
-            style={styles.switchButton}
-            onPress={() => navigation.replace("LoginScreen")}
-          >
-            {"Login existing account"}
-          </MyButton>
-        )}
-      </View>
-    </LinearGradient>
+          {login && (
+            <MyButton
+              style={styles.switchButton}
+              onPress={() => navigation.replace("SignUpScreen")}
+            >
+              {"Creat new account"}
+            </MyButton>
+          )}
+          {!login && (
+            <MyButton
+              style={styles.switchButton}
+              onPress={() => navigation.replace("LoginScreen")}
+            >
+              {"Login existing account"}
+            </MyButton>
+          )}
+        </View>
+      </LinearGradient>
+    </MyKeyboardAvoidingViewOnScreenWithoutMaterial>
   );
 }
 
