@@ -179,7 +179,7 @@ function AuthenticationContent({ navigation, login }) {
               style={styles.switchButton}
               onPress={() => navigation.replace("SignUpScreen")}
             >
-              {"Creat new account"}
+              {"Create new account"}
             </MyButton>
           )}
           {!login && (
