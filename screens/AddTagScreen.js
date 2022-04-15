@@ -1,12 +1,5 @@
 import React, { useEffect, useLayoutEffect, useReducer } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Alert,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
 import * as tagActions from "../store/actions/tagsAction";
@@ -21,6 +14,7 @@ import Colors from "../constants/Colors";
 import { Divider, Icon, Input } from "react-native-elements";
 import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
+import MyButton from "../components/MyButton";
 
 function AddTagScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -185,7 +179,7 @@ function AddTagScreen({ route, navigation }) {
               formDispatch({ type: EDIT_TAG_TITLE, value })
             }
           ></Input>
-          <Button title="Create new tag" onPress={createTagHandler}></Button>
+          <MyButton onPress={createTagHandler}>{"Create new tag"}</MyButton>
         </View>
       </View>
     </MyKeyboardAvoidingView>

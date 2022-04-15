@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  Button,
   KeyboardAvoidingView,
   Platform,
   Dimensions,
@@ -43,6 +42,7 @@ import {
 } from "../store/formReducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
 import Colors from "../constants/Colors";
+import MyButton from "../components/MyButton";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -257,7 +257,7 @@ function NewScreen({ route, navigation }) {
             }}
           />
         )}
-        <Button title="Add image" onPress={pickImage}></Button>
+        <MyButton onPress={pickImage}>{"Add image"}</MyButton>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Ingredients</Text>
           {formState.ingredients.map((ingredient) => (
