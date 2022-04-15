@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
@@ -8,17 +8,14 @@ import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
 import loginFormReducer, {
   EDIT_FIELD,
-  SET_CONFIRM_EMAIL_ERROR,
-  SET_CONFIRM_PASSWORD_ERROR,
-  SET_EMAIL_ERROR,
-  SET_PASSWORD_ERROR,
+  SET_FIELD_ERROR,
+  LOADING,
+  SUBMITTED,
 } from "../store/formReducers/loginFormReducer";
 import MyButton from "./MyButton";
 import MyKeyboardAvoidingViewOnScreenWithoutMaterial from "./MyKeyboardAvoidingViewOnScreenWithoutMaterial";
 
 function AuthenticationContent({ navigation, login }) {
-  const [isLoading, setIsLoading] = useState(false);
-
   const initialState = {
     email: "",
     emailError: "",
@@ -40,13 +37,18 @@ function AuthenticationContent({ navigation, login }) {
     const validEmail =
       formState.email.includes("@") && formState.email.includes(".");
     if (!validEmail) {
-      formDispatch({ type: SET_EMAIL_ERROR, error: "Invalid email." });
+      formDispatch({
+        type: SET_FIELD_ERROR,
+        field: "email",
+        error: "Invalid email.",
+      });
       emailInput.current.shake();
     }
     const validPassword = formState.password.length > 5;
     if (!validPassword) {
       formDispatch({
-        type: SET_PASSWORD_ERROR,
+        type: SET_FIELD_ERROR,
+        field: "password",
         error: "Please use at least 6 characters.",
       });
       passwordInput.current.shake();
@@ -59,14 +61,16 @@ function AuthenticationContent({ navigation, login }) {
     const emailsAreEqual = formState.email === formState.confirmEmail;
     if (!emailsAreEqual) {
       formDispatch({
-        type: SET_CONFIRM_EMAIL_ERROR,
+        type: SET_FIELD_ERROR,
+        field: "confirmEmail",
         error: "Emails not equal.",
       });
     }
     const passwordsAreEqual = formState.password === formState.confirmPassword;
     if (!passwordsAreEqual) {
       formDispatch({
-        type: SET_CONFIRM_PASSWORD_ERROR,
+        type: SET_FIELD_ERROR,
+        field: "confirmPassword",
         error: "Passwords not equal.",
       });
     }
@@ -83,7 +87,7 @@ function AuthenticationContent({ navigation, login }) {
         action = authActions.signup(formState.email, formState.password);
       }
 
-      setIsLoading(true);
+      formDispatch({ type: LOADING });
       try {
         await dispatch(action);
       } catch (err) {
@@ -92,12 +96,12 @@ function AuthenticationContent({ navigation, login }) {
           "Please check your input and your internet connection!"
         );
         console.log(err);
-        setIsLoading(false);
+        formDispatch({ type: SUBMITTED });
       }
     }
   };
 
-  if (isLoading) {
+  if (formState.isLoading) {
     return <LoadingIndicator />;
   }
 
