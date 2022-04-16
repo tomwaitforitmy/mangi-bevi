@@ -22,6 +22,7 @@ import {
   LoadToken,
 } from "../common_functions/CredentialStorage";
 import AppLoading from "expo-app-loading";
+import { View } from "react-native";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -82,80 +83,83 @@ function MealsStackContainer({ route }) {
   const dispatch = useDispatch();
 
   return (
-    <MealsStack.Navigator screenOptions={defaultScreenOptions}>
-      <MealsStack.Screen
-        name="Meals"
-        component={MealsScreen}
-        options={({ navigation, route }) => ({
-          title: "  Mangi & Bevi",
-          headerLeft: () => (
-            <MaterialCommunityIcons
-              name={"noodles"}
-              size={25}
-              color={Colors.navigationIcon}
-            />
-          ),
-          headerRight: () => (
-            <Ionicons
-              name={"exit-outline"}
-              size={25}
-              color={Colors.navigationIcon}
-              onPress={() => {
-                dispatch(authActions.logout());
-              }}
-            />
-          ),
-        })}
-      />
-      <MealsStack.Screen
-        name="Details"
-        component={MealDetailScreen}
-        options={({ navigation, route }) => ({
-          title: route.params.mealTitle,
-          headerRight: () => (
-            <Icon
-              name={"create-outline"}
-              onPress={() =>
-                navigation.navigate("EditScreen", {
-                  mealId: route.params.mealId,
-                })
-              }
-              type="ionicon"
-              color={Colors.navigationIcon}
-            />
-          ),
-        })}
-      />
-      <MealsStack.Screen
-        name="EditScreen"
-        component={NewScreen}
-        options={{ title: "Edit Mangi / Bevi" }}
-      />
-      <MealsStack.Screen
-        name="ImagesScreen"
-        component={ImagesScreen}
-        options={({ navigation, route }) => ({
-          title: route.params.mealTitle,
-          headerRight: () => (
-            <Icon
-              name={"create-outline"}
-              onPress={() =>
-                navigation.navigate("EditScreen", {
-                  mealId: route.params.mealId,
-                })
-              }
-              type="ionicon"
-              color={Colors.navigationIcon}
-            />
-          ),
-        })}
-      />
-      <MealsStack.Screen
-        name="AddTagScreen"
-        component={AddTagScreen}
-        options={{ title: "Add Tag" }}
-      />
-    </MealsStack.Navigator>
+    // See https://stackoverflow.com/questions/70341930/screens-dont-render-on-material-bottom-tab-navigator-since-upgrading-to-expo-sd/70998392#comment127025978_70998392
+    <View style={{ flex: 1 }} collapsable={false}>
+      <MealsStack.Navigator screenOptions={defaultScreenOptions}>
+        <MealsStack.Screen
+          name="Meals"
+          component={MealsScreen}
+          options={({ navigation, route }) => ({
+            title: "  Mangi & Bevi",
+            headerLeft: () => (
+              <MaterialCommunityIcons
+                name={"noodles"}
+                size={25}
+                color={Colors.navigationIcon}
+              />
+            ),
+            headerRight: () => (
+              <Ionicons
+                name={"exit-outline"}
+                size={25}
+                color={Colors.navigationIcon}
+                onPress={() => {
+                  dispatch(authActions.logout());
+                }}
+              />
+            ),
+          })}
+        />
+        <MealsStack.Screen
+          name="Details"
+          component={MealDetailScreen}
+          options={({ navigation, route }) => ({
+            title: route.params.mealTitle,
+            headerRight: () => (
+              <Icon
+                name={"create-outline"}
+                onPress={() =>
+                  navigation.navigate("EditScreen", {
+                    mealId: route.params.mealId,
+                  })
+                }
+                type="ionicon"
+                color={Colors.navigationIcon}
+              />
+            ),
+          })}
+        />
+        <MealsStack.Screen
+          name="EditScreen"
+          component={NewScreen}
+          options={{ title: "Edit Mangi / Bevi" }}
+        />
+        <MealsStack.Screen
+          name="ImagesScreen"
+          component={ImagesScreen}
+          options={({ navigation, route }) => ({
+            title: route.params.mealTitle,
+            headerRight: () => (
+              <Icon
+                name={"create-outline"}
+                onPress={() =>
+                  navigation.navigate("EditScreen", {
+                    mealId: route.params.mealId,
+                  })
+                }
+                type="ionicon"
+                color={Colors.navigationIcon}
+              />
+            ),
+          })}
+        />
+        <MealsStack.Screen
+          name="AddTagScreen"
+          component={AddTagScreen}
+          options={{ title: "Add Tag" }}
+        />
+      </MealsStack.Navigator>
+    </View>
   );
 }
 
@@ -163,13 +167,15 @@ const FavoritesStack = createNativeStackNavigator();
 
 function FavoritesStackContainer({ route }) {
   return (
-    <FavoritesStack.Navigator screenOptions={defaultScreenOptions}>
-      <FavoritesStack.Screen
-        name="FavoritesScreen"
-        component={FavoritesScreen}
-        options={{ title: "Favorites" }}
-      />
-    </FavoritesStack.Navigator>
+    <View style={{ flex: 1 }} collapsable={false}>
+      <FavoritesStack.Navigator screenOptions={defaultScreenOptions}>
+        <FavoritesStack.Screen
+          name="FavoritesScreen"
+          component={FavoritesScreen}
+          options={{ title: "Favorites" }}
+        />
+      </FavoritesStack.Navigator>
+    </View>
   );
 }
 
@@ -196,13 +202,15 @@ const FiltersStack = createNativeStackNavigator();
 
 function FiltersStackContainer({ route }) {
   return (
-    <FiltersStack.Navigator screenOptions={defaultScreenOptions}>
-      <FiltersStack.Screen
-        name="FiltersScreen"
-        component={FiltersScreen}
-        options={{ title: "Filters" }}
-      />
-    </FiltersStack.Navigator>
+    <View style={{ flex: 1 }} collapsable={false}>
+      <FiltersStack.Navigator screenOptions={defaultScreenOptions}>
+        <FiltersStack.Screen
+          name="FiltersScreen"
+          component={FiltersScreen}
+          options={{ title: "Filters" }}
+        />
+      </FiltersStack.Navigator>
+    </View>
   );
 }
 
@@ -210,13 +218,15 @@ const NewMealStack = createNativeStackNavigator();
 
 function NewMealStackContainer({ route }) {
   return (
-    <NewMealStack.Navigator screenOptions={defaultScreenOptions}>
-      <NewMealStack.Screen
-        name="NewScreen"
-        component={NewScreen}
-        options={{ title: "New Mangi / Bevi" }}
-      />
-    </NewMealStack.Navigator>
+    <View style={{ flex: 1 }} collapsable={false}>
+      <NewMealStack.Navigator screenOptions={defaultScreenOptions}>
+        <NewMealStack.Screen
+          name="NewScreen"
+          component={NewScreen}
+          options={{ title: "New Mangi / Bevi" }}
+        />
+      </NewMealStack.Navigator>
+    </View>
   );
 }
 

@@ -1,4 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LogBox } from "react-native";
+
+// See https://stackoverflow.com/questions/55311228/how-to-remove-warning-async-storage-has-been-extracted-from-react-native-core
+LogBox.ignoreLogs([
+  `AsyncStorage has been extracted from react-native core and will be removed in a future release`,
+]);
 
 export const LoadToken = async () => {
   const tokenData = await AsyncStorage.getItem(TOKEN);
