@@ -2,7 +2,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import React from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 
-const MyKeyboardAvoidingView = ({ children }) => {
+const MyKeyboardAvoidingView = ({ children, extraOffset }) => {
   if (Platform.OS == "ios") {
     //as suggested in many places online adjust the vertical offset with the header height.
     const headerHeight = useHeaderHeight();
@@ -12,7 +12,7 @@ const MyKeyboardAvoidingView = ({ children }) => {
         style={styles.container}
         behavior={"padding"}
         //as suggested in many places online the magic 64 seems "ok"
-        keyboardVerticalOffset={headerHeight + 64}
+        keyboardVerticalOffset={headerHeight + extraOffset}
       >
         {children}
       </KeyboardAvoidingView>

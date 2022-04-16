@@ -14,6 +14,7 @@ import {
   Platform,
   Dimensions,
   Alert,
+  StatusBar,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealActions from "../store/actions/mealsAction";
@@ -43,6 +44,7 @@ import {
 import ImageSwipe from "../components/ImageSwipe";
 import Colors from "../constants/Colors";
 import MyButton from "../components/MyButton";
+import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -356,13 +358,9 @@ function NewScreen({ route, navigation }) {
       {Platform.OS === "android" ? (
         renderInputs()
       ) : (
-        <KeyboardAvoidingView
-          style={styles.screenContainer}
-          behavior={"padding"}
-          keyboardVerticalOffset={100}
-        >
+        <MyKeyboardAvoidingView extraOffset={StatusBar.currentHeight}>
           {renderInputs()}
-        </KeyboardAvoidingView>
+        </MyKeyboardAvoidingView>
       )}
     </View>
   );
