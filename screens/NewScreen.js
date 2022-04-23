@@ -213,9 +213,7 @@ function NewScreen({ route, navigation }) {
         {formState.imageUrls && formState.imageUrls.length > 0 && (
           <ImageSwipe
             images={formState.imageUrls}
-            width={width}
-            style={styles.image}
-            onCheckCallback={(index) => {
+            onCheckCallback={(url) => {
               Alert.alert(
                 "Make preview image?",
                 "Do you want to show this image as preview?",
@@ -225,7 +223,7 @@ function NewScreen({ route, navigation }) {
                     onPress: () => {
                       formDispatch({
                         type: CHANGE_PRIMARY_IMAGE,
-                        value: formState.imageUrls[index],
+                        value: url,
                       });
                     },
                   },
@@ -236,7 +234,7 @@ function NewScreen({ route, navigation }) {
                 ]
               );
             }}
-            onTrashCallback={(index) => {
+            onTrashCallback={(url) => {
               Alert.alert(
                 "Remove image?",
                 "Do you really want to delete this image?",
@@ -246,7 +244,7 @@ function NewScreen({ route, navigation }) {
                     onPress: () => {
                       formDispatch({
                         type: REMOVE_IMAGE,
-                        key: index,
+                        value: url,
                       });
                     },
                   },
@@ -369,10 +367,6 @@ function NewScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   list: {
     width: "100%",
-  },
-  image: {
-    width: "100%",
-    height: 200,
   },
   title: {
     fontSize: 22,

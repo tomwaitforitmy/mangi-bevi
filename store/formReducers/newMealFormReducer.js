@@ -194,7 +194,7 @@ export default function newMealFormReducer(state, action) {
 
   if (action.type === REMOVE_IMAGE) {
     const newImageUrls = state.imageUrls.filter(
-      (url, index) => index !== action.key
+      (url, index) => url !== action.value //just keeping index here to remind me how it works
     );
 
     //no image left, return default values

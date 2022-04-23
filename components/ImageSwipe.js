@@ -1,61 +1,43 @@
 import React from "react";
-import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { StyleSheet } from "react-native";
+import ImageViewer from "react-native-image-zoom-viewer";
+import LoadingIndicator from "./LoadingIndicator";
+import SwipeableImage from "./SwipeableImage";
 
 const ImageSwipe = (props) => {
+  const images = props.images.map((item, index) => {
+    var rObj = {};
+    rObj["url"] = item;
+    rObj["index"] = index;
+    return rObj;
+  });
+
+  const { onCheckCallback, onTrashCallback } = props;
+
   return (
-    <View style={{ ...styles.container, ...props.style }}>
-      <ScrollView
-        style={{ flex: 1 }}
-        horizontal={true}
-        decelerationRate="fast"
-        snapToInterval={props.width} //your element width
-        snapToAlignment={"center"}
-        pinchGestureEnabled={true}
-      >
-        {props.images &&
-          props.images.map((item, index) => (
-            <View
-              style={{ width: props.width, overflow: "hidden" }}
-              key={index}
-            >
-              <ImageBackground source={{ uri: item }} style={styles.image}>
-                <View style={styles.iconMenuView}>
-                  {props.onTrashCallback && (
-                    <Icon
-                      color="#ccc"
-                      reverse
-                      reverseColor="black"
-                      size={14}
-                      type="feather"
-                      name="trash"
-                      onPress={() => props.onTrashCallback(index)}
-                    />
-                  )}
-                  {props.onCheckCallback && (
-                    <Icon
-                      color="#ccc"
-                      reverse
-                      reverseColor="black"
-                      size={14}
-                      type="feather"
-                      name="check-circle"
-                      onPress={() => props.onCheckCallback(index)}
-                    />
-                  )}
-                </View>
-              </ImageBackground>
-            </View>
-          ))}
-      </ScrollView>
-    </View>
+    <ImageViewer
+      style={{ ...styles.container, ...props.style }}
+      imageUrls={images}
+      useNativeDriver={true}
+      loadingRender={() => <LoadingIndicator></LoadingIndicator>}
+      renderImage={(props) => (
+        <SwipeableImage
+          {...props}
+          onCheckCallback={onCheckCallback}
+          onTrashCallback={onTrashCallback}
+        />
+      )}
+      saveToLocalByLongPress={false}
+      backgroundColor={"grey"}
+    ></ImageViewer>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    minHeight: 200, //if removed, the height is 0 in new screen???
+    width: "100%",
     justifyContent: "center",
   },
   image: {

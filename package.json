@@ -26,6 +26,7 @@
     "react-native": "0.64.3",
     "react-native-elements": "^3.4.2",
     "react-native-hyperlink": "0.0.19",
+    "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
