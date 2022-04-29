@@ -6,10 +6,6 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 
-// const { width, height } = Dimensions.get("window");
-// const centerX = width / 2;
-// const centerY = height / 2;
-
 export const PinchToZoom = () => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -25,7 +21,6 @@ export const PinchToZoom = () => {
   const pan = Gesture.Pan().onChange(({ translationX, translationY }) => {
     translateX.value = translationX;
     translateY.value = translationY;
-    console.log("pan");
   });
   const pinch = Gesture.Pinch().onChange((event) => {
     scale.value = event.scale;

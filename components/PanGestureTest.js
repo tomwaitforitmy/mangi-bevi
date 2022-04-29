@@ -72,8 +72,8 @@ const PanGestureTest = (props) => {
       {...panResponder.panHandlers}
       source={{ uri: IMAGE_URI }}
       style={{
-        height: 200,
-        width: "90%",
+        height: 300,
+        width: "100%",
         borderRadius: 10,
         transform: [
           // or pan.getTranslateTransform()
