@@ -7,7 +7,7 @@ import { PinchToZoom } from "../components/PinchToZoom";
 function DevScreen({ navigation }) {
   return (
     // <View style={styles.container}>
-    <DragToSortCode></DragToSortCode>
+    <MovableElementContainer></MovableElementContainer>
     // </View>
   );
   // return <AnimatedTest></AnimatedTest>;
