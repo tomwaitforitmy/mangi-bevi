@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
+import { ELEMENT_HEIGHT } from "./Element";
 import MovableElement from "./MovableElement";
 
 const ELEMENTS = [
@@ -40,9 +41,23 @@ const ELEMENTS = [
     id: "8",
     title: "8 Zitronen",
   },
+  {
+    id: "9",
+    title: "2 Zitronen",
+  },
+  {
+    id: "10",
+    title: "Mehr Zitronen",
+  },
+  {
+    id: "11",
+    title: "Noch mehr Zitronen",
+  },
+  {
+    id: "12",
+    title: ":) Zitronen",
+  },
 ];
-
-const ELEMENT_HEIGHT = 100;
 
 function listToObject(list) {
   const values = Object.values(list);
@@ -63,31 +78,25 @@ export default function MovableElementContainer() {
 
   return (
     <View style={{ flex: 1 }}>
-      {ELEMENTS.map((e, i) => (
-        <MovableElement key={i} id={i} title={e.title} positions={positions} />
-      ))}
+      <Animated.ScrollView
+        style={{
+          flex: 1,
+          position: "relative",
+        }}
+        contentContainerStyle={{
+          height: ELEMENTS.length * ELEMENT_HEIGHT,
+          width: "100%",
+        }}
+      >
+        {ELEMENTS.map((e, i) => (
+          <MovableElement
+            key={i}
+            id={i}
+            title={e.title}
+            positions={positions}
+          />
+        ))}
+      </Animated.ScrollView>
     </View>
-
-    // <View style={{ flex: 1 }}>
-    //   <Animated.ScrollView
-    //     style={{
-    //       flex: 1,
-    //       position: "relative",
-    //       backgroundColor: "white",
-    //     }}
-    //     contentContainerStyle={{
-    //       height: ELEMENTS.length * (ELEMENT_HEIGHT + 2),
-    //     }}
-    //   >
-    //     {ELEMENTS.map((e) => (
-    //       <PressableElement
-    //         key={e.id}
-    //         id={e.id}
-    //         title={e.title}
-    //         positions={positions}
-    //       />
-    //     ))}
-    //   </Animated.ScrollView>
-    // </View>
   );
 }

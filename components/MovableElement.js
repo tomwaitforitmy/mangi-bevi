@@ -21,9 +21,9 @@ function MovableElement({ title, positions, id }) {
     const scale = withSpring(isGestureActive.value ? 1.1 : 1);
     return {
       position: "absolute",
-      top: 0,
+      top: top.value,
       left: 0,
-      width: "90%",
+      width: "100%",
       height: ELEMENT_HEIGHT,
       zIndex,
       transform: [
@@ -49,7 +49,7 @@ function MovableElement({ title, positions, id }) {
   return (
     <Animated.View style={animatedStyle}>
       <GestureDetector gesture={pan}>
-        <Animated.View style={{ width: "80%" }}>
+        <Animated.View style={{ width: "100%" }}>
           <Element title={title} />
         </Animated.View>
       </GestureDetector>
