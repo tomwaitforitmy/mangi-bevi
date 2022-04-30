@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import DragToSortCode from "../components/DragToSortCode";
 import MovableElementContainer from "../components/MovableElementContainer";
 import { PinchToZoom } from "../components/PinchToZoom";
 
-function FavoritesScreen({ navigation }) {
+function DevScreen({ navigation }) {
   return (
     // <View style={styles.container}>
-    <PinchToZoom></PinchToZoom>
+    <DragToSortCode></DragToSortCode>
     // </View>
   );
   // return <AnimatedTest></AnimatedTest>;
@@ -20,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FavoritesScreen;
+export default DevScreen;

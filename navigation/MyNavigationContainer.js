@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MealsScreen from "../screens/MealsScreen";
 import FiltersScreen from "../screens/FiltersScreen";
-import FavoritesScreen from "../screens/FavoritesScreen";
+import DevScreen from "../screens/DevScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import NewScreen from "../screens/NewScreen";
 import Colors from "../constants/Colors";
@@ -57,8 +57,8 @@ function AuthenticatedTabNavigator() {
             iconName = focused ? "ios-filter" : "ios-filter-outline";
           } else if (route.name === "New") {
             iconName = focused ? "ios-create" : "ios-create-outline";
-          } else if (route.name === "Favorites") {
-            iconName = focused ? "ios-star" : "ios-star-outline";
+          } else if (route.name === "Dev") {
+            iconName = focused ? "cafe" : "cafe-outline";
           }
 
           return <Ionicons name={iconName} size={25} color={color} />;
@@ -68,9 +68,7 @@ function AuthenticatedTabNavigator() {
       })}
     >
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
-      {false && (
-        <Tab.Screen name="Favorites" component={FavoritesStackContainer} />
-      )}
+      {true && <Tab.Screen name="Dev" component={DevStackContainer} />}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
     </Tab.Navigator>
@@ -163,18 +161,18 @@ function MealsStackContainer({ route }) {
   );
 }
 
-const FavoritesStack = createNativeStackNavigator();
+const DevStack = createNativeStackNavigator();
 
-function FavoritesStackContainer({ route }) {
+function DevStackContainer({ route }) {
   return (
     <View style={{ flex: 1 }} collapsable={false}>
-      <FavoritesStack.Navigator screenOptions={defaultScreenOptions}>
-        <FavoritesStack.Screen
-          name="FavoritesScreen"
-          component={FavoritesScreen}
-          options={{ title: "Favorites" }}
+      <DevStack.Navigator screenOptions={defaultScreenOptions}>
+        <DevStack.Screen
+          name="DevScreem"
+          component={DevScreen}
+          options={{ title: "Dev" }}
         />
-      </FavoritesStack.Navigator>
+      </DevStack.Navigator>
     </View>
   );
 }
