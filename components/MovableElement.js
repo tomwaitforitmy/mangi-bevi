@@ -16,8 +16,10 @@ import {
   getPositionY,
 } from "./MovableElementContainerConfig";
 
-function MovableElement({ title, positions, id, totalElements }) {
+function MovableElement({ title, positions, id, numberOfElements }) {
   const isGestureActive = useSharedValue(false);
+
+  console.log(numberOfElements);
 
   const offetsetY = useSharedValue(getPositionY(positions.value[id]));
 
@@ -43,7 +45,6 @@ function MovableElement({ title, positions, id, totalElements }) {
 
   const pan = Gesture.Pan().onChange(
     ({ translationX, translationY, absoluteY }) => {
-      // translateX.value = translationX;
       translateY.value = offetsetY.value + translationY;
     }
   );
@@ -63,7 +64,7 @@ function MovableElement({ title, positions, id, totalElements }) {
     const newPosition = getNewPosition(
       positions.value[id],
       translatePositions,
-      13 //todo: not working to pass value here!?
+      numberOfElements //todo: not working to pass value here!?
     );
 
     console.log("new pos");

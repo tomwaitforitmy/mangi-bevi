@@ -76,6 +76,8 @@ export default function MovableElementContainer() {
 
   console.log(myObjs);
 
+  const maxPosition = ELEMENTS.length - 1;
+
   return (
     <View style={{ flex: 1 }}>
       <Animated.ScrollView
@@ -94,7 +96,7 @@ export default function MovableElementContainer() {
             id={i}
             title={e.title}
             positions={positions}
-            totalElements={ELEMENTS.length}
+            numberOfElements={maxPosition}
           />
         ))}
       </Animated.ScrollView>
