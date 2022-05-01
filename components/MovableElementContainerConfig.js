@@ -34,24 +34,21 @@ export const getNewPosition = (
   maxPosition
 ) => {
   // "worklet";
-  const newPos = oldPosition + positionTranslationY;
-  // console.log("newPos");
-  // console.log(newPos);
+  const newPos = positionTranslationY;
+  console.log("newPos");
+  console.log(newPos);
 
-  if (positionTranslationY < 0) {
-    return Math.max(0, newPos);
-  } else if (positionTranslationY > 0) {
-    return Math.min(maxPosition, newPos);
-  } else {
-    return oldPosition; //no change
-  }
+  const result = Math.max(0, Math.min(newPos, maxPosition));
+  console.log("result");
+  console.log(result);
+  return result;
 };
 
 export const getPositionTranslationY = (translationY) => {
-  // "worklet";
+  "worklet";
   const positionTranslationY = Math.round(translationY / ELEMENT_HEIGHT);
-  console.log("positionTranslationY");
-  console.log(positionTranslationY);
+  // console.log("positionTranslationY");
+  // console.log(positionTranslationY);
   return positionTranslationY;
 };
 

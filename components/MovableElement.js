@@ -59,14 +59,17 @@ function MovableElement({ title, positions, id, numberOfElements }) {
 
       const translatePositions = getPositionTranslationY(translationY);
 
+      // console.log("positions.value[id]");
+      // console.log(positions.value);
+
       const newPosition = getNewPosition(
         positions.value[id],
         translatePositions,
         Object.keys(positions.value).length - 1
       );
 
-      console.log("newPosition");
-      console.log(newPosition);
+      // console.log("newPosition");
+      // console.log(newPosition);
 
       // 2. We swap the positions
       if (newPosition !== positions.value[id]) {

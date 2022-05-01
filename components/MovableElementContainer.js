@@ -7,43 +7,43 @@ import { ELEMENT_HEIGHT } from "./MovableElementContainerConfig";
 const ELEMENTS = [
   {
     id: "0",
-    title: "Tomaten, frisch und gewaschen",
+    title: "0",
   },
   {
     id: "1",
-    title: "Zwiebeln, gehackt",
+    title: "1",
   },
   {
     id: "2",
-    title: "Knoblauch, zerdrückt",
+    title: "2",
   },
   {
     id: "3",
-    title: "Karotten, geschält und gehackt",
+    title: "3",
   },
   {
     id: "4",
-    title: "Paprika, in Stücken",
+    title: "4",
   },
   {
     id: "5",
-    title: "Salz und Pfeffer",
+    title: "5",
   },
   {
     id: "6",
-    title: "1 Zitrone",
+    title: "6",
   },
   {
     id: "7",
-    title: "3 Zitronen",
+    title: "7",
   },
   {
     id: "8",
-    title: "8 Zitronen",
+    title: "8",
   },
   {
     id: "9",
-    title: "2 Zitronen",
+    title: "9",
   },
   // {
   //   id: "10",
