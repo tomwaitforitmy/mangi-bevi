@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
-import { ELEMENT_HEIGHT } from "./Element";
 import MovableElement from "./MovableElement";
+import { ELEMENT_HEIGHT } from "./MovableElementContainerConfig";
 
 const ELEMENTS = [
   {
@@ -45,18 +45,18 @@ const ELEMENTS = [
     id: "9",
     title: "2 Zitronen",
   },
-  {
-    id: "10",
-    title: "Mehr Zitronen",
-  },
-  {
-    id: "11",
-    title: "Noch mehr Zitronen",
-  },
-  {
-    id: "12",
-    title: ":) Zitronen",
-  },
+  // {
+  //   id: "10",
+  //   title: "Mehr Zitronen",
+  // },
+  // {
+  //   id: "11",
+  //   title: "Noch mehr Zitronen",
+  // },
+  // {
+  //   id: "12",
+  //   title: ":) Zitronen",
+  // },
 ];
 
 function listToObject(list) {
@@ -94,6 +94,7 @@ export default function MovableElementContainer() {
             id={i}
             title={e.title}
             positions={positions}
+            totalElements={ELEMENTS.length}
           />
         ))}
       </Animated.ScrollView>
