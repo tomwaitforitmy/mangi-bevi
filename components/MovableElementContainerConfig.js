@@ -11,13 +11,32 @@ export const animationConfig = {
   duration: 350,
 };
 
+export function objectMove(object, from, to) {
+  "worklet";
+  const newObject = Object.assign({}, object);
+
+  for (const id in object) {
+    if (object[id] === from) {
+      newObject[id] = to;
+    }
+
+    if (object[id] === to) {
+      newObject[id] = from;
+    }
+  }
+
+  return newObject;
+}
+
 export const getNewPosition = (
   oldPosition,
   positionTranslationY,
   maxPosition
 ) => {
-  "worklet";
+  // "worklet";
   const newPos = oldPosition + positionTranslationY;
+  // console.log("newPos");
+  // console.log(newPos);
 
   if (positionTranslationY < 0) {
     return Math.max(0, newPos);
@@ -29,8 +48,11 @@ export const getNewPosition = (
 };
 
 export const getPositionTranslationY = (translationY) => {
-  "worklet";
-  return Math.round(translationY / ELEMENT_HEIGHT);
+  // "worklet";
+  const positionTranslationY = Math.round(translationY / ELEMENT_HEIGHT);
+  console.log("positionTranslationY");
+  console.log(positionTranslationY);
+  return positionTranslationY;
 };
 
 export const getPositionY = (position) => {

@@ -3,6 +3,7 @@ import Element from "./Element";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -14,16 +15,27 @@ import {
   getNewPosition,
   getPositionTranslationY,
   getPositionY,
+  objectMove,
 } from "./MovableElementContainerConfig";
 
 function MovableElement({ title, positions, id, numberOfElements }) {
   const isGestureActive = useSharedValue(false);
-
-  console.log(numberOfElements);
-
   const offetsetY = useSharedValue(getPositionY(positions.value[id]));
-
   const translateY = useSharedValue(getPositionY(positions.value[id]));
+
+  useAnimatedReaction(
+    () => positions.value[id],
+    (currentPosition, previousPosition) => {
+      if (currentPosition !== previousPosition) {
+        if (!isGestureActive.value) {
+          translateY.value = withSpring(
+            getPositionY(currentPosition),
+            animationConfig
+          );
+        }
+      }
+    }
+  );
 
   const animatedStyle = useAnimatedStyle(() => {
     const zIndex = isGestureActive.value ? 100 : 0;
@@ -46,6 +58,26 @@ function MovableElement({ title, positions, id, numberOfElements }) {
   const pan = Gesture.Pan().onChange(
     ({ translationX, translationY, absoluteY }) => {
       translateY.value = offetsetY.value + translationY;
+
+      const translatePositions = getPositionTranslationY(translationY);
+
+      const newPosition = getNewPosition(
+        positions.value[id],
+        translatePositions,
+        Object.keys(positions.value).length - 1
+      );
+
+      // console.log("newPosition");
+      // console.log(newPosition);
+
+      // 2. We swap the positions
+      if (newPosition !== positions.value[id]) {
+        positions.value = objectMove(
+          positions.value,
+          positions.value[id],
+          newPosition
+        );
+      }
     }
   );
 
@@ -57,26 +89,10 @@ function MovableElement({ title, positions, id, numberOfElements }) {
   });
 
   pan.onEnd(({ translationX, translationY, absoluteY }) => {
-    const translatePositions = getPositionTranslationY(translationY);
-    console.log("prev pos");
-    console.log(positions.value[id]);
-
-    const newPosition = getNewPosition(
-      positions.value[id],
-      translatePositions,
-      numberOfElements //todo: not working to pass value here!?
-    );
-
-    console.log("new pos");
-    console.log(newPosition);
-    console.log("new posY");
-    const posY = getPositionY(newPosition);
-    console.log(posY);
+    const posY = getPositionY(positions.value[id]);
 
     offetsetY.value = withSpring(posY);
     translateY.value = withSpring(posY);
-
-    // positions.value[id].value = newPosition;
 
     isGestureActive.value = false;
   });
