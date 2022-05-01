@@ -28,10 +28,8 @@ function MovableElement({ title, positions, id, numberOfElements }) {
     (currentPosition, previousPosition) => {
       if (currentPosition !== previousPosition) {
         if (!isGestureActive.value) {
-          translateY.value = withSpring(
-            getPositionY(currentPosition),
-            animationConfig
-          );
+          translateY.value = withSpring(getPositionY(currentPosition));
+          offetsetY.value = getPositionY(currentPosition);
         }
       }
     }
@@ -67,8 +65,8 @@ function MovableElement({ title, positions, id, numberOfElements }) {
         Object.keys(positions.value).length - 1
       );
 
-      // console.log("newPosition");
-      // console.log(newPosition);
+      console.log("newPosition");
+      console.log(newPosition);
 
       // 2. We swap the positions
       if (newPosition !== positions.value[id]) {
@@ -82,16 +80,13 @@ function MovableElement({ title, positions, id, numberOfElements }) {
   );
 
   pan.onStart((event) => {
-    const offset = getPositionY(positions.value[id]);
-    console.log(offset);
-    translateY.value = offset;
     isGestureActive.value = true;
   });
 
   pan.onEnd(({ translationX, translationY, absoluteY }) => {
     const posY = getPositionY(positions.value[id]);
 
-    offetsetY.value = withSpring(posY);
+    offetsetY.value = posY;
     translateY.value = withSpring(posY);
 
     isGestureActive.value = false;
