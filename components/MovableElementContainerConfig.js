@@ -4,7 +4,7 @@ export const ELEMENT_HEIGHT = 60;
 
 export const animationConfig = {
   easing: Easing.inOut(Easing.ease),
-  duration: 350,
+  duration: 150,
 };
 
 export function objectMove(object, from, to) {

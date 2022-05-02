@@ -33,7 +33,10 @@ function MovableElement({ title, positions, id }) {
         if (!isGestureActive.value) {
           //only if this element is not getting touched
           //update the translation with a nice animation
-          translateY.value = withSpring(getPositionY(currentPosition));
+          translateY.value = withSpring(
+            getPositionY(currentPosition),
+            animationConfig
+          );
           //offset is not used for animations, but we need it as start point for new gestures
           offsetY.value = getPositionY(currentPosition);
         }
@@ -43,7 +46,7 @@ function MovableElement({ title, positions, id }) {
 
   const animatedStyle = useAnimatedStyle(() => {
     const zIndex = isGestureActive.value ? 1 : 0;
-    const scale = withSpring(isGestureActive.value ? 1.05 : 1);
+    const scale = withSpring(isGestureActive.value ? 1.05 : 1, animationConfig);
     return {
       position: "absolute",
       top: 0,
@@ -94,7 +97,7 @@ function MovableElement({ title, positions, id }) {
   pan.onEnd((event) => {
     //Animated to the final position
     const posY = getPositionY(positions.value[id]);
-    translateY.value = withSpring(posY);
+    translateY.value = withSpring(posY, animationConfig);
     //update the offset for new gestures
     offsetY.value = posY;
 
