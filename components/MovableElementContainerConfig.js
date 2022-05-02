@@ -28,20 +28,35 @@ export function objectMove(object, from, to) {
   return newObject;
 }
 
+export const clamp = (value, lowerBound, upperBound) => {
+  "worklet";
+  return Math.max(lowerBound, Math.min(value, upperBound));
+};
+
 export const getNewPosition = (
   oldPosition,
   positionTranslationY,
   maxPosition
 ) => {
   // "worklet";
-  const newPos = positionTranslationY;
-  console.log("newPos");
-  console.log(newPos);
+  if (positionTranslationY > 0) {
+    return Math.min(maxPosition, positionTranslationY);
+  } else {
+    //todo: It is somewhere here ...
+    console.log("oldPosition");
+    console.log(oldPosition);
+    console.log(positionTranslationY);
+    console.log(oldPosition + positionTranslationY);
+    return Math.max(0, oldPosition + positionTranslationY);
+  }
+};
 
-  const result = Math.max(0, Math.min(newPos, maxPosition));
-  console.log("result");
-  console.log(result);
-  return result;
+export const getPositionId = (absoluteY) => {
+  // "worklet";
+  const positionId = Math.round(absoluteY / ELEMENT_HEIGHT);
+  console.log("positionId");
+  console.log(positionId);
+  return positionId;
 };
 
 export const getPositionTranslationY = (translationY) => {

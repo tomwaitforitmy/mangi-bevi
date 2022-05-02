@@ -11,8 +11,10 @@ import Animated, {
 } from "react-native-reanimated";
 import {
   animationConfig,
+  clamp,
   ELEMENT_HEIGHT,
   getNewPosition,
+  getPositionId,
   getPositionTranslationY,
   getPositionY,
   objectMove,
@@ -57,26 +59,26 @@ function MovableElement({ title, positions, id, numberOfElements }) {
     ({ translationX, translationY, absoluteY }) => {
       translateY.value = offetsetY.value + translationY;
 
-      const translatePositions = getPositionTranslationY(translationY);
+      const newPositionId = getPositionId(translateY.value);
 
       // console.log("positions.value[id]");
       // console.log(positions.value);
 
-      const newPosition = getNewPosition(
-        positions.value[id],
-        translatePositions,
+      const newPositionCandidate = clamp(
+        newPositionId,
+        0,
         Object.keys(positions.value).length - 1
       );
 
-      // console.log("newPosition");
-      // console.log(newPosition);
+      console.log("newPositionCandidate");
+      console.log(newPositionCandidate);
 
       // 2. We swap the positions
-      if (newPosition !== positions.value[id]) {
+      if (newPositionCandidate !== positions.value[id]) {
         positions.value = objectMove(
           positions.value,
           positions.value[id],
-          newPosition
+          newPositionCandidate
         );
       }
     }
