@@ -8,12 +8,14 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import {
-  animationConfig,
   clamp,
-  ELEMENT_HEIGHT,
   getPositionId,
   getPositionY,
   moveElement,
+} from "./MovableElementContainerUtil";
+import {
+  animationConfig,
+  ELEMENT_HEIGHT,
 } from "./MovableElementContainerConfig";
 
 function MovableElement({ title, positions, id }) {

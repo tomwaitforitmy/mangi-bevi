@@ -2,11 +2,8 @@ import React from "react";
 import { View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import MovableElement from "./MovableElement";
-import {
-  ELEMENTS,
-  ELEMENT_HEIGHT,
-  listToPositions,
-} from "./MovableElementContainerConfig";
+import { ELEMENTS, ELEMENT_HEIGHT } from "./MovableElementContainerConfig";
+import { listToPositions } from "./MovableElementContainerUtil";
 
 export default function MovableElementContainer() {
   const positionObject = listToPositions(ELEMENTS);
