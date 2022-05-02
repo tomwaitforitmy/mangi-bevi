@@ -6,7 +6,6 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  withTiming,
 } from "react-native-reanimated";
 import {
   animationConfig,
@@ -14,7 +13,7 @@ import {
   ELEMENT_HEIGHT,
   getPositionId,
   getPositionY,
-  objectMove,
+  moveElement,
 } from "./MovableElementContainerConfig";
 
 function MovableElement({ title, positions, id }) {
@@ -54,11 +53,7 @@ function MovableElement({ title, positions, id }) {
       width: "100%",
       height: ELEMENT_HEIGHT,
       zIndex,
-      transform: [
-        { translateX: 0 },
-        { translateY: translateY.value },
-        { scale },
-      ],
+      transform: [{ translateY: translateY.value }, { scale }],
     };
   });
 
@@ -81,7 +76,7 @@ function MovableElement({ title, positions, id }) {
 
       // Swap the positions if needed
       if (newPositionCandidate !== positions.value[id]) {
-        positions.value = objectMove(
+        positions.value = moveElement(
           positions.value,
           positions.value[id],
           newPositionCandidate
@@ -100,7 +95,6 @@ function MovableElement({ title, positions, id }) {
     translateY.value = withSpring(posY, animationConfig);
     //update the offset for new gestures
     offsetY.value = posY;
-
     isGestureActive.value = false;
   });
 
