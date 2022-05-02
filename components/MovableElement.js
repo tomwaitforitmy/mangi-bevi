@@ -104,7 +104,7 @@ function MovableElement({ title, positions, id }) {
   return (
     <Animated.View style={animatedStyle}>
       <GestureDetector gesture={pan}>
-        <Animated.View style={{ width: "100%" }}>
+        <Animated.View style={{ width: "90%" }}>
           <Element title={title} />
         </Animated.View>
       </GestureDetector>

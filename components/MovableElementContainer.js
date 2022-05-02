@@ -35,7 +35,9 @@ const ELEMENTS = [
   },
   {
     id: "7",
-    title: "Tomaten mit viel Basilikum",
+    title:
+      "Tomaten mit viel Basilikum, ... Tomaten mit viel Basilikum \
+      Tomaten mit viel Basilikum, Tomaten mit viel Basilikum",
   },
   {
     id: "8",
