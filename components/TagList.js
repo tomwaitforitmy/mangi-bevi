@@ -56,7 +56,7 @@ const TagList = (props) => {
             iconRight
             onPress={() => onPressTagHandler(tag)}
             onLongPress={() => onLongPressTagHandler(tag)}
-            color={Colors.primary}
+            buttonStyle={{ backgroundColor: Colors.primary }}
           />
         </View>
       ))}
