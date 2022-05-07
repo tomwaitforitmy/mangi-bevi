@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Chip, Icon } from "react-native-elements";
+import Colors from "../constants/Colors";
 
 const TagList = (props) => {
   let useIcon = false;
@@ -47,14 +48,15 @@ const TagList = (props) => {
 
   return (
     <View style={styles.tagsContainer}>
-      {props.tags.map((tag) => (
-        <View key={Math.random()} style={styles.tag}>
+      {props.tags.map((tag, index) => (
+        <View key={index} style={styles.tag}>
           <Chip
             title={tag.title}
             icon={closeIcon(tag)}
             iconRight
             onPress={() => onPressTagHandler(tag)}
             onLongPress={() => onLongPressTagHandler(tag)}
+            color={Colors.primary}
           />
         </View>
       ))}
