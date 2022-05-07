@@ -2,12 +2,14 @@ import React from "react";
 import { View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import MovableElement from "./MovableElement";
-import { ELEMENTS, ELEMENT_HEIGHT } from "./MovableElementContainerConfig";
-import { listToPositions } from "./MovableElementContainerUtil";
+import { ELEMENTS } from "./MovableElementContainerConfig";
+import { getTotalSize, listToPositions } from "./MovableElementContainerUtil";
 
 export default function MovableElementContainer() {
   const positionObject = listToPositions(ELEMENTS);
+  console.log("positionObject", positionObject);
   const positions = useSharedValue(positionObject);
+  const totalSize = getTotalSize(ELEMENTS);
 
   return (
     <View style={{ flex: 1 }}>
@@ -15,9 +17,10 @@ export default function MovableElementContainer() {
         style={{
           flex: 1,
           position: "relative",
+          backgroundColor: "red",
         }}
         contentContainerStyle={{
-          height: ELEMENTS.length * ELEMENT_HEIGHT,
+          height: totalSize,
           width: "100%",
         }}
       >
@@ -27,6 +30,8 @@ export default function MovableElementContainer() {
             id={i}
             title={e.title}
             positions={positions}
+            size={e.size}
+            totalSize={totalSize}
           />
         ))}
       </Animated.ScrollView>

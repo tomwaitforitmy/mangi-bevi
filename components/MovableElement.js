@@ -11,19 +11,18 @@ import {
   clamp,
   getPositionId,
   getPositionY,
+  getTotalSize,
   moveElement,
+  sortedIndex,
 } from "./MovableElementContainerUtil";
-import {
-  animationConfig,
-  ELEMENT_HEIGHT,
-} from "./MovableElementContainerConfig";
+import { animationConfig } from "./MovableElementContainerConfig";
 
-function MovableElement({ title, positions, id }) {
+function MovableElement({ title, positions, id, size, totalSize }) {
   const isGestureActive = useSharedValue(false);
   //starting point for incoming gestures
-  const offsetY = useSharedValue(getPositionY(positions.value[id]));
+  const offsetY = useSharedValue(positions.value[id]);
   //translation applied to the element while moving
-  const translateY = useSharedValue(getPositionY(positions.value[id]));
+  const translateY = useSharedValue(positions.value[id]);
 
   //this reaction changes the position of elements, that are not touched
   useAnimatedReaction(
@@ -34,12 +33,9 @@ function MovableElement({ title, positions, id }) {
         if (!isGestureActive.value) {
           //only if this element is not getting touched
           //update the translation with a nice animation
-          translateY.value = withSpring(
-            getPositionY(currentPosition),
-            animationConfig
-          );
+          translateY.value = withSpring(currentPosition, animationConfig);
           //offset is not used for animations, but we need it as start point for new gestures
-          offsetY.value = getPositionY(currentPosition);
+          offsetY.value = currentPosition;
         }
       }
     }
@@ -53,7 +49,7 @@ function MovableElement({ title, positions, id }) {
       top: 0,
       left: 0,
       width: "100%",
-      height: ELEMENT_HEIGHT,
+      height: size,
       zIndex,
       transform: [{ translateY: translateY.value }, { scale }],
     };
@@ -67,7 +63,12 @@ function MovableElement({ title, positions, id }) {
       translateY.value = offsetY.value + translationY;
 
       //get the position Id based on movement
-      const newPositionId = getPositionId(translateY.value);
+      const newPositionId = sortedIndex(
+        Object.values(positions.value),
+        translateY.value
+      );
+      // console.log("newPositionId", newPositionId);
+      // console.log("positions.value[id]", positions.value[id]);
 
       //remove values out of range
       const newPositionCandidate = clamp(
@@ -93,7 +94,7 @@ function MovableElement({ title, positions, id }) {
 
   pan.onEnd((event) => {
     //Animated to the final position
-    const posY = getPositionY(positions.value[id]);
+    const posY = positions.value[id];
     translateY.value = withSpring(posY, animationConfig);
     //update the offset for new gestures
     offsetY.value = posY;

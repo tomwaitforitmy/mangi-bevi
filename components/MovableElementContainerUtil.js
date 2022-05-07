@@ -1,18 +1,26 @@
-import { ELEMENT_HEIGHT } from "./MovableElementContainerConfig";
-
 export const listToPositions = (list) => {
   const values = Object.values(list);
   const positions = {};
+  let position = 0;
 
   for (let i = 0; i < values.length; i++) {
-    positions[values[i].id] = i;
+    positions[values[i].id] = position;
+    position += values[i].size;
   }
 
   return positions;
 };
 
+export const getTotalSize = (elements) => {
+  let totalSize = 0;
+  elements.forEach((element) => {
+    totalSize += element.size;
+  });
+  return totalSize;
+};
+
 export const moveElement = (element, from, to) => {
-  "worklet";
+  // "worklet";
   const newObject = Object.assign({}, element);
 
   for (const id in element) {
@@ -25,6 +33,8 @@ export const moveElement = (element, from, to) => {
     }
   }
 
+  console.log("newObject", newObject);
+
   return newObject;
 };
 
@@ -35,12 +45,24 @@ export const clamp = (value, lowerBound, upperBound) => {
 
 export const getPositionId = (absoluteY) => {
   "worklet";
-  const positionId = Math.round(absoluteY / ELEMENT_HEIGHT);
+  const positionId = Math.round(absoluteY / 60);
   return positionId;
 };
 
+export function sortedIndex(array, value) {
+  var low = 0,
+    high = array.length;
+
+  while (low < high) {
+    var mid = (low + high) >>> 1;
+    if (array[mid] < value) low = mid + 1;
+    else high = mid;
+  }
+  return low;
+}
+
 export const getPositionY = (position) => {
   "worklet";
-  const y = position * ELEMENT_HEIGHT;
+  const y = position * 60;
   return y;
 };
