@@ -3,12 +3,15 @@ import { View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import MovableElement from "./MovableElement";
 import { ELEMENTS } from "./MovableElementContainerConfig";
-import { getTotalSize, listToPositions } from "./MovableElementContainerUtil";
+import {
+  CreateMovableDataArray,
+  getTotalSize,
+  listToPositions,
+} from "./MovableElementContainerUtil";
 
 export default function MovableElementContainer() {
-  const positionObject = listToPositions(ELEMENTS);
-  console.log("positionObject", positionObject);
-  const positions = useSharedValue(positionObject);
+  const dataArray = CreateMovableDataArray(ELEMENTS);
+  const positions = useSharedValue(dataArray);
   const totalSize = getTotalSize(ELEMENTS);
 
   return (
@@ -24,15 +27,8 @@ export default function MovableElementContainer() {
           width: "100%",
         }}
       >
-        {ELEMENTS.map((e, i) => (
-          <MovableElement
-            key={i}
-            id={i}
-            title={e.title}
-            positions={positions}
-            size={e.size}
-            totalSize={totalSize}
-          />
+        {positions.value.map((e, i) => (
+          <MovableElement key={i} data={e} positions={positions} />
         ))}
       </Animated.ScrollView>
     </View>

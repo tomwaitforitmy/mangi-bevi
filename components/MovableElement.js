@@ -14,19 +14,22 @@ import {
   getTotalSize,
   moveElement,
   sortedIndex,
+  swapElement,
 } from "./MovableElementContainerUtil";
 import { animationConfig } from "./MovableElementContainerConfig";
 
-function MovableElement({ title, positions, id, size, totalSize }) {
+function MovableElement({ data, positions }) {
   const isGestureActive = useSharedValue(false);
+
+  const pos = data.position;
   //starting point for incoming gestures
-  const offsetY = useSharedValue(positions.value[id]);
+  const offsetY = useSharedValue(pos);
   //translation applied to the element while moving
-  const translateY = useSharedValue(positions.value[id]);
+  const translateY = useSharedValue(pos);
 
   //this reaction changes the position of elements, that are not touched
   useAnimatedReaction(
-    () => positions.value[id], //listen to value[id] for changes made by gesture
+    () => data.position, //listen to value[id] for changes made by gesture
     (currentPosition, previousPosition) => {
       if (currentPosition !== previousPosition) {
         //only if there is change in position
@@ -49,7 +52,7 @@ function MovableElement({ title, positions, id, size, totalSize }) {
       top: 0,
       left: 0,
       width: "100%",
-      height: size,
+      height: data.height,
       zIndex,
       transform: [{ translateY: translateY.value }, { scale }],
     };
@@ -64,26 +67,35 @@ function MovableElement({ title, positions, id, size, totalSize }) {
 
       //get the position Id based on movement
       const newPositionId = sortedIndex(
-        Object.values(positions.value),
+        positions.value.map((e) => e.threshold),
         translateY.value
       );
-      // console.log("newPositionId", newPositionId);
-      // console.log("positions.value[id]", positions.value[id]);
 
       //remove values out of range
-      const newPositionCandidate = clamp(
+      const newOrderCandidate = clamp(
         newPositionId,
         0,
         Object.keys(positions.value).length - 1
       );
 
+      // console.log("newOrderCandidate", newOrderCandidate);
+      // console.log("positions.value[id].order", positions.value[id].order);
+      // console.log("positions.value[id].position", positions.value[id].position);
+      // console.log("id", id);
+
       // Swap the positions if needed
-      if (newPositionCandidate !== positions.value[id]) {
-        positions.value = moveElement(
-          positions.value,
-          positions.value[id],
-          newPositionCandidate
-        );
+      if (newOrderCandidate !== data.order) {
+        const to = positions.value.find((e) => e.order === newOrderCandidate);
+        // console.log("to", to);
+        positions.value = swapElement(positions.value, data, to);
+
+        console.log("positions.value", positions.value);
+
+        // const newTo = positions.value.find(
+        //   (e) => e.order === newOrderCandidate
+        // );
+        // console.log("newTo", newTo);
+        // console.log("data", data);
       }
     }
   );
@@ -94,7 +106,7 @@ function MovableElement({ title, positions, id, size, totalSize }) {
 
   pan.onEnd((event) => {
     //Animated to the final position
-    const posY = positions.value[id];
+    const posY = data.position;
     translateY.value = withSpring(posY, animationConfig);
     //update the offset for new gestures
     offsetY.value = posY;
@@ -105,7 +117,7 @@ function MovableElement({ title, positions, id, size, totalSize }) {
     <Animated.View style={animatedStyle}>
       <GestureDetector gesture={pan}>
         <Animated.View style={{ width: "90%" }}>
-          <Element title={title} />
+          <Element title={data.title} />
         </Animated.View>
       </GestureDetector>
     </Animated.View>

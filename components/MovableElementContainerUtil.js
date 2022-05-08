@@ -1,14 +1,77 @@
+import MovableData from "../models/MovableData";
+
 export const listToPositions = (list) => {
   const values = Object.values(list);
   const positions = {};
   let position = 0;
 
   for (let i = 0; i < values.length; i++) {
-    positions[values[i].id] = position;
+    positions[values[i].id] = position + values[i].size * 0.5;
     position += values[i].size;
   }
 
   return positions;
+};
+
+export const CreateMovableDataArray = (elements) => {
+  const array = [];
+  let position = 0;
+  elements.map((element, index) => {
+    const data = new MovableData(
+      index,
+      element.title,
+      element.size,
+      index,
+      position,
+      position + element.size * 0.5
+    );
+    array.push(data);
+    position += element.size;
+  });
+
+  return array;
+};
+
+export const swapElement = (positions, from, to) => {
+  "worklet";
+  const array = [];
+  let position = 0;
+  let id = 0;
+  let height = 0;
+  let title = "empty";
+
+  positions.forEach((element) => {
+    if (element.order === from.order) {
+      console.log("swapping");
+      id = to.id;
+      title = to.title;
+      height = to.height;
+      console.log("element.title", element.title);
+      console.log("title", title);
+    } else if (element.order === to.order) {
+      id = from.id;
+      title = from.title;
+      height = from.height;
+    } else {
+      id = element.id;
+      title = element.title;
+      height = element.height;
+    }
+    const data = new MovableData(
+      id,
+      title,
+      height,
+      element.order,
+      position,
+      position + height * 0.5
+    );
+    array.push(data);
+    position += height;
+  });
+
+  console.log("array", array);
+
+  return array;
 };
 
 export const getTotalSize = (elements) => {
@@ -19,21 +82,16 @@ export const getTotalSize = (elements) => {
   return totalSize;
 };
 
-export const moveElement = (element, from, to) => {
+export const moveElement = (elements, from, to) => {
   // "worklet";
-  const newObject = Object.assign({}, element);
+  const newObject = Object.assign({}, elements);
 
-  for (const id in element) {
-    if (element[id] === from) {
-      newObject[id] = to;
-    }
+  // console.log("newObject before move", newObject);
 
-    if (element[id] === to) {
-      newObject[id] = from;
-    }
-  }
+  newObject[from] = elements[to];
+  newObject[to] = elements[from];
 
-  console.log("newObject", newObject);
+  // console.log("newObject after move", newObject);
 
   return newObject;
 };
@@ -50,6 +108,8 @@ export const getPositionId = (absoluteY) => {
 };
 
 export function sortedIndex(array, value) {
+  // console.log("sorted array", array);
+
   var low = 0,
     high = array.length;
 
