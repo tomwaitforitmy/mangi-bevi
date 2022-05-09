@@ -9,6 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import {
   clamp,
+  CreateFake,
   getPositionId,
   getPositionY,
   getTotalSize,
@@ -18,10 +19,10 @@ import {
 } from "./MovableElementContainerUtil";
 import { animationConfig } from "./MovableElementContainerConfig";
 
-function MovableElement({ data, positions }) {
+function MovableElement({ index, positions }) {
   const isGestureActive = useSharedValue(false);
 
-  const pos = data.position;
+  const pos = positions.value[index].position;
   //starting point for incoming gestures
   const offsetY = useSharedValue(pos);
   //translation applied to the element while moving
@@ -29,7 +30,7 @@ function MovableElement({ data, positions }) {
 
   //this reaction changes the position of elements, that are not touched
   useAnimatedReaction(
-    () => data.position, //listen to value[id] for changes made by gesture
+    () => positions.value[index].position, //listen to value[id] for changes made by gesture
     (currentPosition, previousPosition) => {
       if (currentPosition !== previousPosition) {
         //only if there is change in position
@@ -52,7 +53,7 @@ function MovableElement({ data, positions }) {
       top: 0,
       left: 0,
       width: "100%",
-      height: data.height,
+      height: positions.value[index].height,
       zIndex,
       transform: [{ translateY: translateY.value }, { scale }],
     };
@@ -78,24 +79,17 @@ function MovableElement({ data, positions }) {
         Object.keys(positions.value).length - 1
       );
 
-      // console.log("newOrderCandidate", newOrderCandidate);
-      // console.log("positions.value[id].order", positions.value[id].order);
-      // console.log("positions.value[id].position", positions.value[id].position);
-      // console.log("id", id);
+      console.log("newOrderCandidate", newOrderCandidate);
 
       // Swap the positions if needed
-      if (newOrderCandidate !== data.order) {
-        const to = positions.value.find((e) => e.order === newOrderCandidate);
-        // console.log("to", to);
-        positions.value = swapElement(positions.value, data, to);
+      if (newOrderCandidate !== positions.value[index].order) {
+        console.log("swap");
+        const to = positions.value.findIndex(
+          (e) => e.order === newOrderCandidate
+        );
+        // console.log("to index", to);
 
-        console.log("positions.value", positions.value);
-
-        // const newTo = positions.value.find(
-        //   (e) => e.order === newOrderCandidate
-        // );
-        // console.log("newTo", newTo);
-        // console.log("data", data);
+        positions.value = swapElement(positions.value, index, to);
       }
     }
   );
@@ -106,7 +100,7 @@ function MovableElement({ data, positions }) {
 
   pan.onEnd((event) => {
     //Animated to the final position
-    const posY = data.position;
+    const posY = positions.value[index].position;
     translateY.value = withSpring(posY, animationConfig);
     //update the offset for new gestures
     offsetY.value = posY;
@@ -117,7 +111,7 @@ function MovableElement({ data, positions }) {
     <Animated.View style={animatedStyle}>
       <GestureDetector gesture={pan}>
         <Animated.View style={{ width: "90%" }}>
-          <Element title={data.title} />
+          <Element title={positions.value[index].title} />
         </Animated.View>
       </GestureDetector>
     </Animated.View>

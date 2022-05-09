@@ -28,7 +28,7 @@ export default function MovableElementContainer() {
         }}
       >
         {positions.value.map((e, i) => (
-          <MovableElement key={i} data={e} positions={positions} />
+          <MovableElement key={i} index={i} positions={positions} />
         ))}
       </Animated.ScrollView>
     </View>
