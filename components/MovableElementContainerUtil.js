@@ -51,22 +51,36 @@ export const CreateFake = (elements) => {
   return array;
 };
 
-export const swapElement = (positions, from, to) => {
+export const swapElementWithLowerOrder = (positions, from, to) => {
   "worklet";
   let clonedArray = JSON.parse(JSON.stringify(positions));
 
-  // let clonedArray = [];
-
-  // positions.forEach((element) => {
-  //   clonedArray.push(element);
-  // });
-
-  clonedArray[from].position = positions[to].position;
-  clonedArray[to].position = positions[from].position;
-  clonedArray[from].threshold = positions[to].threshold;
-  clonedArray[to].threshold = positions[from].threshold;
   clonedArray[from].order = positions[to].order;
-  clonedArray[to].order = positions[to].order;
+  clonedArray[from].position = positions[to].position;
+  clonedArray[from].threshold =
+    clonedArray[from].position + clonedArray[from].height * 0.5;
+
+  clonedArray[to].order = positions[from].order;
+  clonedArray[to].position = positions[to].position + positions[from].height;
+  clonedArray[to].threshold =
+    clonedArray[to].position + clonedArray[to].height * 0.5;
+
+  return clonedArray;
+};
+
+export const swapElementWithHigherOrder = (positions, from, to) => {
+  "worklet";
+  let clonedArray = JSON.parse(JSON.stringify(positions));
+
+  clonedArray[from].order = positions[to].order;
+  clonedArray[from].position = positions[from].position + positions[to].height;
+  clonedArray[from].threshold =
+    clonedArray[from].position + clonedArray[from].height * 0.5;
+
+  clonedArray[to].order = positions[from].order;
+  clonedArray[to].position = positions[from].position;
+  clonedArray[to].threshold =
+    clonedArray[to].position + clonedArray[to].height * 0.5;
 
   return clonedArray;
 
@@ -144,6 +158,7 @@ export const getPositionId = (absoluteY) => {
 };
 
 function compareThresholds(a, b) {
+  "worklet";
   if (a < b) {
     return -1;
   }
@@ -154,8 +169,7 @@ function compareThresholds(a, b) {
 }
 
 export function sortedIndex(array, value) {
-  // console.log("sorted array", array);
-
+  "worklet";
   array.sort(compareThresholds);
 
   var low = 0,

@@ -35,8 +35,8 @@ export const ELEMENTS = [
   },
   {
     id: "6",
-    title: "Käse 😊",
-    size: 60,
+    title: "Käse 😊 Käse Käse Käse Käse Käse Mehr Käse und noch mehr Käse",
+    size: 90,
   },
   {
     id: "7",

@@ -15,7 +15,8 @@ import {
   getTotalSize,
   moveElement,
   sortedIndex,
-  swapElement,
+  swapElementWithHigherOrder,
+  swapElementWithLowerOrder,
 } from "./MovableElementContainerUtil";
 import { animationConfig } from "./MovableElementContainerConfig";
 
@@ -82,14 +83,22 @@ function MovableElement({ index, positions }) {
       console.log("newOrderCandidate", newOrderCandidate);
 
       // Swap the positions if needed
-      if (newOrderCandidate !== positions.value[index].order) {
-        console.log("swap");
+      if (newOrderCandidate > positions.value[index].order) {
         const to = positions.value.findIndex(
           (e) => e.order === newOrderCandidate
         );
-        // console.log("to index", to);
 
-        positions.value = swapElement(positions.value, index, to);
+        positions.value = swapElementWithHigherOrder(
+          positions.value,
+          index,
+          to
+        );
+      } else if (newOrderCandidate < positions.value[index].order) {
+        const to = positions.value.findIndex(
+          (e) => e.order === newOrderCandidate
+        );
+
+        positions.value = swapElementWithLowerOrder(positions.value, index, to);
       }
     }
   );
