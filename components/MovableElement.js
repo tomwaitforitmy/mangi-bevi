@@ -9,11 +9,6 @@ import Animated, {
 } from "react-native-reanimated";
 import {
   clamp,
-  CreateFake,
-  getPositionId,
-  getPositionY,
-  getTotalSize,
-  moveElement,
   sortedIndex,
   swapElementWithHigherOrder,
   swapElementWithLowerOrder,
@@ -79,8 +74,6 @@ function MovableElement({ index, positions }) {
         0,
         Object.keys(positions.value).length - 1
       );
-
-      console.log("newOrderCandidate", newOrderCandidate);
 
       // Swap the positions if needed
       if (newOrderCandidate > positions.value[index].order) {

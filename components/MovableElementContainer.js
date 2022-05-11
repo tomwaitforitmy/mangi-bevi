@@ -6,7 +6,6 @@ import { ELEMENTS } from "./MovableElementContainerConfig";
 import {
   CreateMovableDataArray,
   getTotalSize,
-  listToPositions,
 } from "./MovableElementContainerUtil";
 
 export default function MovableElementContainer() {
