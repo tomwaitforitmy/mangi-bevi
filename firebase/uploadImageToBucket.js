@@ -1,11 +1,21 @@
 import { storage } from "../firebase";
 import uuid from "uuid";
 import getPictureBlob from "../firebase/getPictureBlob";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
 export const uploadImageToBucket = async (uri) => {
   let blob;
   try {
-    blob = await getPictureBlob(uri);
+    const compressed = await manipulateAsync(
+      uri,
+      [{ resize: { height: 2048 } }],
+      {
+        compress: 0,
+        format: SaveFormat.JPEG,
+      }
+    );
+
+    blob = await getPictureBlob(compressed.uri);
 
     const ref = await storage.ref().child(uuid.v4());
     const snapshot = await ref.put(blob);
