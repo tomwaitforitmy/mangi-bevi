@@ -4,6 +4,8 @@ import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as mealsActions from "../store/actions/mealsAction";
 import * as tagActions from "../store/actions/tagsAction";
+import { Chip } from "react-native-elements";
+import Colors from "../constants/Colors";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -15,6 +17,10 @@ function MealsScreen({ navigation }) {
     dispatch(mealsActions.fetchMeals()).then(() => {
       return dispatch(tagActions.fetchTags());
     });
+  };
+
+  const onPressTagsActiveHandler = () => {
+    navigation.navigate("Filters");
   };
 
   const onRefresh = React.useCallback(() => {
@@ -47,6 +53,21 @@ function MealsScreen({ navigation }) {
 
   return (
     <View style={styles.mealsScreen}>
+      {filteredMeals.length > 0 && (
+        <View style={styles.overlay}>
+          <Chip
+            title={"Active filters"}
+            icon={{
+              name: "ios-filter",
+              type: "ionicon",
+              size: 20,
+              color: "white",
+            }}
+            onPress={() => onPressTagsActiveHandler()}
+            buttonStyle={{ backgroundColor: Colors.second }}
+          />
+        </View>
+      )}
       <MealList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -63,6 +84,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  overlay: {
+    flex: 1,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    marginTop: 5,
+    marginLeft: 5,
+    zIndex: 1,
+    opacity: 0.95,
   },
 });
 
