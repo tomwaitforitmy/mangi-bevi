@@ -68,7 +68,7 @@ function AuthenticatedTabNavigator() {
       })}
     >
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
-      {true && <Tab.Screen name="Dev" component={DevStackContainer} />}
+      {false && <Tab.Screen name="Dev" component={DevStackContainer} />}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
     </Tab.Navigator>
