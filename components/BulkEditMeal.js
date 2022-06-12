@@ -49,7 +49,8 @@ const BulkEditMeal = (props) => {
 
         async function compressAndEdit() {
           if (imagesToUpload.length > 0) {
-            let uploadedImages = await uploadImages(imagesToUpload);
+            //Careful with uploading!
+            // let uploadedImages = await uploadImages(imagesToUpload);
 
             //Check if we upload the primary image
             let primaryImageIndex = imagesAlreadyUploaded.indexOf(
