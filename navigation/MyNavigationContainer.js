@@ -130,7 +130,10 @@ function MealsStackContainer({ route }) {
         <MealsStack.Screen
           name="EditScreen"
           component={NewScreen}
-          options={{ title: "Edit Mangi / Bevi" }}
+          options={{
+            title: "Edit Mangi / Bevi",
+            gestureEnabled: false,
+          }}
         />
         <MealsStack.Screen
           name="ImagesScreen"
