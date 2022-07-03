@@ -173,7 +173,7 @@ function NewScreen({ route, navigation }) {
     const editedMeal = new Meal(
       formState.title,
       mealId,
-      //if the primary images is uploaded, take it from here
+      //if the primary image is uploaded, take it from here
       primarImageIndex != -1
         ? uploadedImages[primarImageIndex]
         : formState.primaryImageUrl,
