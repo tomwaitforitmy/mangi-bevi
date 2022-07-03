@@ -15,6 +15,7 @@ import {
   Dimensions,
   Alert,
   StatusBar,
+  BackHandler,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealActions from "../store/actions/mealsAction";
@@ -76,12 +77,33 @@ function NewScreen({ route, navigation }) {
 
   const dispatch = useDispatch();
 
+  const backAction = () => {
+    Alert.alert("Hold on!", "Do you want to discard your changes?", [
+      { text: "Discard", onPress: () => navigation.goBack() },
+      {
+        text: "Save changes",
+        onPress: createMealHandler,
+        style: "cancel",
+      },
+    ]);
+    return true;
+  };
+
   useEffect(() => {
     getPermission();
-  }, []);
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [formState]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => <></>,
+      gestureEnabled: false,
       headerRight: () => (
         <Icon
           name={"save"}
