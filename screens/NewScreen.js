@@ -47,6 +47,7 @@ import Colors from "../constants/Colors";
 import MyButton from "../components/MyButton";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import { HeaderBackButton } from "@react-navigation/elements";
+import { MealEquals } from "../common_functions/MealEquals";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -79,14 +80,45 @@ function NewScreen({ route, navigation }) {
   const dispatch = useDispatch();
 
   const backAction = () => {
-    Alert.alert("Hold on!", "Do you want to discard your changes?", [
-      { text: "Discard", onPress: () => navigation.goBack() },
-      {
-        text: "Save changes",
-        onPress: createMealHandler,
-        style: "cancel",
-      },
-    ]);
+    let anyImageToUpload = false,
+      changesMade = false;
+    if (mealId) {
+      const imagesToUpload = formState.imageUrls.filter(
+        (url) => !url.startsWith("https://firebasestorage")
+      );
+
+      anyImageToUpload = imagesToUpload.length > 0;
+
+      const editedMeal = new Meal(
+        formState.title,
+        mealId,
+        formState.primaryImageUrl,
+        formState.ingredients,
+        formState.steps,
+        formState.imageUrls,
+        inputMeal.tags,
+        inputMeal.rating
+      );
+
+      changesMade = !MealEquals(inputMeal, editedMeal);
+    }
+
+    if (anyImageToUpload || changesMade) {
+      Alert.alert("Hold on!", "Do you want to discard your changes?", [
+        {
+          text: "Discard",
+          onPress: () => navigation.goBack(),
+          style: "cancel",
+        },
+        {
+          text: "Save changes",
+          onPress: createMealHandler,
+        },
+      ]);
+    } else {
+      navigation.goBack();
+    }
+
     return true;
   };
 
