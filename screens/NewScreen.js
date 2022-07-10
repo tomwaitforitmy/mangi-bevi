@@ -48,6 +48,10 @@ import MyButton from "../components/MyButton";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { MealEquals } from "../common_functions/MealEquals";
+import {
+  GetImagesAlreadyUploaded,
+  GetImagesToUpload,
+} from "../common_functions/GetImagesToUpload";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -83,9 +87,7 @@ function NewScreen({ route, navigation }) {
     let anyImageToUpload = false,
       changesMade = false;
     if (mealId) {
-      const imagesToUpload = formState.imageUrls.filter(
-        (url) => !url.startsWith("https://firebasestorage")
-      );
+      const imagesToUpload = GetImagesToUpload(formState.imageUrls);
 
       anyImageToUpload = imagesToUpload.length > 0;
 
@@ -190,12 +192,8 @@ function NewScreen({ route, navigation }) {
   }
 
   async function editMeal() {
-    const imagesToUpload = formState.imageUrls.filter(
-      (url) => !url.startsWith("https://firebasestorage")
-    );
-    const imagesAlreadyUploaded = formState.imageUrls.filter((url) =>
-      url.startsWith("https://firebasestorage")
-    );
+    const imagesToUpload = GetImagesToUpload(formState.imageUrls);
+    const imagesAlreadyUploaded = GetImagesAlreadyUploaded(ormState.imageUrls);
 
     //Check if we upload the primary image
     let primarImageIndex = imagesToUpload.indexOf(formState.primaryImageUrl);
