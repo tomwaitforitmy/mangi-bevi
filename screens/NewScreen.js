@@ -399,9 +399,9 @@ function NewScreen({ route, navigation }) {
 
   return (
     <View style={styles.screenContainer}>
-      <View style={styles.list}>
+      <View style={styles.title}>
         <Input
-          label="Titel"
+          label="Title"
           value={formState.title}
           placeholder="Enter title"
           labelStyle={styles.title}
@@ -428,6 +428,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     color: "black",
+    width: "100%",
   },
   subtitle: {
     fontSize: 18,
