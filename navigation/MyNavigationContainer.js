@@ -21,7 +21,7 @@ import {
   LoadCredentials,
   LoadToken,
 } from "../common_functions/CredentialStorage";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 
 const defaultScreenOptions = {
@@ -235,13 +235,12 @@ const MyNavigationContainer = (props) => {
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = !!token;
   console.log("isAuthenticated " + isAuthenticated);
-  const [isTryingLogin, setIsTryingLogin] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     const tryLogin = async () => {
-      setIsTryingLogin(true);
       const tokenData = await LoadToken();
 
       if (!!tokenData) {
@@ -252,8 +251,6 @@ const MyNavigationContainer = (props) => {
             tokenData.experiationTime
           )
         );
-        setIsTryingLogin(false);
-
         return;
       }
 
@@ -262,13 +259,26 @@ const MyNavigationContainer = (props) => {
       if (!!credentials) {
         dispatch(authActions.login(credentials.email, credentials.password));
       }
-      setIsTryingLogin(false);
     };
-    tryLogin();
+    async function prepare() {
+      try {
+        // Keep the splash screen visible while we try login
+        await SplashScreen.preventAutoHideAsync();
+        await tryLogin();
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+        await SplashScreen.hideAsync();
+      }
+    }
+
+    prepare();
   }, [dispatch]);
 
-  if (isTryingLogin) {
-    return <AppLoading />;
+  if (!appIsReady) {
+    return null;
   }
 
   return (
