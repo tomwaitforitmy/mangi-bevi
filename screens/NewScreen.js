@@ -193,10 +193,10 @@ function NewScreen({ route, navigation }) {
 
   async function editMeal() {
     const imagesToUpload = GetImagesToUpload(formState.imageUrls);
-    const imagesAlreadyUploaded = GetImagesAlreadyUploaded(ormState.imageUrls);
+    const imagesAlreadyUploaded = GetImagesAlreadyUploaded(formState.imageUrls);
 
     //Check if we upload the primary image
-    let primarImageIndex = imagesToUpload.indexOf(formState.primaryImageUrl);
+    let primaryImageIndex = imagesToUpload.indexOf(formState.primaryImageUrl);
 
     let uploadedImages = await uploadImages(imagesToUpload);
 
@@ -204,8 +204,8 @@ function NewScreen({ route, navigation }) {
       formState.title,
       mealId,
       //if the primary image is uploaded, take it from here
-      primarImageIndex != -1
-        ? uploadedImages[primarImageIndex]
+      primaryImageIndex != -1
+        ? uploadedImages[primaryImageIndex]
         : formState.primaryImageUrl,
       formState.ingredients,
       formState.steps,
@@ -260,9 +260,7 @@ function NewScreen({ route, navigation }) {
   }
 
   const inputStep = React.createRef();
-  const inputIngrident = React.createRef();
-
-  const { width } = Dimensions.get("window");
+  const inputIngredient = React.createRef();
 
   const renderInputs = () => {
     return (
@@ -326,14 +324,14 @@ function NewScreen({ route, navigation }) {
                 formDispatch({
                   type: PREPARE_EDIT_INGREDIENT,
                   key: ingredient,
-                  ref: inputIngrident,
+                  ref: inputIngredient,
                 });
               }}
             ></MyListItem>
           ))}
           <Input
             placeholder="Enter ingredient"
-            ref={inputIngrident}
+            ref={inputIngredient}
             onChangeText={(value) => {
               formDispatch({ type: SET_INGREDIENT_VALUE, value });
             }}
@@ -342,13 +340,13 @@ function NewScreen({ route, navigation }) {
                 formDispatch({
                   type: EDIT_INGREDIENT,
                   value: formState.ingredientValue,
-                  ref: inputIngrident,
+                  ref: inputIngredient,
                 });
               } else {
                 formDispatch({
                   type: ADD_INGREDIENT,
                   value: formState.ingredientValue,
-                  ref: inputIngrident,
+                  ref: inputIngredient,
                 });
               }
             }}
