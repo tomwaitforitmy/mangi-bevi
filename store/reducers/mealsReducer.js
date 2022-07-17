@@ -1,6 +1,5 @@
 import { MEALS } from "../../data/DummyMeals";
 import {
-  SET_FILTERS,
   TOGGLE_FAVORITE,
   SET_MEALS,
   CREATE_MEAL,
@@ -34,11 +33,6 @@ const mealsReducer = (state = initialState, action) => {
         const meal = state.meals.find((meal) => meal.id === action.mealId);
         return { ...state, favoriteMeals: state.favoriteMeals.concat(meal) };
       }
-    }
-    case SET_FILTERS: {
-      const filteredMeals = state.meals;
-
-      return { ...state, filteredMeals: filteredMeals };
     }
     case CREATE_MEAL: {
       return {
