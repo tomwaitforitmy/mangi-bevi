@@ -6,7 +6,7 @@ import BulkEditMeal from "../components/BulkEditMeal";
 function DevScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <BulkEditMeal></BulkEditMeal>
+      <MovableElementContainer></MovableElementContainer>
     </View>
   );
 }

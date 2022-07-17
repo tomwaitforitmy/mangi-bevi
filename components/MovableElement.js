@@ -28,6 +28,7 @@ function MovableElement({ index, positions }) {
   useAnimatedReaction(
     () => positions.value[index].position, //listen to value[id] for changes made by gesture
     (currentPosition, previousPosition) => {
+      "worklet";
       if (currentPosition !== previousPosition) {
         //only if there is change in position
         if (!isGestureActive.value) {
@@ -42,6 +43,7 @@ function MovableElement({ index, positions }) {
   );
 
   const animatedStyle = useAnimatedStyle(() => {
+    "worklet";
     const zIndex = isGestureActive.value ? 1 : 0;
     const scale = withSpring(isGestureActive.value ? 1.05 : 1, animationConfig);
     return {
@@ -49,6 +51,7 @@ function MovableElement({ index, positions }) {
       top: 0,
       left: 0,
       width: "100%",
+      borderColor: "white",
       height: positions.value[index].height,
       zIndex,
       transform: [{ translateY: translateY.value }, { scale }],
@@ -57,6 +60,7 @@ function MovableElement({ index, positions }) {
 
   const pan = Gesture.Pan().onChange(
     ({ translationX, translationY, absoluteY }) => {
+      "worklet";
       //translate by the correct value:
       //translationY is relative, accumulated over the whole gesture
       //offsetY.value is the starting point, determined by the size of the whole thing
@@ -97,10 +101,12 @@ function MovableElement({ index, positions }) {
   );
 
   pan.onStart((event) => {
+    "worklet";
     isGestureActive.value = true;
   });
 
   pan.onEnd((event) => {
+    "worklet";
     //Animated to the final position
     const posY = positions.value[index].position;
     translateY.value = withSpring(posY, animationConfig);
