@@ -86,6 +86,8 @@ export const createMeal = (meal) => {
     console.log("End createMeal");
 
     dispatch({ type: CREATE_MEAL, meal: meal });
+
+    return responseData.name;
   };
 };
 

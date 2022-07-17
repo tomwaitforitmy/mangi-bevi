@@ -247,8 +247,17 @@ function NewScreen({ route, navigation }) {
         });
       } else {
         const newMeal = await createMeal(formState.imageUrls);
-        await dispatch(mealActions.createMeal(newMeal));
+
+        const id = await dispatch(mealActions.createMeal(newMeal));
         formDispatch({ type: SUBMITTED });
+
+        navigation.navigate({
+          name: "Details",
+          params: {
+            mealId: id,
+            mealTitle: formState.title,
+          },
+        });
       }
     } catch (err) {
       throw err;
