@@ -23,7 +23,7 @@ import {
 } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
-import UserProfileScreen from "../screens/UserProfileScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -73,7 +73,7 @@ function AuthenticatedTabNavigator() {
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
       {false && <Tab.Screen name="Dev" component={DevStackContainer} />}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
-      <Tab.Screen name="Profile" component={UserProfileStackContainer} />
+      <Tab.Screen name="Profile" component={ProfileStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
     </Tab.Navigator>
   );
@@ -82,8 +82,6 @@ function AuthenticatedTabNavigator() {
 const MealsStack = createNativeStackNavigator();
 
 function MealsStackContainer({ route }) {
-  const dispatch = useDispatch();
-
   return (
     // See https://stackoverflow.com/questions/70341930/screens-dont-render-on-material-bottom-tab-navigator-since-upgrading-to-expo-sd/70998392#comment127025978_70998392
     <View style={{ flex: 1 }} collapsable={false}>
@@ -98,16 +96,6 @@ function MealsStackContainer({ route }) {
                 name={"noodles"}
                 size={25}
                 color={Colors.navigationIcon}
-              />
-            ),
-            headerRight: () => (
-              <Ionicons
-                name={"exit-outline"}
-                size={25}
-                color={Colors.navigationIcon}
-                onPress={() => {
-                  dispatch(authActions.logout());
-                }}
               />
             ),
           })}
@@ -203,18 +191,32 @@ function LoginStackContainer({ route }) {
   );
 }
 
-const UserProfileStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
-function UserProfileStackContainer({ route }) {
+function ProfileStackContainer({ route }) {
+  const dispatch = useDispatch();
+
   return (
     <View style={{ flex: 1 }} collapsable={false}>
-      <UserProfileStack.Navigator screenOptions={defaultScreenOptions}>
-        <UserProfileStack.Screen
+      <ProfileStack.Navigator screenOptions={defaultScreenOptions}>
+        <ProfileStack.Screen
           name="UserProfileScreen"
-          component={UserProfileScreen}
-          options={{ title: "Your Mangis" }}
+          component={ProfileScreen}
+          options={{
+            title: "Your Mangis",
+            headerRight: () => (
+              <Ionicons
+                name={"exit-outline"}
+                size={25}
+                color={Colors.navigationIcon}
+                onPress={() => {
+                  dispatch(authActions.logout());
+                }}
+              />
+            ),
+          }}
         />
-      </UserProfileStack.Navigator>
+      </ProfileStack.Navigator>
     </View>
   );
 }

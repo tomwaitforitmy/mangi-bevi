@@ -1,9 +1,9 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import MealList from "../components/MealList";
 
-function UserProfileScreen({ navigation }) {
+function ProfileScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const user = useSelector((state) => state.users.user);
 
@@ -11,6 +11,9 @@ function UserProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.bene}>
+        You added {userMeals.length} Mangis. Molto bene!
+      </Text>
       <MealList mealsList={userMeals} navigation={navigation}></MealList>
     </View>
   );
@@ -19,7 +22,12 @@ function UserProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+  },
+  bene: {
+    marginTop: 15,
+    fontSize: 18,
   },
 });
 
-export default UserProfileScreen;
+export default ProfileScreen;
