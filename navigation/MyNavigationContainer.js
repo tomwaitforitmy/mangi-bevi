@@ -23,6 +23,7 @@ import {
 } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
+import UserProfileScreen from "../screens/UserProfileScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -57,6 +58,8 @@ function AuthenticatedTabNavigator() {
             iconName = focused ? "ios-filter" : "ios-filter-outline";
           } else if (route.name === "New") {
             iconName = focused ? "ios-create" : "ios-create-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
           } else if (route.name === "Dev") {
             iconName = focused ? "cafe" : "cafe-outline";
           }
@@ -70,6 +73,7 @@ function AuthenticatedTabNavigator() {
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
       {false && <Tab.Screen name="Dev" component={DevStackContainer} />}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
+      <Tab.Screen name="Profile" component={UserProfileStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
     </Tab.Navigator>
   );
@@ -196,6 +200,22 @@ function LoginStackContainer({ route }) {
         options={{ title: "Sign Up" }}
       />
     </LoginStack.Navigator>
+  );
+}
+
+const UserProfileStack = createNativeStackNavigator();
+
+function UserProfileStackContainer({ route }) {
+  return (
+    <View style={{ flex: 1 }} collapsable={false}>
+      <UserProfileStack.Navigator screenOptions={defaultScreenOptions}>
+        <UserProfileStack.Screen
+          name="UserProfileScreen"
+          component={UserProfileScreen}
+          options={{ title: "Your Mangis" }}
+        />
+      </UserProfileStack.Navigator>
+    </View>
   );
 }
 

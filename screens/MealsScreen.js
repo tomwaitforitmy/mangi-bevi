@@ -4,6 +4,7 @@ import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as mealsActions from "../store/actions/mealsAction";
 import * as tagActions from "../store/actions/tagsAction";
+import * as usersActions from "../store/actions/usersAction";
 import { Chip } from "react-native-elements";
 import Colors from "../constants/Colors";
 
@@ -14,8 +15,10 @@ function MealsScreen({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchAll = async () => {
-    dispatch(mealsActions.fetchMeals()).then(() => {
-      return dispatch(tagActions.fetchTags());
+    dispatch(usersActions.fetchUsers()).then(() => {
+      dispatch(mealsActions.fetchMeals()).then(() => {
+        return dispatch(tagActions.fetchTags());
+      });
     });
   };
 
