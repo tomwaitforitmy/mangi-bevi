@@ -11,12 +11,14 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         users: action.users,
+        user: action.user,
       };
     }
     case CREATE_USER: {
       return {
         ...state,
         users: [action.user].concat(state.users),
+        user: action.user,
       };
     }
     case EDIT_USER: {
@@ -27,6 +29,7 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         users: updatedUsers,
+        user: action.user,
       };
     }
 

@@ -6,7 +6,7 @@ export const EDIT_USER = "EDIT_USER";
 export const SET_USERS = "SET_USERS";
 
 export const fetchUsers = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     console.log("Begin fetch Users");
     try {
       const response = await fetch(
@@ -24,17 +24,19 @@ export const fetchUsers = () => {
             key,
             responseData[key].name,
             responseData[key].email,
-            responseData[key].meals
+            responseData[key].meals,
+            responseData[key].firebaseId
           )
         );
       }
 
-      //Invert order to show newest
-      loadedUsers.reverse();
+      const firebaseId = getState().auth.userId;
+      const user = loadedUsers.find((u) => u.firebaseId === firebaseId);
 
       dispatch({
         type: SET_USERS,
         users: loadedUsers,
+        user: user,
       });
     } catch (error) {
       throw error;
@@ -51,6 +53,8 @@ export const createUser = (user) => {
   return async (dispatch, getState) => {
     console.log("Begin create User");
     const token = getState().auth.token;
+    user.firebaseId = getState().auth.userId;
+
     if (!token) {
       console.log("No token found! Request will fail! Reload App tommy");
     }
