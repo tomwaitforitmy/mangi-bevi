@@ -10,15 +10,14 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  KeyboardAvoidingView,
   Platform,
-  Dimensions,
   Alert,
   StatusBar,
   BackHandler,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
-import * as mealActions from "../store/actions/mealsAction";
+import * as mealsAction from "../store/actions/mealsAction";
+import * as usersAction from "../store/actions/usersAction";
 import Meal from "../models/Meal";
 import { Icon, Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
@@ -35,7 +34,6 @@ import {
   ADD_IMAGE,
   SET_STEP_VALUE,
   SET_INGREDIENT_VALUE,
-  REMOVE_STEP,
   PREPARE_EDIT_INGREDIENT,
   PREPARE_EDIT_STEP,
   REMOVE_IMAGE,
@@ -55,6 +53,7 @@ import {
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
+  const user = useSelector((state) => state.users.user);
 
   let inputMeal;
   if (mealId) {
@@ -236,7 +235,7 @@ function NewScreen({ route, navigation }) {
       if (mealId) {
         const editedMeal = await editMeal();
 
-        await dispatch(mealActions.editMeal(editedMeal));
+        await dispatch(mealsAction.editMeal(editedMeal));
         formDispatch({ type: SUBMITTED });
         navigation.navigate({
           name: "Details",
@@ -248,7 +247,10 @@ function NewScreen({ route, navigation }) {
       } else {
         const newMeal = await createMeal(formState.imageUrls);
 
-        const id = await dispatch(mealActions.createMeal(newMeal));
+        const id = await dispatch(mealsAction.createMeal(newMeal));
+        user.meals.push(id);
+        await dispatch(usersAction.editUser(user));
+
         formDispatch({ type: SUBMITTED });
 
         navigation.navigate({

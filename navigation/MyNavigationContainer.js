@@ -24,6 +24,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 import ProfileScreen from "../screens/ProfileScreen";
+import UserMealsScreen from "../screens/UserMealsScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -203,7 +204,7 @@ function ProfileStackContainer({ route }) {
           name="UserProfileScreen"
           component={ProfileScreen}
           options={{
-            title: "Your Mangis",
+            title: "Your data",
             headerRight: () => (
               <Ionicons
                 name={"exit-outline"}
@@ -215,6 +216,11 @@ function ProfileStackContainer({ route }) {
               />
             ),
           }}
+        />
+        <ProfileStack.Screen
+          name="UserMealsScreen"
+          component={UserMealsScreen}
+          options={{ title: "Your Mangis" }}
         />
       </ProfileStack.Navigator>
     </View>
