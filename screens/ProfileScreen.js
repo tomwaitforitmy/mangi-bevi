@@ -18,6 +18,10 @@ function ProfileScreen({ navigation }) {
   let counter = 0;
   let experiencedUser = false;
 
+  //Bug here: This get's updated when "allMeals" changes after createMeal
+  //That is correct, but it does not get updated directly after editUser
+  //I suppose that's due updating user.meals which might not (?) change state.users.user
+  //hence this is not updated a second time. The refresh button helps, but is not needed.
   user.meals.map((id) => {
     const found = allMeals.find((meal) => meal.id === id);
     if (found) {
