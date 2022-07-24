@@ -83,6 +83,7 @@ function AuthenticatedTabNavigator() {
 const MealsStack = createNativeStackNavigator();
 
 function MealsStackContainer({ route }) {
+  const dispatch = useDispatch();
   return (
     // See https://stackoverflow.com/questions/70341930/screens-dont-render-on-material-bottom-tab-navigator-since-upgrading-to-expo-sd/70998392#comment127025978_70998392
     <View style={{ flex: 1 }} collapsable={false}>
@@ -97,6 +98,16 @@ function MealsStackContainer({ route }) {
                 name={"noodles"}
                 size={25}
                 color={Colors.navigationIcon}
+              />
+            ),
+            headerRight: () => (
+              <Ionicons
+                name={"exit-outline"}
+                size={25}
+                color={Colors.navigationIcon}
+                onPress={() => {
+                  dispatch(authActions.logout());
+                }}
               />
             ),
           })}
