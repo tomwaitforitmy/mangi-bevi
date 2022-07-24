@@ -6,6 +6,7 @@ import {
   SaveTokenDataToStorage,
 } from "../../common_functions/CredentialStorage";
 import * as usersActions from "./usersAction";
+import User from "../../models/User";
 
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
@@ -83,6 +84,11 @@ export const signup = (email, password) => {
       )
     );
 
+    const user = new User("error", email, email, [], responseData.localId);
+    dispatch(usersActions.createUser(user)).then(() => {
+      console.log("logged in as", email);
+    });
+
     const expericationDate = new Date(
       new Date().getTime() + experiationTimeInMs
     );
@@ -127,7 +133,7 @@ export const login = (email, password) => {
     );
 
     dispatch(usersActions.fetchUsers()).then(() => {
-      console.log("logged in as", responseData.localId);
+      console.log("logged in as", email);
     });
 
     const expericationDate = new Date(

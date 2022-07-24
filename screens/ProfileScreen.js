@@ -22,17 +22,19 @@ function ProfileScreen({ navigation }) {
   //That is correct, but it does not get updated directly after editUser
   //I suppose that's due updating user.meals which might not (?) change state.users.user
   //hence this is not updated a second time. The refresh button helps, but is not needed.
-  user.meals.map((id) => {
-    const found = allMeals.find((meal) => meal.id === id);
-    if (found) {
-      userMeals.push(found);
-      countTags += found.tags.length;
-      countSteps += found.steps.length;
-      countIngredients += found.ingredients.length;
-      counter++;
-    }
-  });
-  experiencedUser = userMeals.length > 1;
+  if (user.meals.length > 0) {
+    user.meals.map((id) => {
+      const found = allMeals.find((meal) => meal.id === id);
+      if (found) {
+        userMeals.push(found);
+        countTags += found.tags.length;
+        countSteps += found.steps.length;
+        countIngredients += found.ingredients.length;
+        counter++;
+      }
+    });
+    experiencedUser = userMeals.length > 1;
+  }
 
   return (
     <View style={styles.container}>
@@ -63,7 +65,13 @@ function ProfileScreen({ navigation }) {
           <Text style={styles.bene}>
             You added {userMeals.length} Mangis. How about adding one?
           </Text>
-          <MyButton onPress={() => {}}>{"Add"}</MyButton>
+          <MyButton
+            onPress={() => {
+              navigation.jumpTo("New");
+            }}
+          >
+            {"Add"}
+          </MyButton>
         </View>
       )}
 

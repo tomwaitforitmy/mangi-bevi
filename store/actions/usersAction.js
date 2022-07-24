@@ -24,7 +24,7 @@ export const fetchUsers = () => {
             key,
             responseData[key].name,
             responseData[key].email,
-            responseData[key].meals,
+            responseData[key].meals ? responseData[key].meals : [],
             responseData[key].firebaseId
           )
         );
