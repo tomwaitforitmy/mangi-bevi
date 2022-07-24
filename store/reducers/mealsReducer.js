@@ -13,7 +13,6 @@ const initialState = {
 };
 
 const mealsReducer = (state = initialState, action) => {
-  console.log("mealsReducer " + action.type.toString());
   switch (action.type) {
     case SET_MEALS: {
       return {

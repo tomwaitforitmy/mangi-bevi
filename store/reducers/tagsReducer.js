@@ -22,7 +22,6 @@ const initialState = {
 };
 
 const tagsReducer = (state = initialState, action) => {
-  console.log("tagsReducer " + action.type.toString());
   switch (action.type) {
     case ADD_TAG: {
       return {
