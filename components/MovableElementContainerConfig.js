@@ -36,7 +36,7 @@ export const ELEMENTS = [
   {
     id: "6",
     title: "Käse 😊 Käse Käse Käse Käse Käse Mehr Käse und noch mehr Käse",
-    size: 90,
+    size: 60,
   },
   {
     id: "7",
@@ -45,7 +45,7 @@ export const ELEMENTS = [
       Tomaten mit viel Basilikum, Tomaten mit viel Basilikum \
       Tomaten mit viel Basilikum, ... Tomaten mit extra Basilikum \
       Tomaten mit viel Basilikum, Tomaten mit viel Basilikum",
-    size: 190,
+    size: 60,
   },
   {
     id: "8",

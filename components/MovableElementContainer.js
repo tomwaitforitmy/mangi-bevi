@@ -14,8 +14,8 @@ export default function MovableElementContainer() {
   const totalSize = getTotalSize(ELEMENTS);
 
   return (
-    <View style={{ flex: 1 }}>
-      <Animated.ScrollView
+    <View style={{ flex: 1, backgroundColor: "red" }}>
+      {/* <Animated.ScrollView
         style={{
           flex: 1,
           position: "relative",
@@ -26,11 +26,11 @@ export default function MovableElementContainer() {
           width: "100%",
         }}
         // scrollEventThrottle={16}
-      >
-        {positions.value.map((e, i) => (
-          <MovableElement key={i} index={i} positions={positions} />
-        ))}
-      </Animated.ScrollView>
+      > */}
+      {positions.value.map((e, i) => (
+        <MovableElement key={i} index={i} positions={positions} />
+      ))}
+      {/* </Animated.ScrollView> */}
     </View>
   );
 }
