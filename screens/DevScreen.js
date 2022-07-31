@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import MovableElementContainer from "../components/MovableElementContainer";
 import BulkEditMeal from "../components/BulkEditMeal";
 

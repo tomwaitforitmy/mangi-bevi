@@ -25,7 +25,7 @@ export default function MovableElementContainer() {
           height: totalSize,
           width: "100%",
         }}
-        scrollEventThrottle={16}
+        // scrollEventThrottle={16}
       >
         {positions.value.map((e, i) => (
           <MovableElement key={i} index={i} positions={positions} />

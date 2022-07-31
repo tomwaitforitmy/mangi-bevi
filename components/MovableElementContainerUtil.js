@@ -88,8 +88,11 @@ export function sortedIndex(array, value) {
 
   while (low < high) {
     var mid = (low + high) >>> 1;
-    if (array[mid] < value) low = mid + 1;
-    else high = mid;
+    if (array[mid] < value) {
+      low = mid + 1;
+    } else {
+      high = mid;
+    }
   }
   return low;
 }
