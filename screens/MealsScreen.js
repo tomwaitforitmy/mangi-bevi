@@ -55,7 +55,7 @@ function MealsScreen({ navigation }) {
               name: "ios-filter",
               type: "ionicon",
               size: 20,
-              color: "white",
+              color: Colors.navigationIcon,
             }}
             onPress={() => onPressTagsActiveHandler()}
             buttonStyle={{ backgroundColor: Colors.second }}

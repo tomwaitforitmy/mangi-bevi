@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
+import Colors from "../constants/Colors";
 import MealItem from "./MealItem";
 
 const MealList = (props) => {
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 5,
+    backgroundColor: Colors.screenBackGround,
   },
 });
 
