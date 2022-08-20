@@ -34,7 +34,7 @@ function MovableElement({ index, positions }) {
         if (!isGestureActive.value) {
           //only if this element is not getting touched
           //update the translation with a nice animation
-          translateY.value = currentPosition; // withSpring(currentPosition, animationConfig);
+          translateY.value = withSpring(currentPosition, animationConfig);
           //offset is not used for animations, but we need it as start point for new gestures
           offsetY.value = currentPosition;
         }
@@ -45,7 +45,7 @@ function MovableElement({ index, positions }) {
   const animatedStyle = useAnimatedStyle(() => {
     "worklet";
     const zIndex = isGestureActive.value ? 1 : 0;
-    const scale = 1; // withSpring(isGestureActive.value ? 1.05 : 1, animationConfig);
+    const scale = withSpring(isGestureActive.value ? 1.05 : 1, animationConfig);
     return {
       position: "absolute",
       top: 0,
@@ -59,25 +59,19 @@ function MovableElement({ index, positions }) {
   });
 
   const pan = Gesture.Pan().onChange(
-    ({ translationX, translationY, absoluteY, velocityY }) => {
+    ({ translationX, translationY, absoluteY }) => {
       "worklet";
-      //Schützt nicht vor crash ???
-      // if (Math.abs(velocityY) > 1000) {
-      //   console.log("velocityY", velocityY);
-      //   return;
-      // }
       //translate by the correct value:
       //translationY is relative, accumulated over the whole gesture
       //offsetY.value is the starting point, determined by the size of the whole thing
       translateY.value = offsetY.value + translationY;
 
       //get the position Id based on movement
-      const newOrderCandidate = sortedIndex(
+      const newPositionId = sortedIndex(
         positions.value.map((e) => e.threshold),
         translateY.value
       );
 
-      //Scheint nicht nötig?
       // //remove values out of range
       // const newOrderCandidate = clamp(
       //   newPositionId,
@@ -115,7 +109,7 @@ function MovableElement({ index, positions }) {
     "worklet";
     //Animated to the final position
     const posY = positions.value[index].position;
-    translateY.value = posY; //withSpring(posY, animationConfig);
+    translateY.value = withSpring(posY, animationConfig);
     //update the offset for new gestures
     offsetY.value = posY;
     isGestureActive.value = false;
