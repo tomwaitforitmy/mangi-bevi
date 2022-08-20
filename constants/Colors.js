@@ -4,4 +4,5 @@ export default {
   white: "white",
   navigationIcon: "white",
   speedDiealIcon: "white",
+  screenBackGround: "#f2f2f2",
 };
