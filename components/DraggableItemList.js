@@ -21,7 +21,7 @@ function DraggableItemList(props) {
             },
           ]}
         >
-          <MyListItem title={item.title} IconName={"edit"}></MyListItem>
+          <MyListItem title={item} IconName={"edit"}></MyListItem>
         </TouchableOpacity>
       </ScaleDecorator>
     );
@@ -32,7 +32,7 @@ function DraggableItemList(props) {
       <DraggableFlatList
         data={props.data}
         onDragEnd={({ data }) => props.onSortEnd(data)}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index}
         renderItem={renderItem}
       />
     </View>

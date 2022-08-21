@@ -425,12 +425,11 @@ function NewScreen({ route, navigation }) {
           {"Done sorting"}
         </MyButton>
         <DraggableItemList
-          data={ConvertArrayToArrayOfObjects(formState.ingredients)}
+          data={formState.ingredients}
           onSortEnd={(sortedData) => {
-            const newIngredients = sortedData.map((d) => d.title);
             formDispatch({
               type: SET_FIELD,
-              value: newIngredients,
+              value: sortedData,
               field: "ingredients",
             });
           }}

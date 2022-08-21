@@ -16,7 +16,7 @@ function DevScreen({ navigation }) {
   const myArray = ["Cheese", "Tomatoes", "Water"];
   const initialData = ConvertArrayToArrayOfObjects(inputMeal.ingredients);
 
-  const [inputData, setInputData] = useState(initialData);
+  const [inputData, setInputData] = useState(inputMeal.ingredients);
   const onSortEnd = (sortedData) => {
     setInputData(sortedData);
   };
