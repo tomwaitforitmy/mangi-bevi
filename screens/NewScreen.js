@@ -53,8 +53,8 @@ import {
   GetImagesAlreadyUploaded,
   GetImagesToUpload,
 } from "../common_functions/GetImagesToUpload";
-import DraggableItemList from "../components/DraggableItemList";
 import IconTypes from "../constants/IconTypes";
+import SortingListViewContainer from "../components/SortingListViewContainer";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -427,49 +427,33 @@ function NewScreen({ route, navigation }) {
 
   if (renderIngredientSort) {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ padding: 5 }}>
-          <MyButton onPress={() => setRenderIngredientSort(false)}>
-            {"Done sorting"}
-          </MyButton>
-        </View>
-        <View style={{ flex: 1, marginTop: 5 }}>
-          <DraggableItemList
-            data={formState.ingredients}
-            onSortEnd={(sortedData) => {
-              formDispatch({
-                type: SET_FIELD,
-                value: sortedData,
-                field: "ingredients",
-              });
-            }}
-          />
-        </View>
-      </View>
+      <SortingListViewContainer
+        onPressDoneSorting={() => setRenderIngredientSort(false)}
+        data={formState.ingredients}
+        onSortEnd={(sortedData) => {
+          formDispatch({
+            type: SET_FIELD,
+            value: sortedData,
+            field: "ingredients",
+          });
+        }}
+      ></SortingListViewContainer>
     );
   }
 
   if (renderStepsSort) {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ padding: 5 }}>
-          <MyButton onPress={() => setRenderStepsSort(false)}>
-            {"Done sorting"}
-          </MyButton>
-        </View>
-        <View style={{ flex: 1, marginTop: 5 }}>
-          <DraggableItemList
-            data={formState.steps}
-            onSortEnd={(sortedData) => {
-              formDispatch({
-                type: SET_FIELD,
-                value: sortedData,
-                field: "steps",
-              });
-            }}
-          />
-        </View>
-      </View>
+      <SortingListViewContainer
+        onPressDoneSorting={() => setRenderStepsSort(false)}
+        data={formState.steps}
+        onSortEnd={(sortedData) => {
+          formDispatch({
+            type: SET_FIELD,
+            value: sortedData,
+            field: "steps",
+          });
+        }}
+      ></SortingListViewContainer>
     );
   }
 
