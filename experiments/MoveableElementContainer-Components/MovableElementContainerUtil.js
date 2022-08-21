@@ -1,4 +1,4 @@
-import MovableData from "../models/MovableData";
+import MovableData from "../../models/MovableData";
 
 export const CreateMovableDataArray = (elements) => {
   "worklet";

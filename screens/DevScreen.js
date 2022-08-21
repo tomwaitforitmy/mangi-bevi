@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import MovableElementContainer from "../components/MovableElementContainer";
+import MovableElementContainer from "../experiments/MoveableElementContainer-Components/MovableElementContainer";
 import BulkEditMeal from "../components/BulkEditMeal";
-import { ELEMENTS } from "../components/MovableElementContainerConfig";
+import { ELEMENTS } from "../experiments/MoveableElementContainer-Components/MovableElementContainerConfig";
 import { Text, View, StyleSheet } from "react-native";
 import DraggableItemList from "../components/DraggableItemList";
 import { useSelector } from "react-redux";
