@@ -54,13 +54,13 @@ import {
   GetImagesToUpload,
 } from "../common_functions/GetImagesToUpload";
 import DraggableItemList from "../components/DraggableItemList";
-import { ConvertArrayToArrayOfObjects } from "../common_functions/ConvertArrayToArrayOfObjects";
 import IconTypes from "../constants/IconTypes";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
   const user = useSelector((state) => state.users.user);
   const [renderIngredientSort, setRenderIngredientSort] = useState(false);
+  const [renderStepsSort, setRenderStepsSort] = useState(false);
 
   let inputMeal;
   if (mealId) {
@@ -377,21 +377,27 @@ function NewScreen({ route, navigation }) {
           ></Input>
         </View>
         <View style={styles.container}>
-          <Text style={styles.subtitle}>Steps</Text>
-          {formState.steps.map((step) => (
-            <MyListItem
-              key={step}
-              title={step}
-              IconName={"edit"}
-              onPressIcon={() => {
-                formDispatch({
-                  type: PREPARE_EDIT_STEP,
-                  key: step,
-                  ref: inputStep,
-                });
-              }}
-            ></MyListItem>
-          ))}
+          <TouchableOpacity
+            onLongPress={() => {
+              setRenderStepsSort(true);
+            }}
+          >
+            <Text style={styles.subtitle}>Steps</Text>
+            {formState.steps.map((step) => (
+              <MyListItem
+                key={step}
+                title={step}
+                IconName={"edit"}
+                onPressIcon={() => {
+                  formDispatch({
+                    type: PREPARE_EDIT_STEP,
+                    key: step,
+                    ref: inputStep,
+                  });
+                }}
+              ></MyListItem>
+            ))}
+          </TouchableOpacity>
           <Input
             placeholder="Enter step"
             ref={inputStep}
@@ -435,6 +441,30 @@ function NewScreen({ route, navigation }) {
                 type: SET_FIELD,
                 value: sortedData,
                 field: "ingredients",
+              });
+            }}
+          />
+        </View>
+      </View>
+    );
+  }
+
+  if (renderStepsSort) {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={{ padding: 5 }}>
+          <MyButton onPress={() => setRenderStepsSort(false)}>
+            {"Done sorting"}
+          </MyButton>
+        </View>
+        <View style={{ flex: 1, marginTop: 5 }}>
+          <DraggableItemList
+            data={formState.steps}
+            onSortEnd={(sortedData) => {
+              formDispatch({
+                type: SET_FIELD,
+                value: sortedData,
+                field: "steps",
               });
             }}
           />
