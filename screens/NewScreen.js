@@ -55,6 +55,7 @@ import {
 } from "../common_functions/GetImagesToUpload";
 import IconTypes from "../constants/IconTypes";
 import SortingListViewContainer from "../components/SortingListViewContainer";
+import InputListViewContainer from "../components/InputListViewContainer";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -331,96 +332,69 @@ function NewScreen({ route, navigation }) {
           />
         )}
         <MyButton onPress={pickImage}>{"Add image"}</MyButton>
-        <View style={styles.container}>
-          <TouchableOpacity
-            onLongPress={() => {
-              setRenderIngredientSort(true);
-            }}
-          >
-            <Text style={styles.subtitle}>Ingredients</Text>
-            {formState.ingredients.map((ingredient) => (
-              <MyListItem
-                key={ingredient}
-                title={ingredient}
-                IconName={"edit"}
-                onPressIcon={() => {
-                  formDispatch({
-                    type: PREPARE_EDIT_INGREDIENT,
-                    key: ingredient,
-                    ref: inputIngredient,
-                  });
-                }}
-              ></MyListItem>
-            ))}
-          </TouchableOpacity>
-          <Input
-            placeholder="Enter ingredient"
-            ref={inputIngredient}
-            onChangeText={(value) => {
-              formDispatch({ type: SET_INGREDIENT_VALUE, value });
-            }}
-            onBlur={() => {
-              if (formState.ingredientIndex !== null) {
-                formDispatch({
-                  type: EDIT_INGREDIENT,
-                  value: formState.ingredientValue,
-                  ref: inputIngredient,
-                });
-              } else {
-                formDispatch({
-                  type: ADD_INGREDIENT,
-                  value: formState.ingredientValue,
-                  ref: inputIngredient,
-                });
-              }
-            }}
-          ></Input>
-        </View>
-        <View style={styles.container}>
-          <TouchableOpacity
-            onLongPress={() => {
-              setRenderStepsSort(true);
-            }}
-          >
-            <Text style={styles.subtitle}>Steps</Text>
-            {formState.steps.map((step) => (
-              <MyListItem
-                key={step}
-                title={step}
-                IconName={"edit"}
-                onPressIcon={() => {
-                  formDispatch({
-                    type: PREPARE_EDIT_STEP,
-                    key: step,
-                    ref: inputStep,
-                  });
-                }}
-              ></MyListItem>
-            ))}
-          </TouchableOpacity>
-          <Input
-            placeholder="Enter step"
-            ref={inputStep}
-            onChangeText={(value) =>
-              formDispatch({ type: SET_STEP_VALUE, value })
+        <InputListViewContainer
+          // style={styles.container}
+          onLongPress={() => setRenderIngredientSort(true)}
+          title={"Ingredients"}
+          data={formState.ingredients}
+          inputRef={inputIngredient}
+          onPressIcon={(ingredient) => {
+            formDispatch({
+              type: PREPARE_EDIT_INGREDIENT,
+              key: ingredient,
+              ref: inputIngredient,
+            });
+          }}
+          onChangeText={(value) => {
+            formDispatch({ type: SET_INGREDIENT_VALUE, value });
+          }}
+          onBlur={() => {
+            if (formState.ingredientIndex !== null) {
+              formDispatch({
+                type: EDIT_INGREDIENT,
+                value: formState.ingredientValue,
+                ref: inputIngredient,
+              });
+            } else {
+              formDispatch({
+                type: ADD_INGREDIENT,
+                value: formState.ingredientValue,
+                ref: inputIngredient,
+              });
             }
-            onBlur={() => {
-              if (formState.stepIndex !== null) {
-                formDispatch({
-                  type: EDIT_STEP,
-                  value: formState.stepValue,
-                  ref: inputStep,
-                });
-              } else {
-                formDispatch({
-                  type: ADD_STEP,
-                  value: formState.stepValue,
-                  ref: inputStep,
-                });
-              }
-            }}
-          ></Input>
-        </View>
+          }}
+        />
+        <InputListViewContainer
+          title={"Steps"}
+          data={formState.steps}
+          onLongPress={() => setRenderStepsSort(true)}
+          inputRef={inputStep}
+          onPressIcon={(step) => {
+            formDispatch({
+              type: PREPARE_EDIT_STEP,
+              key: step,
+              ref: inputStep,
+            });
+          }}
+          onChangeText={(value) => {
+            formDispatch({ type: SET_STEP_VALUE, value });
+          }}
+          onBlur={() => {
+            if (formState.stepIndex !== null) {
+              formDispatch({
+                type: EDIT_STEP,
+                value: formState.stepValue,
+                ref: inputStep,
+              });
+            } else {
+              formDispatch({
+                type: ADD_STEP,
+                value: formState.stepValue,
+                ref: inputStep,
+              });
+            }
+          }}
+        />
       </ScrollView>
     );
   };
