@@ -37,6 +37,7 @@ const defaultScreenOptions = {
 };
 
 const Tab = createMaterialBottomTabNavigator();
+const devMode = false;
 
 function AuthenticatedTabNavigator() {
   return (
@@ -72,7 +73,7 @@ function AuthenticatedTabNavigator() {
       })}
     >
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
-      {false && <Tab.Screen name="Dev" component={DevStackContainer} />}
+      {devMode && <Tab.Screen name="Dev" component={DevStackContainer} />}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
       <Tab.Screen name="Profile" component={ProfileStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
@@ -82,8 +83,17 @@ function AuthenticatedTabNavigator() {
 
 const MealsStack = createNativeStackNavigator();
 
-function MealsStackContainer({ route }) {
+function MealsStackContainer({ navigation, route }) {
   const dispatch = useDispatch();
+
+  const onHeaderIconPress = () => {
+    devMode
+      ? navigation.navigate("EditScreen", {
+          mealId: "-N93DNXIQFETNW8zh5iV",
+        })
+      : dispatch(authActions.logout());
+  };
+
   return (
     // See https://stackoverflow.com/questions/70341930/screens-dont-render-on-material-bottom-tab-navigator-since-upgrading-to-expo-sd/70998392#comment127025978_70998392
     <View style={{ flex: 1 }} collapsable={false}>
@@ -102,12 +112,10 @@ function MealsStackContainer({ route }) {
             ),
             headerRight: () => (
               <Ionicons
-                name={"exit-outline"}
+                name={devMode ? "cafe" : "exit-outline"}
                 size={25}
                 color={Colors.navigationIcon}
-                onPress={() => {
-                  dispatch(authActions.logout());
-                }}
+                onPress={onHeaderIconPress}
               />
             ),
           })}
