@@ -421,19 +421,23 @@ function NewScreen({ route, navigation }) {
   if (renderIngredientSort) {
     return (
       <View style={{ flex: 1 }}>
-        <MyButton onPress={() => setRenderIngredientSort(false)}>
-          {"Done sorting"}
-        </MyButton>
-        <DraggableItemList
-          data={formState.ingredients}
-          onSortEnd={(sortedData) => {
-            formDispatch({
-              type: SET_FIELD,
-              value: sortedData,
-              field: "ingredients",
-            });
-          }}
-        />
+        <View style={{ padding: 5 }}>
+          <MyButton onPress={() => setRenderIngredientSort(false)}>
+            {"Done sorting"}
+          </MyButton>
+        </View>
+        <View style={{ flex: 1, marginTop: 5 }}>
+          <DraggableItemList
+            data={formState.ingredients}
+            onSortEnd={(sortedData) => {
+              formDispatch({
+                type: SET_FIELD,
+                value: sortedData,
+                field: "ingredients",
+              });
+            }}
+          />
+        </View>
       </View>
     );
   }

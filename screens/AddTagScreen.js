@@ -170,7 +170,7 @@ function AddTagScreen({ route, navigation }) {
             onLongPressTag={deleteTagHandler}
           ></TagList>
         </ScrollView>
-        <View style={styles.createTagContainer}>
+        <View>
           <Divider />
           <Input
             errorMessage={formState.errorMessage}
