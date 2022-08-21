@@ -1,16 +1,16 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
-import HyperLink from "react-native-hyperlink";
+import Linkify from "react-native-linkify";
 
 const MyListItem = (props) => {
   return (
     <View style={styles.listItemView}>
       <ListItem bottomDivider>
         <ListItem.Content>
-          <HyperLink linkDefault={true} linkStyle={{ color: "#2980b9" }}>
+          <Linkify linkDefault={true} linkStyle={styles.linkStyle}>
             <ListItem.Title>{props.title}</ListItem.Title>
-          </HyperLink>
+          </Linkify>
         </ListItem.Content>
         {props.IconName && (
           <Icon
@@ -25,6 +25,7 @@ const MyListItem = (props) => {
 };
 
 const styles = StyleSheet.create({
+  linkStyle: { color: "#2980b9" },
   listItemView: {
     marginHorizontal: 10,
     padding: 2,
