@@ -13,7 +13,11 @@ const MyListItem = (props) => {
           </HyperLink>
         </ListItem.Content>
         {props.IconName && (
-          <Icon name={props.IconName} onPress={props.onPressIcon} />
+          <Icon
+            name={props.IconName}
+            onPress={props.onPressIcon}
+            type={props.iconType}
+          />
         )}
       </ListItem>
     </View>

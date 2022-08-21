@@ -25,6 +25,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
+import IconTypes from "../constants/IconTypes";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -133,7 +134,7 @@ function MealsStackContainer({ navigation, route }) {
                     mealId: route.params.mealId,
                   })
                 }
-                type="ionicon"
+                type={IconTypes.ionicon}
                 color={Colors.navigationIcon}
               />
             ),
@@ -160,7 +161,7 @@ function MealsStackContainer({ navigation, route }) {
                     mealId: route.params.mealId,
                   })
                 }
-                type="ionicon"
+                type={IconTypes.ionicon}
                 color={Colors.navigationIcon}
               />
             ),

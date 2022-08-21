@@ -55,6 +55,7 @@ import {
 } from "../common_functions/GetImagesToUpload";
 import DraggableItemList from "../components/DraggableItemList";
 import { ConvertArrayToArrayOfObjects } from "../common_functions/ConvertArrayToArrayOfObjects";
+import IconTypes from "../constants/IconTypes";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -153,7 +154,7 @@ function NewScreen({ route, navigation }) {
           name={"save"}
           onPress={createMealHandler}
           color={Colors.navigationIcon}
-          type={"ionicon"}
+          type={IconTypes.ionicon}
         />
       ),
     });

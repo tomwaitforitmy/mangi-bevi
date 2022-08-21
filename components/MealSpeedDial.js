@@ -8,6 +8,7 @@ import mealSpeedDialReducer, {
   CLOSE,
   OPEN,
 } from "../store/formReducers/mealSpeedDialReducer";
+import IconTypes from "../constants/IconTypes";
 
 const MealSpeedDial = (props) => {
   const { mealId } = props;
@@ -57,7 +58,7 @@ const MealSpeedDial = (props) => {
     });
   };
 
-  const iconType = "ionicon";
+  const iconType = IconTypes.ionicon;
 
   return (
     <SpeedDial

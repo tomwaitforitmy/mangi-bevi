@@ -15,6 +15,7 @@ import { Divider, Icon, Input } from "react-native-elements";
 import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
+import IconTypes from "../constants/IconTypes";
 
 function AddTagScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -57,7 +58,7 @@ function AddTagScreen({ route, navigation }) {
           name={"save"}
           onPress={saveTagsHandler}
           color={Colors.navigationIcon}
-          type={"ionicon"}
+          type={IconTypes.ionicon}
         />
       ),
     });

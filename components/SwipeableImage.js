@@ -1,6 +1,7 @@
 import React from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { Icon } from "react-native-elements";
+import IconTypes from "../constants/IconTypes";
 
 const SwipeableImage = (props) => {
   return (
@@ -12,7 +13,7 @@ const SwipeableImage = (props) => {
             reverse
             reverseColor="black"
             size={14}
-            type="feather"
+            type={IconTypes.feather}
             name="trash"
             onPress={() => props.onTrashCallback(props.source.uri)}
           />
@@ -23,7 +24,7 @@ const SwipeableImage = (props) => {
             reverse
             reverseColor="black"
             size={14}
-            type="feather"
+            type={IconTypes.feather}
             name="check-circle"
             onPress={() => props.onCheckCallback(props.source.uri)}
           />

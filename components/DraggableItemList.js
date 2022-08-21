@@ -5,6 +5,7 @@ import DraggableFlatList, {
 } from "react-native-draggable-flatlist";
 import MyListItem from "../components/MyListItem";
 import Colors from "../constants/Colors";
+import IconTypes from "../constants/IconTypes";
 
 function DraggableItemList(props) {
   const renderItem = ({ item, drag, isActive }) => {
@@ -21,7 +22,11 @@ function DraggableItemList(props) {
             },
           ]}
         >
-          <MyListItem title={item} IconName={"edit"}></MyListItem>
+          <MyListItem
+            title={item}
+            IconName={"swap-vertical"}
+            iconType={IconTypes.ionicon}
+          ></MyListItem>
         </TouchableOpacity>
       </ScaleDecorator>
     );

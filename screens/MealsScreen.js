@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Chip } from "react-native-elements";
 import Colors from "../constants/Colors";
 import { fetchAll } from "../firebase/fetchAll";
+import IconTypes from "../constants/IconTypes";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ function MealsScreen({ navigation }) {
             title={"Active filters"}
             icon={{
               name: "ios-filter",
-              type: "ionicon",
+              type: IconTypes.ionicon,
               size: 20,
               color: Colors.navigationIcon,
             }}

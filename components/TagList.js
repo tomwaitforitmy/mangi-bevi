@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Chip, Icon } from "react-native-elements";
 import Colors from "../constants/Colors";
+import IconTypes from "../constants/IconTypes";
 
 const TagList = (props) => {
   let useIcon = false;
@@ -37,9 +38,9 @@ const TagList = (props) => {
       return (
         <Icon
           name="close"
-          type="font-awesome"
+          type={IconTypes.fontAwesome}
           size={20}
-          color="white"
+          color={Colors.navigationIcon}
           onPress={() => onIconPressHandler(tag)}
         ></Icon>
       );
