@@ -17,7 +17,7 @@ function DraggableItemList(props) {
             {
               zIndex: isActive ? 1 : 0,
               backgroundColor: Colors.screenBackGround,
-              width: "90%",
+              width: "100%",
             },
           ]}
         >

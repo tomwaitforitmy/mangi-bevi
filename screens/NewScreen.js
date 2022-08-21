@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useReducer,
+  useState,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,6 +15,7 @@ import {
   Alert,
   StatusBar,
   BackHandler,
+  TouchableOpacity,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
@@ -34,6 +36,7 @@ import {
   ADD_IMAGE,
   SET_STEP_VALUE,
   SET_INGREDIENT_VALUE,
+  SET_FIELD,
   PREPARE_EDIT_INGREDIENT,
   PREPARE_EDIT_STEP,
   REMOVE_IMAGE,
@@ -50,10 +53,13 @@ import {
   GetImagesAlreadyUploaded,
   GetImagesToUpload,
 } from "../common_functions/GetImagesToUpload";
+import DraggableItemList from "../components/DraggableItemList";
+import { ConvertArrayToArrayOfObjects } from "../common_functions/ConvertArrayToArrayOfObjects";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
   const user = useSelector((state) => state.users.user);
+  const [renderIngredientSort, setRenderIngredientSort] = useState(false);
 
   let inputMeal;
   if (mealId) {
@@ -325,21 +331,27 @@ function NewScreen({ route, navigation }) {
         )}
         <MyButton onPress={pickImage}>{"Add image"}</MyButton>
         <View style={styles.container}>
-          <Text style={styles.subtitle}>Ingredients</Text>
-          {formState.ingredients.map((ingredient) => (
-            <MyListItem
-              key={ingredient}
-              title={ingredient}
-              IconName={"edit"}
-              onPressIcon={() => {
-                formDispatch({
-                  type: PREPARE_EDIT_INGREDIENT,
-                  key: ingredient,
-                  ref: inputIngredient,
-                });
-              }}
-            ></MyListItem>
-          ))}
+          <TouchableOpacity
+            onLongPress={() => {
+              setRenderIngredientSort(true);
+            }}
+          >
+            <Text style={styles.subtitle}>Ingredients</Text>
+            {formState.ingredients.map((ingredient) => (
+              <MyListItem
+                key={ingredient}
+                title={ingredient}
+                IconName={"edit"}
+                onPressIcon={() => {
+                  formDispatch({
+                    type: PREPARE_EDIT_INGREDIENT,
+                    key: ingredient,
+                    ref: inputIngredient,
+                  });
+                }}
+              ></MyListItem>
+            ))}
+          </TouchableOpacity>
           <Input
             placeholder="Enter ingredient"
             ref={inputIngredient}
@@ -405,6 +417,27 @@ function NewScreen({ route, navigation }) {
       </ScrollView>
     );
   };
+
+  if (renderIngredientSort) {
+    return (
+      <View style={{ flex: 1 }}>
+        <MyButton onPress={() => setRenderIngredientSort(false)}>
+          {"Done sorting"}
+        </MyButton>
+        <DraggableItemList
+          data={ConvertArrayToArrayOfObjects(formState.ingredients)}
+          onSortEnd={(sortedData) => {
+            const newIngredients = sortedData.map((d) => d.title);
+            formDispatch({
+              type: SET_FIELD,
+              value: newIngredients,
+              field: "ingredients",
+            });
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screenContainer}>

@@ -175,7 +175,7 @@ function DevStackContainer({ route }) {
     <View style={{ flex: 1 }} collapsable={false}>
       <DevStack.Navigator screenOptions={defaultScreenOptions}>
         <DevStack.Screen
-          name="DevScreem"
+          name="DevScreen"
           component={DevScreen}
           options={{ title: "Dev" }}
         />

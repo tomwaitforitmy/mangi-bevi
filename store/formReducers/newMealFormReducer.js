@@ -9,6 +9,7 @@ export const ADD_STEP = "ADD_STEP";
 export const ADD_IMAGE = "ADD_IMAGE";
 export const SET_INGREDIENT_VALUE = "SET_INGREDIENT_VALUE";
 export const SET_STEP_VALUE = "SET_STEP_VALUE";
+export const SET_FIELD = "SET_FIELD";
 export const PREPARE_EDIT_INGREDIENT = "PREPARE_EDIT_INGREDIENT";
 export const PREPARE_EDIT_STEP = "PREPARE_EDIT_STEP";
 export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
@@ -16,6 +17,13 @@ export const REMOVE_STEP = "REMOVE_STEP";
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
 
 export default function newMealFormReducer(state, action) {
+  if (action.type === SET_FIELD) {
+    return {
+      ...state,
+      [action.field]: action.value,
+    };
+  }
+
   if (action.type === CHANGE_TITLE) {
     return {
       ...state,
