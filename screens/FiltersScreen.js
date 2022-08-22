@@ -8,7 +8,6 @@ import * as tagActions from "../store/actions/tagsAction";
 function FiltersScreen({ navigation }) {
   const dispatch = useDispatch();
 
-  const allTags = useSelector((state) => state.tags.tags);
   const filterTags = useSelector((state) => state.tags.filterTags);
   const availableFilterTags = useSelector(
     (state) => state.tags.availableFilterTags,
@@ -35,14 +34,14 @@ function FiltersScreen({ navigation }) {
           tags={filterTags}
           onPressTag={removeTagHandler}
           // onLongPressTag={deleteTagHandler}
-        ></TagList>
+        />
         <Text style={styles.subtitle}>Available Tags</Text>
         <Divider />
         <TagList
           tags={availableFilterTags}
           onPressTag={addTagHandler}
           // onLongPressTag={deleteTagHandler}
-        ></TagList>
+        />
       </ScrollView>
     </View>
   );
