@@ -1,4 +1,4 @@
-import { storage } from "../firebase";
+import { storage } from "./firebase";
 import uuid from "uuid";
 import getPictureBlob from "../firebase/getPictureBlob";
 import imageCompress from "./imageCompress";
