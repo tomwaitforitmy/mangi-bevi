@@ -122,7 +122,8 @@ function AuthenticationContent({ navigation, login }) {
             errorMessage={formState.emailError}
             errorStyle={{ color: "red" }}
             value={formState.email}
-            ref={emailInput}></Input>
+            ref={emailInput}
+          />
           {!login && (
             <Input
               placeholderTextColor="white"
@@ -136,7 +137,8 @@ function AuthenticationContent({ navigation, login }) {
                   field: "confirmEmail",
                 })
               }
-              errorMessage={formState.confirmEmailError}></Input>
+              errorMessage={formState.confirmEmailError}
+            />
           )}
           <Input
             inputStyle={{ color: "white" }}
@@ -153,7 +155,8 @@ function AuthenticationContent({ navigation, login }) {
             errorMessage={formState.passwordError}
             secureTextEntry={true}
             value={formState.password}
-            ref={passwordInput}></Input>
+            ref={passwordInput}
+          />
           {!login && (
             <Input
               placeholderTextColor="white"
@@ -168,7 +171,8 @@ function AuthenticationContent({ navigation, login }) {
                 })
               }
               errorMessage={formState.confirmPasswordError}
-              secureTextEntry={true}></Input>
+              secureTextEntry={true}
+            />
           )}
           <MyButton onPress={authHandler}>
             {login ? "Login" : "Sign up"}

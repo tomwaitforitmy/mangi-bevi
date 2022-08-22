@@ -20,7 +20,7 @@ const firebaseConfig = {
 };
 
 // Firebase sets some timeers for a long period, which will trigger some warnings. Let's turn that off for this example
-LogBox.ignoreLogs([`Setting a timer for a long period`]);
+LogBox.ignoreLogs(["Setting a timer for a long period"]);
 
 let firebaseapp;
 if (!firebase.apps.length) {

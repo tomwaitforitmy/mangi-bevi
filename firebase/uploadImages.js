@@ -6,7 +6,7 @@ export async function uploadImages(urls) {
     urls.map(async (item) => {
       await uploadImageToBucket(item)
         .then((uploadedUrl) => {
-          console.log("image uploaded successfuly " + uploadedUrl);
+          console.log("image uploaded successfully " + uploadedUrl);
           uploadedImages = uploadedImages.concat(uploadedUrl);
         })
         .catch((err) => {
