@@ -37,20 +37,19 @@ function MealDetailScreen({ route, navigation }) {
               mealId: selectedMeal.id,
               mealTitle: selectedMeal.title,
             });
-          }}></Image>
-        <TagList tags={tagList}></TagList>
+          }}
+        />
+        <TagList tags={tagList} />
         <Text style={styles.subtitle}>Ingredients</Text>
         {selectedMeal.ingredients.map((ingredient) => (
-          <MyListItem key={ingredient} title={ingredient}></MyListItem>
+          <MyListItem key={ingredient} title={ingredient} />
         ))}
         <Text style={styles.subtitle}>Steps</Text>
         {selectedMeal.steps.map((step) => (
-          <MyListItem key={step} title={step}></MyListItem>
+          <MyListItem key={step} title={step} />
         ))}
       </ScrollView>
-      <MealSpeedDial
-        mealId={selectedMeal.id}
-        navigation={navigation}></MealSpeedDial>
+      <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
     </View>
   );
 }

@@ -15,7 +15,6 @@ function ProfileScreen({ navigation }) {
   let countTags = 0;
   let countIngredients = 0;
   let countSteps = 0;
-  let counter = 0;
   let experiencedUser = false;
 
   //Bug here: This get's updated when "allMeals" changes after createMeal
@@ -30,7 +29,6 @@ function ProfileScreen({ navigation }) {
         countTags += found.tags.length;
         countSteps += found.steps.length;
         countIngredients += found.ingredients.length;
-        counter++;
       }
     });
     experiencedUser = userMeals.length > 1;

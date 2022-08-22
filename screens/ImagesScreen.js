@@ -8,7 +8,7 @@ function ImagesScreen({ route }) {
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
-  return <ImageSwipe images={selectedMeal.imageUrls}></ImageSwipe>;
+  return <ImageSwipe images={selectedMeal.imageUrls} />;
 }
 
 export default ImagesScreen;
