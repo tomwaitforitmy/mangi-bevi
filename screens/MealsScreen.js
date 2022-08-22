@@ -7,6 +7,7 @@ import { Chip } from "react-native-elements";
 import Colors from "../constants/Colors";
 import { fetchAll } from "../firebase/fetchAll";
 import IconTypes from "../constants/IconTypes";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function MealsScreen({ navigation }) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchAll(dispatch).then(setRefreshing(false));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -68,7 +69,8 @@ function MealsScreen({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         mealsList={filteredMeals.length > 0 ? filteredMeals : allMeals}
-        navigation={navigation}></MealList>
+        navigation={navigation}
+      />
     </View>
   );
 }

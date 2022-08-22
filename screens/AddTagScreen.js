@@ -1,4 +1,9 @@
-import React, { useEffect, useLayoutEffect, useReducer } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+} from "react";
 import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
@@ -36,7 +41,19 @@ function AddTagScreen({ route, navigation }) {
 
   const [formState, formDispatch] = useReducer(tagFormReducer, initialState);
 
-  const saveTagsHandler = async () => {
+  const saveTagsHandler = useCallback(async () => {
+    const saveTags = async (meal, tags) => {
+      formDispatch({ type: LOADING });
+      meal.tags = tags.map((t) => t.id);
+      try {
+        await dispatch(mealActions.editMeal(meal));
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        formDispatch({ type: SUBMITTED });
+      }
+    };
+
     await saveTags(selectedMeal, addedTags);
     navigation.navigate({
       name: "Details",
@@ -45,11 +62,11 @@ function AddTagScreen({ route, navigation }) {
         mealTitle: selectedMeal.title,
       },
     });
-  };
+  }, [addedTags, dispatch, navigation, selectedMeal]);
 
   useEffect(() => {
     dispatch(tagActions.setAddedTags(selectedMeal.tags));
-  }, [dispatch, mealId]);
+  }, [dispatch, mealId, selectedMeal.tags]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,7 +79,7 @@ function AddTagScreen({ route, navigation }) {
         />
       ),
     });
-  }, [navigation, formState, dispatch, addedTags]);
+  }, [navigation, formState, dispatch, addedTags, saveTagsHandler]);
 
   const addTagHandler = (tag) => {
     dispatch(tagActions.addTag(tag));
@@ -135,19 +152,6 @@ function AddTagScreen({ route, navigation }) {
     }
   };
 
-  const saveTags = async (meal, tags) => {
-    formDispatch({ type: LOADING });
-    meal.tags = tags.map((t) => t.id);
-
-    try {
-      await dispatch(mealActions.editMeal(meal));
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      formDispatch({ type: SUBMITTED });
-    }
-  };
-
   if (formState.isLoading) {
     return <LoadingIndicator />;
   }
@@ -161,13 +165,15 @@ function AddTagScreen({ route, navigation }) {
           <TagList
             tags={addedTags}
             onPressTag={removeTagHandler}
-            onLongPressTag={deleteTagHandler}></TagList>
+            onLongPressTag={deleteTagHandler}
+          />
           <Text style={styles.subtitle}>Available Tags</Text>
           <Divider />
           <TagList
             tags={availableTags}
             onPressTag={addTagHandler}
-            onLongPressTag={deleteTagHandler}></TagList>
+            onLongPressTag={deleteTagHandler}
+          />
         </ScrollView>
         <View>
           <Divider />
@@ -176,7 +182,8 @@ function AddTagScreen({ route, navigation }) {
             placeholder="Enter tag"
             onChangeText={(value) =>
               formDispatch({ type: EDIT_TAG_TITLE, value })
-            }></Input>
+            }
+          />
           <MyButton onPress={createTagHandler}>{"Create new tag"}</MyButton>
         </View>
       </View>
