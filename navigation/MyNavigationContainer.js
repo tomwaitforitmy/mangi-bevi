@@ -290,7 +290,7 @@ const MyNavigationContainer = (props) => {
     const tryLogin = async () => {
       const tokenData = await LoadToken();
 
-      if (!!tokenData) {
+      if (tokenData) {
         dispatch(
           authActions.authenticate(
             tokenData.token,
@@ -303,7 +303,7 @@ const MyNavigationContainer = (props) => {
 
       const credentials = await LoadCredentials();
 
-      if (!!credentials) {
+      if (credentials) {
         dispatch(authActions.login(credentials.email, credentials.password));
       }
     };
@@ -330,10 +330,8 @@ const MyNavigationContainer = (props) => {
 
   return (
     <NavigationContainer>
-      {!isAuthenticated && <LoginStackContainer></LoginStackContainer>}
-      {isAuthenticated && (
-        <AuthenticatedTabNavigator></AuthenticatedTabNavigator>
-      )}
+      {!isAuthenticated && <LoginStackContainer />}
+      {isAuthenticated && <AuthenticatedTabNavigator />}
     </NavigationContainer>
   );
 };
