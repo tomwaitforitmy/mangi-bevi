@@ -41,7 +41,7 @@ const PanGestureTest = (props) => {
 
           const distance = pointsDistance(
             [touchA.pageX, touchA.pageY],
-            [touchB.pageX, touchB.pageY]
+            [touchB.pageX, touchB.pageY],
           );
 
           const screenMovedPercents = distance / dimensions.width;
@@ -64,7 +64,7 @@ const PanGestureTest = (props) => {
           }),
         ]).start();
       },
-    })
+    }),
   ).current;
 
   return (

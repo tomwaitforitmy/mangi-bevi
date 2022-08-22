@@ -74,7 +74,7 @@ function AddTagScreen({ route, navigation }) {
 
   const deleteTagHandler = (tag) => {
     const mealsWithTag = availableMeals.filter((m) =>
-      m.tags.some((t) => t === tag.id)
+      m.tags.some((t) => t === tag.id),
     );
 
     Alert.alert(
@@ -90,7 +90,7 @@ function AddTagScreen({ route, navigation }) {
           style: "cancel",
         },
         { text: "OK", onPress: () => deleteTag(tag, mealsWithTag) },
-      ]
+      ],
     );
   };
 
@@ -104,7 +104,7 @@ function AddTagScreen({ route, navigation }) {
         mealsWithTag.map(async (meal) => {
           meal.tags = meal.tags.filter((e) => e !== tag.id);
           await dispatch(mealActions.editMeal(meal));
-        })
+        }),
       );
     } catch (error) {
       console.log(error.message);
@@ -161,15 +161,13 @@ function AddTagScreen({ route, navigation }) {
           <TagList
             tags={addedTags}
             onPressTag={removeTagHandler}
-            onLongPressTag={deleteTagHandler}
-          ></TagList>
+            onLongPressTag={deleteTagHandler}></TagList>
           <Text style={styles.subtitle}>Available Tags</Text>
           <Divider />
           <TagList
             tags={availableTags}
             onPressTag={addTagHandler}
-            onLongPressTag={deleteTagHandler}
-          ></TagList>
+            onLongPressTag={deleteTagHandler}></TagList>
         </ScrollView>
         <View>
           <Divider />
@@ -178,8 +176,7 @@ function AddTagScreen({ route, navigation }) {
             placeholder="Enter tag"
             onChangeText={(value) =>
               formDispatch({ type: EDIT_TAG_TITLE, value })
-            }
-          ></Input>
+            }></Input>
           <MyButton onPress={createTagHandler}>{"Create new tag"}</MyButton>
         </View>
       </View>

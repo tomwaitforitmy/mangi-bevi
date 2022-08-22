@@ -11,7 +11,7 @@ function FiltersScreen({ navigation }) {
   const allTags = useSelector((state) => state.tags.tags);
   const filterTags = useSelector((state) => state.tags.filterTags);
   const availableFilterTags = useSelector(
-    (state) => state.tags.availableFilterTags
+    (state) => state.tags.availableFilterTags,
   );
 
   useEffect(() => {

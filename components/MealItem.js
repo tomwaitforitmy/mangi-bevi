@@ -19,8 +19,7 @@ const MealItem = (props) => {
                   ? props.image
                   : "https://dummyimage.com/300x200&text=No+image+yet",
               }}
-              style={styles.backgroundImage}
-            >
+              style={styles.backgroundImage}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={1}>
                   {props.title}

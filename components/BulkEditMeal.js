@@ -36,7 +36,7 @@ const BulkEditMeal = (props) => {
               } else {
                 imagesAlreadyUploaded = imagesAlreadyUploaded.concat(uri);
               }
-            })
+            }),
           );
         }
 
@@ -54,7 +54,7 @@ const BulkEditMeal = (props) => {
 
             //Check if we upload the primary image
             let primaryImageIndex = imagesAlreadyUploaded.indexOf(
-              m.primaryImageUrl
+              m.primaryImageUrl,
             );
 
             const editedMeal = new Meal(
@@ -66,14 +66,14 @@ const BulkEditMeal = (props) => {
               m.steps,
               imagesAlreadyUploaded.concat(uploadedImages),
               m.tags,
-              m.rating
+              m.rating,
             );
 
             //Watch out for what is edited before pushing to firebase
             //await dispatch(mealActions.editMeal(editedMeal));
           }
         }
-      })
+      }),
     );
   };
 

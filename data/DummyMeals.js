@@ -13,7 +13,7 @@ export const MEALS = [
       "Spices",
       "Cheese (optional)",
     ],
-    ["Cook Spaghetti", "Cut onion"]
+    ["Cook Spaghetti", "Cut onion"],
   ),
   new Meal(
     "Toast Hawaii",
@@ -30,7 +30,7 @@ export const MEALS = [
       "Butter one side of the white bread",
       "Layer ham, the pineapple and cheese on the white bread",
       "Bake the toast for round about 10 minutes in the oven at 200°C",
-    ]
+    ],
   ),
 
   new Meal(
@@ -48,7 +48,7 @@ export const MEALS = [
       "Butter one side of the white bread",
       "Layer ham, the pineapple and cheese on the white bread",
       "Bake the toast for round about 10 minutes in the oven at 200°C",
-    ]
+    ],
   ),
 
   new Meal(
@@ -66,7 +66,7 @@ export const MEALS = [
       "Butter one side of the white bread",
       "Layer ham, the pineapple and cheese on the white bread",
       "Bake the toast for round about 10 minutes in the oven at 200°C",
-    ]
+    ],
   ),
 
   new Meal(
@@ -84,7 +84,7 @@ export const MEALS = [
       "Butter one side of the white bread",
       "Layer ham, the pineapple and cheese on the white bread",
       "Bake the toast for round about 10 minutes in the oven at 200°C",
-    ]
+    ],
   ),
 
   new Meal(
@@ -102,7 +102,7 @@ export const MEALS = [
       "Butter one side of the white bread",
       "Layer ham, the pineapple and cheese on the white bread",
       "Bake the toast for round about 10 minutes in the oven at 200°C",
-    ]
+    ],
   ),
 
   new Meal(
@@ -120,6 +120,6 @@ export const MEALS = [
       "Butter one side of the white bread",
       "Layer ham, the pineapple and cheese on the white bread",
       "Bake the toast for round about 10 minutes in the oven at 200°C",
-    ]
+    ],
   ),
 ];

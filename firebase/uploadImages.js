@@ -13,7 +13,7 @@ export async function uploadImages(urls) {
           console.log("error uploading image: " + item + " error: " + err);
           uploadedImages = uploadedImages.concat(item);
         });
-    })
+    }),
   );
   return uploadedImages;
 }

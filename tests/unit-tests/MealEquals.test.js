@@ -27,7 +27,7 @@ describe("Given two new meals with same mandatory fields", () => {
       "primUrl",
       ["1 item", "another item"],
       ["1 step"],
-      ["image url"]
+      ["image url"],
     );
     const m2 = new Meal(
       "test",
@@ -35,7 +35,7 @@ describe("Given two new meals with same mandatory fields", () => {
       "primUrl",
       ["1 item", "another item"],
       ["1 step"],
-      ["image url"]
+      ["image url"],
     );
     const result = MealEquals(m1, m2);
     expect(result).toBe(true);
@@ -50,7 +50,7 @@ describe("Given two new meals with different mandatory fields", () => {
       "primUrl",
       ["1 item", "another item"],
       ["1 step"],
-      ["image url"]
+      ["image url"],
     );
     const m2 = new Meal(
       "test",
@@ -58,7 +58,7 @@ describe("Given two new meals with different mandatory fields", () => {
       "primUrl",
       ["1 item", "not equal item"],
       ["1 step"],
-      ["image url"]
+      ["image url"],
     );
     const result = MealEquals(m1, m2);
     expect(result).toBe(false);
@@ -73,7 +73,7 @@ describe("Given two new meals with ingredients in different order", () => {
       "primUrl",
       ["wrong", "order"],
       ["1 step"],
-      ["image url"]
+      ["image url"],
     );
     const m2 = new Meal(
       "test",
@@ -81,7 +81,7 @@ describe("Given two new meals with ingredients in different order", () => {
       "primUrl",
       ["order", "wrong"],
       ["1 step"],
-      ["image url"]
+      ["image url"],
     );
     const result = MealEquals(m1, m2);
     expect(result).toBe(false);

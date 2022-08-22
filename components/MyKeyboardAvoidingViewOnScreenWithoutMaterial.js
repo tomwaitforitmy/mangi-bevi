@@ -12,8 +12,7 @@ const MyKeyboardAvoidingViewOnScreenWithoutMaterial = ({ children }) => {
         style={styles.container}
         behavior={"padding"}
         //as suggested in many places online the magic 64 seems "ok"
-        keyboardVerticalOffset={headerHeight}
-      >
+        keyboardVerticalOffset={headerHeight}>
         {children}
       </KeyboardAvoidingView>
     );

@@ -7,8 +7,7 @@ const LoadingIndicator = (props) => {
     <View style={{ ...styles.container, ...props.style }}>
       <ActivityIndicator
         size="large"
-        color={Colors.primary}
-      ></ActivityIndicator>
+        color={Colors.primary}></ActivityIndicator>
     </View>
   );
 };

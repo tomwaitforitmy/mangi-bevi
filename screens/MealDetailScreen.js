@@ -37,8 +37,7 @@ function MealDetailScreen({ route, navigation }) {
               mealId: selectedMeal.id,
               mealTitle: selectedMeal.title,
             });
-          }}
-        ></Image>
+          }}></Image>
         <TagList tags={tagList}></TagList>
         <Text style={styles.subtitle}>Ingredients</Text>
         {selectedMeal.ingredients.map((ingredient) => (
@@ -51,8 +50,7 @@ function MealDetailScreen({ route, navigation }) {
       </ScrollView>
       <MealSpeedDial
         mealId={selectedMeal.id}
-        navigation={navigation}
-      ></MealSpeedDial>
+        navigation={navigation}></MealSpeedDial>
     </View>
   );
 }

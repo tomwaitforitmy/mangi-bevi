@@ -71,8 +71,7 @@ function AuthenticatedTabNavigator() {
         },
 
         tabBarColor: Colors.primary,
-      })}
-    >
+      })}>
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
       {devMode && <Tab.Screen name="Dev" component={DevStackContainer} />}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
@@ -296,8 +295,8 @@ const MyNavigationContainer = (props) => {
           authActions.authenticate(
             tokenData.token,
             tokenData.userId,
-            tokenData.experiationTime
-          )
+            tokenData.experiationTime,
+          ),
         );
         return;
       }

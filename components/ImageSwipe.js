@@ -28,8 +28,7 @@ const ImageSwipe = (props) => {
         />
       )}
       saveToLocalByLongPress={false}
-      backgroundColor={"grey"}
-    ></ImageViewer>
+      backgroundColor={"grey"}></ImageViewer>
   );
 };
 

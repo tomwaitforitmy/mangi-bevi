@@ -32,7 +32,7 @@ const imageCompress = async (image, { width, height }) => {
       {
         compress,
         format: ImageManipulator.SaveFormat.JPEG,
-      }
+      },
     );
 
     return compressedPhoto.uri;

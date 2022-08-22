@@ -10,7 +10,7 @@ export const fetchUsers = () => {
     console.log("Begin fetch Users");
     try {
       const response = await fetch(
-        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users.json"
+        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users.json",
       );
 
       await HandleResponseError(response);
@@ -25,8 +25,8 @@ export const fetchUsers = () => {
             responseData[key].name,
             responseData[key].email,
             responseData[key].meals ? responseData[key].meals : [],
-            responseData[key].firebaseId
-          )
+            responseData[key].firebaseId,
+          ),
         );
       }
 
@@ -67,7 +67,7 @@ export const createUser = (user) => {
           "Content-type": "application/json",
         },
         body: JSON.stringify(user, replacer),
-      }
+      },
     );
 
     await HandleResponseError(response);
@@ -96,7 +96,7 @@ export const editUser = (user) => {
           "Content-type": "application/json",
         },
         body: JSON.stringify(user, replacer),
-      }
+      },
     );
 
     await HandleResponseError(response);

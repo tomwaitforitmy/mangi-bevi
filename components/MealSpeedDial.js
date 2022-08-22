@@ -23,7 +23,7 @@ const MealSpeedDial = (props) => {
   };
   const [formState, formDispatch] = useReducer(
     mealSpeedDialReducer,
-    initialState
+    initialState,
   );
 
   const shareMeal = async () => {
@@ -32,7 +32,7 @@ const MealSpeedDial = (props) => {
         message: GetMealSummary(
           selectedMeal.title,
           selectedMeal.ingredients,
-          selectedMeal.steps
+          selectedMeal.steps,
         ),
       });
       if (result.action === Share.sharedAction) {
@@ -75,8 +75,7 @@ const MealSpeedDial = (props) => {
         type: iconType,
       }}
       onOpen={() => formDispatch({ type: OPEN })}
-      onClose={() => formDispatch({ type: CLOSE })}
-    >
+      onClose={() => formDispatch({ type: CLOSE })}>
       <SpeedDial.Action
         icon={{
           name: "pricetags",

@@ -14,7 +14,7 @@ describe("Given a nicely initialized meal", () => {
     const result = GetMealSummary(
       "My nice title 😊",
       ["Sugar", "Salt"],
-      ["Mix it all together"]
+      ["Mix it all together"],
     );
     expect(result).toEqual(expectedOutput);
   });
@@ -27,12 +27,12 @@ describe("Given a nicely initialized meal", () => {
       ["Mix it all together"],
       [],
       null,
-      null
+      null,
     );
     const result = GetMealSummary(
       niceInput.title,
       niceInput.ingredients,
-      niceInput.steps
+      niceInput.steps,
     );
     expect(result).toEqual(expectedOutput);
   });

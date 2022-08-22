@@ -93,7 +93,7 @@ function AuthenticationContent({ navigation, login }) {
       } catch (err) {
         Alert.alert(
           "Could not login!",
-          "Please check your input and your internet connection!"
+          "Please check your input and your internet connection!",
         );
         console.log(err);
         formDispatch({ type: SUBMITTED });
@@ -109,8 +109,7 @@ function AuthenticationContent({ navigation, login }) {
     <MyKeyboardAvoidingViewOnScreenWithoutMaterial>
       <LinearGradient
         colors={[Colors.second, Colors.primary]}
-        style={styles.gradient}
-      >
+        style={styles.gradient}>
         <View style={styles.innerContainer}>
           <Input
             placeholderTextColor="white"
@@ -123,8 +122,7 @@ function AuthenticationContent({ navigation, login }) {
             errorMessage={formState.emailError}
             errorStyle={{ color: "red" }}
             value={formState.email}
-            ref={emailInput}
-          ></Input>
+            ref={emailInput}></Input>
           {!login && (
             <Input
               placeholderTextColor="white"
@@ -138,8 +136,7 @@ function AuthenticationContent({ navigation, login }) {
                   field: "confirmEmail",
                 })
               }
-              errorMessage={formState.confirmEmailError}
-            ></Input>
+              errorMessage={formState.confirmEmailError}></Input>
           )}
           <Input
             inputStyle={{ color: "white" }}
@@ -156,8 +153,7 @@ function AuthenticationContent({ navigation, login }) {
             errorMessage={formState.passwordError}
             secureTextEntry={true}
             value={formState.password}
-            ref={passwordInput}
-          ></Input>
+            ref={passwordInput}></Input>
           {!login && (
             <Input
               placeholderTextColor="white"
@@ -172,8 +168,7 @@ function AuthenticationContent({ navigation, login }) {
                 })
               }
               errorMessage={formState.confirmPasswordError}
-              secureTextEntry={true}
-            ></Input>
+              secureTextEntry={true}></Input>
           )}
           <MyButton onPress={authHandler}>
             {login ? "Login" : "Sign up"}
@@ -181,16 +176,14 @@ function AuthenticationContent({ navigation, login }) {
           {login && (
             <MyButton
               style={styles.switchButton}
-              onPress={() => navigation.replace("SignUpScreen")}
-            >
+              onPress={() => navigation.replace("SignUpScreen")}>
               {"Create new account"}
             </MyButton>
           )}
           {!login && (
             <MyButton
               style={styles.switchButton}
-              onPress={() => navigation.replace("LoginScreen")}
-            >
+              onPress={() => navigation.replace("LoginScreen")}>
               {"Login existing account"}
             </MyButton>
           )}

@@ -66,7 +66,7 @@ function NewScreen({ route, navigation }) {
   let inputMeal;
   if (mealId) {
     inputMeal = useSelector((state) =>
-      state.meals.meals.find((m) => m.id === mealId)
+      state.meals.meals.find((m) => m.id === mealId),
     );
   }
 
@@ -85,7 +85,7 @@ function NewScreen({ route, navigation }) {
 
   const [formState, formDispatch] = useReducer(
     newMealFormReducer,
-    initialState
+    initialState,
   );
 
   const dispatch = useDispatch();
@@ -106,7 +106,7 @@ function NewScreen({ route, navigation }) {
         formState.steps,
         formState.imageUrls,
         inputMeal.tags,
-        inputMeal.rating
+        inputMeal.rating,
       );
 
       changesMade = !MealEquals(inputMeal, editedMeal);
@@ -136,7 +136,7 @@ function NewScreen({ route, navigation }) {
 
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
-      backAction
+      backAction,
     );
 
     return () => backHandler.remove();
@@ -194,7 +194,7 @@ function NewScreen({ route, navigation }) {
       formState.steps,
       uploadedImages,
       [],
-      0
+      0,
     );
   }
 
@@ -218,7 +218,7 @@ function NewScreen({ route, navigation }) {
       formState.steps,
       imagesAlreadyUploaded.concat(uploadedImages),
       inputMeal.tags,
-      inputMeal.rating
+      inputMeal.rating,
     );
     return editedMeal;
   }
@@ -305,7 +305,7 @@ function NewScreen({ route, navigation }) {
                     text: "No",
                     style: "cancel",
                   },
-                ]
+                ],
               );
             }}
             onTrashCallback={(url) => {
@@ -326,7 +326,7 @@ function NewScreen({ route, navigation }) {
                     text: "No",
                     style: "cancel",
                   },
-                ]
+                ],
               );
             }}
           />
@@ -410,8 +410,7 @@ function NewScreen({ route, navigation }) {
             value: sortedData,
             field: "ingredients",
           });
-        }}
-      ></SortingListViewContainer>
+        }}></SortingListViewContainer>
     );
   }
 
@@ -426,8 +425,7 @@ function NewScreen({ route, navigation }) {
             value: sortedData,
             field: "steps",
           });
-        }}
-      ></SortingListViewContainer>
+        }}></SortingListViewContainer>
     );
   }
 
@@ -441,8 +439,7 @@ function NewScreen({ route, navigation }) {
           labelStyle={styles.title}
           onChangeText={(value) => {
             formDispatch({ type: CHANGE_TITLE, value: value });
-          }}
-        ></Input>
+          }}></Input>
       </View>
       {Platform.OS === "android" ? (
         renderInputs()

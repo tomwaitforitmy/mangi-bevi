@@ -185,8 +185,7 @@ function Song({ artist, cover, title }) {
         alignItems: "center",
         height: SONG_HEIGHT,
         padding: 10,
-      }}
-    >
+      }}>
       <Image
         source={{ uri: cover }}
         style={{ height: 50, width: 50, borderRadius: 4 }}
@@ -195,15 +194,13 @@ function Song({ artist, cover, title }) {
       <View
         style={{
           marginLeft: 10,
-        }}
-      >
+        }}>
         <Text
           style={{
             fontSize: 16,
             fontWeight: "600",
             marginBottom: 4,
-          }}
-        >
+          }}>
           {title}
         </Text>
 
@@ -236,7 +233,7 @@ function MovableSong({
         }
       }
     },
-    [moving]
+    [moving],
   );
 
   const gestureHandler = useAnimatedGestureHandler({
@@ -270,14 +267,14 @@ function MovableSong({
       const newPosition = clamp(
         Math.floor(positionY / SONG_HEIGHT),
         0,
-        songsCount - 1
+        songsCount - 1,
       );
 
       if (newPosition !== positions.value[id]) {
         positions.value = objectMove(
           positions.value,
           positions.value[id],
-          newPosition
+          newPosition,
         );
       }
     },
@@ -329,7 +326,7 @@ export default function DragToSortCode() {
 
   useAnimatedReaction(
     () => scrollY.value,
-    (scrolling) => scrollTo(scrollViewRef, 0, scrolling, false)
+    (scrolling) => scrollTo(scrollViewRef, 0, scrolling, false),
   );
 
   const handleScroll = useAnimatedScrollHandler((event) => {
@@ -349,8 +346,7 @@ export default function DragToSortCode() {
         }}
         contentContainerStyle={{
           height: SONGS.length * SONG_HEIGHT,
-        }}
-      >
+        }}>
         {SONGS.map((song) => (
           <MovableSong
             key={song.id}

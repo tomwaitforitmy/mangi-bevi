@@ -11,7 +11,7 @@ export const CreateMovableDataArray = (elements) => {
       element.size,
       index,
       position,
-      position + element.size * 0.5
+      position + element.size * 0.5,
     );
     array.push(data);
     position += element.size;

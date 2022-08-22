@@ -10,7 +10,7 @@ import { ConvertArrayToArrayOfObjects } from "../common_functions/ConvertArrayTo
 function DevScreen({ navigation }) {
   const id = "-N93DNXIQFETNW8zh5iV";
   const inputMeal = useSelector((state) =>
-    state.meals.meals.find((m) => m.id === id)
+    state.meals.meals.find((m) => m.id === id),
   );
 
   const myArray = ["Cheese", "Tomatoes", "Water"];

@@ -55,8 +55,7 @@ function ProfileScreen({ navigation }) {
               navigation.navigate("UserMealsScreen", {
                 userMeals: userMeals,
               });
-            }}
-          >
+            }}>
             {"View"}
           </MyButton>
         </View>
@@ -68,8 +67,7 @@ function ProfileScreen({ navigation }) {
           <MyButton
             onPress={() => {
               navigation.jumpTo("New");
-            }}
-          >
+            }}>
             {"Add"}
           </MyButton>
         </View>
@@ -82,8 +80,7 @@ function ProfileScreen({ navigation }) {
         <MyButton
           onPress={async () => {
             await fetchAll(dispatch);
-          }}
-        >
+          }}>
           {"Refresh"}
         </MyButton>
         <Divider />

@@ -7,7 +7,7 @@ class Meal {
     steps,
     imageUrls,
     tags,
-    rating
+    rating,
   ) {
     this.title = title;
     this.id = id;

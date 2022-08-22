@@ -68,8 +68,7 @@ function MealsScreen({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         mealsList={filteredMeals.length > 0 ? filteredMeals : allMeals}
-        navigation={navigation}
-      ></MealList>
+        navigation={navigation}></MealList>
     </View>
   );
 }

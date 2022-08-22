@@ -66,22 +66,22 @@ export const signup = (email, password) => {
           password: password,
           returnSecureToken: true,
         }),
-      }
+      },
     );
 
     await HandleResponseError(response);
 
     const responseData = await response.json();
     const experiationTimeInMs = convertExpirationTimeToMs(
-      responseData.expiresIn
+      responseData.expiresIn,
     );
 
     dispatch(
       authenticate(
         responseData.idToken,
         responseData.localId,
-        experiationTimeInMs
-      )
+        experiationTimeInMs,
+      ),
     );
 
     const user = new User("error", email, email, [], responseData.localId);
@@ -90,12 +90,12 @@ export const signup = (email, password) => {
     });
 
     const expericationDate = new Date(
-      new Date().getTime() + experiationTimeInMs
+      new Date().getTime() + experiationTimeInMs,
     );
     SaveTokenDataToStorage(
       responseData.idToken,
       responseData.localId,
-      expericationDate
+      expericationDate,
     );
     SaveCredentialsToStorage(email, password);
   };
@@ -113,7 +113,7 @@ export const login = (email, password) => {
           password: password,
           returnSecureToken: true,
         }),
-      }
+      },
     );
 
     await HandleResponseError(response);
@@ -121,15 +121,15 @@ export const login = (email, password) => {
     const responseData = await response.json();
 
     const experiationTimeInMs = convertExpirationTimeToMs(
-      responseData.expiresIn
+      responseData.expiresIn,
     );
 
     dispatch(
       authenticate(
         responseData.idToken,
         responseData.localId,
-        experiationTimeInMs
-      )
+        experiationTimeInMs,
+      ),
     );
 
     dispatch(usersActions.fetchUsers()).then(() => {
@@ -137,12 +137,12 @@ export const login = (email, password) => {
     });
 
     const expericationDate = new Date(
-      new Date().getTime() + experiationTimeInMs
+      new Date().getTime() + experiationTimeInMs,
     );
     SaveTokenDataToStorage(
       responseData.idToken,
       responseData.localId,
-      expericationDate
+      expericationDate,
     );
     SaveCredentialsToStorage(email, password);
   };

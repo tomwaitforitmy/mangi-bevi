@@ -52,7 +52,7 @@ export const fetchTags = () => {
     console.log("Begin fetchTags");
     try {
       const response = await fetch(
-        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags.json"
+        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags.json",
       );
 
       await HandleResponseError(response);
@@ -98,7 +98,7 @@ export const createTag = (tag) => {
           "Content-type": "application/json",
         },
         body: JSON.stringify(tag, replacer),
-      }
+      },
     );
 
     await HandleResponseError(response);
@@ -125,7 +125,7 @@ export const editTag = (tag) => {
           "Content-type": "application/json",
         },
         body: JSON.stringify(tag, replacer),
-      }
+      },
     );
 
     await HandleResponseError(response);
@@ -143,7 +143,7 @@ export const deleteTag = (id) => {
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags/${id}.json?auth=${token}`,
       {
         method: "DELETE",
-      }
+      },
     );
 
     await HandleResponseError(response);

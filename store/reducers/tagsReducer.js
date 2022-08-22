@@ -28,7 +28,7 @@ const tagsReducer = (state = initialState, action) => {
         ...state,
         addedTags: [...state.addedTags, action.tag],
         availableTags: state.availableTags.filter(
-          (e) => e.id !== action.tag.id
+          (e) => e.id !== action.tag.id,
         ),
       };
     }
@@ -66,7 +66,7 @@ const tagsReducer = (state = initialState, action) => {
         ...state,
         filterTags: [...state.filterTags, action.tag],
         availableFilterTags: state.availableFilterTags.filter(
-          (e) => e.id !== action.tag.id
+          (e) => e.id !== action.tag.id,
         ),
       };
     }

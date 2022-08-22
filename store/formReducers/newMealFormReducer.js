@@ -83,7 +83,7 @@ export default function newMealFormReducer(state, action) {
         return {
           ...state,
           ingredients: state.ingredients.filter(
-            (_, i) => i !== state.ingredientIndex
+            (_, i) => i !== state.ingredientIndex,
           ),
           ingredientValue: "",
           ingredientIndex: null,
@@ -202,7 +202,7 @@ export default function newMealFormReducer(state, action) {
 
   if (action.type === REMOVE_IMAGE) {
     const newImageUrls = state.imageUrls.filter(
-      (url, index) => url !== action.value //just keeping index here to remind me how it works
+      (url, index) => url !== action.value, //just keeping index here to remind me how it works
     );
 
     //no image left, return default values

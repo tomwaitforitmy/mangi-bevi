@@ -22,7 +22,7 @@ const mealsReducer = (state = initialState, action) => {
     }
     case TOGGLE_FAVORITE: {
       const existingIndex = state.favoriteMeals.findIndex(
-        (meal) => meal.id === action.mealId
+        (meal) => meal.id === action.mealId,
       );
       if (existingIndex >= 0) {
         const updatedFavMeals = [...state.favoriteMeals];

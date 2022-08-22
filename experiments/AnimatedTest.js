@@ -17,8 +17,7 @@ const AnimatedTest = (props) => {
           x: event.nativeEvent.locationX,
           y: event.nativeEvent.locationY,
         });
-      }}
-    >
+      }}>
       <Animated.View
         style={{
           position: "absolute",

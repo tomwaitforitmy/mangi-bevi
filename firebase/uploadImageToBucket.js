@@ -18,7 +18,7 @@ export const uploadImageToBucket = async (uri) => {
       (error) => {
         console.log(error);
         height = 720;
-      }
+      },
     );
     const compressed = await imageCompress(uri, { height, width });
 

@@ -47,7 +47,7 @@ export const SaveTokenDataToStorage = (token, userId, expericationDate) => {
       token: token,
       userId: userId,
       expericationDate: expericationDate.toISOString(),
-    })
+    }),
   );
 };
 
@@ -57,7 +57,7 @@ export const SaveCredentialsToStorage = (email, password) => {
     JSON.stringify({
       email: email,
       password: password,
-    })
+    }),
   );
 };
 

@@ -17,7 +17,7 @@ export const fetchMeals = () => {
     console.log("Begin fetchMeals");
     try {
       const response = await fetch(
-        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals.json"
+        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals.json",
       );
 
       await HandleResponseError(response);
@@ -35,8 +35,8 @@ export const fetchMeals = () => {
             responseData[key].steps,
             responseData[key].imageUrls ? responseData[key].imageUrls : [],
             responseData[key].tags ? responseData[key].tags : [],
-            responseData[key].rating ? responseData[key].rating : 0
-          )
+            responseData[key].rating ? responseData[key].rating : 0,
+          ),
         );
       }
 
@@ -74,7 +74,7 @@ export const createMeal = (meal) => {
           "Content-type": "application/json",
         },
         body: JSON.stringify(meal, replacer),
-      }
+      },
     );
 
     await HandleResponseError(response);
@@ -103,7 +103,7 @@ export const editMeal = (meal) => {
           "Content-type": "application/json",
         },
         body: JSON.stringify(meal, replacer),
-      }
+      },
     );
 
     await HandleResponseError(response);

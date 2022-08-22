@@ -39,7 +39,7 @@ function MovableElement({ index, positions }) {
           offsetY.value = currentPosition;
         }
       }
-    }
+    },
   );
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -75,7 +75,7 @@ function MovableElement({ index, positions }) {
         //get the position Id based on movement
         const newPositionId = sortedIndex(
           positions.value.map((e) => e.threshold),
-          translateY.value
+          translateY.value,
         );
 
         // //remove values out of range
@@ -88,27 +88,27 @@ function MovableElement({ index, positions }) {
         // Swap the positions if needed
         if (newPositionId > positions.value[index].order) {
           const to = positions.value.findIndex(
-            (e) => e.order === newPositionId
+            (e) => e.order === newPositionId,
           );
 
           positions.value = swapElementWithHigherOrder(
             positions.value,
             index,
-            to
+            to,
           );
         } else if (newPositionId < positions.value[index].order) {
           const to = positions.value.findIndex(
-            (e) => e.order === newPositionId
+            (e) => e.order === newPositionId,
           );
 
           positions.value = swapElementWithLowerOrder(
             positions.value,
             index,
-            to
+            to,
           );
         }
       }
-    }
+    },
   );
 
   pan.onStart((event) => {

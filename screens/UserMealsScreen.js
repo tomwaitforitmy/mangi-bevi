@@ -23,8 +23,7 @@ function UserMealsScreen({ navigation, route }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         mealsList={userMeals}
-        navigation={navigation}
-      ></MealList>
+        navigation={navigation}></MealList>
     </View>
   );
 }
