@@ -14,7 +14,7 @@ function UserMealsScreen({ navigation, route }) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchAll(dispatch).then(setRefreshing(false));
-  }, []);
+  }, [dispatch]);
 
   return (
     <View style={styles.mealsScreen}>
