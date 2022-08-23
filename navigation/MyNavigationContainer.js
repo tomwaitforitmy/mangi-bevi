@@ -26,6 +26,7 @@ import { View } from "react-native";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
 import IconTypes from "../constants/IconTypes";
+import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -86,14 +87,6 @@ const MealsStack = createNativeStackNavigator();
 function MealsStackContainer({ navigation, route }) {
   const dispatch = useDispatch();
 
-  const onHeaderIconPress = () => {
-    devMode
-      ? navigation.navigate("EditScreen", {
-          mealId: "-N93DNXIQFETNW8zh5iV",
-        })
-      : dispatch(authActions.logout());
-  };
-
   return (
     // See https://stackoverflow.com/questions/70341930/screens-dont-render-on-material-bottom-tab-navigator-since-upgrading-to-expo-sd/70998392#comment127025978_70998392
     <View style={{ flex: 1 }} collapsable={false}>
@@ -101,7 +94,7 @@ function MealsStackContainer({ navigation, route }) {
         <MealsStack.Screen
           name="Meals"
           component={MealsScreen}
-          options={({ navigation, route }) => ({
+          options={{
             title: "  Mangi & Bevi",
             headerLeft: () => (
               <MaterialCommunityIcons
@@ -110,15 +103,8 @@ function MealsStackContainer({ navigation, route }) {
                 color={Colors.navigationIcon}
               />
             ),
-            headerRight: () => (
-              <Ionicons
-                name={devMode ? "cafe" : "exit-outline"}
-                size={25}
-                color={Colors.navigationIcon}
-                onPress={onHeaderIconPress}
-              />
-            ),
-          })}
+            headerRight: () => LogoutIcon(dispatch, devMode, navigation),
+          }}
         />
         <MealsStack.Screen
           name="Details"
@@ -213,7 +199,7 @@ function LoginStackContainer({ route }) {
 
 const ProfileStack = createNativeStackNavigator();
 
-function ProfileStackContainer({ route }) {
+function ProfileStackContainer({ navigation, route }) {
   const dispatch = useDispatch();
 
   return (
@@ -224,16 +210,7 @@ function ProfileStackContainer({ route }) {
           component={ProfileScreen}
           options={{
             title: "Your data",
-            headerRight: () => (
-              <Ionicons
-                name={"exit-outline"}
-                size={25}
-                color={Colors.navigationIcon}
-                onPress={() => {
-                  dispatch(authActions.logout());
-                }}
-              />
-            ),
+            headerRight: () => LogoutIcon(dispatch, devMode, navigation),
           }}
         />
         <ProfileStack.Screen
