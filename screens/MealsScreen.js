@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import MealList from "../components/MealList";
 import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,8 +12,11 @@ import LoadingIndicator from "../components/LoadingIndicator";
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  const allMeals = useSelector((state) => state.meals.meals);
+  const filterTags = useSelector((state) => state.tags.filterTags);
 
   const onPressTagsActiveHandler = () => {
     navigation.navigate("Filters");
@@ -21,20 +24,18 @@ function MealsScreen({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    fetchAll(dispatch).then(setRefreshing(false));
+    fetchAll(dispatch).then(() => setRefreshing(false));
   }, [dispatch]);
 
   useEffect(() => {
     setIsLoading(true);
-    fetchAll(dispatch).then(setIsLoading(false));
+    fetchAll(dispatch).then(() => setIsLoading(false));
   }, [dispatch]);
 
   if (isLoading) {
     return <LoadingIndicator />;
   }
 
-  const allMeals = useSelector((state) => state.meals.meals);
-  const filterTags = useSelector((state) => state.tags.filterTags);
   const filteredMeals = [];
 
   if (filterTags.length > 0) {
