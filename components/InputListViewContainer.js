@@ -13,14 +13,16 @@ const InputListViewContainer = (props) => {
             key={e}
             title={e}
             IconName={"edit"}
-            onPressIcon={() => props.onPressIcon(e)}></MyListItem>
+            onPressIcon={() => props.onPressIcon(e)}
+          />
         ))}
       </TouchableOpacity>
       <Input
         placeholder="Enter text"
         ref={props.inputRef}
         onChangeText={(value) => props.onChangeText(value)}
-        onBlur={props.onBlur}></Input>
+        onBlur={props.onBlur}
+      />
     </View>
   );
 };

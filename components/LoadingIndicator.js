@@ -5,9 +5,7 @@ import Colors from "../constants/Colors";
 const LoadingIndicator = (props) => {
   return (
     <View style={{ ...styles.container, ...props.style }}>
-      <ActivityIndicator
-        size="large"
-        color={Colors.primary}></ActivityIndicator>
+      <ActivityIndicator size="large" color={Colors.primary} />
     </View>
   );
 };

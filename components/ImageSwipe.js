@@ -1,14 +1,15 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
+import Colors from "../constants/Colors";
 import LoadingIndicator from "./LoadingIndicator";
 import SwipeableImage from "./SwipeableImage";
 
 const ImageSwipe = (props) => {
   const images = props.images.map((item, index) => {
     var rObj = {};
-    rObj["url"] = item;
-    rObj["index"] = index;
+    rObj.url = item;
+    rObj.index = index;
     return rObj;
   });
 
@@ -19,7 +20,8 @@ const ImageSwipe = (props) => {
       style={{ ...styles.container, ...props.style }}
       imageUrls={images}
       useNativeDriver={true}
-      loadingRender={() => <LoadingIndicator></LoadingIndicator>}
+      loadingRender={() => LoadingIndicator(props)}
+      //I thought of renaming props here to solve the warning, but decided against it.
       renderImage={(props) => (
         <SwipeableImage
           {...props}
@@ -28,7 +30,8 @@ const ImageSwipe = (props) => {
         />
       )}
       saveToLocalByLongPress={false}
-      backgroundColor={"grey"}></ImageViewer>
+      backgroundColor={Colors.screenBackGround}
+    />
   );
 };
 

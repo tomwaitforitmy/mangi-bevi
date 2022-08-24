@@ -24,7 +24,8 @@ function DraggableItemList(props) {
           <MyListItem
             title={item}
             IconName={"swap-vertical"}
-            iconType={IconTypes.ionicon}></MyListItem>
+            iconType={IconTypes.ionicon}
+          />
         </TouchableOpacity>
       </ScaleDecorator>
     );
