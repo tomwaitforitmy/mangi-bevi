@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MealsScreen from "../screens/MealsScreen";
@@ -10,7 +8,6 @@ import MealDetailScreen from "../screens/MealDetailScreen";
 import NewScreen from "../screens/NewScreen";
 import Colors from "../constants/Colors";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { Icon } from "react-native-elements";
 import ImagesScreen from "../screens/ImagesScreen";
 import AddTagScreen from "../screens/AddTagScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -25,8 +22,10 @@ import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
-import IconTypes from "../constants/IconTypes";
 import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
+import NoodlesIcon from "../components/HeaderIcons/NoodlesIcon";
+import EditMangiIcon from "../components/HeaderIcons/EditMangiIcon";
+import TabBarIcon from "../components/HeaderIcons/TabBarIcon";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -47,30 +46,8 @@ function AuthenticatedTabNavigator() {
       activeColor={Colors.navigationIcon}
       inactiveColor={Colors.second}
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color }) => {
-          let iconName;
-
-          if (route.name === "Mangi & Bevi") {
-            return (
-              <MaterialCommunityIcons
-                name={"noodles"}
-                size={25}
-                color={color}
-              />
-            );
-          } else if (route.name === "Filters") {
-            iconName = focused ? "ios-filter" : "ios-filter-outline";
-          } else if (route.name === "New") {
-            iconName = focused ? "ios-create" : "ios-create-outline";
-          } else if (route.name === "Profile") {
-            iconName = focused ? "person" : "person-outline";
-          } else if (route.name === "Dev") {
-            iconName = focused ? "cafe" : "cafe-outline";
-          }
-
-          return <Ionicons name={iconName} size={25} color={color} />;
-        },
-
+        tabBarIcon: ({ focused, color }) =>
+          TabBarIcon(focused, color, route.name),
         tabBarColor: Colors.primary,
       })}>
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
@@ -96,13 +73,7 @@ function MealsStackContainer({ navigation, route }) {
           component={MealsScreen}
           options={{
             title: "  Mangi & Bevi",
-            headerLeft: () => (
-              <MaterialCommunityIcons
-                name={"noodles"}
-                size={25}
-                color={Colors.navigationIcon}
-              />
-            ),
+            headerLeft: () => NoodlesIcon(),
             headerRight: () => LogoutIcon(dispatch, devMode, navigation),
           }}
         />
@@ -111,18 +82,7 @@ function MealsStackContainer({ navigation, route }) {
           component={MealDetailScreen}
           options={({ navigation, route }) => ({
             title: route.params.mealTitle,
-            headerRight: () => (
-              <Icon
-                name={"create-outline"}
-                onPress={() =>
-                  navigation.navigate("EditScreen", {
-                    mealId: route.params.mealId,
-                  })
-                }
-                type={IconTypes.ionicon}
-                color={Colors.navigationIcon}
-              />
-            ),
+            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
           })}
         />
         <MealsStack.Screen
@@ -138,18 +98,7 @@ function MealsStackContainer({ navigation, route }) {
           component={ImagesScreen}
           options={({ navigation, route }) => ({
             title: route.params.mealTitle,
-            headerRight: () => (
-              <Icon
-                name={"create-outline"}
-                onPress={() =>
-                  navigation.navigate("EditScreen", {
-                    mealId: route.params.mealId,
-                  })
-                }
-                type={IconTypes.ionicon}
-                color={Colors.navigationIcon}
-              />
-            ),
+            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
           })}
         />
         <MealsStack.Screen
