@@ -9,13 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   StyleSheet,
-  Text,
   ScrollView,
   Platform,
   Alert,
   StatusBar,
   BackHandler,
-  TouchableOpacity,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
@@ -24,7 +22,6 @@ import Meal from "../models/Meal";
 import { Icon, Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import uploadImages from "../firebase/uploadImages";
-import MyListItem from "../components/MyListItem";
 import newMealFormReducer from "../store/formReducers/newMealFormReducer";
 import {
   CHANGE_TITLE,
@@ -410,7 +407,8 @@ function NewScreen({ route, navigation }) {
             value: sortedData,
             field: "ingredients",
           });
-        }}></SortingListViewContainer>
+        }}
+      />
     );
   }
 
@@ -425,7 +423,8 @@ function NewScreen({ route, navigation }) {
             value: sortedData,
             field: "steps",
           });
-        }}></SortingListViewContainer>
+        }}
+      />
     );
   }
 
@@ -439,7 +438,8 @@ function NewScreen({ route, navigation }) {
           labelStyle={styles.title}
           onChangeText={(value) => {
             formDispatch({ type: CHANGE_TITLE, value: value });
-          }}></Input>
+          }}
+        />
       </View>
       {Platform.OS === "android" ? (
         renderInputs()
