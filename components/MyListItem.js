@@ -1,16 +1,16 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
-import Linkify from "react-native-linkify";
+import Hyperlink from "react-native-hyperlink";
 
 const MyListItem = (props) => {
   return (
     <View style={styles.listItemView}>
       <ListItem bottomDivider>
         <ListItem.Content>
-          <Linkify linkDefault={true} linkStyle={styles.linkStyle}>
+          <Hyperlink linkDefault={true} linkStyle={styles.linkStyle}>
             <ListItem.Title>{props.title}</ListItem.Title>
-          </Linkify>
+          </Hyperlink>
         </ListItem.Content>
         {props.IconName && (
           <Icon
