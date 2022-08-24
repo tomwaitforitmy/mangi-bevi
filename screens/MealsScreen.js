@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MealList from "../components/MealList";
 import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
