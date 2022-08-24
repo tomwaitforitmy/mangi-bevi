@@ -15,12 +15,11 @@ import tagFormReducer, {
   SUBMITTED,
   EDIT_TAG_TITLE,
 } from "../store/formReducers/tagFormReducer";
-import Colors from "../constants/Colors";
-import { Divider, Icon, Input } from "react-native-elements";
+import { Divider, Input } from "react-native-elements";
 import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
-import IconTypes from "../constants/IconTypes";
+import SaveIcon from "../components/HeaderIcons/SaveIcon";
 
 function AddTagScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -70,14 +69,7 @@ function AddTagScreen({ route, navigation }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <Icon
-          name={"save"}
-          onPress={saveTagsHandler}
-          color={Colors.navigationIcon}
-          type={IconTypes.ionicon}
-        />
-      ),
+      headerRight: () => SaveIcon(saveTagsHandler),
     });
   }, [navigation, formState, dispatch, addedTags, saveTagsHandler]);
 
