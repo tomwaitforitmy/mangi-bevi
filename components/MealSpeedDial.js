@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { StyleSheet, Share } from "react-native";
+import { Share } from "react-native";
 import Colors from "../constants/Colors";
 import { SpeedDial } from "react-native-elements";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
@@ -66,12 +66,12 @@ const MealSpeedDial = (props) => {
       isOpen={formState.isOpen}
       icon={{
         name: "add",
-        color: Colors.speedDiealIcon,
+        color: Colors.speedDialIcon,
         type: iconType,
       }}
       openIcon={{
         name: "close",
-        color: Colors.speedDiealIcon,
+        color: Colors.speedDialIcon,
         type: iconType,
       }}
       onOpen={() => formDispatch({ type: OPEN })}
@@ -79,7 +79,7 @@ const MealSpeedDial = (props) => {
       <SpeedDial.Action
         icon={{
           name: "pricetags",
-          color: Colors.speedDiealIcon,
+          color: Colors.speedDialIcon,
           type: iconType,
         }}
         title="Tags"
@@ -89,7 +89,7 @@ const MealSpeedDial = (props) => {
       <SpeedDial.Action
         icon={{
           name: "share-social",
-          color: Colors.speedDiealIcon,
+          color: Colors.speedDialIcon,
           type: iconType,
         }}
         title="Share"
@@ -99,19 +99,15 @@ const MealSpeedDial = (props) => {
       <SpeedDial.Action
         icon={{
           name: "star",
-          color: Colors.speedDiealIcon,
+          color: Colors.speedDialIcon,
           type: iconType,
         }}
         title="Rate"
         color={Colors.primary}
-        onPress={() => console.log("rate meal not implmenented")}
+        onPress={() => console.log("rate meal not implemented")}
       />
     </SpeedDial>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {},
-});
 
 export default MealSpeedDial;
