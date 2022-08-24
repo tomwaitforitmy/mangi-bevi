@@ -149,7 +149,7 @@ function AddTagScreen({ route, navigation }) {
   }
 
   return (
-    <MyKeyboardAvoidingView extraOffset={64}>
+    <MyKeyboardAvoidingView extraOffset={64} style={{ width: "100%" }}>
       <View style={styles.container}>
         <ScrollView style={styles.tagLists}>
           <Text style={styles.subtitle}>Added Tags</Text>

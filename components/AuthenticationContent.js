@@ -13,7 +13,7 @@ import loginFormReducer, {
   SUBMITTED,
 } from "../store/formReducers/loginFormReducer";
 import MyButton from "./MyButton";
-import MyKeyboardAvoidingViewOnScreenWithoutMaterial from "./MyKeyboardAvoidingViewOnScreenWithoutMaterial";
+import MyKeyboardAvoidingView from "./MyKeyboardAvoidingView";
 
 function AuthenticationContent({ navigation, login }) {
   const initialState = {
@@ -106,7 +106,7 @@ function AuthenticationContent({ navigation, login }) {
   }
 
   return (
-    <MyKeyboardAvoidingViewOnScreenWithoutMaterial>
+    <MyKeyboardAvoidingView extraOffset={0}>
       <LinearGradient
         colors={[Colors.second, Colors.primary]}
         style={styles.gradient}>
@@ -193,7 +193,7 @@ function AuthenticationContent({ navigation, login }) {
           )}
         </View>
       </LinearGradient>
-    </MyKeyboardAvoidingViewOnScreenWithoutMaterial>
+    </MyKeyboardAvoidingView>
   );
 }
 

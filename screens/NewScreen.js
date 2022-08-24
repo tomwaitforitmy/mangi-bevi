@@ -438,7 +438,9 @@ function NewScreen({ route, navigation }) {
       {Platform.OS === "android" ? (
         renderInputs()
       ) : (
-        <MyKeyboardAvoidingView extraOffset={StatusBar.currentHeight}>
+        <MyKeyboardAvoidingView
+          extraOffset={StatusBar.currentHeight}
+          style={{ width: "100%" }}>
           {renderInputs()}
         </MyKeyboardAvoidingView>
       )}
