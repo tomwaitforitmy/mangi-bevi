@@ -29,7 +29,7 @@ const mealsReducer = (state = initialState, action) => {
         updatedFavMeals.splice(existingIndex, 1);
         return { ...state, favoriteMeals: updatedFavMeals };
       } else {
-        const meal = state.meals.find((meal) => meal.id === action.mealId);
+        const meal = state.meals.find((m) => m.id === action.mealId);
         return { ...state, favoriteMeals: state.favoriteMeals.concat(meal) };
       }
     }

@@ -78,8 +78,11 @@ export const fetchTags = () => {
 };
 
 const replacer = (key, value) => {
-  if (key === "id") return undefined;
-  else return value;
+  if (key === "id") {
+    return undefined;
+  } else {
+    return value;
+  }
 };
 
 export const createTag = (tag) => {

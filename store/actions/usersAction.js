@@ -45,8 +45,11 @@ export const fetchUsers = () => {
 };
 
 const replacer = (key, value) => {
-  if (key === "id") return undefined;
-  else return value;
+  if (key === "id") {
+    return undefined;
+  } else {
+    return value;
+  }
 };
 
 export const createUser = (user) => {
