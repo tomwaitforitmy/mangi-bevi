@@ -19,7 +19,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
 import * as usersAction from "../store/actions/usersAction";
 import Meal from "../models/Meal";
-import { Icon, Input } from "react-native-elements";
+import { Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import uploadImages from "../firebase/uploadImages";
 import newMealFormReducer from "../store/formReducers/newMealFormReducer";
@@ -50,21 +50,20 @@ import {
   GetImagesAlreadyUploaded,
   GetImagesToUpload,
 } from "../common_functions/GetImagesToUpload";
-import IconTypes from "../constants/IconTypes";
 import SortingListViewContainer from "../components/SortingListViewContainer";
 import InputListViewContainer from "../components/InputListViewContainer";
+import SaveIcon from "../components/HeaderIcons/SaveIcon";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
   const user = useSelector((state) => state.users.user);
+  const meals = useSelector((state) => state.meals.meals);
   const [renderIngredientSort, setRenderIngredientSort] = useState(false);
   const [renderStepsSort, setRenderStepsSort] = useState(false);
 
   let inputMeal;
   if (mealId) {
-    inputMeal = useSelector((state) =>
-      state.meals.meals.find((m) => m.id === mealId),
-    );
+    inputMeal = meals.find((m) => m.id === mealId);
   }
 
   const initialState = {
@@ -147,14 +146,7 @@ function NewScreen({ route, navigation }) {
           tintColor={Colors.navigationIcon}
         />
       ),
-      headerRight: () => (
-        <Icon
-          name={"save"}
-          onPress={createMealHandler}
-          color={Colors.navigationIcon}
-          type={IconTypes.ionicon}
-        />
-      ),
+      headerRight: () => SaveIcon(createMealHandler),
     });
   }, [navigation, formState]);
 
@@ -163,7 +155,9 @@ function NewScreen({ route, navigation }) {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        Alert.alert(
+          "Sorry, we need camera roll permissions to make this work!",
+        );
       }
     }
   };
@@ -208,7 +202,7 @@ function NewScreen({ route, navigation }) {
       formState.title,
       mealId,
       //if the primary image is uploaded, take it from here
-      primaryImageIndex != -1
+      primaryImageIndex !== -1
         ? uploadedImages[primaryImageIndex]
         : formState.primaryImageUrl,
       formState.ingredients,
@@ -230,7 +224,7 @@ function NewScreen({ route, navigation }) {
 
   const createMealHandler = useCallback(async () => {
     if (isFormValid()) {
-      alert("We need a title and at least one ingredient and one step!");
+      Alert.alert("We need a title and at least one ingredient and one step!");
       return;
     }
 
