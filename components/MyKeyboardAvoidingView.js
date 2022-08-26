@@ -8,7 +8,7 @@ const MyKeyboardAvoidingView = ({ children, extraOffset, style }) => {
   if (Platform.OS === "ios") {
     return (
       <KeyboardAvoidingView
-        style={styles.container}
+        style={{ ...styles.container, ...style }}
         behavior={"padding"}
         //as suggested in many places online the magic 64 seems "ok"
         keyboardVerticalOffset={headerHeight + extraOffset}>
