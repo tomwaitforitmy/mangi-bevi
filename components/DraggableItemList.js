@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import DraggableFlatList, {
   ScaleDecorator,
 } from "react-native-draggable-flatlist";
@@ -10,30 +10,33 @@ import IconTypes from "../constants/IconTypes";
 function DraggableItemList(props) {
   const renderItem = ({ item, drag, isActive }) => {
     return (
-      <ScaleDecorator activeScale={1.05}>
-        <TouchableOpacity
-          onPressIn={drag}
-          disabled={isActive}
-          style={[
-            {
-              zIndex: isActive ? 1 : 0,
-              backgroundColor: Colors.screenBackGround,
-              width: "100%",
-            },
-          ]}>
-          <MyListItem
-            title={item}
-            IconName={"swap-vertical"}
-            iconType={IconTypes.ionicon}
-          />
-        </TouchableOpacity>
-      </ScaleDecorator>
+      <View style={styles.iosSmaller}>
+        <ScaleDecorator activeScale={1.05}>
+          <TouchableOpacity
+            onPressIn={drag}
+            disabled={isActive}
+            style={[
+              {
+                zIndex: isActive ? 1 : 0,
+                backgroundColor: Colors.screenBackGround,
+                width: "100%",
+              },
+            ]}>
+            <MyListItem
+              title={item}
+              IconName={"swap-vertical"}
+              iconType={IconTypes.ionicon}
+            />
+          </TouchableOpacity>
+        </ScaleDecorator>
+      </View>
     );
   };
 
   return (
     <View style={styles.container}>
       <DraggableFlatList
+        canCancelContentTouches={false}
         data={props.data}
         onDragEnd={({ data }) => props.onSortEnd(data)}
         keyExtractor={(item, index) => index}
@@ -48,6 +51,10 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
+  },
+  iosSmaller: {
+    //render the item smaller on IOS to allow scrolling
+    width: Platform.OS === "ios" ? "90%" : "100%",
   },
 });
 
