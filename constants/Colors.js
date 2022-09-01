@@ -5,4 +5,5 @@ export default {
   navigationIcon: "white",
   speedDialIcon: "white",
   screenBackGround: "#f2f2f2",
+  hyperlink: "#2980b9",
 };
