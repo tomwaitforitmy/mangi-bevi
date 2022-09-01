@@ -3,7 +3,5 @@ export const GetMealSummary = (title, ingredients, steps) => {
   ingredients.map((ingredient) => (summary += "- " + ingredient + "\n"));
   summary += "Steps:\n";
   steps.map((step) => (summary += "- " + step + "\n"));
-
-  console.log(summary);
   return summary;
 };
