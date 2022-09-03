@@ -69,9 +69,6 @@ describe("InputListViewContainer", () => {
   });
 });
 
-// onChangeText={(value) => {
-//   formDispatch({ type: SET_STEP_VALUE, value });
-// }}
 // onBlur={() => {
 //   if (formState.stepIndex !== null) {
 //     formDispatch({
