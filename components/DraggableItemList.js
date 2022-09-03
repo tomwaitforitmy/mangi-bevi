@@ -49,8 +49,6 @@ function DraggableItemList(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   iosSmaller: {
     //render the item smaller on IOS to allow scrolling
