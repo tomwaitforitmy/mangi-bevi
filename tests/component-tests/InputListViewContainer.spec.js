@@ -52,6 +52,21 @@ describe("InputListViewContainer", () => {
     fireEvent.press(screen.getByTestId("tomato-icon"));
     expect(actualResult).toBe("tomato");
   });
+
+  it("activates onChangeText with correct text", () => {
+    let actualResult = -1;
+    render(
+      <InputListViewContainer
+        title="Insert your data here"
+        data={sampleData}
+        onChangeText={(text) => {
+          actualResult = text;
+        }}
+      />,
+    );
+    fireEvent.changeText(screen.getByPlaceholderText("Enter text"), "garlic");
+    expect(actualResult).toBe("garlic");
+  });
 });
 
 // onChangeText={(value) => {
