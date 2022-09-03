@@ -24,32 +24,36 @@ describe("InputListViewContainer", () => {
   });
 
   it("activates onLongPress", () => {
-    let expectedResult = false;
+    let actualResult = false;
     render(
       <InputListViewContainer
         title="Insert your data here"
         data={sampleData}
         onLongPress={() => {
-          expectedResult = true;
+          actualResult = true;
         }}
       />,
     );
     fireEvent(screen.getByText("tomato"), "onLongPress");
-    expect(expectedResult).toBe(true);
+    expect(actualResult).toBe(true);
+  });
+
+  it("activates onPress icon with correct text", () => {
+    let actualResult = -1;
+    render(
+      <InputListViewContainer
+        title="Insert your data here"
+        data={sampleData}
+        onPressIcon={(text) => {
+          actualResult = text;
+        }}
+      />,
+    );
+    fireEvent.press(screen.getByTestId("tomato-icon"));
+    expect(actualResult).toBe("tomato");
   });
 });
 
-// title={"Steps"}
-// data={formState.steps}
-// onLongPress={() => setRenderStepsSort(true)}
-// inputRef={inputStep}
-// onPressIcon={(step) => {
-//   formDispatch({
-//     type: PREPARE_EDIT_STEP,
-//     key: step,
-//     ref: inputStep,
-//   });
-// }}
 // onChangeText={(value) => {
 //   formDispatch({ type: SET_STEP_VALUE, value });
 // }}

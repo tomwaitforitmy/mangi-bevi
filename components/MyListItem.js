@@ -5,6 +5,8 @@ import Hyperlink from "react-native-hyperlink";
 import Colors from "../constants/Colors";
 
 const MyListItem = (props) => {
+  const testIconId = props.title + "-icon";
+
   return (
     <View style={styles.listItemView}>
       <ListItem bottomDivider>
@@ -18,6 +20,7 @@ const MyListItem = (props) => {
             name={props.IconName}
             onPress={props.onPressIcon}
             type={props.iconType}
+            testID={testIconId}
           />
         )}
       </ListItem>
