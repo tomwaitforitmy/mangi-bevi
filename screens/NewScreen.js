@@ -324,7 +324,6 @@ function NewScreen({ route, navigation }) {
         )}
         <MyButton onPress={pickImage}>{"Add image"}</MyButton>
         <InputListViewContainer
-          // style={styles.container}
           onLongPress={() => setRenderIngredientSort(true)}
           title={"Ingredients"}
           data={formState.ingredients}
