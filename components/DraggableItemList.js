@@ -36,7 +36,7 @@ function DraggableItemList(props) {
   return (
     <View style={styles.container}>
       <DraggableFlatList
-        canCancelContentTouches={false}
+        canCancelContentTouches={true}
         data={props.data}
         onDragEnd={({ data }) => props.onSortEnd(data)}
         keyExtractor={(item, index) => index}
