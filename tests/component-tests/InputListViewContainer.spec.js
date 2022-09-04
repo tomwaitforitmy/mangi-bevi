@@ -7,7 +7,7 @@ describe("InputListViewContainer", () => {
 
   it("renders a title", () => {
     render(<InputListViewContainer title="Insert your data here" />);
-    expect(screen.queryByText("Insert your data here")).toBeTruthy();
+    screen.getByText("Insert your data here");
   });
   it("renders title and sample data", () => {
     render(
@@ -16,11 +16,11 @@ describe("InputListViewContainer", () => {
         data={sampleData}
       />,
     );
-    expect(screen.queryByText("Insert your data here")).toBeTruthy();
-    expect(screen.queryByText("lemon")).toBeTruthy();
-    expect(screen.queryByText("pie")).toBeTruthy();
-    expect(screen.queryByText("tomato")).toBeTruthy();
-    expect(screen.queryByText("sauce")).toBeTruthy();
+    screen.getByText("Insert your data here");
+    screen.getByText("lemon");
+    screen.getByText("pie");
+    screen.getByText("tomato");
+    screen.getByText("sauce");
   });
 
   it("activates onLongPress", () => {
