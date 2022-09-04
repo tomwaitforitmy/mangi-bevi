@@ -24,18 +24,16 @@ describe("InputListViewContainer", () => {
   });
 
   it("activates onLongPress", () => {
-    let actualResult = false;
+    const mockOnLongPress = jest.fn();
     render(
       <InputListViewContainer
         title="Insert your data here"
         data={sampleData}
-        onLongPress={() => {
-          actualResult = true;
-        }}
+        onLongPress={mockOnLongPress}
       />,
     );
     fireEvent(screen.getByText("tomato"), "onLongPress");
-    expect(actualResult).toBe(true);
+    expect(mockOnLongPress).toBeCalledTimes(1);
   });
 
   it("activates onPress icon with correct text", () => {
