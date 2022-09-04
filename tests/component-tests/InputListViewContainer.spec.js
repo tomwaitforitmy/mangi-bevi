@@ -37,48 +37,28 @@ describe("InputListViewContainer", () => {
   });
 
   it("activates onPress icon with correct text", () => {
-    let actualResult = -1;
+    const mockOnIconPress = jest.fn();
     render(
       <InputListViewContainer
         title="Insert your data here"
         data={sampleData}
-        onPressIcon={(text) => {
-          actualResult = text;
-        }}
+        onPressIcon={mockOnIconPress}
       />,
     );
     fireEvent.press(screen.getByTestId("tomato-icon"));
-    expect(actualResult).toBe("tomato");
+    expect(mockOnIconPress).toBeCalledWith("tomato");
   });
 
   it("activates onChangeText with correct text", () => {
-    let actualResult = -1;
+    const mockOnChangeText = jest.fn();
     render(
       <InputListViewContainer
         title="Insert your data here"
         data={sampleData}
-        onChangeText={(text) => {
-          actualResult = text;
-        }}
+        onChangeText={mockOnChangeText}
       />,
     );
     fireEvent.changeText(screen.getByPlaceholderText("Enter text"), "garlic");
-    expect(actualResult).toBe("garlic");
+    expect(mockOnChangeText).toBeCalledWith("garlic");
   });
 });
-
-// onBlur={() => {
-//   if (formState.stepIndex !== null) {
-//     formDispatch({
-//       type: EDIT_STEP,
-//       value: formState.stepValue,
-//       ref: inputStep,
-//     });
-//   } else {
-//     formDispatch({
-//       type: ADD_STEP,
-//       value: formState.stepValue,
-//       ref: inputStep,
-//     });
-//   }
-// }}
