@@ -4,6 +4,12 @@ import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import { fetchAll } from "../firebase/fetchAll";
+import { GetReward, GetNextReward } from "../common_functions/GetReward";
+import Reward from "../models/Reward";
+import { STEP_REWARDS } from "../data/StepRewards";
+import { INGREDIENT_REWARDS } from "../data/IngredientRewards";
+import { TAG_REWARDS } from "../data/TagRewards";
+import { RECIPE_REWARDS } from "../data/RecipeRewards";
 
 function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -33,6 +39,26 @@ function ProfileScreen({ navigation }) {
     });
     experiencedUser = userMeals.length > 1;
   }
+
+  console.log("Rewards for");
+  console.log(
+    "Recipes " +
+      user.meals.length +
+      " " +
+      GetNextReward(user.meals.length, RECIPE_REWARDS).title,
+  );
+  console.log(
+    "Tags " + countTags + " " + GetNextReward(countTags, TAG_REWARDS).title,
+  );
+  console.log(
+    "Ingredients " +
+      countIngredients +
+      " " +
+      GetNextReward(countIngredients, INGREDIENT_REWARDS).title,
+  );
+  console.log(
+    "Steps " + countSteps + " " + GetNextReward(countSteps, STEP_REWARDS).title,
+  );
 
   return (
     <View style={styles.container}>

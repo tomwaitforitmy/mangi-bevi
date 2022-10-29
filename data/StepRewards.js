@@ -22,4 +22,5 @@ export const STEP_REWARDS = [
   new Reward("Demi Chef de Partie", "r16", 80),
   new Reward("Rezepte Blogbesitzer", "r16", 90),
   new Reward("Hat Regal für Kochbücher", "r16", 100),
+  new Reward("Der Meister der Beschreiungen", "r999", 999999999),
 ];
