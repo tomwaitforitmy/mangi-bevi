@@ -1,0 +1,25 @@
+import Reward from "../models/Reward";
+
+export const RECIPE_REWARDS = [
+  new Reward("Kleines Leckermaul", "r1", 0),
+  new Reward("Interessierte Küchenhilfe", "r2", 2),
+  new Reward("Hobbykoch", "r3", 4),
+  new Reward("Oma's Rezepte Fan", "r4", 6),
+  new Reward("Kocht wie Vati", "r5", 8),
+  new Reward("Foody Blog-Leser", "r6", 10),
+  new Reward("Stagiaires", "r7", 13),
+  new Reward("Kocht wie Mutti", "r8", 16),
+  new Reward("Kochkursveteran", "r9", 19),
+  new Reward("Foody Blog-Abonent", "r10", 22),
+  new Reward("Kocht wie Oma", "r11", 25),
+  new Reward("Großes Leckermaul", "r12", 30),
+  new Reward("Ottolenghi Kochbuchbesitzer", "r13", 35),
+  new Reward("Chefkoch.de Zeitung Abonent", "r14", 40),
+  new Reward("Rezepte Blogauthor", "r15", 45),
+  new Reward("Sous Chef", "r16", 50),
+  new Reward("Chefkoch.de Premium User", "r16", 60),
+  new Reward("Kochbuch Beitragschreiber", "r16", 70),
+  new Reward("Demi Chef de Partie", "r16", 80),
+  new Reward("Rezepte Blogbesitzer", "r16", 90),
+  new Reward("Hat Regal für Kochbücher", "r16", 100),
+];
