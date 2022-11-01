@@ -1,8 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Icon } from "react-native-elements";
 import { GetLevelPercent } from "../common_functions/GetLevelPercent";
 import { GetNextReward, GetReward } from "../common_functions/GetReward";
+import IconTypes from "../constants/IconTypes";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Level from "../models/Level";
+import Colors from "../constants/Colors";
 
 const LevelView = (props) => {
   const rewards = props.rewards;
@@ -28,34 +33,89 @@ const LevelView = (props) => {
     <View style={{ ...styles.container, ...props.style }}>
       <View
         style={{
-          borderBottomColor: "black",
-          borderBottomWidth: StyleSheet.hairlineWidth,
-        }}
-      />
-      <Text>Current title {level.currentTitle}</Text>
-      <Text>Next title {level.nextTitle}</Text>
+          backgroundColor: "white",
+          width: "20%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+        {/* <FontAwesome5 name="carrot" size={60} color="orange" /> */}
+        {/* <MaterialCommunityIcons name="chef-hat" size={60} color="black" /> */}
+        <Icon
+          name="pricetags"
+          color={Colors.primary}
+          type={IconTypes.ionicon}
+          size={60}
+        />
+      </View>
       <View
         style={{
-          borderBottomColor: "black",
-          borderBottomWidth: StyleSheet.hairlineWidth,
-        }}
-      />
+          backgroundColor: "white",
+          width: "80%",
+          height: "100%",
+          flexDirection: "column",
+        }}>
+        <View
+          style={{
+            backgroundColor: "white",
+            width: "100%",
+            height: "40%",
+            justifyContent: "center",
+          }}>
+          <Text style={{ fontSize: 18 }}>{level.currentTitle}</Text>
+        </View>
+        <View
+          style={{
+            backgroundColor: Colors.primary,
+            width: "100%",
+            height: "20%",
+            borderColor: "grey",
+            borderWidth: 1,
+            borderRadius: 10,
+          }}></View>
+        <View
+          style={{
+            backgroundColor: "white",
+            width: "100%",
+            height: "20%",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            paddingLeft: 2,
+            paddingRight: 2,
+          }}>
+          <Text>{level.lowerThreshold}</Text>
+          <Text>{level.upperThreshold}</Text>
+        </View>
+        <View
+          style={{
+            backgroundColor: "white",
+            width: "100%",
+            height: "20%",
+          }}>
+          <Text style={{ color: Colors.second }}>Next: {level.nextTitle}</Text>
+        </View>
+      </View>
+      {/* <Text>Current title {level.currentTitle}</Text>
+      <Text>Next title {level.nextTitle}</Text>
       <Text>Current min {level.lowerThreshold}</Text>
       <Text>Current value {level.value}</Text>
       <Text>Next title at value {level.upperThreshold}</Text>
-      <Text>Percent {level.percent} of 1</Text>
-      <View
-        style={{
-          borderBottomColor: "black",
-          borderBottomWidth: StyleSheet.hairlineWidth,
-        }}
-      />
+      <Text>Percent {level.percent} of 1</Text> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    borderColor: "grey",
+    borderWidth: StyleSheet.hairlineWidth,
+    margin: 4,
+    backgroundColor: "white",
+    padding: 4,
+    flexDirection: "row",
+    height: 100,
+  },
 });
 
 export default LevelView;
