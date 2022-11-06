@@ -8,6 +8,12 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Level from "../models/Level";
 import Colors from "../constants/Colors";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 
 const LevelView = (props) => {
   const rewards = props.rewards;
@@ -19,6 +25,16 @@ const LevelView = (props) => {
     nextReward.threshold,
     value,
   );
+
+  const sharedValue = useSharedValue(0);
+
+  sharedValue.value = withDelay(500, withTiming(percent, { duration: 1000 }));
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      width: (sharedValue.value * 100).toFixed(2) + "%",
+    };
+  });
 
   const level = new Level(
     reward.threshold,
@@ -40,13 +56,13 @@ const LevelView = (props) => {
           justifyContent: "center",
         }}>
         {/* <FontAwesome5 name="carrot" size={60} color="orange" /> */}
-        {/* <MaterialCommunityIcons name="chef-hat" size={60} color="black" /> */}
-        <Icon
+        <MaterialCommunityIcons name="chef-hat" size={60} color="black" />
+        {/* <Icon
           name="pricetags"
           color={Colors.primary}
           type={IconTypes.ionicon}
           size={60}
-        />
+        /> */}
       </View>
       <View
         style={{
@@ -64,15 +80,14 @@ const LevelView = (props) => {
           }}>
           <Text style={{ fontSize: 18 }}>{level.currentTitle}</Text>
         </View>
-        <View
-          style={{
-            backgroundColor: Colors.primary,
-            width: "100%",
-            height: "20%",
-            borderColor: "grey",
-            borderWidth: 1,
-            borderRadius: 10,
-          }}></View>
+        <Animated.View style={[styles.levelBar, animatedStyle]}>
+          <Text
+            style={{
+              color: "white",
+            }}>
+            {value}
+          </Text>
+        </Animated.View>
         <View
           style={{
             backgroundColor: "white",
@@ -91,9 +106,11 @@ const LevelView = (props) => {
           style={{
             backgroundColor: "white",
             width: "100%",
-            height: "20%",
+            height: "15%",
           }}>
-          <Text style={{ color: Colors.second }}>Next: {level.nextTitle}</Text>
+          <Text style={{ color: Colors.second, fontSize: 10 }}>
+            Next: {level.nextTitle}
+          </Text>
         </View>
       </View>
       {/* <Text>Current title {level.currentTitle}</Text>
@@ -115,6 +132,16 @@ const styles = StyleSheet.create({
     padding: 4,
     flexDirection: "row",
     height: 100,
+  },
+  levelBar: {
+    backgroundColor: Colors.primary,
+    // width: "100%",
+    height: "25%",
+    borderColor: "grey",
+    borderWidth: 1,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
