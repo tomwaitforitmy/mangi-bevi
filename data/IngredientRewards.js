@@ -22,5 +22,7 @@ export const INGREDIENT_REWARDS = [
   new Reward("Demi Chef de Partie", "r16", 80),
   new Reward("Rezepte Blogbesitzer", "r16", 90),
   new Reward("Hat Regal für Kochbücher", "r16", 100),
-  new Reward("Zutaten Gott", "r999", 999999999),
+  new Reward("Zutaten Gott", "r17", 500),
+  new Reward("Mehr Zutaten als Amazon", "r18", 1000),
+  new Reward("Mehr als George RR Martin", "r19", 10000),
 ];
