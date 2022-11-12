@@ -16,9 +16,12 @@ function getRandomInt(max) {
 
 function DevScreen({ navigation }) {
   const [firstValue, setFirstValue] = useState(32);
+  const iconSize = 50;
 
   const myChefIcon = () => {
-    return <MaterialCommunityIcons name="chef-hat" size={60} color="black" />;
+    return (
+      <MaterialCommunityIcons name="chef-hat" size={iconSize} color="black" />
+    );
   };
 
   const myTagIcon = () => {
@@ -27,13 +30,13 @@ function DevScreen({ navigation }) {
         name="pricetags"
         color={Colors.primary}
         type={IconTypes.ionicon}
-        size={60}
+        size={iconSize}
       />
     );
   };
 
   const myCarrotIcon = () => {
-    return <FontAwesome5 name="carrot" size={60} color="orange" />;
+    return <FontAwesome5 name="carrot" size={iconSize} color="orange" />;
   };
 
   return (
@@ -42,12 +45,19 @@ function DevScreen({ navigation }) {
         value={firstValue}
         rewards={RECIPE_REWARDS}
         icon={myChefIcon}
+        rewardCategory={"Recipes"}
       />
-      <LevelView value={firstValue} rewards={TAG_REWARDS} icon={myTagIcon} />
+      <LevelView
+        value={firstValue}
+        rewards={TAG_REWARDS}
+        icon={myTagIcon}
+        rewardCategory={"Tags"}
+      />
       <LevelView
         value={firstValue}
         rewards={INGREDIENT_REWARDS}
         icon={myCarrotIcon}
+        rewardCategory={"Ingredients"}
       />
       <Button
         title="random"

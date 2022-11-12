@@ -50,7 +50,10 @@ const LevelView = (props) => {
 
   return (
     <View style={{ ...styles.container, ...props.style }}>
-      <View style={styles.iconContainer}>{props.icon()}</View>
+      <View style={styles.iconContainer}>
+        {props.icon()}
+        <Text style={styles.rewardCategoryText}>{props.rewardCategory}</Text>
+      </View>
       <View style={styles.rightSideSuperContainer}>
         <View style={styles.currentTitleContainer}>
           <Text style={styles.currentTitleText}>{level.currentTitle}</Text>
@@ -83,16 +86,20 @@ const styles = StyleSheet.create({
   //contains all elements on the right (everything except the icon)
   rightSideSuperContainer: {
     backgroundColor: Colors.levelViewBackground,
-    width: "80%",
+    width: "70%",
     height: "100%",
     flexDirection: "column",
   },
   iconContainer: {
     backgroundColor: Colors.levelViewBackground,
-    width: "20%",
+    width: "30%",
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
+  },
+  rewardCategoryText: {
+    fontSize: 12,
+    color: Colors.levelViewTexts,
   },
   levelBarContainer: {
     backgroundColor: Colors.levelViewBarBackground,
