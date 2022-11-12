@@ -7,8 +7,8 @@ export default {
   screenBackGround: "#f2f2f2",
   hyperlink: "#2980b9",
   levelViewBackground: "white",
-  levelViewBarBackground: "lightgreen",
-  levelViewBar: "green",
-  levelViewBarBackgroundBorder: "darkgreen",
+  levelViewBarBackground: "#9cffc0",
+  levelViewBar: "#16ab3e",
+  levelViewBarBackgroundBorder: "#007d21",
   levelViewTexts: "black",
 };
