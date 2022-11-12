@@ -4,12 +4,7 @@ import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import { fetchAll } from "../firebase/fetchAll";
-import { GetReward, GetNextReward } from "../common_functions/GetReward";
-import Reward from "../models/Reward";
-import { STEP_REWARDS } from "../data/StepRewards";
-import { INGREDIENT_REWARDS } from "../data/IngredientRewards";
-import { TAG_REWARDS } from "../data/TagRewards";
-import { RECIPE_REWARDS } from "../data/RecipeRewards";
+import MyLevelViewContainer from "../components/MyLevelViewContainer";
 
 function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -27,53 +22,27 @@ function ProfileScreen({ navigation }) {
   //That is correct, but it does not get updated directly after editUser
   //I suppose that's due updating user.meals which might not (?) change state.users.user
   //hence this is not updated a second time. The refresh button helps, but is not needed.
-  if (user.meals.length > 0) {
-    user.meals.map((id) => {
-      const found = allMeals.find((meal) => meal.id === id);
-      if (found) {
-        userMeals.push(found);
-        countTags += found.tags.length;
-        countSteps += found.steps.length;
-        countIngredients += found.ingredients.length;
-      }
-    });
-    experiencedUser = userMeals.length > 1;
-  }
-
-  console.log("Rewards for");
-  console.log(
-    "Recipes " +
-      user.meals.length +
-      " " +
-      GetNextReward(user.meals.length, RECIPE_REWARDS).title,
-  );
-  console.log(
-    "Tags " + countTags + " " + GetNextReward(countTags, TAG_REWARDS).title,
-  );
-  console.log(
-    "Ingredients " +
-      countIngredients +
-      " " +
-      GetNextReward(countIngredients, INGREDIENT_REWARDS).title,
-  );
-  console.log(
-    "Steps " + countSteps + " " + GetNextReward(countSteps, STEP_REWARDS).title,
-  );
+  ({ countTags, countSteps, countIngredients, experiencedUser, userMeals } =
+    updateValues(
+      user,
+      allMeals,
+      userMeals,
+      countTags,
+      countSteps,
+      countIngredients,
+      experiencedUser,
+    ));
 
   return (
     <View style={styles.container}>
       <Text style={styles.beneCenter}>Ciao, {user.name}! Va bene?</Text>
       {experiencedUser ? (
         <View style={styles.bene}>
-          <Text style={styles.bene}>
-            You added {userMeals.length} Mangis. Molto bene!
-          </Text>
-          <Divider />
-          <Text style={styles.bene}>{countIngredients} ingredients.</Text>
-          <Divider />
-          <Text style={styles.bene}>{countSteps} steps.</Text>
-          <Divider />
-          <Text style={styles.bene}>{countTags} tags</Text>
+          <MyLevelViewContainer
+            numberOfRecipes={userMeals.length}
+            numberOfTags={countTags}
+            numberOfIngredients={countIngredients}
+          />
           <MyButton
             onPress={() => {
               navigation.navigate("UserMealsScreen", {
@@ -122,7 +91,7 @@ const styles = StyleSheet.create({
   bene: {
     fontSize: 18,
     lineHeight: 30,
-    margin: 10,
+    margin: 5,
   },
   beneCenter: {
     textAlign: "center",
@@ -132,3 +101,38 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
+function updateValues(
+  user,
+  allMeals,
+  userMeals,
+  countTags,
+  countSteps,
+  countIngredients,
+  experiencedUser,
+) {
+  userMeals = [];
+  countTags = 0;
+  countIngredients = 0;
+  countSteps = 0;
+  experiencedUser = false;
+
+  if (user.meals.length > 0) {
+    user.meals.map((id) => {
+      const found = allMeals.find((meal) => meal.id === id);
+      if (found) {
+        userMeals.push(found);
+        countTags += found.tags.length;
+        countSteps += found.steps.length;
+        countIngredients += found.ingredients.length;
+      }
+    });
+    experiencedUser = userMeals.length > 1;
+  }
+  return {
+    countTags,
+    countSteps,
+    countIngredients,
+    experiencedUser,
+    userMeals,
+  };
+}
