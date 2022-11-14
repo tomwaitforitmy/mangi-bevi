@@ -15,7 +15,7 @@ export const RECIPE_REWARDS = [
   new Reward("Großes Leckermaul", 12, 30),
   new Reward("Ottolenghi Kochbuchbesitzer", 13, 35),
   new Reward("Chefkoch.de Zeitung Abonent", 14, 40),
-  new Reward("Guten Tag", 15, 45),
+  new Reward("Mangi & Bevi Beta Tester", 15, 45),
   new Reward("Sous Chef", 16, 50),
   new Reward("Chefkoch.de Premium User", 17, 60),
   new Reward("Kochbuch Beitragschreiber", 18, 70),
