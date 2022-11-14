@@ -51,8 +51,9 @@ const LevelView = (props) => {
   return (
     <View style={{ ...styles.container, ...props.style }}>
       <View style={styles.iconContainer}>
-        {props.icon()}
         <Text style={styles.rewardCategoryText}>{props.rewardCategory}</Text>
+        {props.icon()}
+        <Text style={styles.rewardCategoryText}>Level {reward.id}</Text>
       </View>
       <View style={styles.rightSideSuperContainer}>
         <View style={styles.currentTitleContainer}>
