@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
@@ -35,49 +35,50 @@ function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.beneCenter}>Ciao, {user.name}! Va bene?</Text>
-      {experiencedUser ? (
-        <View style={styles.bene}>
-          <MyLevelViewContainer
-            numberOfRecipes={userMeals.length}
-            numberOfTags={countTags}
-            numberOfIngredients={countIngredients}
-          />
-          <MyButton
-            onPress={() => {
-              navigation.navigate("UserMealsScreen", {
-                userMeals: userMeals,
-              });
-            }}>
-            {"View"}
-          </MyButton>
-        </View>
-      ) : (
-        <View style={styles.bene}>
-          <Text style={styles.bene}>
-            You added {userMeals.length} Mangis. How about adding one?
-          </Text>
-          <MyButton
-            onPress={() => {
-              navigation.jumpTo("New");
-            }}>
-            {"Add"}
-          </MyButton>
-        </View>
-      )}
+      <ScrollView>
+        {experiencedUser ? (
+          <View style={styles.bene}>
+            <MyLevelViewContainer
+              numberOfRecipes={userMeals.length}
+              numberOfTags={countTags}
+              numberOfIngredients={countIngredients}
+            />
+            <MyButton
+              onPress={() => {
+                navigation.navigate("UserMealsScreen", {
+                  userMeals: userMeals,
+                });
+              }}>
+              {"View"}
+            </MyButton>
+          </View>
+        ) : (
+          <View style={styles.bene}>
+            <Text style={styles.bene}>
+              You added {userMeals.length} Mangis. How about adding one?
+            </Text>
+            <MyButton
+              onPress={() => {
+                navigation.jumpTo("New");
+              }}>
+              {"Add"}
+            </MyButton>
+          </View>
+        )}
 
-      <View style={styles.bene}>
-        <Text style={styles.bene}>Name: {user.name} </Text>
-        <Divider />
-        <Text style={styles.bene}>Email: {user.email}</Text>
-        <MyButton
-          onPress={async () => {
-            await fetchAll(dispatch);
-          }}>
-          {"Refresh"}
-        </MyButton>
-        <Divider />
-      </View>
+        <View style={styles.bene}>
+          <Text style={styles.bene}>Name: {user.name} </Text>
+          <Divider />
+          <Text style={styles.bene}>Email: {user.email}</Text>
+          <MyButton
+            onPress={async () => {
+              await fetchAll(dispatch);
+            }}>
+            {"Refresh"}
+          </MyButton>
+          <Divider />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -89,13 +90,13 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
   bene: {
-    fontSize: 18,
+    fontSize: 14,
     lineHeight: 30,
     margin: 5,
   },
   beneCenter: {
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 14,
     lineHeight: 30,
   },
 });
