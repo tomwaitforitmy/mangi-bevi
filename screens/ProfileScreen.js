@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import { fetchAll } from "../firebase/fetchAll";
 import MyLevelViewContainer from "../components/MyLevelViewContainer";
+import { GetUserMeals } from "../common_functions/GetUserMeals";
+import { GetUserStats } from "../common_functions/GetUserStats";
 
 function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -12,36 +14,22 @@ function ProfileScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
   const allMeals = useSelector((state) => state.meals.meals);
 
-  let userMeals = [];
-  let countTags = 0;
-  let countIngredients = 0;
-  let countSteps = 0;
-  let experiencedUser = false;
-
   //Bug here: This get's updated when "allMeals" changes after createMeal
   //That is correct, but it does not get updated directly after editUser
   //I suppose that's due updating user.meals which might not (?) change state.users.user
   //hence this is not updated a second time. The refresh button helps, but is not needed.
-  ({ countTags, countSteps, countIngredients, experiencedUser, userMeals } =
-    updateValues(
-      user,
-      allMeals,
-      userMeals,
-      countTags,
-      countSteps,
-      countIngredients,
-      experiencedUser,
-    ));
+  const userMeals = GetUserMeals(allMeals, user.meals);
+  const userStats = GetUserStats(userMeals, user.id);
 
   return (
     <View style={styles.container}>
       <ScrollView>
-        {experiencedUser ? (
+        {userStats.experiencedUser ? (
           <View style={styles.bene}>
             <MyLevelViewContainer
               numberOfRecipes={userMeals.length}
-              numberOfTags={countTags}
-              numberOfIngredients={countIngredients}
+              numberOfTags={userStats.countTags}
+              numberOfIngredients={userStats.countIngredients}
             />
             <MyButton
               onPress={() => {
@@ -102,38 +90,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
-function updateValues(
-  user,
-  allMeals,
-  userMeals,
-  countTags,
-  countSteps,
-  countIngredients,
-  experiencedUser,
-) {
-  userMeals = [];
-  countTags = 0;
-  countIngredients = 0;
-  countSteps = 0;
-  experiencedUser = false;
-
-  if (user.meals.length > 0) {
-    user.meals.map((id) => {
-      const found = allMeals.find((meal) => meal.id === id);
-      if (found) {
-        userMeals.push(found);
-        countTags += found.tags.length;
-        countSteps += found.steps.length;
-        countIngredients += found.ingredients.length;
-      }
-    });
-    experiencedUser = userMeals.length > 1;
-  }
-  return {
-    countTags,
-    countSteps,
-    countIngredients,
-    experiencedUser,
-    userMeals,
-  };
-}
