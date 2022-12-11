@@ -4,12 +4,12 @@ import { RECIPE_REWARDS } from "../../data/RecipeRewards";
 
 describe("GetReward", () => {
   it("returns first reward from given array where threshold is still smaller than value", () => {
-    const expectedReward = new Reward("Stagiaires", "r7", 13);
+    const expectedReward = new Reward("Stagiaires", 7, 13);
     const result = GetReward(14, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
   it("returns first reward for 0", () => {
-    const expectedReward = new Reward("Kleines Leckermaul", "r1", 0);
+    const expectedReward = new Reward("Kleines Leckermaul", 1, 0);
     const result = GetReward(0, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
@@ -17,17 +17,17 @@ describe("GetReward", () => {
 
 describe("GetNextReward", () => {
   it("returns first reward from given array where threshold is greater than value", () => {
-    const expectedReward = new Reward("Stagiaires", "r7", 13);
+    const expectedReward = new Reward("Stagiaires", 7, 13);
     const result = GetNextReward(12, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
   it("returns first reward for 0", () => {
-    const expectedReward = new Reward("Interessierte Küchenhilfe", "r2", 2);
+    const expectedReward = new Reward("Interessierte Küchenhilfe", 2, 2);
     const result = GetNextReward(0, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
   it("returns first reward from given array where threshold is greater than value (high value)", () => {
-    const expectedReward = new Reward("Sous Chef", "r16", 50);
+    const expectedReward = new Reward("Sous Chef", 16, 50);
     const result = GetNextReward(47, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
