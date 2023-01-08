@@ -21,7 +21,6 @@ import * as usersAction from "../store/actions/usersAction";
 import Meal from "../models/Meal";
 import { Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import uploadImages from "../firebase/uploadImages";
 import newMealFormReducer from "../store/formReducers/newMealFormReducer";
 import {
   CHANGE_TITLE,
@@ -46,13 +45,12 @@ import MyButton from "../components/MyButton";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { MealEquals } from "../common_functions/MealEquals";
-import {
-  GetImagesAlreadyUploaded,
-  GetImagesToUpload,
-} from "../common_functions/GetImagesToUpload";
+import { GetImagesToUpload } from "../common_functions/GetImagesToUpload";
 import SortingListViewContainer from "../components/SortingListViewContainer";
 import InputListViewContainer from "../components/InputListViewContainer";
 import SaveIcon from "../components/HeaderIcons/SaveIcon";
+import { UploadImagesAndCreateMeal } from "../common_functions/Integration/UploadImagesAndCreateMeal";
+import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadImagesAndEditMeal";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -175,54 +173,15 @@ function NewScreen({ route, navigation }) {
     }
   };
 
-  async function createMeal(urls) {
-    let uploadedImages = await uploadImages(urls);
-    return new Meal(
-      formState.title,
-      "error",
-      uploadedImages[0],
-      formState.ingredients,
-      formState.steps,
-      uploadedImages,
-      [],
-      0,
-    );
-  }
-
-  async function editMeal() {
-    const imagesToUpload = GetImagesToUpload(formState.imageUrls);
-    const imagesAlreadyUploaded = GetImagesAlreadyUploaded(formState.imageUrls);
-
-    //Check if we upload the primary image
-    let primaryImageIndex = imagesToUpload.indexOf(formState.primaryImageUrl);
-
-    let uploadedImages = await uploadImages(imagesToUpload);
-
-    const editedMeal = new Meal(
-      formState.title,
-      mealId,
-      //if the primary image is uploaded, take it from here
-      primaryImageIndex !== -1
-        ? uploadedImages[primaryImageIndex]
-        : formState.primaryImageUrl,
-      formState.ingredients,
-      formState.steps,
-      imagesAlreadyUploaded.concat(uploadedImages),
-      inputMeal.tags,
-      inputMeal.rating,
-    );
-    return editedMeal;
-  }
-
-  function isFormValid() {
-    return (
-      !formState.title ||
-      formState.ingredients.length < 1 ||
-      formState.steps.length < 1
-    );
-  }
-
   const createMealHandler = useCallback(async () => {
+    function isFormValid() {
+      return (
+        !formState.title ||
+        formState.ingredients.length < 1 ||
+        formState.steps.length < 1
+      );
+    }
+
     if (isFormValid()) {
       Alert.alert("We need a title and at least one ingredient and one step!");
       return;
@@ -232,7 +191,16 @@ function NewScreen({ route, navigation }) {
       formDispatch({ type: LOADING });
 
       if (mealId) {
-        const editedMeal = await editMeal();
+        const editedMeal = await UploadImagesAndEditMeal(
+          formState.imageUrls,
+          formState.primaryImageUrl,
+          formState.title,
+          mealId,
+          formState.ingredients,
+          formState.steps,
+          inputMeal.tags,
+          inputMeal.rating,
+        );
 
         await dispatch(mealsAction.editMeal(editedMeal));
         formDispatch({ type: SUBMITTED });
@@ -244,7 +212,12 @@ function NewScreen({ route, navigation }) {
           },
         });
       } else {
-        const newMeal = await createMeal(formState.imageUrls);
+        const newMeal = await UploadImagesAndCreateMeal(
+          formState.imageUrls,
+          formState.title,
+          formState.ingredients,
+          formState.steps,
+        );
 
         const id = await dispatch(mealsAction.createMeal(newMeal));
         user.meals.push(id);
@@ -263,7 +236,7 @@ function NewScreen({ route, navigation }) {
     } catch (err) {
       throw err;
     }
-  }, [dispatch, formState]);
+  }, [dispatch, formState, mealId, navigation, user, inputMeal]);
 
   if (formState.isLoading) {
     return <LoadingIndicator />;
