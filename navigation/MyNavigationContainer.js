@@ -61,7 +61,7 @@ function AuthenticatedTabNavigator() {
 
 const MealsStack = createNativeStackNavigator();
 
-function MealsStackContainer({ navigation, route }) {
+function MealsStackContainer({ navigation }) {
   const dispatch = useDispatch();
 
   return (
@@ -80,9 +80,9 @@ function MealsStackContainer({ navigation, route }) {
         <MealsStack.Screen
           name="Details"
           component={MealDetailScreen}
-          options={({ navigation, route }) => ({
+          options={({ navigation2, route }) => ({
             title: route.params.mealTitle,
-            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
+            headerRight: () => EditMangiIcon(navigation2, route.params.mealId),
           })}
         />
         <MealsStack.Screen
@@ -96,9 +96,9 @@ function MealsStackContainer({ navigation, route }) {
         <MealsStack.Screen
           name="ImagesScreen"
           component={ImagesScreen}
-          options={({ navigation, route }) => ({
+          options={({ navigation2, route }) => ({
             title: route.params.mealTitle,
-            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
+            headerRight: () => EditMangiIcon(navigation2, route.params.mealId),
           })}
         />
         <MealsStack.Screen
@@ -113,7 +113,7 @@ function MealsStackContainer({ navigation, route }) {
 
 const DevStack = createNativeStackNavigator();
 
-function DevStackContainer({ route }) {
+function DevStackContainer() {
   return (
     <View style={{ flex: 1 }} collapsable={false}>
       <DevStack.Navigator screenOptions={defaultScreenOptions}>
@@ -129,7 +129,7 @@ function DevStackContainer({ route }) {
 
 const LoginStack = createNativeStackNavigator();
 
-function LoginStackContainer({ route }) {
+function LoginStackContainer() {
   return (
     <LoginStack.Navigator screenOptions={defaultScreenOptions}>
       <LoginStack.Screen
@@ -148,7 +148,7 @@ function LoginStackContainer({ route }) {
 
 const ProfileStack = createNativeStackNavigator();
 
-function ProfileStackContainer({ navigation, route }) {
+function ProfileStackContainer({ navigation }) {
   const dispatch = useDispatch();
 
   return (
@@ -174,7 +174,7 @@ function ProfileStackContainer({ navigation, route }) {
 
 const FiltersStack = createNativeStackNavigator();
 
-function FiltersStackContainer({ route }) {
+function FiltersStackContainer() {
   return (
     <View style={{ flex: 1 }} collapsable={false}>
       <FiltersStack.Navigator screenOptions={defaultScreenOptions}>
@@ -190,7 +190,7 @@ function FiltersStackContainer({ route }) {
 
 const NewMealStack = createNativeStackNavigator();
 
-function NewMealStackContainer({ route }) {
+function NewMealStackContainer() {
   return (
     <View style={{ flex: 1 }} collapsable={false}>
       <NewMealStack.Navigator screenOptions={defaultScreenOptions}>
@@ -204,7 +204,7 @@ function NewMealStackContainer({ route }) {
   );
 }
 
-const MyNavigationContainer = (props) => {
+const MyNavigationContainer = () => {
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = !!token;
   console.log("isAuthenticated " + isAuthenticated);
@@ -221,7 +221,7 @@ const MyNavigationContainer = (props) => {
           authActions.authenticate(
             tokenData.token,
             tokenData.userId,
-            tokenData.experiationTime,
+            tokenData.expirationTime,
           ),
         );
         return;
