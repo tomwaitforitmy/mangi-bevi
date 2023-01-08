@@ -15,9 +15,9 @@ let timer;
 
 const FIREBASE_API_KEY = "AIzaSyBK-NbCaWKt412ZW0uBZP5N87RQHck8KwA";
 
-export const authenticate = (token, userId, experiationTime) => {
+export const authenticate = (token, userId, expirationTime) => {
   return (dispatch) => {
-    dispatch(setLogoutTimer(experiationTime));
+    dispatch(setLogoutTimer(expirationTime));
     dispatch({ type: AUTHENTICATE, token: token, userId: userId });
   };
 };
@@ -42,16 +42,16 @@ const clearLogoutTimer = () => {
   }
 };
 
-const setLogoutTimer = (experiationTime) => {
+const setLogoutTimer = (expirationTime) => {
   return (dispatch) => {
     timer = setTimeout(() => {
       dispatch(logoutTimeout());
-    }, experiationTime);
+    }, expirationTime);
   };
 };
 
-const convertExpirationTimeToMs = (experiationTimeInMinutes) => {
-  return parseInt(experiationTimeInMinutes) * 1000;
+const convertExpirationTimeToMs = (expirationTimeInMinutes) => {
+  return parseInt(expirationTimeInMinutes, 10) * 1000;
 };
 
 export const signup = (email, password) => {
@@ -72,7 +72,7 @@ export const signup = (email, password) => {
     await HandleResponseError(response);
 
     const responseData = await response.json();
-    const experiationTimeInMs = convertExpirationTimeToMs(
+    const expirationTimeInMs = convertExpirationTimeToMs(
       responseData.expiresIn,
     );
 
@@ -80,7 +80,7 @@ export const signup = (email, password) => {
       authenticate(
         responseData.idToken,
         responseData.localId,
-        experiationTimeInMs,
+        expirationTimeInMs,
       ),
     );
 
@@ -89,13 +89,11 @@ export const signup = (email, password) => {
       console.log("logged in as", email);
     });
 
-    const expericationDate = new Date(
-      new Date().getTime() + experiationTimeInMs,
-    );
+    const expirationDate = new Date(new Date().getTime() + expirationTimeInMs);
     SaveTokenDataToStorage(
       responseData.idToken,
       responseData.localId,
-      expericationDate,
+      expirationDate,
     );
     SaveCredentialsToStorage(email, password);
   };
@@ -120,7 +118,7 @@ export const login = (email, password) => {
 
     const responseData = await response.json();
 
-    const experiationTimeInMs = convertExpirationTimeToMs(
+    const expirationTimeInMs = convertExpirationTimeToMs(
       responseData.expiresIn,
     );
 
@@ -128,7 +126,7 @@ export const login = (email, password) => {
       authenticate(
         responseData.idToken,
         responseData.localId,
-        experiationTimeInMs,
+        expirationTimeInMs,
       ),
     );
 
@@ -136,13 +134,11 @@ export const login = (email, password) => {
       console.log("logged in as", email);
     });
 
-    const expericationDate = new Date(
-      new Date().getTime() + experiationTimeInMs,
-    );
+    const expirationDate = new Date(new Date().getTime() + expirationTimeInMs);
     SaveTokenDataToStorage(
       responseData.idToken,
       responseData.localId,
-      expericationDate,
+      expirationDate,
     );
     SaveCredentialsToStorage(email, password);
   };

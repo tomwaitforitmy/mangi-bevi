@@ -13,17 +13,17 @@ export const LoadToken = async () => {
   }
 
   const transformedData = JSON.parse(tokenData);
-  const { token, userId, expericationDate } = transformedData;
-  const expericationDateTransformed = new Date(expericationDate);
+  const { token, userId, expericationDate: expirationDate } = transformedData;
+  const expirationDateTransformed = new Date(expirationDate);
 
-  if (expericationDateTransformed <= new Date() || !token || !userId) {
+  if (expirationDateTransformed <= new Date() || !token || !userId) {
     return;
   }
 
-  const experiationTime =
-    expericationDateTransformed.getTime() - new Date().getTime();
+  const expirationTime =
+    expirationDateTransformed.getTime() - new Date().getTime();
 
-  return { token, userId, experiationTime };
+  return { token, userId, expirationTime };
 };
 
 export const LoadCredentials = async () => {
@@ -40,13 +40,13 @@ export const LoadCredentials = async () => {
   return { email, password };
 };
 
-export const SaveTokenDataToStorage = (token, userId, expericationDate) => {
+export const SaveTokenDataToStorage = (token, userId, expirationDate) => {
   AsyncStorage.setItem(
     TOKEN,
     JSON.stringify({
       token: token,
       userId: userId,
-      expericationDate: expericationDate.toISOString(),
+      expericationDate: expirationDate.toISOString(),
     }),
   );
 };
