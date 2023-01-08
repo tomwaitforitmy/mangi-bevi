@@ -13,6 +13,7 @@ export const LoadToken = async () => {
   }
 
   const transformedData = JSON.parse(tokenData);
+  //typo here: but it was always saved like this!
   const { token, userId, expericationDate: expirationDate } = transformedData;
   const expirationDateTransformed = new Date(expirationDate);
 
@@ -46,6 +47,7 @@ export const SaveTokenDataToStorage = (token, userId, expirationDate) => {
     JSON.stringify({
       token: token,
       userId: userId,
+      //typo here: but it was always saved like this!
       expericationDate: expirationDate.toISOString(),
     }),
   );
