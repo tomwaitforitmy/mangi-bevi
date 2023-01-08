@@ -1,69 +1,27 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
-import LevelView from "../components/LevelView";
-import { RECIPE_REWARDS } from "../data/RecipeRewards";
-import { TAG_REWARDS } from "../data/TagRewards";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Icon } from "react-native-elements";
-import IconTypes from "../constants/IconTypes";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { INGREDIENT_REWARDS } from "../data/IngredientRewards";
-import Colors from "../constants/Colors";
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
+import { View, StyleSheet, Button } from "react-native";
+import LevelsViewModal from "../components/LevelsViewModal";
 
 function DevScreen({ navigation }) {
-  const [firstValue, setFirstValue] = useState(32);
-  const iconSize = 50;
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const myChefIcon = () => {
-    return (
-      <MaterialCommunityIcons name="chef-hat" size={iconSize} color="black" />
-    );
-  };
-
-  const myTagIcon = () => {
-    return (
-      <Icon
-        name="pricetags"
-        color={Colors.primary}
-        type={IconTypes.ionicon}
-        size={iconSize}
-      />
-    );
-  };
-
-  const myCarrotIcon = () => {
-    return <FontAwesome5 name="carrot" size={iconSize} color="orange" />;
+  const onRequestClose = () => {
+    console.log("closed");
+    setModalVisible(!modalVisible);
   };
 
   return (
     <View style={styles.container}>
-      <LevelView
-        value={firstValue}
-        rewards={RECIPE_REWARDS}
-        icon={myChefIcon}
-        rewardCategory={"Recipes"}
-      />
-      <LevelView
-        value={firstValue}
-        rewards={TAG_REWARDS}
-        icon={myTagIcon}
-        rewardCategory={"Tags"}
-      />
-      <LevelView
-        value={firstValue}
-        rewards={INGREDIENT_REWARDS}
-        icon={myCarrotIcon}
-        rewardCategory={"Ingredients"}
-      />
       <Button
-        title="random"
-        onPress={() => {
-          setFirstValue(getRandomInt(100));
-        }}
+        title="Change Modal"
+        onPress={() => setModalVisible(!modalVisible)}
+      />
+      <LevelsViewModal
+        countIngredients={242}
+        countTags={42}
+        countMeals={42}
+        modalVisible={modalVisible}
+        onRequestClose={onRequestClose}
       />
     </View>
   );
@@ -72,6 +30,7 @@ function DevScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
   },
 });
 
