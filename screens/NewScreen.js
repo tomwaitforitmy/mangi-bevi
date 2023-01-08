@@ -85,7 +85,7 @@ function NewScreen({ route, navigation }) {
 
   const dispatch = useDispatch();
 
-  const backAction = () => {
+  const backAction = useCallback(() => {
     let anyImageToUpload = false,
       changesMade = false;
     if (mealId) {
@@ -124,7 +124,7 @@ function NewScreen({ route, navigation }) {
     }
 
     return true;
-  };
+  }, [formState, mealId, inputMeal, createMealHandler, navigation]);
 
   useEffect(() => {
     getPermission();
@@ -135,7 +135,7 @@ function NewScreen({ route, navigation }) {
     );
 
     return () => backHandler.remove();
-  }, [formState]);
+  }, [formState, backAction]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -147,7 +147,7 @@ function NewScreen({ route, navigation }) {
       ),
       headerRight: () => SaveIcon(createMealHandler),
     });
-  }, [navigation, formState]);
+  }, [navigation, formState, backAction, createMealHandler]);
 
   const getPermission = async () => {
     if (Platform.OS !== "web") {
