@@ -40,7 +40,6 @@ import {
   SUBMITTED,
 } from "../store/formReducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
-import Colors from "../constants/Colors";
 import MyButton from "../components/MyButton";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import { MealEquals } from "../common_functions/MealEquals";
