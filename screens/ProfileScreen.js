@@ -14,10 +14,12 @@ function ProfileScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
   const allMeals = useSelector((state) => state.meals.meals);
 
-  //Bug here: This get's updated when "allMeals" changes after createMeal
-  //That is correct, but it does not get updated directly after editUser
-  //I suppose that's due updating user.meals which might not (?) change state.users.user
-  //hence this is not updated a second time. The refresh button helps, but is not needed.
+  //Bug here: This isn't updated when "allMeals" changes after createMeal or editMeal
+  //When I log user.meals here, the log is only called once.
+  //It seems that the whole screen is cached. It get's updated after the second meal
+  //is created (with the data of the created first meal) which is weird. So this view
+  //is always one meal behind ...
+  //The refresh button helps, but is ideally not needed.
   const userMeals = GetUserMeals(allMeals, user.meals);
   const userStats = GetUserStats(userMeals, user.id);
 
