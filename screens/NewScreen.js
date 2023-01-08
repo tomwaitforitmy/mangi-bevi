@@ -51,6 +51,7 @@ import InputListViewContainer from "../components/InputListViewContainer";
 import SaveIcon from "../components/HeaderIcons/SaveIcon";
 import { UploadImagesAndCreateMeal } from "../common_functions/Integration/UploadImagesAndCreateMeal";
 import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadImagesAndEditMeal";
+import { IsFormInvalid } from "../common_functions/IsMealInvalid";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -174,15 +175,9 @@ function NewScreen({ route, navigation }) {
   };
 
   const createMealHandler = useCallback(async () => {
-    function isFormValid() {
-      return (
-        !formState.title ||
-        formState.ingredients.length < 1 ||
-        formState.steps.length < 1
-      );
-    }
-
-    if (isFormValid()) {
+    if (
+      IsFormInvalid(formState.title, formState.ingredients, formState.steps)
+    ) {
       Alert.alert("We need a title and at least one ingredient and one step!");
       return;
     }
