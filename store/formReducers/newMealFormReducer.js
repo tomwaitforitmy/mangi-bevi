@@ -15,8 +15,18 @@ export const PREPARE_EDIT_STEP = "PREPARE_EDIT_STEP";
 export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 export const REMOVE_STEP = "REMOVE_STEP";
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
+export const SHOW_MODAL = "SHOW_MODAL";
 
 export default function newMealFormReducer(state, action) {
+  if (action.type === SHOW_MODAL) {
+    return {
+      ...state,
+      showModal: true,
+      newCreatedId: action.value,
+      isLoading: false,
+    };
+  }
+
   if (action.type === SET_FIELD) {
     return {
       ...state,
@@ -249,6 +259,7 @@ export default function newMealFormReducer(state, action) {
       isLoading: false,
       ingredientIndex: null,
       stepIndex: null,
+      showModal: false,
     };
   }
 
