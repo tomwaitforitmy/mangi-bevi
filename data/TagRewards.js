@@ -14,7 +14,7 @@ export const TAG_REWARDS = [
   new Reward("Kocht wie Oma", 11, 25),
   new Reward("Großes Leckermaul", 12, 30),
   new Reward("Ottolenghi Kochbuchbesitzer", 13, 35),
-  new Reward("Chefkoch.de Zeitung Abonent", 14, 40),
+  new Reward("Chefkoch.de Zeitung Abonnent", 14, 40),
   new Reward("Mangi & Bevi Premium User", 15, 45),
   new Reward("Sous Chef", 16, 50),
   new Reward("Chefkoch.de Premium User", 17, 60),
