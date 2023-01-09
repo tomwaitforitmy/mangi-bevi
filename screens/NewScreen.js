@@ -38,6 +38,7 @@ import {
   REMOVE_IMAGE,
   LOADING,
   SUBMITTED,
+  SHOW_MODAL,
 } from "../store/formReducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
 import MyButton from "../components/MyButton";
@@ -51,6 +52,9 @@ import { UploadImagesAndCreateMeal } from "../common_functions/Integration/Uploa
 import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadImagesAndEditMeal";
 import { IsFormInvalid } from "../common_functions/IsMealInvalid";
 import HeaderBackIcon from "../components/HeaderIcons/HeaderBackIcon";
+import LevelsViewModal from "../components/LevelsViewModal";
+import { GetUserMeals } from "../common_functions/GetUserMeals";
+import { GetUserStats } from "../common_functions/GetUserStats";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -75,6 +79,8 @@ function NewScreen({ route, navigation }) {
     isLoading: false,
     ingredientIndex: null,
     stepIndex: null,
+    showModal: false,
+    newCreatedId: "id-was-not-defined-yet",
   };
 
   const [formState, formDispatch] = useReducer(
@@ -83,6 +89,9 @@ function NewScreen({ route, navigation }) {
   );
 
   const dispatch = useDispatch();
+
+  const userMeals = GetUserMeals(meals, user.meals);
+  const userStats = GetUserStats(userMeals, user.id);
 
   const backAction = useCallback(() => {
     let anyImageToUpload = false,
@@ -211,16 +220,7 @@ function NewScreen({ route, navigation }) {
         const id = await dispatch(mealsAction.createMeal(newMeal));
         user.meals.push(id);
         await dispatch(usersAction.editUser(user));
-
-        formDispatch({ type: SUBMITTED });
-
-        navigation.navigate({
-          name: "Details",
-          params: {
-            mealId: id,
-            mealTitle: formState.title,
-          },
-        });
+        formDispatch({ type: SHOW_MODAL, value: id });
       }
     } catch (err) {
       throw err;
@@ -234,9 +234,28 @@ function NewScreen({ route, navigation }) {
   const inputStep = React.createRef();
   const inputIngredient = React.createRef();
 
+  const onRequestCloseModal = () => {
+    formDispatch({ type: SUBMITTED });
+
+    navigation.navigate({
+      name: "Details",
+      params: {
+        mealId: formState.newCreatedId,
+        mealTitle: formState.title,
+      },
+    });
+  };
+
   const renderInputs = () => {
     return (
       <ScrollView style={styles.list}>
+        <LevelsViewModal
+          countIngredients={userStats.countIngredients}
+          countTags={userStats.countTags}
+          countMeals={userMeals.length}
+          modalVisible={formState.showModal}
+          onRequestClose={onRequestCloseModal}
+        />
         {formState.imageUrls && formState.imageUrls.length > 0 && (
           <ImageSwipe
             images={formState.imageUrls}
