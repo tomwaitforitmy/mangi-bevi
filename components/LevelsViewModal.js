@@ -17,7 +17,7 @@ const LevelsViewModal = ({
       visible={modalVisible}
       onRequestClose={onRequestClose}>
       <View style={styles.modelView}>
-        <Text style={styles.modalText}>Nicely done!</Text>
+        <Text style={styles.modalText}>Yummy lecker! 😋</Text>
         <MyLevelViewContainer
           numberOfRecipes={countMeals}
           numberOfTags={countTags}
