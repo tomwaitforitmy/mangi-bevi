@@ -39,7 +39,7 @@ function ProfileScreen({ navigation }) {
                   userMeals: userMeals,
                 });
               }}>
-              {"View"}
+              {"View your Mangis"}
             </MyButton>
           </View>
         ) : (
