@@ -4,7 +4,7 @@ import { RECIPE_REWARDS } from "../../data/RecipeRewards";
 
 describe("GetReward", () => {
   it("returns first reward from given array where threshold is still smaller than value", () => {
-    const expectedReward = new Reward("Stagiaires", 7, 13);
+    const expectedReward = new Reward("Stagiaire", 7, 13);
     const result = GetReward(14, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
@@ -17,7 +17,7 @@ describe("GetReward", () => {
 
 describe("GetNextReward", () => {
   it("returns first reward from given array where threshold is greater than value", () => {
-    const expectedReward = new Reward("Stagiaires", 7, 13);
+    const expectedReward = new Reward("Stagiaire", 7, 13);
     const result = GetNextReward(12, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
