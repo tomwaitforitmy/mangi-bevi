@@ -80,9 +80,9 @@ function MealsStackContainer({ navigation }) {
         <MealsStack.Screen
           name="Details"
           component={MealDetailScreen}
-          options={({ navigation2, route }) => ({
+          options={({ route }) => ({
             title: route.params.mealTitle,
-            headerRight: () => EditMangiIcon(navigation2, route.params.mealId),
+            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
           })}
         />
         <MealsStack.Screen
@@ -96,9 +96,9 @@ function MealsStackContainer({ navigation }) {
         <MealsStack.Screen
           name="ImagesScreen"
           component={ImagesScreen}
-          options={({ navigation2, route }) => ({
+          options={({ route }) => ({
             title: route.params.mealTitle,
-            headerRight: () => EditMangiIcon(navigation2, route.params.mealId),
+            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
           })}
         />
         <MealsStack.Screen
