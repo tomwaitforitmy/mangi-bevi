@@ -16,7 +16,7 @@ function ProfileScreen({ navigation }) {
         {userStats.experiencedUser ? (
           <View style={styles.bene}>
             <MyLevelViewContainer
-              numberOfRecipes={user.meals.length}
+              numberOfRecipes={userMealsData.length}
               numberOfTags={userStats.countTags}
               numberOfIngredients={userStats.countIngredients}
             />
@@ -32,7 +32,7 @@ function ProfileScreen({ navigation }) {
         ) : (
           <View style={styles.bene}>
             <Text style={styles.bene}>
-              You added {user.meals.length} Mangis. How about adding one?
+              You added {userMealsData.length} Mangis. How about adding one?
             </Text>
             <MyButton
               onPress={() => {
