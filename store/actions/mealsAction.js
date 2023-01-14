@@ -1,5 +1,6 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import Meal from "../../models/Meal";
+import { UPDATE_USER_STATS } from "./usersAction";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -45,6 +46,12 @@ export const fetchMeals = () => {
 
       dispatch({
         type: SET_MEALS,
+        meals: loadedMeals,
+      });
+      //Update the statistics and the user meals data.
+      //This is possible the first time after we received all meals.
+      dispatch({
+        type: UPDATE_USER_STATS,
         meals: loadedMeals,
       });
     } catch (error) {

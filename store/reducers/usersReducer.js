@@ -1,13 +1,24 @@
-import { SET_USERS, CREATE_USER, EDIT_USER } from "../actions/usersAction";
+import { GetUserMeals } from "../../common_functions/GetUserMeals";
+import { GetUserStats } from "../../common_functions/GetUserStats";
+import {
+  SET_USERS,
+  CREATE_USER,
+  EDIT_USER,
+  UPDATE_USER_STATS,
+} from "../actions/usersAction";
 
 const initialState = {
   users: [],
   user: null,
+  userStats: null,
+  userMealsData: null,
 };
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USERS: {
+      //We don't have userStats here, yet, because we don't have
+      //fetched meals, yet.
       return {
         ...state,
         users: action.users,
@@ -26,10 +37,25 @@ const usersReducer = (state = initialState, action) => {
       const updatedUsers = [...state.users];
       updatedUsers[userId] = action.user;
 
+      const userMeals = GetUserMeals(action.meals, action.user.meals);
+      const updatedUserStats = GetUserStats(userMeals, action.user.id);
+
       return {
         ...state,
         users: updatedUsers,
         user: action.user,
+        userStats: updatedUserStats,
+        userMealsData: userMeals,
+      };
+    }
+    case UPDATE_USER_STATS: {
+      const userMeals = GetUserMeals(action.meals, state.user.meals);
+      const updatedUserStats = GetUserStats(userMeals, state.user.id);
+
+      return {
+        ...state,
+        userStats: updatedUserStats,
+        userMealsData: userMeals,
       };
     }
 

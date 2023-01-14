@@ -4,6 +4,7 @@ import User from "../../models/User";
 export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const SET_USERS = "SET_USERS";
+export const UPDATE_USER_STATS = "UPDATE_USER_STATS";
 
 export const fetchUsers = () => {
   return async (dispatch, getState) => {
@@ -106,6 +107,9 @@ export const editUser = (user) => {
 
     console.log("end edit user");
 
-    dispatch({ type: EDIT_USER, user: user });
+    //Meals are needed to update stats and user meals data.
+    const meals = getState().meals.meals;
+
+    dispatch({ type: EDIT_USER, user: user, meals: meals });
   };
 };
