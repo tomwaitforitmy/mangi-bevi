@@ -215,9 +215,12 @@ function NewScreen({ route, navigation }) {
           formState.steps,
         );
 
+        //first we have to update the meals to get the new id
         const id = await dispatch(mealsAction.createMeal(newMeal));
+        //afterward, we can update the user and stats
         user.meals.push(id);
         await dispatch(usersAction.editUser(user));
+        //now we can show the modal, with updated stats
         formDispatch({ type: SHOW_MODAL, value: id });
       }
     } catch (err) {
