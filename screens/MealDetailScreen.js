@@ -5,12 +5,15 @@ import MyListItem from "../components/MyListItem";
 import { Image } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
 import TagList from "../components/TagList";
+import Colors from "../constants/Colors";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
 
   const availableMeals = useSelector((state) => state.meals.meals);
+  const users = useSelector((state) => state.users.users);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+  const author = users.find((user) => user.meals.includes(mealId));
 
   const allTags = useSelector((state) => state.tags.tags);
   const tagList = [];
@@ -48,6 +51,12 @@ function MealDetailScreen({ route, navigation }) {
         {selectedMeal.steps.map((step) => (
           <MyListItem key={step} title={step} />
         ))}
+        <Text style={styles.authorBox}>
+          Created by
+          <Text style={styles.authorHighlighted}> {author.name}</Text> {"\n"}
+          Last edited by
+          <Text style={styles.authorHighlighted}> {author.name}</Text>
+        </Text>
       </ScrollView>
       <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
     </View>
@@ -65,6 +74,17 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  authorBox: {
+    textAlign: "left",
+    fontSize: 12,
+    paddingLeft: 12,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  authorHighlighted: {
+    fontWeight: "bold",
+    color: Colors.primary,
   },
 });
 
