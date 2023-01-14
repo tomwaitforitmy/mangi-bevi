@@ -53,13 +53,14 @@ import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadI
 import { IsFormInvalid } from "../common_functions/IsMealInvalid";
 import HeaderBackIcon from "../components/HeaderIcons/HeaderBackIcon";
 import LevelsViewModal from "../components/LevelsViewModal";
-import { GetUserMeals } from "../common_functions/GetUserMeals";
-import { GetUserStats } from "../common_functions/GetUserStats";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
   const user = useSelector((state) => state.users.user);
   const meals = useSelector((state) => state.meals.meals);
+  const userStats = useSelector((state) => state.users.userStats);
+  const userMealsData = useSelector((state) => state.users.userMealsData);
+
   const [renderIngredientSort, setRenderIngredientSort] = useState(false);
   const [renderStepsSort, setRenderStepsSort] = useState(false);
 
@@ -89,9 +90,6 @@ function NewScreen({ route, navigation }) {
   );
 
   const dispatch = useDispatch();
-
-  const userMeals = GetUserMeals(meals, user.meals);
-  const userStats = GetUserStats(userMeals, user.id);
 
   const backAction = useCallback(() => {
     let anyImageToUpload = false,
@@ -252,7 +250,7 @@ function NewScreen({ route, navigation }) {
         <LevelsViewModal
           countIngredients={userStats.countIngredients}
           countTags={userStats.countTags}
-          countMeals={userMeals.length}
+          countMeals={userMealsData.length}
           modalVisible={formState.showModal}
           onRequestClose={onRequestCloseModal}
         />
