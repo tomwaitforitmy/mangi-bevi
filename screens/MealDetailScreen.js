@@ -6,6 +6,7 @@ import { Image } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
 import TagList from "../components/TagList";
 import Colors from "../constants/Colors";
+import { GetAuthorNameByMealId } from "../common_functions/GetAuthorName";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -13,7 +14,7 @@ function MealDetailScreen({ route, navigation }) {
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
-  const author = users.find((user) => user.meals.includes(mealId));
+  const authorName = GetAuthorNameByMealId(mealId, users);
 
   const allTags = useSelector((state) => state.tags.tags);
   const tagList = [];
@@ -53,9 +54,9 @@ function MealDetailScreen({ route, navigation }) {
         ))}
         <Text style={styles.authorBox}>
           Created by
-          <Text style={styles.authorHighlighted}> {author.name}</Text> {"\n"}
+          <Text style={styles.authorHighlighted}> {authorName}</Text> {"\n"}
           Last edited by
-          <Text style={styles.authorHighlighted}> {author.name}</Text>
+          <Text style={styles.authorHighlighted}> {authorName}</Text>
         </Text>
       </ScrollView>
       <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
