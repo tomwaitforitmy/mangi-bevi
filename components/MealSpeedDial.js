@@ -9,12 +9,15 @@ import mealSpeedDialReducer, {
   OPEN,
 } from "../store/formReducers/mealSpeedDialReducer";
 import IconTypes from "../constants/IconTypes";
+import { GetAuthorNameByMealId } from "../common_functions/GetAuthorName";
 
 const MealSpeedDial = (props) => {
   const { mealId } = props;
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+  const users = useSelector((state) => state.users.users);
+  const authorName = GetAuthorNameByMealId(mealId, users);
 
   const initialState = {
     meal: selectedMeal,
@@ -33,6 +36,7 @@ const MealSpeedDial = (props) => {
           selectedMeal.title,
           selectedMeal.ingredients,
           selectedMeal.steps,
+          authorName,
         ),
       });
       if (result.action === Share.sharedAction) {
