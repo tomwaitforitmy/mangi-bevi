@@ -37,6 +37,12 @@ export const fetchMeals = () => {
             responseData[key].imageUrls ? responseData[key].imageUrls : [],
             responseData[key].tags ? responseData[key].tags : [],
             responseData[key].rating ? responseData[key].rating : 0,
+            responseData[key].authorId ? responseData[key].authorId : "error",
+            responseData[key].creationDate
+              ? responseData[key].creationDate
+              : "error",
+            responseData[key].editorId ? responseData[key].editorId : "error",
+            responseData[key].editDate ? responseData[key].editDate : "error",
           ),
         );
       }

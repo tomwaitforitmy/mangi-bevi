@@ -108,6 +108,10 @@ function NewScreen({ route, navigation }) {
         formState.imageUrls,
         inputMeal.tags,
         inputMeal.rating,
+        inputMeal.authorId,
+        inputMeal.creationDate,
+        inputMeal.editorId,
+        inputMeal.editDate,
       );
 
       changesMade = !MealEquals(inputMeal, editedMeal);
@@ -196,6 +200,10 @@ function NewScreen({ route, navigation }) {
           formState.steps,
           inputMeal.tags,
           inputMeal.rating,
+          inputMeal.authorId,
+          inputMeal.creationDate,
+          user.id,
+          new Date(),
         );
 
         await dispatch(mealsAction.editMeal(editedMeal));
@@ -213,6 +221,7 @@ function NewScreen({ route, navigation }) {
           formState.title,
           formState.ingredients,
           formState.steps,
+          user,
         );
 
         //first we have to update the meals to get the new id

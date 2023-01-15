@@ -6,8 +6,10 @@ export async function UploadImagesAndCreateMeal(
   title,
   ingredients,
   steps,
+  author,
 ) {
   let uploadedImages = await uploadImages(urls);
+  const now = new Date();
   return new Meal(
     title,
     "error",
@@ -17,5 +19,9 @@ export async function UploadImagesAndCreateMeal(
     uploadedImages,
     [],
     0,
+    author.id,
+    now,
+    author.id,
+    now,
   );
 }

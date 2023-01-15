@@ -8,6 +8,10 @@ class Meal {
     imageUrls,
     tags,
     rating,
+    authorId,
+    creationDate,
+    editorId,
+    editDate,
   ) {
     this.title = title;
     this.id = id;
@@ -17,6 +21,10 @@ class Meal {
     this.imageUrls = imageUrls;
     this.tags = tags;
     this.rating = rating;
+    this.authorId = authorId;
+    this.creationDate = creationDate;
+    this.editorId = editorId;
+    this.editDate = editDate;
   }
 }
 
