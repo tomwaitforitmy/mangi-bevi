@@ -62,9 +62,17 @@ function MealDetailScreen({ route, navigation }) {
           <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
           {creationDateString}
           {"\n"}
-          Last edited by
-          <Text style={styles.authorHighlighted}> {editorName}</Text> on{" "}
-          {editDateString}
+          {editDateString !== creationDateString ? (
+            <Text>
+              Last edited by
+              <Text style={styles.authorHighlighted}>
+                {" "}
+                {editorName}
+              </Text> on {editDateString}{" "}
+            </Text>
+          ) : (
+            <Text />
+          )}
         </Text>
       </ScrollView>
       <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
