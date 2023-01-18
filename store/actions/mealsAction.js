@@ -39,10 +39,12 @@ export const fetchMeals = () => {
             responseData[key].rating ? responseData[key].rating : 0,
             responseData[key].authorId ? responseData[key].authorId : "error",
             responseData[key].creationDate
-              ? responseData[key].creationDate
+              ? new Date(responseData[key].creationDate)
               : "error",
             responseData[key].editorId ? responseData[key].editorId : "error",
-            responseData[key].editDate ? responseData[key].editDate : "error",
+            responseData[key].editDate
+              ? new Date(responseData[key].editDate)
+              : "error",
           ),
         );
       }

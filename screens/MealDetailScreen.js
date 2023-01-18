@@ -6,7 +6,8 @@ import { Image } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
 import TagList from "../components/TagList";
 import Colors from "../constants/Colors";
-import { GetAuthorNameByMealId } from "../common_functions/GetAuthorName";
+import { GetAuthorName } from "../common_functions/GetAuthorName";
+import moment from "moment";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -14,7 +15,11 @@ function MealDetailScreen({ route, navigation }) {
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
-  const authorName = GetAuthorNameByMealId(mealId, users);
+  const authorName = GetAuthorName(selectedMeal.authorId, users);
+  const editorName = GetAuthorName(selectedMeal.editorId, users);
+
+  const creationDateString = moment(selectedMeal.creationDate).format("LLL");
+  const editDateString = moment(selectedMeal.editDate).format("LLL");
 
   const allTags = useSelector((state) => state.tags.tags);
   const tagList = [];
@@ -54,9 +59,12 @@ function MealDetailScreen({ route, navigation }) {
         ))}
         <Text style={styles.authorBox}>
           Created by
-          <Text style={styles.authorHighlighted}> {authorName}</Text> {"\n"}
+          <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
+          {creationDateString}
+          {"\n"}
           Last edited by
-          <Text style={styles.authorHighlighted}> {authorName}</Text>
+          <Text style={styles.authorHighlighted}> {editorName}</Text> on{" "}
+          {editDateString}
         </Text>
       </ScrollView>
       <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
