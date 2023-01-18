@@ -5,16 +5,21 @@ import getPictureBlob from "../firebase/getPictureBlob";
 import uploadImages from "../firebase/uploadImages";
 import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
+import {
+  GetAuthor,
+  GetAuthorByMealId,
+} from "../common_functions/GetAuthorName";
 
 const BulkEditMeal = (props) => {
   const availableMeals = useSelector((state) => state.meals.meals);
+  const users = useSelector((state) => state.users.users);
 
   //filter stuff here tommy
   const toEdit = availableMeals;
 
   const dispatch = useDispatch();
 
-  const bulkEdit = async () => {
+  const bulkEditImages = async () => {
     await Promise.all(
       toEdit.map(async (m) => {
         let imagesToUpload = [];
@@ -77,9 +82,43 @@ const BulkEditMeal = (props) => {
     );
   };
 
+  const bulkEditAuthorData = async () => {
+    await Promise.all(
+      toEdit.map(async (m) => {
+        const author = GetAuthorByMealId(m.id, users);
+        const now = new Date();
+
+        console.log(m.title + " by " + author.name);
+
+        await addAuthorData();
+
+        async function addAuthorData() {
+          const editedMeal = new Meal(
+            m.title,
+            m.id,
+            //if the primary images is uploaded, take it from here
+            m.primaryImageUrl,
+            m.ingredients,
+            m.steps,
+            m.imageUrls,
+            m.tags,
+            m.rating,
+            author.id,
+            now,
+            author.id,
+            now,
+          );
+
+          //Watch out for what is edited before pushing to firebase
+          await dispatch(mealActions.editMeal(editedMeal));
+        }
+      }),
+    );
+  };
+
   return (
     <View style={{ ...styles.container, ...props.style }}>
-      <Button title="Compress" onPress={bulkEdit}></Button>
+      <Button title="Compress" onPress={bulkEditAuthorData}></Button>
     </View>
   );
 };

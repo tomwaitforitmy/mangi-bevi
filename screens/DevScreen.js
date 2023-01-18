@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
+import BulkEditMeal from "../components/BulkEditMeal";
 import LevelsViewModal from "../components/LevelsViewModal";
 
 function DevScreen({ navigation }) {
@@ -12,17 +13,7 @@ function DevScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Change Modal"
-        onPress={() => setModalVisible(!modalVisible)}
-      />
-      <LevelsViewModal
-        countIngredients={242}
-        countTags={42}
-        countMeals={42}
-        modalVisible={modalVisible}
-        onRequestClose={onRequestClose}
-      />
+      <BulkEditMeal></BulkEditMeal>
     </View>
   );
 }
