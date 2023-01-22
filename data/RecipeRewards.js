@@ -1,13 +1,13 @@
 import Reward from "../models/Reward";
 
 export const RECIPE_REWARDS = [
-  new Reward("Kleines Leckermaul", 1, 0),
-  new Reward("Interessierte Küchenhilfe", 2, 2),
-  new Reward("Hobbykoch", 3, 4),
-  new Reward("Oma's Rezepte Fan", 4, 6),
-  new Reward("Kocht wie Vati", 5, 8),
-  new Reward("Foody Blog-Leser", 6, 10),
-  new Reward("Stagiaire", 7, 13),
+  new Reward("Fertigsuppen Koch", 1, 0),
+  new Reward("Koch mit traditionellen Methoden", 2, 2),
+  new Reward("Kenner der Restaurant-Szene", 3, 4),
+  new Reward("Heimlicher Frank Rosin Zuschauer", 4, 6),
+  new Reward("Koch mit modernen Techniken", 5, 8),
+  new Reward("Kenner der Sterne-Szene", 6, 10),
+  new Reward("Heimlicher Frank Rosin Fan", 7, 13),
   new Reward("Kocht wie Mutti", 8, 16),
   new Reward("Kochkursveteran", 9, 19),
   new Reward("Foody Blog-Abonnent", 10, 22),
