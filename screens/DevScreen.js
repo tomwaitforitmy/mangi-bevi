@@ -13,7 +13,17 @@ function DevScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BulkEditMeal></BulkEditMeal>
+      <Button
+        title="Change Modal"
+        onPress={() => setModalVisible(!modalVisible)}
+      />
+      <LevelsViewModal
+        countIngredients={13}
+        countTags={0}
+        countMeals={0}
+        modalVisible={modalVisible}
+        onRequestClose={onRequestClose}
+      />
     </View>
   );
 }
