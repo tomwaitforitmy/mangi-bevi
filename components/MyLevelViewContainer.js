@@ -43,16 +43,16 @@ const MyLevelViewContainer = (props) => {
         rewardCategory={"Recipes"}
       />
       <LevelView
-        value={props.numberOfTags}
-        rewards={TAG_REWARDS}
-        icon={myTagIcon}
-        rewardCategory={"Tags"}
-      />
-      <LevelView
         value={props.numberOfIngredients}
         rewards={INGREDIENT_REWARDS}
         icon={myCarrotIcon}
         rewardCategory={"Ingredients"}
+      />
+      <LevelView
+        value={props.numberOfTags}
+        rewards={TAG_REWARDS}
+        icon={myTagIcon}
+        rewardCategory={"Tags"}
       />
     </View>
   );
