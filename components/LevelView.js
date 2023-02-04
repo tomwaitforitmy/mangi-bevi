@@ -57,14 +57,24 @@ const LevelView = (props) => {
       </View>
       <View style={styles.rightSideSuperContainer}>
         <View style={styles.currentTitleContainer}>
-          <Text style={styles.currentTitleText}>{level.currentTitle}</Text>
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={2}
+            style={styles.currentTitleText}>
+            {level.currentTitle}
+          </Text>
         </View>
         <View style={styles.levelBarContainer}>
           <Animated.View style={[styles.levelBar, growWidthAnimatedStyle]} />
         </View>
         <View style={styles.nextTitleContainer}>
-          <Text style={styles.nextTitleText}>Next: {level.nextTitle}</Text>
-          <Text style={styles.valueOfLevelText}>
+          <Text numberOfLines={1} style={styles.nextTitleText}>
+            Next: {level.nextTitle}
+          </Text>
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            style={styles.valueOfLevelText}>
             {value + "/" + level.upperThreshold}
           </Text>
         </View>
@@ -122,7 +132,10 @@ const styles = StyleSheet.create({
     height: "40%",
     justifyContent: "center",
   },
-  currentTitleText: { color: Colors.levelViewTexts, fontSize: 18 },
+  currentTitleText: {
+    color: Colors.levelViewTexts,
+    fontSize: 18,
+  },
   nextTitleContainer: {
     backgroundColor: Colors.levelViewBackground,
     width: "100%",
@@ -131,9 +144,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  nextTitleText: { color: Colors.levelViewTexts, fontSize: 12 },
+  nextTitleText: {
+    color: Colors.levelViewTexts,
+    fontSize: 12,
+    width: "80%",
+  },
   //value of / to upperThreshold text
-  valueOfLevelText: { color: Colors.levelViewTexts, fontSize: 12 },
+  valueOfLevelText: {
+    color: Colors.levelViewTexts,
+    fontSize: 12,
+    width: "20%",
+    textAlign: "right",
+  },
 });
 
 export default LevelView;
