@@ -18,9 +18,9 @@ function DevScreen({ navigation }) {
         onPress={() => setModalVisible(!modalVisible)}
       />
       <LevelsViewModal
-        countIngredients={13}
-        countTags={0}
-        countMeals={0}
+        countMeals={10000} //1 2 32 42 200
+        countIngredients={10000} //1 36 201
+        countTags={10000} //1 36
         modalVisible={modalVisible}
         onRequestClose={onRequestClose}
       />
