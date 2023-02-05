@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 
-const MealTableRow = ({ meal, onPress, isSelected }) => {
+const MultiSelectMealRow = ({ meal, onPress, isSelected }) => {
   const [selected, setSelected] = useState(isSelected);
 
   const handlePress = () => {
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MealTableRow;
+export default MultiSelectMealRow;

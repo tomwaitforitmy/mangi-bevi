@@ -1,13 +1,13 @@
 import { FlashList } from "@shopify/flash-list";
 import React from "react";
-import MealTableRow from "./MealTableRow";
+import MultiSelectMealRow from "./MultiSelectMealRow";
 
 const MultiSelectMealsList = ({ meals, onMealPress, selectedMeals }) => {
   return (
     <FlashList
       data={meals}
       renderItem={({ item }) => (
-        <MealTableRow
+        <MultiSelectMealRow
           meal={item}
           onPress={onMealPress}
           isSelected={selectedMeals.includes(item.id)}
