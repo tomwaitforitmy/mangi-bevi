@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: Colors.white,
     padding: 5,
     margin: 5,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: Colors.selectedMealBorderColor,
   },
   rowContainerSelected: {
     flexDirection: "row",
@@ -54,33 +54,25 @@ const styles = StyleSheet.create({
   mealImage: {
     width: "100%",
     height: "100%",
-    justifyContent: "flex-end",
-    overflow: "hidden",
   },
   mealImageContainer: {
     width: 50,
     height: 50,
     borderRadius: 50,
-    marginRight: 15,
-    backgroundColor: "rgba(52, 52, 52, 0.0)",
+    marginRight: 8,
     overflow: "hidden",
   },
   textContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 18,
   },
   selectedIndicator: {
-    backgroundColor: "rgba(52, 52, 52, 0.0)",
+    backgroundColor: Colors.transparent,
     padding: 5,
-    borderRadius: 5,
-    alignSelf: "center",
   },
   selectedIndicatorText: {
-    textAlign: "center",
-    alignSelf: "center",
     fontSize: 26,
   },
 });

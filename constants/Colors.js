@@ -12,4 +12,6 @@ export default {
   levelViewBarBackgroundBorder: "#007d21",
   levelViewTexts: "black",
   selectedMealBackground: "#e0f1ff",
+  selectedMealBorderColor: "#ccc",
+  transparent: "rgba(0, 0, 0, 0.0)",
 };
