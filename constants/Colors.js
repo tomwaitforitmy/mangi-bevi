@@ -11,4 +11,5 @@ export default {
   levelViewBar: "#16ab3e",
   levelViewBarBackgroundBorder: "#007d21",
   levelViewTexts: "black",
+  selectedMealBackground: "#e0f1ff",
 };

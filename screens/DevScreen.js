@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
+import { useSelector } from "react-redux";
 import BulkEditMeal from "../components/BulkEditMeal";
 import LevelsViewModal from "../components/LevelsViewModal";
+import MultiSelectMealsList from "../components/MultiSelectMealsList";
 
 function DevScreen({ navigation }) {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const onRequestClose = () => {
-    console.log("closed");
-    setModalVisible(!modalVisible);
+  // const [modalVisible, setModalVisible] = useState(false);
+  const allMeals = useSelector((state) => state.meals.meals);
+  const [selectedMeals, setSelectedMeals] = useState([]);
+  const onMealPress = (meal) => {
+    console.log("Pressed" + meal.title);
   };
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Change Modal"
-        onPress={() => setModalVisible(!modalVisible)}
-      />
-      <LevelsViewModal
-        countMeals={10000} //1 2 32 42 200
-        countIngredients={10000} //1 36 201
-        countTags={10000} //1 36
-        modalVisible={modalVisible}
-        onRequestClose={onRequestClose}
+      <MultiSelectMealsList
+        meals={allMeals}
+        onMealPress={onMealPress}
+        selectedMeals={selectedMeals}
+        setSelectedMeals={setSelectedMeals}
       />
     </View>
   );
