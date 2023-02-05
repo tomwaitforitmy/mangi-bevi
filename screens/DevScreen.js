@@ -6,11 +6,11 @@ import LevelsViewModal from "../components/LevelsViewModal";
 import MultiSelectMealsList from "../components/MultiSelectMealsList";
 
 function DevScreen({ navigation }) {
-  // const [modalVisible, setModalVisible] = useState(false);
   const allMeals = useSelector((state) => state.meals.meals);
   const [selectedMeals, setSelectedMeals] = useState([]);
   const onMealPress = (meal) => {
-    console.log("Pressed" + meal.title);
+    setSelectedMeals(() => selectedMeals.push(meal.id));
+    console.log("Pressed" + meal.id);
   };
 
   return (
@@ -19,7 +19,6 @@ function DevScreen({ navigation }) {
         meals={allMeals}
         onMealPress={onMealPress}
         selectedMeals={selectedMeals}
-        setSelectedMeals={setSelectedMeals}
       />
     </View>
   );
