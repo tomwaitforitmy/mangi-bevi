@@ -33,9 +33,11 @@ const usersReducer = (state = initialState, action) => {
       };
     }
     case EDIT_USER: {
+      //create a new user object, to make sure state is updated
+      const editedUser = { ...action.user };
       const userId = state.users.findIndex((u) => u.id === action.user.id);
       const updatedUsers = [...state.users];
-      updatedUsers[userId] = action.user;
+      updatedUsers[userId] = editedUser;
 
       const userMeals = GetUserMeals(action.meals, action.user.meals);
       const updatedUserStats = GetUserStats(userMeals, action.user.id);
@@ -43,7 +45,7 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         users: updatedUsers,
-        user: action.user,
+        user: editedUser,
         userStats: updatedUserStats,
         userMealsData: userMeals,
       };
