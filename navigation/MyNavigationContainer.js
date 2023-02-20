@@ -19,7 +19,7 @@ import {
   LoadToken,
 } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
 import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
@@ -45,6 +45,9 @@ function AuthenticatedTabNavigator() {
     <Tab.Navigator
       activeColor={Colors.navigationIcon}
       inactiveColor={Colors.second}
+      //it was mentioned on github, that this should be false on iOS
+      //and true on android to make keyboardAvoidingView work with material-bottom-tabs
+      keyboardHidesNavigationBar={Platform.OS === "ios" ? false : true}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) =>
           TabBarIcon(focused, color, route.name),
