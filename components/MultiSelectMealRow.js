@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import Colors from "../constants/Colors";
 
 const MultiSelectMealRow = ({ meal, onPress, isSelected }) => {
-  const [selected, setSelected] = useState(isSelected);
-
-  const handlePress = () => {
-    setSelected(!selected);
-    onPress(meal, !selected);
-  };
-
   return (
     <TouchableOpacity
-      onPress={handlePress}
-      style={selected ? styles.rowContainerSelected : styles.rowContainer}>
+      onPress={() => onPress(meal)}
+      style={isSelected ? styles.rowContainerSelected : styles.rowContainer}>
       <View style={styles.mealImageContainer}>
         <Image
           source={{ uri: meal.primaryImageUrl }}
@@ -23,7 +23,7 @@ const MultiSelectMealRow = ({ meal, onPress, isSelected }) => {
       <View style={styles.textContainer}>
         <Text style={styles.title}>{meal.title}</Text>
       </View>
-      {selected && (
+      {isSelected && (
         <View style={styles.selectedIndicator}>
           <Text style={styles.selectedIndicatorText}>🍕</Text>
         </View>

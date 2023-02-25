@@ -9,8 +9,11 @@ function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const [selectedMeals, setSelectedMeals] = useState([]);
   const onMealPress = (meal) => {
-    setSelectedMeals(() => selectedMeals.push(meal.id));
-    console.log("Pressed" + meal.id);
+    if (selectedMeals.includes(meal.id)) {
+      setSelectedMeals(selectedMeals.filter((id) => id !== meal.id));
+    } else {
+      setSelectedMeals([...selectedMeals, meal.id]);
+    }
   };
 
   return (
