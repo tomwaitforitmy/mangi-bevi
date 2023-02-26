@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, Text, Switch } from "react-native";
 import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import TagList from "../components/TagList";
+import Colors from "../constants/Colors";
 import * as tagActions from "../store/actions/tagsAction";
 
 function FiltersScreen({ navigation }) {
@@ -42,13 +43,20 @@ function FiltersScreen({ navigation }) {
         <Text style={styles.subtitle}>Active Tag Filters</Text>
         <Divider />
         <TagList tags={filterTags} onPressTag={removeTagHandler} />
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={filterModeAndIsActive ? "#f5dd4b" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={changeFilterModeHandler}
-          value={filterModeAndIsActive}
-        />
+        <View style={styles.filterModeSwitch}>
+          {filterModeAndIsActive ? (
+            <Text>Combine tags with And</Text>
+          ) : (
+            <Text>Combine tags with Or</Text>
+          )}
+          <Switch
+            trackColor={{ false: Colors.primary, true: Colors.second }} //track is part in the background
+            thumbColor={Colors.white} //thumb is the toggle in the front
+            ios_backgroundColor={Colors.primary}
+            onValueChange={changeFilterModeHandler}
+            value={filterModeAndIsActive}
+          />
+        </View>
         <Text style={styles.subtitle}>Available Tags</Text>
         <Divider />
         <TagList
@@ -62,6 +70,14 @@ function FiltersScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  filterModeSwitch: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 5,
+    width: "100%",
+  },
   container: {
     flex: 1,
     flexDirection: "column",
