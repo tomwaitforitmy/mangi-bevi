@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text, Switch } from "react-native";
 import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import TagList from "../components/TagList";
@@ -9,6 +9,9 @@ function FiltersScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const filterTags = useSelector((state) => state.tags.filterTags);
+  const filterMode = useSelector((state) => state.tags.filterMode);
+  const filterModeAndIsActive = filterMode === tagActions.FILTER_MODE_AND;
+
   const availableFilterTags = useSelector(
     (state) => state.tags.availableFilterTags,
   );
@@ -25,15 +28,26 @@ function FiltersScreen({ navigation }) {
     dispatch(tagActions.removeFilterTag(tag));
   };
 
+  const changeFilterModeHandler = () => {
+    if (filterModeAndIsActive) {
+      dispatch(tagActions.setFilterModeOr());
+    } else {
+      dispatch(tagActions.setFilterModeAnd());
+    }
+  };
+
   return (
     <View style={styles.screen}>
       <ScrollView style={styles.tagLists}>
         <Text style={styles.subtitle}>Active Tag Filters</Text>
         <Divider />
-        <TagList
-          tags={filterTags}
-          onPressTag={removeTagHandler}
-          // onLongPressTag={deleteTagHandler}
+        <TagList tags={filterTags} onPressTag={removeTagHandler} />
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={filterModeAndIsActive ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={changeFilterModeHandler}
+          value={filterModeAndIsActive}
         />
         <Text style={styles.subtitle}>Available Tags</Text>
         <Divider />

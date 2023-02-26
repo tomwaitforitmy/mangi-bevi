@@ -39,6 +39,14 @@ export const removeFilterTag = (tag) => {
   return { type: REMOVE_FILTER_TAG, tag: tag };
 };
 
+export const setFilterModeOr = () => {
+  return { type: FILTER_MODE_OR };
+};
+
+export const setFilterModeAnd = () => {
+  return { type: FILTER_MODE_AND };
+};
+
 const compareTags = (a, b) => {
   if (a.title < b.title) {
     return -1;
