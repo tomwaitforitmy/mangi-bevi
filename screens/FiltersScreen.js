@@ -36,11 +36,7 @@ function FiltersScreen({ navigation }) {
         <FilterModeSwitch />
         <Text style={styles.subtitle}>Available Tags</Text>
         <Divider />
-        <TagList
-          tags={availableFilterTags}
-          onPressTag={addTagHandler}
-          // onLongPressTag={deleteTagHandler}
-        />
+        <TagList tags={availableFilterTags} onPressTag={addTagHandler} />
       </ScrollView>
     </View>
   );

@@ -17,13 +17,17 @@ const FilterModeSwitch = (props) => {
     }
   };
 
+  const modeText = filterModeAndIsActive ? (
+    <Text style={styles.modeText}>And</Text>
+  ) : (
+    <Text style={styles.modeText}>Or</Text>
+  );
+
   return (
     <View style={{ ...styles.filterModeSwitch, ...props.style }}>
-      {filterModeAndIsActive ? (
-        <Text>Combine tags with And</Text>
-      ) : (
-        <Text>Combine tags with Or</Text>
-      )}
+      <Text style={styles.descriptionText}>
+        If more than one tag, combine with {modeText}
+      </Text>
       <Switch
         trackColor={{ false: Colors.primary, true: Colors.second }} //track is part in the background
         thumbColor={Colors.white} //thumb is the toggle in the front
@@ -36,7 +40,17 @@ const FilterModeSwitch = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  descriptionText: {
+    fontSize: 14,
+    textAlign: "left",
+    color: "grey",
+  },
+  modeText: {
+    fontSize: 14,
+    textAlign: "left",
+    color: "grey",
+    fontWeight: "bold",
+  },
   filterModeSwitch: {
     flex: 1,
     flexDirection: "row",
