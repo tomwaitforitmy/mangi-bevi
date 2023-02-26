@@ -11,6 +11,8 @@ import {
   ADD_FILTER_TAG,
   REMOVE_FILTER_TAG,
   SET_FILTER_TAGS,
+  FILTER_MODE_OR,
+  FILTER_MODE_AND,
 } from "../actions/tagsAction";
 
 const initialState = {
@@ -18,11 +20,24 @@ const initialState = {
   availableTags: TAGS,
   addedTags: [],
   filterTags: [],
+  filterMode: FILTER_MODE_AND,
   availableFilterTags: [],
 };
 
 const tagsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case FILTER_MODE_AND: {
+      return {
+        ...state,
+        filterMode: FILTER_MODE_AND,
+      };
+    }
+    case FILTER_MODE_OR: {
+      return {
+        ...state,
+        filterMode: FILTER_MODE_OR,
+      };
+    }
     case ADD_TAG: {
       return {
         ...state,

@@ -8,6 +8,7 @@ import Colors from "../constants/Colors";
 import { fetchAll } from "../firebase/fetchAll";
 import IconTypes from "../constants/IconTypes";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { FILTER_MODE_AND, FILTER_MODE_OR } from "../store/actions/tagsAction";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ function MealsScreen({ navigation }) {
 
   const allMeals = useSelector((state) => state.meals.meals);
   const filterTags = useSelector((state) => state.tags.filterTags);
+  const filterMode = useSelector((state) => state.tags.filterMode);
+  const filtersActive = filterTags.length > 0;
 
   const onPressTagsActiveHandler = () => {
     navigation.navigate("Filters");
@@ -38,19 +41,36 @@ function MealsScreen({ navigation }) {
 
   const filteredMeals = [];
 
-  if (filterTags.length > 0) {
-    const validIds = filterTags.map((t) => t.id);
+  if (filtersActive) {
+    const tagIdsToFilter = filterTags.map((t) => t.id);
+    console.log(filterMode);
 
-    allMeals.map((meal) => {
-      if (validIds.some((e) => meal.tags.includes(e))) {
-        filteredMeals.push(meal);
+    switch (filterMode) {
+      case FILTER_MODE_AND: {
+        allMeals.map((meal) => {
+          if (!tagIdsToFilter.some((id) => !meal.tags.includes(id))) {
+            filteredMeals.push(meal);
+          }
+        });
+        break;
       }
-    });
+      case FILTER_MODE_OR: {
+        allMeals.map((meal) => {
+          if (tagIdsToFilter.some((e) => meal.tags.includes(e))) {
+            filteredMeals.push(meal);
+          }
+        });
+        break;
+      }
+
+      default:
+        throw new Error("Invalid filter mode for tags! Mode is " + filterMode);
+    }
   }
 
   return (
     <View style={styles.mealsScreen}>
-      {filteredMeals.length > 0 && (
+      {filtersActive && (
         <View style={styles.overlay}>
           <Chip
             title={"Active filters"}
@@ -69,7 +89,7 @@ function MealsScreen({ navigation }) {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        mealsList={filteredMeals.length > 0 ? filteredMeals : allMeals}
+        mealsList={filtersActive ? filteredMeals : allMeals}
         navigation={navigation}
       />
     </View>

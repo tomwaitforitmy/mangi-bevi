@@ -11,6 +11,8 @@ export const REMOVE_TAG = "REMOVE_TAG";
 export const ADD_FILTER_TAG = "ADD_FILTER_TAG";
 export const REMOVE_FILTER_TAG = "REMOVE_FILTER_TAG";
 export const SET_FILTER_TAGS = "SET_FILTER_TAGS";
+export const FILTER_MODE_AND = "FILTER_MODE_AND";
+export const FILTER_MODE_OR = "FILTER_MODE_OR";
 
 export const setAddedTags = (tagIds) => {
   return { type: SET_ADDED_TAGS, tagIds: tagIds };
