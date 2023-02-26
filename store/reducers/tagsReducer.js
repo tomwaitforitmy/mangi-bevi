@@ -20,7 +20,7 @@ const initialState = {
   availableTags: TAGS,
   addedTags: [],
   filterTags: [],
-  filterMode: FILTER_MODE_AND,
+  filterMode: FILTER_MODE_OR,
   availableFilterTags: [],
 };
 
