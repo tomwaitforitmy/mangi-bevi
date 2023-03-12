@@ -38,7 +38,7 @@ const defaultScreenOptions = {
 };
 
 const Tab = createMaterialBottomTabNavigator();
-const devMode = true;
+const devMode = false;
 
 function AuthenticatedTabNavigator() {
   return (
