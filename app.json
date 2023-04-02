@@ -12,33 +12,22 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/113294ee-33ec-4908-8f4b-8e830e6f5bc6"
+      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.tommy.mangibevi"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-noodles.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.tommy.mangibevi"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "113294ee-33ec-4908-8f4b-8e830e6f5bc6"
-      }
-    },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
     }
   }
 }
