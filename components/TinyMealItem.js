@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 
-const TinyMealItem = ({ meal }) => {
+const TinyMealItem = ({ meal, onPressMeal }) => {
+  const isSelectable = onPressMeal ? false : true;
+
   //State here is needed to trigger re-render on press
   //it is not needed to save the bool value
   //This seems to improve performance on Android compared
@@ -16,8 +18,14 @@ const TinyMealItem = ({ meal }) => {
 
   return (
     <TouchableOpacity
-      onPress={() => onToggleSelect(meal, !isSelected)}
-      style={isSelected ? styles.rowContainerSelected : styles.rowContainer}
+      onPress={() =>
+        isSelectable ? onToggleSelect(meal, !isSelected) : onPressMeal(meal)
+      }
+      style={
+        isSelectable && isSelected
+          ? styles.rowContainerSelected
+          : styles.rowContainer
+      }
       accessibilityRole="button">
       <View style={styles.mealImageContainer}>
         <Image
@@ -28,7 +36,7 @@ const TinyMealItem = ({ meal }) => {
       <View style={styles.textContainer}>
         <Text style={styles.title}>{meal.title}</Text>
       </View>
-      {isSelected && (
+      {isSelectable && isSelected && (
         <View style={styles.selectedIndicator}>
           <Text style={styles.selectedIndicatorText}>🍕</Text>
         </View>
@@ -43,7 +51,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.white,
     padding: 5,
-    margin: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 5,
     borderWidth: 1,
     borderColor: Colors.selectedMealBorderColor,
   },
@@ -52,7 +62,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.selectedMealBackground,
     padding: 5,
-    margin: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 5,
     borderWidth: 1,
     borderColor: Colors.second,
   },
