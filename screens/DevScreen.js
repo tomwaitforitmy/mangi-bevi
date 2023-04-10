@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Button } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import BulkEditMeal from "../components/BulkEditMeal";
 import LevelsViewModal from "../components/LevelsViewModal";
@@ -18,12 +18,7 @@ function DevScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <MultiSelectMealsList
-        meals={lessMeals}
-        //onMealPress={onMealPress}
-        //selectedMeals={selectedMeals}
-      />
-      <Button title="fertig" onPress={() => onEndSelection(lessMeals)} />
+      <MultiSelectMealsList meals={lessMeals} onEndSelection={onEndSelection} />
     </View>
   );
 }

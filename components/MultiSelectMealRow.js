@@ -11,8 +11,8 @@ const MultiSelectMealRow = ({ meal }) => {
   //it is not needed to save the bool value
   const [isSelected, setIsSelected] = useState(meal.isSelected);
 
-  const onToggleSelect = (meal, newSelectedValue) => {
-    meal.isSelected = newSelectedValue;
+  const onToggleSelect = (m, newSelectedValue) => {
+    m.isSelected = newSelectedValue;
     setIsSelected(newSelectedValue);
   };
 
