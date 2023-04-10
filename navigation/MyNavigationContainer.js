@@ -26,6 +26,7 @@ import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
 import NoodlesIcon from "../components/HeaderIcons/NoodlesIcon";
 import EditMangiIcon from "../components/HeaderIcons/EditMangiIcon";
 import TabBarIcon from "../components/HeaderIcons/TabBarIcon";
+import EditLinksScreen from "../screens/EditLinksScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -108,6 +109,11 @@ function MealsStackContainer({ navigation }) {
           name="AddTagScreen"
           component={AddTagScreen}
           options={{ title: "Add Tag" }}
+        />
+        <MealsStack.Screen
+          name="EditLinksScreen"
+          component={EditLinksScreen}
+          options={{ title: "Add Links" }}
         />
       </MealsStack.Navigator>
     </View>

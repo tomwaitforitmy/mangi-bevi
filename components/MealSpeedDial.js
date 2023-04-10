@@ -62,6 +62,13 @@ const MealSpeedDial = (props) => {
     });
   };
 
+  const navigateToEditLinks = () => {
+    formDispatch({ type: CLOSE });
+    props.navigation.navigate("EditLinksScreen", {
+      mealId: mealId,
+    });
+  };
+
   const iconType = IconTypes.ionicon;
 
   return (
@@ -106,9 +113,9 @@ const MealSpeedDial = (props) => {
           color: Colors.speedDialIcon,
           type: iconType,
         }}
-        title="Rate"
+        title="Links"
         color={Colors.primary}
-        onPress={() => console.log("rate meal not implemented")}
+        onPress={navigateToEditLinks}
       />
     </SpeedDial>
   );
