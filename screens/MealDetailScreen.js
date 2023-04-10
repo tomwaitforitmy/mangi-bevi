@@ -8,6 +8,8 @@ import TagList from "../components/TagList";
 import Colors from "../constants/Colors";
 import { GetAuthorName } from "../common_functions/GetAuthorName";
 import moment from "moment";
+import LinkedMealsList from "../components/LinkedMealsList";
+import { GetLinkedMeals } from "../common_functions/GetLinkedMeals";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -30,6 +32,14 @@ function MealDetailScreen({ route, navigation }) {
       tagList.push(found);
     }
   });
+
+  selectedMeal.links = [
+    "-MoNSFnm5jvC9ou_s6n4",
+    "-MoQ-R3oUz8A5CNP0lK7",
+    "-NQj1GJPA4_ROSQYyZct",
+    "-NQiq4Ht_BlYHvW_zLrM",
+  ];
+  const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
   return (
     <View style={styles.container}>
@@ -57,6 +67,10 @@ function MealDetailScreen({ route, navigation }) {
         {selectedMeal.steps.map((step) => (
           <MyListItem key={step} title={step} />
         ))}
+        {linkedMeals.length > 0 && (
+          <LinkedMealsList meals={linkedMeals} navigation={navigation} />
+        )}
+
         <Text style={styles.authorBox}>
           Created by
           <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
