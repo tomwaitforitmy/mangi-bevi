@@ -4,6 +4,7 @@ import TinyMealItem from "../../components/TinyMealItem";
 import Meal from "../../models/Meal";
 
 describe("TinyMealItem", () => {
+  const expectedTitle = "My nice title 😊";
   const niceInput = new Meal(
     "My nice title 😊",
     "-N6nqAyvPZDY5N6fQHWo",
@@ -23,10 +24,10 @@ describe("TinyMealItem", () => {
 
   it("renders the title", () => {
     render(<TinyMealItem meal={niceInput} />);
-    screen.getByText("My nice title 😊");
+    screen.getByText(expectedTitle);
   });
 
-  it("renders is a button", () => {
+  it("is a button", () => {
     render(<TinyMealItem meal={niceInput} />);
     expect(screen.getByRole("button")).toBeTruthy();
   });
@@ -43,7 +44,7 @@ describe("TinyMealItem", () => {
     expect(screen.queryByText(selectedIcon)).toBeFalsy();
   });
 
-  it("changes the state upon re-render", () => {
+  it("changes the selected state upon re-render", () => {
     niceInput.isSelected = false;
     render(<TinyMealItem meal={niceInput} />);
     expect(screen.queryByText(selectedIcon)).toBeFalsy();
