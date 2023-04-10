@@ -3,10 +3,6 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 
 const MultiSelectMealRow = ({ meal }) => {
-  if (typeof meal.isSelected === "undefined") {
-    meal.isSelected = false;
-  }
-
   //the state here is needed to trigger re-render on press
   //it is not needed to save the bool value
   const [isSelected, setIsSelected] = useState(meal.isSelected);

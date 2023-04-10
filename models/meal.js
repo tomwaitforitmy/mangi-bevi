@@ -25,6 +25,7 @@ class Meal {
     this.creationDate = creationDate;
     this.editorId = editorId;
     this.editDate = editDate;
+    this.isSelected = false;
   }
 }
 

@@ -71,6 +71,9 @@ export const fetchMeals = () => {
 const replacer = (key, value) => {
   if (key === "id") {
     return undefined;
+    //do not upload this to firebase
+  } else if (key === "isSelected") {
+    return undefined;
   } else {
     return value;
   }
