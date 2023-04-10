@@ -3,8 +3,10 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 
 const MultiSelectMealRow = ({ meal }) => {
-  //the state here is needed to trigger re-render on press
+  //State here is needed to trigger re-render on press
   //it is not needed to save the bool value
+  //This seems to improve performance on Android compared
+  //to keeping the state in an array inside the list.
   const [isSelected, setIsSelected] = useState(meal.isSelected);
 
   const onToggleSelect = (m, newSelectedValue) => {
