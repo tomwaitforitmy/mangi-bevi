@@ -7,22 +7,23 @@ import MultiSelectMealsList from "../components/MultiSelectMealsList";
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
-  const [selectedMeals, setSelectedMeals] = useState([]);
-  const onMealPress = (meal) => {
-    if (selectedMeals.includes(meal.id)) {
-      setSelectedMeals(selectedMeals.filter((id) => id !== meal.id));
-    } else {
-      setSelectedMeals([...selectedMeals, meal.id]);
-    }
+  const lessMeals = allMeals.slice(0, 100);
+
+  console.log(lessMeals.length);
+
+  const onEndSelection = (meals) => {
+    const selectedMeals = meals.filter((m) => m.isSelected);
+    selectedMeals.map((m) => console.log(m.title));
   };
 
   return (
     <View style={styles.container}>
       <MultiSelectMealsList
-        meals={allMeals}
-        onMealPress={onMealPress}
-        selectedMeals={selectedMeals}
+        meals={lessMeals}
+        //onMealPress={onMealPress}
+        //selectedMeals={selectedMeals}
       />
+      <Button title="fertig" onPress={() => onEndSelection(lessMeals)} />
     </View>
   );
 }

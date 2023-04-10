@@ -1,18 +1,24 @@
-import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 
-const MultiSelectMealRow = ({ meal, onPress, isSelected }) => {
+const MultiSelectMealRow = ({ meal }) => {
+  if (typeof meal.isSelected === "undefined") {
+    meal.isSelected = false;
+  }
+
+  //the state here is needed to trigger re-render on press
+  //it is not needed to save the bool value
+  const [isSelected, setIsSelected] = useState(meal.isSelected);
+
+  const onToggleSelect = (meal, newSelectedValue) => {
+    meal.isSelected = newSelectedValue;
+    setIsSelected(newSelectedValue);
+  };
+
   return (
     <TouchableOpacity
-      onPress={() => onPress(meal)}
+      onPress={() => onToggleSelect(meal, !isSelected)}
       style={isSelected ? styles.rowContainerSelected : styles.rowContainer}>
       <View style={styles.mealImageContainer}>
         <Image
