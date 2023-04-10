@@ -1,7 +1,7 @@
 import { FlashList } from "@shopify/flash-list";
 import React from "react";
 import { FlatList } from "react-native-gesture-handler";
-import MultiSelectMealRow from "./MultiSelectMealRow";
+import TinyMealItem from "./TinyMealItem";
 import { StyleSheet, View } from "react-native";
 import MyButton from "./MyButton";
 
@@ -10,7 +10,7 @@ const MultiSelectMealsList = ({ meals, onEndSelection }) => {
     <View style={styles.container}>
       <FlatList
         data={meals}
-        renderItem={({ item }) => <MultiSelectMealRow meal={item} />}
+        renderItem={({ item }) => <TinyMealItem meal={item} />}
         keyExtractor={(item) => item.id}
         estimatedItemSize={meals.length}
       />

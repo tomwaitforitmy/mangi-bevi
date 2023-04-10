@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 
-const MultiSelectMealRow = ({ meal }) => {
+const TinyMealItem = ({ meal }) => {
   //State here is needed to trigger re-render on press
   //it is not needed to save the bool value
   //This seems to improve performance on Android compared
@@ -17,7 +17,8 @@ const MultiSelectMealRow = ({ meal }) => {
   return (
     <TouchableOpacity
       onPress={() => onToggleSelect(meal, !isSelected)}
-      style={isSelected ? styles.rowContainerSelected : styles.rowContainer}>
+      style={isSelected ? styles.rowContainerSelected : styles.rowContainer}
+      accessibilityRole="button">
       <View style={styles.mealImageContainer}>
         <Image
           source={{ uri: meal.primaryImageUrl }}
@@ -81,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MultiSelectMealRow;
+export default TinyMealItem;
