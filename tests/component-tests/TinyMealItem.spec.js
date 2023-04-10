@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react-native";
+import { fireEvent, render, screen } from "@testing-library/react-native";
 import TinyMealItem from "../../components/TinyMealItem";
 import Meal from "../../models/Meal";
 
@@ -51,5 +51,14 @@ describe("TinyMealItem", () => {
     niceInput.isSelected = true;
     render(<TinyMealItem meal={niceInput} />);
     expect(screen.queryByText(selectedIcon)).toBeTruthy();
+  });
+
+  it("can have a custom onPresMeal", () => {
+    const mockOnPress = jest.fn();
+    niceInput.isSelected = true;
+    render(<TinyMealItem meal={niceInput} onPressMeal={mockOnPress} />);
+    expect(screen.queryByText(selectedIcon)).toBeFalsy();
+    fireEvent(screen.getByText(expectedTitle), "onPress");
+    expect(mockOnPress).toBeCalledTimes(1);
   });
 });
