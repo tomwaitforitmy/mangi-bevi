@@ -45,6 +45,7 @@ export const fetchMeals = () => {
             responseData[key].editDate
               ? new Date(responseData[key].editDate)
               : "error",
+            responseData[key].links ? responseData[key].links : [],
           ),
         );
       }

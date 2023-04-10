@@ -55,6 +55,7 @@ describe("Given a nicely initialized meal", () => {
       null,
       null,
       null,
+      null,
     );
     const authorName = GetAuthorNameByMealId(niceInput.id, users);
 
@@ -78,6 +79,7 @@ describe("Given a nicely initialized meal", () => {
       null,
       null,
       "-N7fTSUz_WVEjEruisQV",
+      null,
       null,
       null,
       null,

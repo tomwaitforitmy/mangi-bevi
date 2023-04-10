@@ -107,6 +107,7 @@ const BulkEditMeal = (props) => {
             now,
             author.id,
             now,
+            m.links,
           );
 
           //Watch out for what is edited before pushing to firebase

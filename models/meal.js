@@ -12,6 +12,7 @@ class Meal {
     creationDate,
     editorId,
     editDate,
+    links,
   ) {
     this.title = title;
     this.id = id;
@@ -25,6 +26,7 @@ class Meal {
     this.creationDate = creationDate;
     this.editorId = editorId;
     this.editDate = editDate;
+    this.links = links;
     this.isSelected = false;
   }
 }

@@ -18,6 +18,7 @@ export async function UploadImagesAndEditMeal(
   creationDate,
   editorId,
   editDate,
+  links,
 ) {
   //Upload only the images we haven't uploaded, yet.
   const imagesToUpload = GetImagesToUpload(imageUrls);
@@ -44,6 +45,7 @@ export async function UploadImagesAndEditMeal(
     creationDate,
     editorId,
     editDate,
+    links,
   );
   return editedMeal;
 }

@@ -112,6 +112,7 @@ function NewScreen({ route, navigation }) {
         inputMeal.creationDate,
         inputMeal.editorId,
         inputMeal.editDate,
+        inputMeal.links,
       );
 
       changesMade = !MealEquals(inputMeal, editedMeal);
