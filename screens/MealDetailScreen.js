@@ -33,12 +33,12 @@ function MealDetailScreen({ route, navigation }) {
     }
   });
 
-  selectedMeal.links = [
-    "-MoNSFnm5jvC9ou_s6n4",
-    "-MoQ-R3oUz8A5CNP0lK7",
-    "-NQj1GJPA4_ROSQYyZct",
-    "-NQiq4Ht_BlYHvW_zLrM",
-  ];
+  // selectedMeal.links = [
+  //   "-MoNSFnm5jvC9ou_s6n4",
+  //   "-MoQ-R3oUz8A5CNP0lK7",
+  //   "-NQj1GJPA4_ROSQYyZct",
+  //   "-NQiq4Ht_BlYHvW_zLrM",
+  // ];
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
   return (
