@@ -1,7 +1,7 @@
 import { LinkMeals } from "../../common_functions/LinkMeals.js";
 import Meal from "../../models/Meal";
 
-describe("SetLinks", () => {
+describe("LinkMeals", () => {
   it("adds id of another meal", () => {
     const m1 = new Meal("Tomato Sauce", "m1");
     m1.links = [];
