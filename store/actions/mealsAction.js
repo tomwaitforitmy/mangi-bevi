@@ -5,6 +5,7 @@ import { UPDATE_USER_STATS } from "./usersAction";
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
 export const EDIT_MEAL = "EDIT_MEAL";
+export const EDIT_LINKS = "EDIT_LINKS";
 export const SET_MEALS = "SET_MEALS";
 
 export const TOGGLE_FAVORITE = "TOGGLE_FAVORITE";
@@ -133,5 +134,30 @@ export const editMeal = (meal) => {
     console.log("end edit meal");
 
     dispatch({ type: EDIT_MEAL, meal: meal });
+  };
+};
+
+export const editLinks = (meal) => {
+  return async (dispatch, getState) => {
+    console.log("begin edit links");
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        header: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          links: meal.links,
+        }),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    console.log("end edit links");
+
+    dispatch({ type: EDIT_LINKS, meal: meal });
   };
 };

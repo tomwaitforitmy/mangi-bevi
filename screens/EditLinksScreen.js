@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MultiSelectMealsList from "../components/MultiSelectMealsList";
-import * as mealActions from "../store/actions/mealsAction";
+import { editLinks } from "../firebase/editLinks";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function EditLinksScreen({ navigation, route }) {
   const { mealId } = route.params;
@@ -12,31 +13,32 @@ function EditLinksScreen({ navigation, route }) {
 
   const availableMeals = allMeals.filter((m) => m.id !== mealId);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   //   Todo
-  // * Close the view
   // * Navigate to new screen (reset view)
-  // * Check other meals
   // * Set existing links as selected values
 
   const onEndSelection = async (meals) => {
     const selectedMeals = meals.filter((m) => m.isSelected);
-    // console.log("onEndSelection", selectedMeal);
-    selectedMeal.links = [];
-    await Promise.all(
-      selectedMeals.map(async (m) => {
-        selectedMeal.links.push(m.id);
-        if (!m.links.includes(selectedMeal.id)) {
-          m.links.push(selectedMeal.id);
-        }
-        // await dispatch(mealActions.editMeal(m));
-        console.log(m.links);
-      }),
-    );
-    //await dispatch(mealActions.editMeal(selectedMeal));
 
-    console.log(selectedMeal.links);
+    setIsLoading(true);
+
+    await editLinks(dispatch, selectedMeal, selectedMeals);
+    setIsLoading(false);
+
+    navigation.navigate({
+      name: "Details",
+      params: {
+        mealId: selectedMeal.id,
+        mealTitle: selectedMeal.title,
+      },
+    });
   };
+
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <View style={styles.container}>
