@@ -50,4 +50,9 @@ describe("GetLinkedMeals", () => {
     const result = GetLinkedMeals(allMeals, []);
     expect(result).toEqual([]);
   });
+
+  it("returns an empty array if links are null", () => {
+    const result = GetLinkedMeals(allMeals, null);
+    expect(result).toEqual([]);
+  });
 });
