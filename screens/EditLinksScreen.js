@@ -21,7 +21,7 @@ function EditLinksScreen({ navigation, route }) {
 
   //   Todo
   // * Navigate to new screen (reset view)
-  // * Set existing links as selected values
+  // * Delete selectedMeal.id in other meals that are no selected as links anymore
 
   const onEndSelection = async (meals) => {
     const selectedMeals = meals.filter((m) => m.isSelected);
