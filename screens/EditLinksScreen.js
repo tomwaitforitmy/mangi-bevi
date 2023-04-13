@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MultiSelectMealsList from "../components/MultiSelectMealsList";
 import { editLinks } from "../firebase/editLinks";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { PrepareSelectedLinks } from "../common_functions/PrepareSelectedLinks";
 
 function EditLinksScreen({ navigation, route }) {
   const { mealId } = route.params;
@@ -12,6 +13,9 @@ function EditLinksScreen({ navigation, route }) {
   const selectedMeal = allMeals.find((meal) => meal.id === mealId);
 
   const availableMeals = allMeals.filter((m) => m.id !== mealId);
+
+  PrepareSelectedLinks(availableMeals, selectedMeal.links);
+
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
