@@ -109,9 +109,9 @@ const MealSpeedDial = (props) => {
       />
       <SpeedDial.Action
         icon={{
-          name: "star",
+          name: "link",
           color: Colors.speedDialIcon,
-          type: iconType,
+          type: IconTypes.feather,
         }}
         title="Links"
         color={Colors.primary}
