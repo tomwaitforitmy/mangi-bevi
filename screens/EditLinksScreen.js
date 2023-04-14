@@ -11,7 +11,6 @@ function EditLinksScreen({ navigation, route }) {
 
   const allMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = allMeals.find((meal) => meal.id === mealId);
-
   const availableMeals = allMeals.filter((m) => m.id !== mealId);
 
   PrepareSelectedLinks(availableMeals, selectedMeal.links);
@@ -21,14 +20,11 @@ function EditLinksScreen({ navigation, route }) {
 
   //   Todo
   // * Navigate to new screen (reset view)
-  // * Delete selectedMeal.id in other meals that are no selected as links anymore
 
   const onEndSelection = async (meals) => {
-    const selectedMeals = meals.filter((m) => m.isSelected);
-
     setIsLoading(true);
-
-    await editLinks(dispatch, selectedMeal, selectedMeals);
+    const mealsToLink = meals.filter((m) => m.isSelected);
+    await editLinks(dispatch, selectedMeal, mealsToLink, availableMeals);
     setIsLoading(false);
 
     navigation.navigate({
