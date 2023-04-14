@@ -8,10 +8,10 @@ describe("UnlinkMeals", () => {
     const m2 = new Meal("Another Sauce", "m2");
     m2.links = ["m1"];
     const newLinks = [m2];
-    const changedMeals = UnlinkMeals(m1, newLinks, newLinks);
+    const mealsToRemoveLinks = UnlinkMeals(m1, newLinks, newLinks);
 
     //m2 should not be touched
-    expect(changedMeals.find((m) => m.id === "m2").links).toStrictEqual(["m1"]);
+    expect(mealsToRemoveLinks).toStrictEqual([]);
   });
 
   it("Exchanges m2 and m3 to m4, deletes in m2.links and m3.links", () => {
@@ -25,12 +25,16 @@ describe("UnlinkMeals", () => {
     m4.links = [];
     const newLinks = [m4];
     const candidates = [m2, m3, m4];
-    const changedMeals = UnlinkMeals(m1, newLinks, candidates);
+    const mealsToRemoveLinks = UnlinkMeals(m1, newLinks, candidates);
 
-    expect(changedMeals.find((m) => m.id === "m2").links).toStrictEqual([]);
-    expect(changedMeals.find((m) => m.id === "m3").links).toStrictEqual([]);
+    expect(mealsToRemoveLinks.find((m) => m.id === "m2").links).toStrictEqual(
+      [],
+    );
+    expect(mealsToRemoveLinks.find((m) => m.id === "m3").links).toStrictEqual(
+      [],
+    );
     //m4 should not be touched
-    expect(changedMeals.find((m) => m.id === "m4").links).toStrictEqual([]);
+    expect(mealsToRemoveLinks.find((m) => m.id === "m4")).toBeFalsy();
   });
 
   it("deletes old links if no links are selected", () => {
@@ -44,12 +48,16 @@ describe("UnlinkMeals", () => {
     m4.links = ["mx"];
     const newLinks = [];
     const candidates = [m2, m3, m4];
-    const changedMeals = UnlinkMeals(m1, newLinks, candidates);
+    const mealsToRemoveLinks = UnlinkMeals(m1, newLinks, candidates);
 
-    expect(changedMeals.find((m) => m.id === "m2").links).toStrictEqual([]);
-    expect(changedMeals.find((m) => m.id === "m3").links).toStrictEqual([]);
+    expect(mealsToRemoveLinks.find((m) => m.id === "m2").links).toStrictEqual(
+      [],
+    );
+    expect(mealsToRemoveLinks.find((m) => m.id === "m3").links).toStrictEqual(
+      [],
+    );
     //m4 should not be touched
-    expect(changedMeals.find((m) => m.id === "m4").links).toStrictEqual(["mx"]);
+    expect(mealsToRemoveLinks.find((m) => m.id === "m4")).toBeFalsy();
   });
 
   it("deletes links if they are unselected and keeps others", () => {
@@ -63,12 +71,14 @@ describe("UnlinkMeals", () => {
     m4.links = ["m1"];
     const newLinks = [m2, m4];
     const candidates = [m2, m3, m4];
-    const changedMeals = UnlinkMeals(m1, newLinks, candidates);
+    const mealsToRemoveLinks = UnlinkMeals(m1, newLinks, candidates);
 
-    expect(changedMeals.find((m) => m.id === "m2").links).toStrictEqual(["m1"]);
-    //m3 should be touched deleted
-    expect(changedMeals.find((m) => m.id === "m3").links).toStrictEqual([]);
-    expect(changedMeals.find((m) => m.id === "m4").links).toStrictEqual(["m1"]);
+    expect(mealsToRemoveLinks.find((m) => m.id === "m2")).toBeFalsy();
+    //m3 should be deleted
+    expect(mealsToRemoveLinks.find((m) => m.id === "m3").links).toStrictEqual(
+      [],
+    );
+    expect(mealsToRemoveLinks.find((m) => m.id === "m4")).toBeFalsy();
   });
 
   it("deletes links, but keeps the links that have nothing to do with it", () => {
@@ -84,11 +94,8 @@ describe("UnlinkMeals", () => {
     const candidates = [m2, m3, m4];
     const changedMeals = UnlinkMeals(m1, newLinks, candidates);
 
-    expect(changedMeals.find((m) => m.id === "m2").links).toStrictEqual(["m1"]);
+    expect(changedMeals.find((m) => m.id === "m2")).toBeFalsy();
     expect(changedMeals.find((m) => m.id === "m3").links).toStrictEqual(["mx"]);
-    expect(changedMeals.find((m) => m.id === "m4").links).toStrictEqual([
-      "m1",
-      "mx",
-    ]);
+    expect(changedMeals.find((m) => m.id === "m4")).toBeFalsy();
   });
 });

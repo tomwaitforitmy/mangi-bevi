@@ -2,6 +2,7 @@ export const UnlinkMeals = (selectedMeal, newLinks, candidates) => {
   const newLinkIds = newLinks.map((m) => m.id);
   const oldLinkIds = selectedMeal.links;
   const linksToRemove = [];
+  const mealsToRemoveLinks = [];
 
   //find links that we have to remove
   oldLinkIds.map((l) => {
@@ -17,7 +18,8 @@ export const UnlinkMeals = (selectedMeal, newLinks, candidates) => {
       (l) => l !== selectedMeal.id,
     );
     mealWithLinkToRemove.links = updatedLinks;
+    mealsToRemoveLinks.push(mealWithLinkToRemove);
   });
 
-  return candidates;
+  return mealsToRemoveLinks;
 };
