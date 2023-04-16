@@ -124,6 +124,12 @@ export const MEALS = [
   ),
 ];
 
+// This was easy to create:
+// 1. console.log any meals list.
+// 2. copy & paste output to notepad++
+// Optionally: (3. each "authorId" marks the new meal -> you can add line breaks if have to)
+// 4. Add "" around all date values (creationDate/editDate). 2023-02-04T09:31:33.274Z -> "2023-02-04T09:31:33.274Z"
+// 5. Copy to VS Code and profit! VS Code now formats the meals nicely!
 export const ZATARMEALS = [
   {
     authorId: "-N7fSxspZ7Yn91evKqd8",
