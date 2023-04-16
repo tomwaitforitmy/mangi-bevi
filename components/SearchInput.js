@@ -25,8 +25,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     backgroundColor: Colors.primary,
-    flex: 1,
-    width: "100%",
   },
 });
 
