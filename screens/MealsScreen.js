@@ -9,6 +9,9 @@ import { fetchAll } from "../firebase/fetchAll";
 import IconTypes from "../constants/IconTypes";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { FILTER_MODE_AND, FILTER_MODE_OR } from "../store/actions/tagsAction";
+import { FastFilterMeals } from "../common_functions/FastFilterMeals";
+import SearchInput from "../components/SearchInput";
+import * as searchAction from "../store/actions/searchAction";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -19,10 +22,16 @@ function MealsScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const filterTags = useSelector((state) => state.tags.filterTags);
   const filterMode = useSelector((state) => state.tags.filterMode);
+  const searchTerm = useSelector((state) => state.search.searchTerm);
+
   const filtersActive = filterTags.length > 0;
 
   const onPressTagsActiveHandler = () => {
     navigation.navigate("Filters");
+  };
+
+  const onChangeText = async (text) => {
+    await dispatch(searchAction.setSearchTerm(text));
   };
 
   const onRefresh = React.useCallback(() => {
@@ -39,7 +48,7 @@ function MealsScreen({ navigation }) {
     return <LoadingIndicator />;
   }
 
-  const filteredMeals = [];
+  let filteredMeals = [];
 
   if (filtersActive) {
     const tagIdsToFilter = filterTags.map((t) => t.id);
@@ -68,30 +77,39 @@ function MealsScreen({ navigation }) {
     }
   }
 
+  if (filtersActive) {
+    filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
+  } else {
+    filteredMeals = FastFilterMeals(allMeals, searchTerm);
+  }
+
   return (
-    <View style={styles.mealsScreen}>
-      {filtersActive && (
-        <View style={styles.overlay}>
-          <Chip
-            title={"Active filters"}
-            icon={{
-              name: "ios-filter",
-              type: IconTypes.ionicon,
-              size: 20,
-              color: Colors.navigationIcon,
-            }}
-            onPress={() => onPressTagsActiveHandler()}
-            buttonStyle={{ backgroundColor: Colors.second }}
-          />
-        </View>
-      )}
-      <MealList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        mealsList={filtersActive ? filteredMeals : allMeals}
-        navigation={navigation}
-      />
+    <View style={styles.container}>
+      <SearchInput onChangeText={onChangeText} />
+      <View style={styles.mealsScreen}>
+        {filtersActive && (
+          <View style={styles.overlay}>
+            <Chip
+              title={"Active filters"}
+              icon={{
+                name: "ios-filter",
+                type: IconTypes.ionicon,
+                size: 20,
+                color: Colors.navigationIcon,
+              }}
+              onPress={() => onPressTagsActiveHandler()}
+              buttonStyle={{ backgroundColor: Colors.second }}
+            />
+          </View>
+        )}
+        <MealList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          mealsList={filteredMeals}
+          navigation={navigation}
+        />
+      </View>
     </View>
   );
 }
@@ -101,6 +119,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  container: {
+    flex: 1,
   },
   overlay: {
     flex: 1,
