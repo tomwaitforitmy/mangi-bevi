@@ -1,4 +1,7 @@
 export const FastFilterMeals = (allMeals, searchTerm) => {
+  if (!searchTerm) {
+    return allMeals;
+  }
   const lowerCaseSearch = searchTerm.toLowerCase();
   const lessMeals = allMeals.filter(
     (m) =>

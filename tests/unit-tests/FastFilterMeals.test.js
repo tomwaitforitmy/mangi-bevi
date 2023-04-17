@@ -14,6 +14,18 @@ describe("FastFilterMeals", () => {
 
     expect(filteredMeals.length).toBe(2);
   });
+  it("returns same size if term is empty", () => {
+    const searchTerm = "";
+    const filteredMeals = FastFilterMeals(ZATARMEALS, searchTerm);
+
+    expect(filteredMeals.length).toBe(4);
+  });
+  it("returns same size if term is null", () => {
+    const searchTerm = null;
+    const filteredMeals = FastFilterMeals(ZATARMEALS, searchTerm);
+
+    expect(filteredMeals.length).toBe(4);
+  });
   it("finds 4 meals with atar inside ZATARMEALS", () => {
     const searchTerm = "atar";
     const filteredMeals = FastFilterMeals(ZATARMEALS, searchTerm);
