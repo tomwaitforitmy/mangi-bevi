@@ -12,12 +12,14 @@ import mealsReducer from "./store/reducers/mealsReducer";
 import authReducer from "./store/reducers/authReducer";
 import tagsReducer from "./store/reducers/tagsReducer";
 import usersReducer from "./store/reducers/usersReducer";
+import searchReducer from "./store/reducers/searchReducer";
 
 const rootReducer = combineReducers({
   meals: mealsReducer,
   auth: authReducer,
   tags: tagsReducer,
   users: usersReducer,
+  search: searchReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
