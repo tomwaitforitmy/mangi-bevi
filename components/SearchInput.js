@@ -1,16 +1,15 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import Colors from "../constants/Colors";
-import { Input } from "react-native-elements";
 
 const SearchInput = ({ style, onChangeText }) => {
   return (
     <View style={{ ...styles.textContainer, ...style }}>
-      <Input
-        placeholder="Enter text"
+      <TextInput
+        placeholder="Enter text for profit 🍕"
+        placeholderTextColor={Colors.searchTextPlaceholder}
         onChangeText={(value) => onChangeText(value)}
         style={styles.searchTerm}
-        renderErrorMessage={false}
       />
     </View>
   );
@@ -19,11 +18,12 @@ const SearchInput = ({ style, onChangeText }) => {
 const styles = StyleSheet.create({
   searchTerm: {
     backgroundColor: Colors.screenBackGround,
-    fontSize: 18,
+    fontSize: 20,
     margin: 3,
     paddingLeft: 15,
     borderRadius: 25,
     color: "black",
+    minHeight: 30,
   },
   textContainer: {
     backgroundColor: Colors.primary,
