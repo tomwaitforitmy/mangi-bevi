@@ -12,7 +12,9 @@ const HighlightedText = ({ text, searchTerm, highlightColor }) => {
         since the first subtext x does not contain searchTerm,
         we don't have a to add a highlight there */}
         {index !== 0 && (
-          <Text style={{ color: highlightColor }}>{searchTerm}</Text>
+          <Text style={{ color: highlightColor ? highlightColor : "red" }}>
+            {searchTerm}
+          </Text>
         )}
         {x}
       </Text>

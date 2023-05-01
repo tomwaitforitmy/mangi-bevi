@@ -32,6 +32,27 @@ describe("HighlightedText", () => {
     expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
   });
 
+  it("has default color red", () => {
+    render(
+      <HighlightedText
+        text="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
+        searchTerm="trillion"
+      />,
+    );
+    expect(screen.getByText("trillion").props.style.color).toBe("red");
+  });
+
+  it("color can be set", () => {
+    render(
+      <HighlightedText
+        text="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
+        searchTerm="trillion"
+        highlightColor={"blue"}
+      />,
+    );
+    expect(screen.getByText("trillion").props.style.color).toBe("blue");
+  });
+
   it("renders red text with given search term twice", () => {
     render(
       <HighlightedText
