@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react-native";
 import MyListItem from "../../components/MyListItem";
 import Colors from "../../constants/Colors";
 
-describe("MyButton", () => {
+describe("MyListItem", () => {
   const expectedSearchTermStyle = "color: " + Colors.searchTermHighlights;
 
   it("renders the correct title", () => {
