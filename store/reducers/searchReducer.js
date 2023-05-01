@@ -7,8 +7,6 @@ const initialState = {
 const searchReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SEARCH_TERM: {
-      console.log("SET_SEARCH_TERM " + action.term);
-
       return {
         ...state,
         searchTerm: action.term,
