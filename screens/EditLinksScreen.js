@@ -5,17 +5,26 @@ import MultiSelectMealsList from "../components/MultiSelectMealsList";
 import { editLinks } from "../firebase/editLinks";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { PrepareSelectedLinks } from "../common_functions/PrepareSelectedLinks";
+import SearchInput from "../components/SearchInput";
+import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 
 function EditLinksScreen({ navigation, route }) {
   const { mealId } = route.params;
 
   const allMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = allMeals.find((meal) => meal.id === mealId);
-  const availableMeals = allMeals.filter((m) => m.id !== mealId);
+  let availableMeals = allMeals.filter((m) => m.id !== mealId);
+
+  const [searchTerm, setSearchTerm] = useState();
+
+  const dispatch = useDispatch();
+
+  const onChangeText = async (text) => {
+    setSearchTerm(text);
+  };
 
   PrepareSelectedLinks(availableMeals, selectedMeal.links);
 
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   //   Todo
@@ -36,15 +45,21 @@ function EditLinksScreen({ navigation, route }) {
     });
   };
 
+  if (searchTerm) {
+    availableMeals = FastFilterMeals(availableMeals, searchTerm);
+  }
+
   if (isLoading) {
     return <LoadingIndicator />;
   }
 
   return (
     <View style={styles.container}>
+      <SearchInput onChangeText={onChangeText} />
       <MultiSelectMealsList
         meals={availableMeals}
         onEndSelection={onEndSelection}
+        searchTerm={searchTerm}
       />
     </View>
   );
