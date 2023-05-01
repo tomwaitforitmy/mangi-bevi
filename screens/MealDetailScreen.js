@@ -16,6 +16,7 @@ function MealDetailScreen({ route, navigation }) {
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
+  const searchTerm = useSelector((state) => state.search.searchTerm);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
   const authorName = GetAuthorName(selectedMeal.authorId, users);
   const editorName = GetAuthorName(selectedMeal.editorId, users);
@@ -33,12 +34,6 @@ function MealDetailScreen({ route, navigation }) {
     }
   });
 
-  // selectedMeal.links = [
-  //   "-MoNSFnm5jvC9ou_s6n4",
-  //   "-MoQ-R3oUz8A5CNP0lK7",
-  //   "-NQj1GJPA4_ROSQYyZct",
-  //   "-NQiq4Ht_BlYHvW_zLrM",
-  // ];
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
   return (
@@ -61,11 +56,15 @@ function MealDetailScreen({ route, navigation }) {
         <TagList tags={tagList} />
         <Text style={styles.subtitle}>Ingredients</Text>
         {selectedMeal.ingredients.map((ingredient) => (
-          <MyListItem key={ingredient} title={ingredient} />
+          <MyListItem
+            key={ingredient}
+            title={ingredient}
+            searchTerm={searchTerm}
+          />
         ))}
         <Text style={styles.subtitle}>Steps</Text>
         {selectedMeal.steps.map((step) => (
-          <MyListItem key={step} title={step} />
+          <MyListItem key={step} title={step} searchTerm={searchTerm} />
         ))}
         {linkedMeals.length > 0 && (
           <LinkedMealsList meals={linkedMeals} navigation={navigation} />
