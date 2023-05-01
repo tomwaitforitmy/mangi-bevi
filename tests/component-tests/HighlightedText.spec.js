@@ -4,7 +4,7 @@ import HighlightedText from "../../components/HighlightedText.js";
 import Colors from "../../constants/Colors";
 
 describe("HighlightedText", () => {
-  const expectedSearchTermStyle = "color: " + Colors.searchTermHighlights;
+  const expectedColor = Colors.searchTermHighlight;
 
   it("renders the correct text", () => {
     render(<HighlightedText text="Tomatoes" />);
@@ -26,9 +26,10 @@ describe("HighlightedText", () => {
       <HighlightedText
         text="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
         searchTerm="trillion"
+        highlightColor={Colors.searchTermHighlight}
       />,
     );
-    expect(screen.getByText("trillion")).toHaveStyle(expectedSearchTermStyle);
+    expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
   });
 
   it("renders red text with given search term twice", () => {
@@ -36,26 +37,37 @@ describe("HighlightedText", () => {
       <HighlightedText
         text="10000 million trillion billion trillion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
         searchTerm="trillion"
+        highlightColor={Colors.searchTermHighlight}
       />,
     );
 
     const foundTerms = screen.getAllByText("trillion");
 
     expect(foundTerms.length).toBe(2);
-    expect(foundTerms[0]).toHaveStyle(expectedSearchTermStyle);
-    expect(foundTerms[1]).toHaveStyle(expectedSearchTermStyle);
+    expect(foundTerms[0].props.style.color).toBe(expectedColor);
+    expect(foundTerms[1].props.style.color).toBe(expectedColor);
   });
 
   it("renders everything red, if full string matches", () => {
-    render(<HighlightedText text="trillion" searchTerm="trillion" />);
+    render(
+      <HighlightedText
+        text="trillion"
+        searchTerm="trillion"
+        highlightColor={Colors.searchTermHighlight}
+      />,
+    );
 
-    expect(screen.getByText("trillion")).toHaveStyle(expectedSearchTermStyle);
+    expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
   });
 
   it("renders nothing red, if nothing matches", () => {
     render(<HighlightedText text="million" searchTerm="trillion" />);
 
     expect(screen.queryByText("trillion")).toBeFalsy();
+    expect(screen.getByText("million").props.style.color).not.toBe(
+      expectedColor,
+    );
+
     expect(screen.getByText("million")).toBeTruthy();
   });
 });
