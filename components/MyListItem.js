@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
 import Hyperlink from "react-native-hyperlink";
 import Colors from "../constants/Colors";
