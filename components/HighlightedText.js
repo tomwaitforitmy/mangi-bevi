@@ -1,29 +1,26 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
+import { SplitTextToHighlight } from "../common_functions/SplitTextToHighlight";
 
 const HighlightedText = ({ text, searchTerm, highlightColor }) => {
   const highlightText = searchTerm !== undefined;
-  //escape all special characters, so users can search for ?,. etc.
-  const regEscape = (v) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 
   if (highlightText) {
-    //new RegExp(searchTerm, "i") makes split to match case insensitive
-    return text
-      .split(new RegExp(regEscape(searchTerm), "i"))
-      .map((x, index) => (
-        <Text key={index} style={styles.regularText}>
-          {/* the way split works, we have to add searchTerm
-        split removes the separator (searchTerm)
-        since the first subtext x does not contain searchTerm,
-        we don't have a to add a highlight there */}
-          {index !== 0 && (
-            <Text style={{ color: highlightColor ? highlightColor : "red" }}>
-              {searchTerm}
-            </Text>
-          )}
+    const textSplitted = SplitTextToHighlight(text, searchTerm);
+
+    return textSplitted.map((x, index) =>
+      x.toLowerCase() === searchTerm.toLowerCase() ? (
+        <Text
+          key={index}
+          style={{ color: highlightColor ? highlightColor : "red" }}>
           {x}
         </Text>
-      ));
+      ) : (
+        <Text key={index} style={styles.regularText}>
+          {x}
+        </Text>
+      ),
+    );
   }
 
   return <Text style={styles.regularText}>{text}</Text>;
