@@ -3,7 +3,10 @@ import { StyleSheet, Text } from "react-native";
 import { SplitTextToHighlight } from "../common_functions/SplitTextToHighlight";
 
 const HighlightedText = ({ text, searchTerm, highlightColor }) => {
-  const highlightText = searchTerm !== undefined;
+  const ValidSearchTerm = (s) => {
+    return s ? true : false;
+  };
+  const highlightText = ValidSearchTerm(searchTerm);
 
   if (highlightText) {
     const textSplitted = SplitTextToHighlight(text, searchTerm);

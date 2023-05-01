@@ -1,4 +1,7 @@
 export const SplitTextToHighlight = (text, searchTerm) => {
+  if (!searchTerm) {
+    return [text];
+  }
   //escape all special characters, so users can search for ?,. etc.
   const regEscape = (v) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 

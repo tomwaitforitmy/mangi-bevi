@@ -69,4 +69,31 @@ describe("SplitTextToHighlight", () => {
     const result = SplitTextToHighlight(inputText, searchTerm);
     expect(result).toEqual(expected);
   });
+
+  it("handles empty search term", () => {
+    const inputText = "Who doesn't like pasta?";
+    const searchTerm = "";
+    const expected = ["Who doesn't like pasta?"];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
+
+  it("handles null search term", () => {
+    const inputText = "Who doesn't like pasta?";
+    const searchTerm = null;
+    const expected = ["Who doesn't like pasta?"];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
+
+  it("handles undefined search term", () => {
+    const inputText = "Who doesn't like pasta?";
+    const searchTerm = undefined;
+    const expected = ["Who doesn't like pasta?"];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
 });
