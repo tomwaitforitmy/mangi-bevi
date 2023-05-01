@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
+import HighlightedText from "./HighlightedText";
 
-const TinyMealItem = ({ meal, onPressMeal }) => {
+const TinyMealItem = ({ meal, onPressMeal, searchTerm }) => {
   const isSelectable = onPressMeal ? false : true;
 
   //State here is needed to trigger re-render on press
@@ -34,7 +35,9 @@ const TinyMealItem = ({ meal, onPressMeal }) => {
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{meal.title}</Text>
+        <Text style={styles.title}>
+          <HighlightedText text={meal.title} searchTerm={searchTerm} />
+        </Text>
       </View>
       {isSelectable && isSelected && (
         <View style={styles.selectedIndicator}>
