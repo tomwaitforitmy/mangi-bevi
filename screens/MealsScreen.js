@@ -108,6 +108,7 @@ function MealsScreen({ navigation }) {
           }
           mealsList={filteredMeals}
           navigation={navigation}
+          searchTerm={searchTerm}
         />
       </View>
     </View>

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import HighlightedText from "./HighlightedText";
 
 const MealItem = (props) => {
   return (
@@ -22,7 +23,10 @@ const MealItem = (props) => {
               style={styles.backgroundImage}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={1}>
-                  {props.title}
+                  <HighlightedText
+                    text={props.title}
+                    searchTerm={props.searchTerm}
+                  />
                 </Text>
               </View>
             </ImageBackground>

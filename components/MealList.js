@@ -18,6 +18,7 @@ const MealList = (props) => {
           });
         }}
         image={itemData.item.primaryImageUrl}
+        searchTerm={props.searchTerm}
       />
     );
   };
