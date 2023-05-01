@@ -4,7 +4,7 @@ import MyListItem from "../../components/MyListItem";
 import Colors from "../../constants/Colors";
 
 describe("MyListItem", () => {
-  const expectedSearchTermStyle = "color: " + Colors.searchTermHighlights;
+  const expectedColor = Colors.searchTermHighlight;
 
   it("renders the correct title", () => {
     render(<MyListItem title="Tomatoes" />);
@@ -28,7 +28,7 @@ describe("MyListItem", () => {
         searchTerm="trillion"
       />,
     );
-    expect(screen.getByText("trillion")).toHaveStyle(expectedSearchTermStyle);
+    expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
   });
 
   it("renders red text with given search term twice", () => {
@@ -42,14 +42,39 @@ describe("MyListItem", () => {
     const foundTerms = screen.getAllByText("trillion");
 
     expect(foundTerms.length).toBe(2);
-    expect(foundTerms[0]).toHaveStyle(expectedSearchTermStyle);
-    expect(foundTerms[1]).toHaveStyle(expectedSearchTermStyle);
+    expect(foundTerms[0].props.style.color).toBe(expectedColor);
+    expect(foundTerms[1].props.style.color).toBe(expectedColor);
+  });
+
+  it("renders red text with given search term twice even if that's the only text", () => {
+    render(<MyListItem title="trillion trillion" searchTerm="trillion" />);
+
+    const foundTerms = screen.getAllByText("trillion");
+
+    expect(foundTerms.length).toBe(2);
+    expect(foundTerms[0].props.style.color).toBe(expectedColor);
+    expect(foundTerms[1].props.style.color).toBe(expectedColor);
+  });
+
+  it("renders red text with given search term twice if that's start and end of the text", () => {
+    render(
+      <MyListItem
+        title="trillion some stuff between trillion"
+        searchTerm="trillion"
+      />,
+    );
+
+    const foundTerms = screen.getAllByText("trillion");
+
+    expect(foundTerms.length).toBe(2);
+    expect(foundTerms[0].props.style.color).toBe(expectedColor);
+    expect(foundTerms[1].props.style.color).toBe(expectedColor);
   });
 
   it("renders everything red, if full string matches", () => {
     render(<MyListItem title="trillion" searchTerm="trillion" />);
 
-    expect(screen.getByText("trillion")).toHaveStyle(expectedSearchTermStyle);
+    expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
   });
 
   it("renders nothing red, if nothing matches", () => {
@@ -57,5 +82,8 @@ describe("MyListItem", () => {
 
     expect(screen.queryByText("trillion")).toBeFalsy();
     expect(screen.getByText("million")).toBeTruthy();
+    expect(screen.getByText("million").props.style.color).not.toBe(
+      expectedColor,
+    );
   });
 });
