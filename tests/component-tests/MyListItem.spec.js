@@ -1,8 +1,11 @@
 import React from "react";
 import { render, screen } from "@testing-library/react-native";
 import MyListItem from "../../components/MyListItem";
+import Colors from "../../constants/Colors";
 
 describe("MyButton", () => {
+  const expectedSearchTermStyle = "color: " + Colors.searchTermHighlights;
+
   it("renders the correct title", () => {
     render(<MyListItem title="Tomatoes" />);
     expect(screen.queryByText("Tomatoes")).toBeTruthy();
@@ -25,7 +28,7 @@ describe("MyButton", () => {
         searchTerm="trillion"
       />,
     );
-    expect(screen.getByText("trillion")).toHaveStyle('color: "red"');
+    expect(screen.getByText("trillion")).toHaveStyle(expectedSearchTermStyle);
   });
 
   it("renders red text with given search term twice", () => {
@@ -39,7 +42,20 @@ describe("MyButton", () => {
     const foundTerms = screen.getAllByText("trillion");
 
     expect(foundTerms.length).toBe(2);
-    expect(foundTerms[0]).toHaveStyle('color: "red"');
-    expect(foundTerms[1]).toHaveStyle('color: "red"');
+    expect(foundTerms[0]).toHaveStyle(expectedSearchTermStyle);
+    expect(foundTerms[1]).toHaveStyle(expectedSearchTermStyle);
+  });
+
+  it("renders everything red, if full string matches", () => {
+    render(<MyListItem title="trillion" searchTerm="trillion" />);
+
+    expect(screen.getByText("trillion")).toHaveStyle(expectedSearchTermStyle);
+  });
+
+  it("renders nothing red, if nothing matches", () => {
+    render(<MyListItem title="million" searchTerm="trillion" />);
+
+    expect(screen.queryByText("trillion")).toBeFalsy();
+    expect(screen.getByText("million")).toBeTruthy();
   });
 });

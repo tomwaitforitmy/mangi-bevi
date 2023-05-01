@@ -42,7 +42,7 @@ const MyListItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  markedText: { color: "red" },
+  markedText: { color: Colors.searchTermHighlight },
   linkStyle: { color: Colors.hyperlink },
   listItemView: {
     marginHorizontal: 10,

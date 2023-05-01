@@ -12,6 +12,7 @@ export default {
   levelViewBarBackgroundBorder: "#007d21",
   levelViewTexts: "black",
   searchTextPlaceholder: "grey",
+  searchTermHighlight: "red",
   selectedMealBackground: "#e0f1ff",
   selectedMealBorderColor: "#ccc",
   transparent: "rgba(0, 0, 0, 0.0)",
