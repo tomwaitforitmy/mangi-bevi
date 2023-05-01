@@ -15,7 +15,11 @@ const MyListItem = (props) => {
         <ListItem.Content>
           <Hyperlink linkDefault={true} linkStyle={styles.linkStyle}>
             <ListItem.Title>
-              <HighlightedText text={props.title} searchTerm={searchTerm} />
+              <HighlightedText
+                text={props.title}
+                searchTerm={searchTerm}
+                highlightColor={Colors.searchTermHighlight}
+              />
             </ListItem.Title>
           </Hyperlink>
         </ListItem.Content>
