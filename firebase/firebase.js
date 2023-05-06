@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
-import firebase from "firebase";
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+
 import { LogBox } from "react-native";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -19,13 +21,10 @@ const firebaseConfig = {
   measurementId: "G-E15MWRJQEL",
 };
 
-// Firebase sets some timeers for a long period, which will trigger some warnings. Let's turn that off for this example
+// Firebase sets some timers for a long period, which will trigger some warnings. Let's turn that off for this example
 LogBox.ignoreLogs(["Setting a timer for a long period"]);
 
-let firebaseapp;
-if (!firebase.apps.length) {
-  firebaseapp = firebase.initializeApp(firebaseConfig);
-}
-const storage = firebase.storage();
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 export { storage };

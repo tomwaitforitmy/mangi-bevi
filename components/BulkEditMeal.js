@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import getPictureBlob from "../firebase/getPictureBlob";
 import uploadImages from "../firebase/uploadImages";
 import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
@@ -31,7 +30,7 @@ const BulkEditMeal = (props) => {
           await Promise.all(
             m.imageUrls.map(async (uri) => {
               let blob;
-              blob = await getPictureBlob(uri);
+              blob = await getPictureBlob(uri); //not needed anymore. Check uploadImageToBucket
               console.log("Uncompressed image size ", blob.size / 1048576);
               console.log(uri);
 
