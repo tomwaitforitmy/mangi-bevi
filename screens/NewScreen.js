@@ -175,8 +175,8 @@ function NewScreen({ route, navigation }) {
       quality: 0.3,
     });
 
-    if (!result.cancelled) {
-      formDispatch({ type: ADD_IMAGE, value: result.uri });
+    if (!result.canceled) {
+      formDispatch({ type: ADD_IMAGE, value: result.assets[0].uri });
     }
   };
 
