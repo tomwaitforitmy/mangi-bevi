@@ -3,9 +3,9 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import uuid from "uuid";
 import imageCompress from "./imageCompress";
 import { Image } from "react-native";
+import getPictureBlob from "./getPictureBlob";
 
 export const uploadImageToBucket = async (uri) => {
-  let blob;
   try {
     let height;
     let width;
@@ -22,24 +22,16 @@ export const uploadImageToBucket = async (uri) => {
     );
     const compressed = await imageCompress(uri, { height, width });
 
+    const blob = await getPictureBlob(compressed);
     console.log("Compressed image size ", blob.size / 1048576);
 
     const imageRef = ref(storage, uuid.v4());
 
-    console.log("Created ref", imageRef);
-
-    uploadBytes(imageRef, compressed).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-      getDownloadURL(snapshot.ref).then((downloadURL) => {
-        console.log("File available at", downloadURL);
-        return downloadURL;
-      });
-    });
+    const snapshot = await uploadBytes(imageRef, blob);
+    return await getDownloadURL(snapshot.ref);
   } catch (e) {
     console.log("error uploading image " + e);
     throw e;
-  } finally {
-    blob.close();
   }
 };
 
