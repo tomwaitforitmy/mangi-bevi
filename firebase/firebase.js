@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: process.env.firebaseApiKey ?? process.env.REACT_APP_firebaseApiKey,
   authDomain: "testshop-39aae.firebaseapp.com",
@@ -16,10 +15,8 @@ const firebaseConfig = {
   measurementId: "G-E15MWRJQEL",
 };
 
-// Firebase sets some timers for a long period, which will trigger some warnings. Let's turn that off for this example
-//LogBox.ignoreLogs(["Setting a timer for a long period"]);
-
 const app = initializeApp(firebaseConfig);
+// docs fore storage: https://firebase.google.com/docs/storage/web/create-reference
 const storage = getStorage(app);
 
 export { storage };

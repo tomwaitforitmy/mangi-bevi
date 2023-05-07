@@ -1,4 +1,5 @@
 import { storage } from "./firebase";
+//docs for firebase upload https://firebase.google.com/docs/storage/web/upload-files
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import uuid from "uuid";
 import imageCompress from "./imageCompress";
