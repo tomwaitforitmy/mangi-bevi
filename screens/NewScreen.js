@@ -53,7 +53,7 @@ import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadI
 import { IsFormInvalid } from "../common_functions/IsMealInvalid";
 import HeaderBackIcon from "../components/HeaderIcons/HeaderBackIcon";
 import LevelsViewModal from "../components/LevelsViewModal";
-import deleteImage from "../firebase/deleteImage";
+import deleteImages from "../firebase/deleteImages";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -76,6 +76,7 @@ function NewScreen({ route, navigation }) {
     ingredients: mealId ? inputMeal.ingredients : [],
     steps: mealId ? inputMeal.steps : [],
     imageUrls: mealId ? inputMeal.imageUrls : [],
+    imageUrlsToDelete: [],
     ingredientValue: "",
     stepValue: "",
     isLoading: false,
@@ -94,11 +95,13 @@ function NewScreen({ route, navigation }) {
 
   const backAction = useCallback(() => {
     let anyImageToUpload = false,
-      changesMade = false;
+      changesMade = false,
+      anyImageToDelete = false;
     if (mealId) {
       const imagesToUpload = GetImagesToUpload(formState.imageUrls);
 
       anyImageToUpload = imagesToUpload.length > 0;
+      anyImageToDelete = formState.imageUrlsToDelete.length > 0;
 
       const editedMeal = new Meal(
         formState.title,
@@ -119,7 +122,7 @@ function NewScreen({ route, navigation }) {
       changesMade = !MealEquals(inputMeal, editedMeal);
     }
 
-    if (anyImageToUpload || changesMade) {
+    if (anyImageToUpload || changesMade || anyImageToDelete) {
       Alert.alert("Hold on!", "Do you want to discard your changes?", [
         {
           text: "Discard",
@@ -182,8 +185,6 @@ function NewScreen({ route, navigation }) {
   };
 
   const onConfirmDeleteImage = async (url) => {
-    formDispatch({ type: LOADING });
-    await deleteImage(url);
     formDispatch({
       type: REMOVE_IMAGE,
       value: url,
@@ -202,6 +203,7 @@ function NewScreen({ route, navigation }) {
       formDispatch({ type: LOADING });
 
       if (mealId) {
+        await deleteImages(formState.imageUrlsToDelete);
         const editedMeal = await UploadImagesAndEditMeal(
           formState.imageUrls,
           formState.primaryImageUrl,

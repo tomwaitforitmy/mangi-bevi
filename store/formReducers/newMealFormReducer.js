@@ -221,7 +221,7 @@ export default function newMealFormReducer(state, action) {
         ...state,
         primaryImageUrl: null,
         imageUrls: [],
-        isLoading: false,
+        imageUrlsToDelete: [...state.imageUrlsToDelete, action.value],
       };
     }
 
@@ -230,7 +230,7 @@ export default function newMealFormReducer(state, action) {
       return {
         ...state,
         imageUrls: newImageUrls,
-        isLoading: false,
+        imageUrlsToDelete: [...state.imageUrlsToDelete, action.value],
       };
     } else {
       //make first available image the primary
@@ -238,7 +238,7 @@ export default function newMealFormReducer(state, action) {
         ...state,
         imageUrls: newImageUrls,
         primaryImageUrl: newImageUrls[0],
-        isLoading: false,
+        imageUrlsToDelete: [...state.imageUrlsToDelete, action.value],
       };
     }
   }
