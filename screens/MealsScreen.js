@@ -8,10 +8,10 @@ import Colors from "../constants/Colors";
 import { fetchAll } from "../firebase/fetchAll";
 import IconTypes from "../constants/IconTypes";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { FILTER_MODE_AND, FILTER_MODE_OR } from "../store/actions/tagsAction";
 import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import SearchInput from "../components/SearchInput";
 import * as searchAction from "../store/actions/searchAction";
+import { TagFilterMeals } from "../common_functions/TagFilterMeals";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -50,37 +50,10 @@ function MealsScreen({ navigation }) {
 
   let filteredMeals = [];
 
-  if (filtersActive) {
-    const tagIdsToFilter = filterTags.map((t) => t.id);
+  const tagIdsToFilter = filterTags.map((t) => t.id);
 
-    switch (filterMode) {
-      case FILTER_MODE_AND: {
-        allMeals.map((meal) => {
-          if (!tagIdsToFilter.some((id) => !meal.tags.includes(id))) {
-            filteredMeals.push(meal);
-          }
-        });
-        break;
-      }
-      case FILTER_MODE_OR: {
-        allMeals.map((meal) => {
-          if (tagIdsToFilter.some((e) => meal.tags.includes(e))) {
-            filteredMeals.push(meal);
-          }
-        });
-        break;
-      }
-
-      default:
-        throw new Error("Invalid filter mode for tags! Mode is " + filterMode);
-    }
-  }
-
-  if (filtersActive) {
-    filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
-  } else {
-    filteredMeals = FastFilterMeals(allMeals, searchTerm);
-  }
+  filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterMode);
+  filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
 
   return (
     <View style={styles.container}>
