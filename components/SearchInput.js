@@ -10,6 +10,8 @@ const SearchInput = ({ style, onChangeText }) => {
         placeholderTextColor={Colors.searchTextPlaceholder}
         onChangeText={(value) => onChangeText(value)}
         style={styles.searchTerm}
+        //auto correct makes it hard to search for uncommon words
+        autoCorrect={false}
       />
     </View>
   );
