@@ -53,6 +53,7 @@ import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadI
 import { IsFormInvalid } from "../common_functions/IsMealInvalid";
 import HeaderBackIcon from "../components/HeaderIcons/HeaderBackIcon";
 import LevelsViewModal from "../components/LevelsViewModal";
+import deleteImage from "../firebase/deleteImage";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -180,6 +181,15 @@ function NewScreen({ route, navigation }) {
     }
   };
 
+  const onConfirmDeleteImage = async (url) => {
+    formDispatch({ type: LOADING });
+    await deleteImage(url);
+    formDispatch({
+      type: REMOVE_IMAGE,
+      value: url,
+    });
+  };
+
   const createMealHandler = useCallback(async () => {
     if (
       IsFormInvalid(formState.title, formState.ingredients, formState.steps)
@@ -294,16 +304,11 @@ function NewScreen({ route, navigation }) {
             onTrashCallback={(url) => {
               Alert.alert(
                 "Remove image?",
-                "Do you really want to delete this image?",
+                "Do you really want to delete this image? This action cannot be undone!",
                 [
                   {
                     text: "Yes",
-                    onPress: () => {
-                      formDispatch({
-                        type: REMOVE_IMAGE,
-                        value: url,
-                      });
-                    },
+                    onPress: () => onConfirmDeleteImage(url),
                   },
                   {
                     text: "No",
