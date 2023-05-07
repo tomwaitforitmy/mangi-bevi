@@ -52,7 +52,6 @@ function MealsScreen({ navigation }) {
 
   if (filtersActive) {
     const tagIdsToFilter = filterTags.map((t) => t.id);
-    console.log(filterMode);
 
     switch (filterMode) {
       case FILTER_MODE_AND: {

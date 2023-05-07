@@ -27,7 +27,6 @@ export const removeTag = (tag) => {
 };
 
 export const setFilterTags = (tagIds) => {
-  console.log("actions setFilterTags" + tagIds);
   return { type: SET_FILTER_TAGS, tagIds: tagIds };
 };
 
