@@ -19,13 +19,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tomwaitforitmy.mangibevi"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-noodles.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.tomwaitforitmy.mangibevi"
     },
     "web": {
       "favicon": "./assets/favicon.png"
