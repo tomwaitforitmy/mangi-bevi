@@ -96,4 +96,46 @@ describe("SplitTextToHighlight", () => {
     const result = SplitTextToHighlight(inputText, searchTerm);
     expect(result).toEqual(expected);
   });
+
+  it("handles array that contains array", () => {
+    const inputText = ["Who doesn't like pasta?"];
+    const searchTerm = "pasta?";
+    const expected = ["Who doesn't like ", "pasta?"];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
+  it("handles empty array", () => {
+    const inputText = [];
+    const searchTerm = "pasta?";
+    const expected = [];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
+
+  it("handles empty array with array inside", () => {
+    const inputText = [[]];
+    const searchTerm = "pasta?";
+    const expected = [];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
+  it("handles nested empty arrays", () => {
+    const inputText = [[[]]];
+    const searchTerm = "pasta?";
+    const expected = [];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
+  it("handles nested array with text", () => {
+    const inputText = [[["Who doesn't like pasta?"]]];
+    const searchTerm = "pasta?";
+    const expected = ["Who doesn't like ", "pasta?"];
+
+    const result = SplitTextToHighlight(inputText, searchTerm);
+    expect(result).toEqual(expected);
+  });
 });
