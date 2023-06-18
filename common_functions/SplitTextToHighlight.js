@@ -2,6 +2,20 @@ export const SplitTextToHighlight = (text, searchTerm) => {
   if (!searchTerm) {
     return [text];
   }
+  //This is protection against corrupt data:
+  //In rare cases, there have been arrays inside the array.
+  //We have to destructure that here with flat:
+  //[[[]]].flat(Infinity) -> []
+  //Afterwards, we have to get out string:
+  //[tmpText] = ["Some text"] -> tmpText = "Some text"
+  if (Array.isArray(text)) {
+    const [tmpText] = text.flat(Infinity);
+    text = tmpText;
+  }
+  if (!text) {
+    return [];
+  }
+
   //escape all special characters, so users can search for ?,. etc.
   const regEscape = (v) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 
