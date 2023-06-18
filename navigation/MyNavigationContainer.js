@@ -27,6 +27,7 @@ import NoodlesIcon from "../components/HeaderIcons/NoodlesIcon";
 import EditMangiIcon from "../components/HeaderIcons/EditMangiIcon";
 import TabBarIcon from "../components/HeaderIcons/TabBarIcon";
 import EditLinksScreen from "../screens/EditLinksScreen";
+import { DEV_MODE } from "../data/Environment";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -39,7 +40,6 @@ const defaultScreenOptions = {
 };
 
 const Tab = createMaterialBottomTabNavigator();
-const devMode = false;
 
 function AuthenticatedTabNavigator() {
   return (
@@ -55,7 +55,7 @@ function AuthenticatedTabNavigator() {
         tabBarColor: Colors.primary,
       })}>
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
-      {devMode && <Tab.Screen name="Dev" component={DevStackContainer} />}
+      {DEV_MODE && <Tab.Screen name="Dev" component={DevStackContainer} />}
       <Tab.Screen name="Filters" component={FiltersStackContainer} />
       <Tab.Screen name="Profile" component={ProfileStackContainer} />
       <Tab.Screen name="New" component={NewMealStackContainer} />
@@ -78,7 +78,7 @@ function MealsStackContainer({ navigation }) {
           options={{
             title: "  Mangi & Bevi",
             headerLeft: () => NoodlesIcon(),
-            headerRight: () => LogoutIcon(dispatch, devMode, navigation),
+            headerRight: () => LogoutIcon(dispatch, DEV_MODE, navigation),
           }}
         />
         <MealsStack.Screen
@@ -168,7 +168,7 @@ function ProfileStackContainer({ navigation }) {
           component={ProfileScreen}
           options={{
             title: "Your data",
-            headerRight: () => LogoutIcon(dispatch, devMode, navigation),
+            headerRight: () => LogoutIcon(dispatch, DEV_MODE, navigation),
           }}
         />
         <ProfileStack.Screen

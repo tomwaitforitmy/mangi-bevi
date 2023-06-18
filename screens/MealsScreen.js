@@ -12,6 +12,9 @@ import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import SearchInput from "../components/SearchInput";
 import * as searchAction from "../store/actions/searchAction";
 import { TagFilterMeals } from "../common_functions/TagFilterMeals";
+import { GetMealSummary } from "../common_functions/GetMealSummary";
+import { ContainsArray } from "../common_functions/ContainsArray";
+import { DEV_MODE } from "../data/Environment";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -54,6 +57,27 @@ function MealsScreen({ navigation }) {
 
   filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterMode);
   filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
+
+  //To find new corrupt data
+  if (DEV_MODE) {
+    //To find corrupt data
+    filteredMeals.map((m) => {
+      if (ContainsArray(m.ingredients)) {
+        console.log("⚡⚡⚡ Found corrupt INGREDIENTS");
+        console.log(
+          GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
+        );
+        console.log(m);
+      }
+      if (ContainsArray(m.steps)) {
+        console.log("⚡⚡⚡ Found corrupt STEPS");
+        console.log(
+          GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
+        );
+        console.log(m);
+      }
+    });
+  }
 
   return (
     <View style={styles.container}>
