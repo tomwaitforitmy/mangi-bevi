@@ -10,7 +10,10 @@
     "preview": {
       "android" : {
         "buildType": "apk"
-      },  
+      },
+      "ios":{
+          "simulator": false
+      },
       "distribution": "internal"
     },
     "production": {}
