@@ -1,0 +1,40 @@
+Datenschutzerklärung für die App "Mangi & Bevi"
+
+Letzte Aktualisierung: 01.07.2023
+
+Vielen Dank, dass Sie sich für die Nutzung der App "Mangi & Bevi" entschieden haben. Der Schutz Ihrer persönlichen Daten ist uns wichtig. Diese Datenschutzerklärung erklärt, welche Informationen wir von Ihnen erfassen, wie wir sie verwenden und schützen, wenn Sie unsere App nutzen.
+
+    Erfasste Informationen
+
+1.1 Persönliche Daten
+Um die grundlegende Funktionalität unserer App bereitzustellen, erfassen wir keine persönlichen Daten von Ihnen, außer einen Benutzernamen und Ihre E-Mail-Adresse, die nicht veröffentlicht werden kann. Die E-Mail-Adresse dient ausschließlich zur Wiederherstellung Ihre Passworts. Ansonsten werden keinerlei persönliche Daten erfasst.
+
+1.2 Nutzungsinformationen
+Wir können aggregierte, anonymisierte Informationen über die Nutzung unserer App erfassen, wie z.B. die Anzahl der Downloads, die Anzahl der Seitenaufrufe und die Häufigkeit der Nutzung bestimmter Funktionen. Diese Informationen helfen uns, die Leistung und Benutzerfreundlichkeit unserer App zu verbessern.
+
+1.3 Geräteinformationen
+Wir können bestimmte Informationen über Ihr Gerät erfassen, wie z.B. den Gerätetyp, das Betriebssystem und die Geräte-IDs. Diese Informationen werden verwendet, um technische Probleme zu diagnostizieren und die Kompatibilität mit verschiedenen Geräten sicherzustellen.
+
+    Verwendung der erfassten Informationen
+
+2.1 Verbesserung der App
+Die erfassten Informationen über die Nutzung unserer App helfen uns dabei, die Benutzererfahrung zu verbessern, Fehler zu beheben und die Leistung zu optimieren. Wir verwenden diese Informationen ausschließlich in aggregierter und anonymisierter Form, um Trends zu analysieren und die App-Funktionalität zu erweitern.
+
+2.2 Keine Weitergabe an Dritte
+Wir geben Ihre erfassten Informationen nicht an Dritte weiter, es sei denn, dies ist gesetzlich vorgeschrieben oder wir erhalten Ihre ausdrückliche Zustimmung dazu.
+
+    Datensicherheit
+
+Wir setzen angemessene technische und organisatorische Maßnahmen ein, um Ihre Daten vor Verlust, Missbrauch oder unbefugtem Zugriff zu schützen. Wir verwenden verschlüsselte Verbindungen, um Ihre Daten während der Übertragung zu schützen, und speichern Ihre Daten nur für den Zeitraum, der zur Erfüllung der in dieser Datenschutzerklärung genannten Zwecke erforderlich ist.
+
+    Änderungen der Datenschutzerklärung
+
+Wir behalten uns das Recht vor, diese Datenschutzerklärung jederzeit zu ändern oder zu aktualisieren. Jegliche Änderungen werden auf dieser Seite veröffentlicht. Es liegt in Ihrer Verantwortung, diese Datenschutzerklärung regelmäßig zu überprüfen, um über etwaige Aktualisierungen informiert zu bleiben.
+
+    Kontakt
+
+Wenn Sie Fragen oder Bedenken bezüglich dieser Datenschutzerklärung haben, kontaktieren Sie uns bitte unter tomwaitforitmy@gmail.com oder per gitHub issue.
+
+Bitte beachten Sie, dass diese Datenschutzerklärung ausschließlich für die Nutzung der App "Mangi & Bevi" gilt und nicht für Websites oder Dienste Dritter, auf die in der App möglicherweise verlinkt wird.
+
+Vielen Dank für Ihr Vertrauen in "Mangi & Bevi". Wir wünschen Ihnen viel Spaß beim Entdecken und Zubereiten köstlicher Rezepte!
