@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mangi-bevi",
+    "name": "Mangi & Bevi",
     "description": "An app for foodies to store your favorite recipes",
     "slug": "mangi-bevi",
     "version": "1.0.0",
@@ -19,8 +19,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.tomwaitforitmy.mangibevi"
+      "supportsTablet": false,
+      "bundleIdentifier": "com.tomwaitforitmy.mangibevi",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to take pictures of food."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -33,7 +36,12 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-localization"
+      "expo-localization",
+      "expo-media-library",
+      {
+        "photosPermission": "Allow Mangi & Bevi to access your photos.",
+        "savePhotosPermission": "Allow Mangi & Bevi to save photos."
+      }
     ],
     "extra": {
       "eas": {
