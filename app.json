@@ -22,7 +22,8 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.tomwaitforitmy.mangibevi",
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to take pictures of food."
+        "NSCameraUsageDescription": "Mangi & Bevi uses the camera to take pictures of food.",
+        "NSPhotoLibraryUsageDescription": "Mangi & Bevi accesses your photo library to upload pictures of food."
       }
     },
     "android": {
@@ -36,12 +37,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-localization",
-      "expo-media-library",
-      {
-        "photosPermission": "Allow Mangi & Bevi to access your photos.",
-        "savePhotosPermission": "Allow Mangi & Bevi to save photos."
-      }
+      "expo-localization"
     ],
     "extra": {
       "eas": {
