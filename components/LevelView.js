@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   levelBarContainer: {
     backgroundColor: Colors.levelViewBarBackground,
-    height: "30%",
+    height: "25%",
     borderColor: Colors.levelViewBarBackgroundBorder,
     borderWidth: 2,
     borderRadius: 10,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   currentTitleContainer: {
     backgroundColor: Colors.levelViewBackground,
     width: "100%",
-    height: "40%",
+    height: "50%",
     justifyContent: "center",
   },
   currentTitleText: {
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   nextTitleContainer: {
     backgroundColor: Colors.levelViewBackground,
     width: "100%",
-    height: "30%",
+    height: "25%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
