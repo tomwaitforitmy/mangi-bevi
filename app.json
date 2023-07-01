@@ -3,7 +3,7 @@
     "name": "Mangi & Bevi",
     "description": "An app for foodies to store your favorite recipes",
     "slug": "mangi-bevi",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/noodles.png",
     "splash": {
@@ -19,6 +19,7 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "2",
       "supportsTablet": false,
       "bundleIdentifier": "com.tomwaitforitmy.mangibevi",
       "infoPlist": {
