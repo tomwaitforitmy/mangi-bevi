@@ -1,6 +1,9 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react-native";
 import InputListViewContainer from "../../components/InputListViewContainer";
+// Source to this fix: https://stackoverflow.com/questions/75934507/after-upgrading-to-expo48-meeting-this-error-typeerror-cannot-read-properties
+jest.mock("expo-font");
+jest.mock("expo-asset");
 
 describe("InputListViewContainer", () => {
   const sampleData = ["lemon", "pie", "tomato", "sauce"];
