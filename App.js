@@ -1,6 +1,10 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45.",
+]); //Ignore a warning from my third parties
 
 import MyNavigationContainer from "./navigation/MyNavigationContainer";
 import ReduxThunk from "redux-thunk";
