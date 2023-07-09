@@ -2,13 +2,26 @@ import React from "react";
 import Colors from "../../constants/Colors";
 import * as authActions from "../../store/actions/authAction";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Alert } from "react-native";
 
 const onHeaderIconPress = (dispatch, devMode, navigation) => {
   devMode
     ? navigation.navigate("EditScreen", {
+        //my hack to quickly go somewhere in dev mode
         mealId: "-N93DNXIQFETNW8zh5iV",
       })
-    : dispatch(authActions.logout());
+    : Alert.alert("Logout", "Do you really want to logout?", [
+        {
+          text: "Yes",
+          onPress: () => {
+            dispatch(authActions.logout());
+          },
+        },
+        {
+          text: "No",
+          style: "cancel",
+        },
+      ]);
 };
 
 const LogoutIcon = (dispatch, devMode, navigation) => {
