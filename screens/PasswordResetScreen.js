@@ -1,13 +1,13 @@
 import React from "react";
 import AuthenticationContent from "../components/AuthenticationContent";
 
-function LoginScreen({ navigation }) {
+function PasswordResetScreen({ navigation }) {
   return (
     <AuthenticationContent
       navigation={navigation}
-      login={true}
-      passwordReset={false}
+      login={false}
+      passwordReset={true}
     />
   );
 }
-export default LoginScreen;
+export default PasswordResetScreen;

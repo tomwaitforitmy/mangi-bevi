@@ -99,6 +99,33 @@ export const signup = (email, password) => {
   };
 };
 
+export const resetPass = (email) => {
+  //together with redux-thunk, this wrapper is needed
+  //even if we technically don't need dispatch
+  return async (dispatch) => {
+    const response = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${FIREBASE_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          requestType: "PASSWORD_RESET",
+        }),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    if (response.ok) {
+      console.log("Password reset successful for " + email);
+    }
+
+    //reset store and timer here
+    logout();
+  };
+};
+
 export const login = (email, password) => {
   return async (dispatch) => {
     const response = await fetch(

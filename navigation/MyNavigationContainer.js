@@ -12,6 +12,7 @@ import ImagesScreen from "../screens/ImagesScreen";
 import AddTagScreen from "../screens/AddTagScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
+import PasswordResetScreen from "../screens/PasswordResetScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../store/actions/authAction";
 import {
@@ -150,6 +151,11 @@ function LoginStackContainer() {
         name="SignUpScreen"
         component={SignUpScreen}
         options={{ title: "Sign Up" }}
+      />
+      <LoginStack.Screen
+        name="PasswordResetScreen"
+        component={PasswordResetScreen}
+        options={{ title: "Reset Password" }}
       />
     </LoginStack.Navigator>
   );

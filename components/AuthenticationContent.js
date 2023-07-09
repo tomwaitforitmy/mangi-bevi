@@ -15,7 +15,7 @@ import loginFormReducer, {
 import MyButton from "./MyButton";
 import MyKeyboardAvoidingView from "./MyKeyboardAvoidingView";
 
-function AuthenticationContent({ navigation, login }) {
+function AuthenticationContent({ navigation, login, passwordReset }) {
   const initialState = {
     email: "",
     emailError: "",
@@ -44,6 +44,10 @@ function AuthenticationContent({ navigation, login }) {
       });
       emailInput.current.shake();
     }
+    if (passwordReset) {
+      return validEmail;
+    }
+
     const validPassword = formState.password.length > 5;
     if (!validPassword) {
       formDispatch({
@@ -83,8 +87,12 @@ function AuthenticationContent({ navigation, login }) {
       let action;
       if (login) {
         action = authActions.login(formState.email, formState.password);
-      } else {
+      }
+      if (newAccount) {
         action = authActions.signup(formState.email, formState.password);
+      }
+      if (passwordReset) {
+        action = authActions.resetPass(formState.email);
       }
 
       formDispatch({ type: LOADING });
@@ -92,11 +100,19 @@ function AuthenticationContent({ navigation, login }) {
         await dispatch(action);
       } catch (err) {
         Alert.alert(
-          "Could not login!",
+          passwordReset
+            ? "Could not reset your password!"
+            : login
+            ? "Could not login!"
+            : "Could not create account!",
           "Please check your input and your internet connection!",
         );
         console.log(err);
         formDispatch({ type: SUBMITTED });
+      } finally {
+        //successful password reset ends here
+        formDispatch({ type: SUBMITTED });
+        navigation.replace("LoginScreen");
       }
     }
   };
@@ -104,6 +120,8 @@ function AuthenticationContent({ navigation, login }) {
   if (formState.isLoading) {
     return <LoadingIndicator />;
   }
+
+  const newAccount = !login && !passwordReset;
 
   return (
     <MyKeyboardAvoidingView extraOffset={0}>
@@ -124,7 +142,7 @@ function AuthenticationContent({ navigation, login }) {
             value={formState.email}
             ref={emailInput}
           />
-          {!login && (
+          {newAccount && (
             <Input
               placeholderTextColor="white"
               placeholder="Confirm Email"
@@ -140,24 +158,26 @@ function AuthenticationContent({ navigation, login }) {
               errorMessage={formState.confirmEmailError}
             />
           )}
-          <Input
-            inputStyle={{ color: "white" }}
-            placeholderTextColor="white"
-            placeholder="Password"
-            inputContainerStyle={styles.inputContainerStyle}
-            onChangeText={(value) =>
-              formDispatch({
-                type: EDIT_FIELD,
-                value: value,
-                field: "password",
-              })
-            }
-            errorMessage={formState.passwordError}
-            secureTextEntry={true}
-            value={formState.password}
-            ref={passwordInput}
-          />
-          {!login && (
+          {!passwordReset && (
+            <Input
+              inputStyle={{ color: "white" }}
+              placeholderTextColor="white"
+              placeholder="Password"
+              inputContainerStyle={styles.inputContainerStyle}
+              onChangeText={(value) =>
+                formDispatch({
+                  type: EDIT_FIELD,
+                  value: value,
+                  field: "password",
+                })
+              }
+              errorMessage={formState.passwordError}
+              secureTextEntry={true}
+              value={formState.password}
+              ref={passwordInput}
+            />
+          )}
+          {newAccount && (
             <Input
               placeholderTextColor="white"
               placeholder="Confirm Password"
@@ -175,20 +195,27 @@ function AuthenticationContent({ navigation, login }) {
             />
           )}
           <MyButton onPress={authHandler}>
-            {login ? "Login" : "Sign up"}
+            {login ? "Login" : passwordReset ? "Reset password" : "Sign up"}
           </MyButton>
           {login && (
-            <MyButton
-              style={styles.switchButton}
-              onPress={() => navigation.replace("SignUpScreen")}>
-              {"Create new account"}
-            </MyButton>
+            <View>
+              <MyButton
+                style={styles.switchButton}
+                onPress={() => navigation.replace("SignUpScreen")}>
+                {"Create new account"}
+              </MyButton>
+              <MyButton
+                style={styles.switchButton}
+                onPress={() => navigation.replace("PasswordResetScreen")}>
+                {"Forgot your password?"}
+              </MyButton>
+            </View>
           )}
-          {!login && (
+          {(newAccount || passwordReset) && (
             <MyButton
               style={styles.switchButton}
               onPress={() => navigation.replace("LoginScreen")}>
-              {"Login existing account"}
+              {"Back to login"}
             </MyButton>
           )}
         </View>
