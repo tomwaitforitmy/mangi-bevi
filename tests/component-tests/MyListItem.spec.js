@@ -82,8 +82,6 @@ describe("MyListItem", () => {
 
     expect(screen.queryByText("trillion")).toBeFalsy();
     expect(screen.getByText("million")).toBeTruthy();
-    expect(screen.getByText("million").props.style.color).not.toBe(
-      expectedColor,
-    );
+    expect(screen.getByText("million").props.style).toBeFalsy();
   });
 });
