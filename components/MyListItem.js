@@ -1,19 +1,22 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
 import Hyperlink from "react-native-hyperlink";
 import Colors from "../constants/Colors";
 import HighlightedText from "./HighlightedText";
+import { PreTestSplit } from "../common_functions/SplitTextToHighlight";
 
 const MyListItem = (props) => {
   const testIconId = props.title + "-icon";
   const searchTerm = props.searchTerm;
 
+  const highlightText = PreTestSplit(props.title, searchTerm);
+
   return (
     <View style={styles.listItemView}>
       <ListItem bottomDivider>
         <ListItem.Content>
-          <Hyperlink linkDefault={true} linkStyle={styles.linkStyle}>
+          {highlightText ? (
             <ListItem.Title>
               <HighlightedText
                 text={props.title}
@@ -21,7 +24,13 @@ const MyListItem = (props) => {
                 highlightColor={Colors.searchTermHighlight}
               />
             </ListItem.Title>
-          </Hyperlink>
+          ) : (
+            <Hyperlink linkDefault={true} linkStyle={styles.linkStyle}>
+              <ListItem.Title>
+                <Text>{props.title}</Text>
+              </ListItem.Title>
+            </Hyperlink>
+          )}
         </ListItem.Content>
         {props.IconName && (
           <Icon

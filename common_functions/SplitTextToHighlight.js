@@ -26,3 +26,20 @@ export const SplitTextToHighlight = (text, searchTerm) => {
     .split(new RegExp("(" + regEscape(searchTerm) + ")", "i"))
     .filter(Boolean);
 };
+
+//Method to check wether we have to highlight text or we can show links
+export const PreTestSplit = (text, searchTerm) => {
+  if (!searchTerm) {
+    return false;
+  }
+
+  if (text === null) {
+    return false;
+  }
+
+  if (!text.toLowerCase().includes(searchTerm.toLowerCase())) {
+    return false;
+  }
+
+  return true;
+};
