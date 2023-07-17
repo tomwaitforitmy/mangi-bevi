@@ -1,6 +1,10 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import User from "../../models/User";
 
+//---------------------------------------------
+// user action is for my user data such as name
+//---------------------------------------------
+
 export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const SET_USERS = "SET_USERS";
@@ -89,6 +93,32 @@ export const createUser = (user) => {
 };
 
 export const editUser = (user) => {
+  return async (dispatch, getState) => {
+    console.log("begin edit user");
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        header: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(user, replacer),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    console.log("end edit user");
+
+    //Meals are needed to update stats and user meals data.
+    const meals = getState().meals.meals;
+
+    dispatch({ type: EDIT_USER, user: user, meals: meals });
+  };
+};
+
+export const deleteUser = (user) => {
   return async (dispatch, getState) => {
     console.log("begin edit user");
     const token = getState().auth.token;

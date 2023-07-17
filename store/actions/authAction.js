@@ -7,7 +7,9 @@ import {
 } from "../../common_functions/CredentialStorage";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
-
+//---------------------------------------------
+// Authentication is for the firebase accounts
+//---------------------------------------------
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 
