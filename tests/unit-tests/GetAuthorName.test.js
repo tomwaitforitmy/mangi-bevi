@@ -27,8 +27,19 @@ describe("Get the author name for a meal", () => {
     expect(result).toEqual(expectedOutput);
   });
 
+  it("returns 'anonymous' in case of no id", () => {
+    const result = GetAuthorName(undefined, users);
+    expect(result).toEqual("anonymous");
+  });
+
   it("by meal id", () => {
     const result = GetAuthorNameByMealId("-N6nqAyvPZDY5N6fQHWo", users);
     expect(result).toEqual(expectedOutput);
+  });
+
+  it("by meal id returns 'anonymous' in case of no id", () => {
+    const mealIdByUnknown = "123";
+    const result = GetAuthorNameByMealId(mealIdByUnknown, users);
+    expect(result).toEqual("anonymous");
   });
 });

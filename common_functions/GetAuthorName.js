@@ -1,10 +1,16 @@
 export const GetAuthorNameByMealId = (mealId, users) => {
   const author = GetAuthorByMealId(mealId, users);
+  if (!author) {
+    return "anonymous";
+  }
   return author.name;
 };
 
 export const GetAuthorName = (userId, users) => {
   const author = GetAuthor(userId, users);
+  if (!author) {
+    return "anonymous";
+  }
   return author.name;
 };
 
