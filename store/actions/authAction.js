@@ -128,6 +128,34 @@ export const resetPass = (email) => {
   };
 };
 
+export const deleteAccount = () => {
+  //together with redux-thunk, this wrapper is needed
+  //even if we technically don't need dispatch
+  return async (dispatch, getState) => {
+    const firebaseId = getState().auth.userId;
+
+    const response = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${FIREBASE_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idToken: firebaseId,
+        }),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    if (response.ok) {
+      console.log("User deleted successful " + firebaseId);
+    }
+
+    //reset store and timer here
+    logout();
+  };
+};
+
 export const login = (email, password) => {
   return async (dispatch) => {
     const response = await fetch(
