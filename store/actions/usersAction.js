@@ -121,18 +121,23 @@ export const editUser = (user) => {
 export const deleteUser = (user) => {
   return async (dispatch, getState) => {
     console.log("begin delete user");
-    const token = getState().auth.token;
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
-      {
-        method: "DELETE",
-      },
-    );
-
-    await HandleResponseError(response);
-
-    if (response.ok) {
-      console.log("Successfully delete user " + user);
+    if (
+      user.email === "tomwaitforitmy@gmail.com" ||
+      user.email === "kathi_j@gmx.de"
+    ) {
+      console.error("Stop deleting yourself tommy!");
+    } else {
+      const token = getState().auth.token;
+      const response = await fetch(
+        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
+        {
+          method: "DELETE",
+        },
+      );
+      await HandleResponseError(response);
+      if (response.ok) {
+        console.log("Successfully delete user " + user);
+      }
     }
 
     console.log("end delete user");

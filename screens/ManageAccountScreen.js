@@ -1,20 +1,41 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
 import { Input } from "react-native-elements";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
+import * as usersAction from "../store/actions/usersAction";
+import * as authAction from "../store/actions/authAction";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const saveChanges = () => {
+    setIsLoading(true);
     console.log(name);
     console.log(email);
+    setIsLoading(false);
   };
 
-  const deleteAccount = () => {
+  const fullDelete = async () => {
+    //todo: delete mangis
+    await softDelete();
+  };
+
+  const softDelete = async () => {
+    setIsLoading(true);
+    await dispatch(usersAction.deleteUser(user));
+    await dispatch(authAction.deleteAccount());
+    await dispatch(authAction.logout());
+    setIsLoading(false);
+  };
+
+  const deleteAccount = async () => {
     Alert.alert(
       "Delete Account forever?",
       "Are you sure you want to delete your account? Warning: this action cannot be undone!",
@@ -34,7 +55,7 @@ function ManageAccountScreen({ navigation }) {
     );
   };
 
-  const deleteData = () => {
+  const deleteData = async () => {
     Alert.alert(
       "Delete Mangis forever?",
       "Do you also want to delete your recipes?\nIf you press 'No', your recipes will be marked 'created anonymously' and kept. Only your account is deleted.\nIf you press 'Yes', all your recipes will be deleted and cannot be restored.\nIf you press 'Abort' nothing will be deleted.",
@@ -43,11 +64,13 @@ function ManageAccountScreen({ navigation }) {
           text: "Yes",
           onPress: () => {
             console.log("full delete confirm");
+            fullDelete();
           },
         },
         {
           text: "No",
           onPress: () => {
+            softDelete();
             console.log("soft delete confirm");
           },
         },
@@ -58,6 +81,10 @@ function ManageAccountScreen({ navigation }) {
       ],
     );
   };
+
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <View style={styles.container}>

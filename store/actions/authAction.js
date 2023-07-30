@@ -134,25 +134,31 @@ export const deleteAccount = () => {
   return async (dispatch, getState) => {
     const firebaseId = getState().auth.userId;
 
-    const response = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${FIREBASE_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          idToken: firebaseId,
-        }),
-      },
-    );
+    console.log("begin delete account " + firebaseId);
 
-    await HandleResponseError(response);
-
-    if (response.ok) {
-      console.log("User deleted successful " + firebaseId);
+    if (
+      firebaseId === "JfrGXVhcsNY78LnqQSie0GTcj692" || //tommy
+      firebaseId === "GgseoJjsy8NocDOjWZedK9gDfF53" //kathrin
+    ) {
+      console.error("Stop deleting your account tommy!");
+    } else {
+      const response = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${FIREBASE_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            idToken: getState().auth.token,
+          }),
+        },
+      );
+      await HandleResponseError(response);
+      if (response.ok) {
+        console.log("User deleted successful " + firebaseId);
+      }
+      //reset store and timer here
+      logout();
     }
-
-    //reset store and timer here
-    logout();
   };
 };
 
