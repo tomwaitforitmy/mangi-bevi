@@ -29,6 +29,7 @@ import EditMangiIcon from "../components/HeaderIcons/EditMangiIcon";
 import TabBarIcon from "../components/HeaderIcons/TabBarIcon";
 import EditLinksScreen from "../screens/EditLinksScreen";
 import { DEV_MODE } from "../data/Environment";
+import ManageAccountScreen from "../screens/ManageAccountScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -173,7 +174,7 @@ function ProfileStackContainer({ navigation }) {
           name="UserProfileScreen"
           component={ProfileScreen}
           options={{
-            title: "Your data",
+            title: "Your Data",
             headerRight: () => LogoutIcon(dispatch, DEV_MODE, navigation),
           }}
         />
@@ -181,6 +182,11 @@ function ProfileStackContainer({ navigation }) {
           name="UserMealsScreen"
           component={UserMealsScreen}
           options={{ title: "Your Mangis" }}
+        />
+        <ProfileStack.Screen
+          name="ManageAccountScreen"
+          component={ManageAccountScreen}
+          options={{ title: "Your Account" }}
         />
       </ProfileStack.Navigator>
     </View>

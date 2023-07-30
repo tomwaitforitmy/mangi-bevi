@@ -48,6 +48,9 @@ function ProfileScreen({ navigation }) {
           <Divider />
           <Text style={styles.bene}>Email: {user.email}</Text>
           <Divider />
+          <MyButton onPress={() => navigation.navigate("ManageAccountScreen")}>
+            {"Manage Account"}
+          </MyButton>
         </View>
       </ScrollView>
     </View>
