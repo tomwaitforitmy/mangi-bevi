@@ -120,26 +120,21 @@ export const editUser = (user) => {
 
 export const deleteUser = (user) => {
   return async (dispatch, getState) => {
-    console.log("begin edit user");
+    console.log("begin delete user");
     const token = getState().auth.token;
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
       {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(user, replacer),
+        method: "DELETE",
       },
     );
 
     await HandleResponseError(response);
 
-    console.log("end edit user");
+    if (response.ok) {
+      console.log("Successfully delete user " + user);
+    }
 
-    //Meals are needed to update stats and user meals data.
-    const meals = getState().meals.meals;
-
-    dispatch({ type: EDIT_USER, user: user, meals: meals });
+    console.log("end delete user");
   };
 };
