@@ -2,10 +2,13 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Colors from "../constants/Colors";
 
-function MyButton({ children, onPress }) {
+function MyButton({ children, onPress, style }) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      style={({ pressed }) => [
+        { ...styles.button, ...style },
+        pressed && styles.pressed,
+      ]}
       onPress={onPress}
       accessibilityRole="button">
       <View>
