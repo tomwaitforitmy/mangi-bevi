@@ -6,6 +6,7 @@ import MyButton from "../components/MyButton";
 import * as usersAction from "../store/actions/usersAction";
 import * as authAction from "../store/actions/authAction";
 import LoadingIndicator from "../components/LoadingIndicator";
+import User from "../models/User";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -15,10 +16,18 @@ function ManageAccountScreen({ navigation }) {
 
   const dispatch = useDispatch();
 
-  const saveChanges = () => {
+  const saveChanges = async () => {
     setIsLoading(true);
-    console.log(name);
-    console.log(email);
+    const updatedUser = new User(
+      user.id,
+      name,
+      email,
+      user.meals,
+      user.firebaseId,
+    );
+
+    await dispatch(usersAction.editUser(updatedUser));
+
     setIsLoading(false);
   };
 
