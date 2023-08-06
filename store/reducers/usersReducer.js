@@ -4,6 +4,7 @@ import {
   SET_USERS,
   CREATE_USER,
   EDIT_USER,
+  EDIT_FRIENDS,
   UPDATE_USER_STATS,
 } from "../actions/usersAction";
 
@@ -30,6 +31,19 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         users: [action.user].concat(state.users),
         user: action.user,
+      };
+    }
+    case EDIT_FRIENDS: {
+      //create a new user object, to make sure state is updated
+      const editedUser = { ...action.user };
+      const userId = state.users.findIndex((u) => u.id === action.user.id);
+      const updatedUsers = [...state.users];
+      updatedUsers[userId] = editedUser;
+
+      return {
+        ...state,
+        users: updatedUsers,
+        user: editedUser,
       };
     }
     case EDIT_USER: {
