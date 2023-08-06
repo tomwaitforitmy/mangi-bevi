@@ -6,6 +6,7 @@ class User {
     this.meals = meals;
     this.firebaseId = firebaseId;
     this.friends = friends;
+    this.isSelected = false;
   }
 }
 
