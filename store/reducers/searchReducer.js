@@ -1,7 +1,8 @@
-import { SET_SEARCH_TERM } from "../actions/searchAction";
+import { SET_SEARCH_TERM, SET_SEARCH_USER_TERM } from "../actions/searchAction";
 
 const initialState = {
   searchTerm: null,
+  searchUserTerm: null,
 };
 
 const searchReducer = (state = initialState, action) => {
@@ -10,6 +11,13 @@ const searchReducer = (state = initialState, action) => {
       return {
         ...state,
         searchTerm: action.term,
+      };
+    }
+
+    case SET_SEARCH_USER_TERM: {
+      return {
+        ...state,
+        searchUserTerm: action.term,
       };
     }
 
