@@ -30,6 +30,7 @@ import TabBarIcon from "../components/HeaderIcons/TabBarIcon";
 import EditLinksScreen from "../screens/EditLinksScreen";
 import { DEV_MODE } from "../data/Environment";
 import ManageAccountScreen from "../screens/ManageAccountScreen";
+import EditFriendsScreen from "../screens/EditFriendsScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -187,6 +188,11 @@ function ProfileStackContainer({ navigation }) {
           name="ManageAccountScreen"
           component={ManageAccountScreen}
           options={{ title: "Your Account" }}
+        />
+        <ProfileStack.Screen
+          name="EditFriendsScreen"
+          component={EditFriendsScreen}
+          options={{ title: "Your Friends" }}
         />
       </ProfileStack.Navigator>
     </View>

@@ -51,6 +51,9 @@ function ProfileScreen({ navigation }) {
           <MyButton onPress={() => navigation.navigate("ManageAccountScreen")}>
             {"Manage Account"}
           </MyButton>
+          <MyButton onPress={() => navigation.navigate("EditFriendsScreen")}>
+            {"Friends"}
+          </MyButton>
         </View>
       </ScrollView>
     </View>
