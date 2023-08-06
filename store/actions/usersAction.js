@@ -7,6 +7,7 @@ import User from "../../models/User";
 
 export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
+export const EDIT_FRIENDS = "EDIT_FRIENDS";
 export const SET_USERS = "SET_USERS";
 export const UPDATE_USER_STATS = "UPDATE_USER_STATS";
 
@@ -115,6 +116,31 @@ export const editUser = (user) => {
     const meals = getState().meals.meals;
 
     dispatch({ type: EDIT_USER, user: user, meals: meals });
+  };
+};
+
+export const editFriends = (user) => {
+  return async (dispatch, getState) => {
+    console.log("begin edit friends");
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        header: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          friends: user.friends,
+        }),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    console.log("end edit friends");
+
+    dispatch({ type: EDIT_FRIENDS, user: user });
   };
 };
 
