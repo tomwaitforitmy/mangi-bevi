@@ -32,6 +32,7 @@ export const fetchUsers = () => {
             responseData[key].email,
             responseData[key].meals ? responseData[key].meals : [],
             responseData[key].firebaseId,
+            responseData[key].friends ? responseData[key].friends : [],
           ),
         );
       }
