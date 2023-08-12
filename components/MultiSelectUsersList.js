@@ -25,7 +25,10 @@ const MultiSelectUsersList = ({
     return false;
   };
 
-  const renderItem = (item) => {
+  const renderItem = (item, showAll) => {
+    if (showAll) {
+      return <TinyUserItem user={item} searchTerm={searchTerm} />;
+    }
     const show = isVisible(item.id, visibleUsers);
 
     if (show) {
@@ -34,31 +37,11 @@ const MultiSelectUsersList = ({
     return <></>;
   };
 
-  if (hideUsers) {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={users}
-          renderItem={({ item }) => renderItem(item)}
-          keyExtractor={(item) => item.id}
-          estimatedItemSize={users.length}
-        />
-        <View style={styles.button}>
-          <MyButton onPress={() => onEndSelection(users)}>
-            {"Done selecting"}
-          </MyButton>
-        </View>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <FlatList
         data={users}
-        renderItem={({ item }) => (
-          <TinyUserItem user={item} searchTerm={searchTerm} />
-        )}
+        renderItem={({ item }) => renderItem(item, !hideUsers)}
         keyExtractor={(item) => item.id}
         estimatedItemSize={users.length}
       />
