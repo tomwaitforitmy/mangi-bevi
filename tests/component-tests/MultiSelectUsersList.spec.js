@@ -31,7 +31,7 @@ describe("MultiSelectUsersList", () => {
   const users = [u1, u2, u3];
 
   it("renders user names", () => {
-    render(<MultiSelectUsersList users={users} />);
+    render(<MultiSelectUsersList users={users} visibleUsers={users} />);
     screen.getByText("My nice user 😊");
     screen.getByText("My nice user 😊 2");
     screen.getByText("My nice user 😊 3");
