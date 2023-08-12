@@ -4,7 +4,54 @@ import { StyleSheet, View } from "react-native";
 import MyButton from "./MyButton";
 import TinyUserItem from "./TinyUserItem";
 
-const MultiSelectUsersList = ({ users, onEndSelection, searchTerm }) => {
+const MultiSelectUsersList = ({
+  users,
+  visibleUsers,
+  onEndSelection,
+  searchTerm,
+}) => {
+  let hideUsers = false;
+  if (users.length !== visibleUsers.length) {
+    hideUsers = true;
+  }
+
+  const isVisible = (userId, visUsers) => {
+    if (visUsers) {
+      const visibleIds = visUsers.map((u) => u.id);
+      if (visibleIds.includes(userId)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const renderItem = (item) => {
+    const show = isVisible(item.id, visibleUsers);
+
+    if (show) {
+      return <TinyUserItem user={item} searchTerm={searchTerm} />;
+    }
+    return <></>;
+  };
+
+  if (hideUsers) {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={users}
+          renderItem={({ item }) => renderItem(item)}
+          keyExtractor={(item) => item.id}
+          estimatedItemSize={users.length}
+        />
+        <View style={styles.button}>
+          <MyButton onPress={() => onEndSelection(users)}>
+            {"Done selecting"}
+          </MyButton>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
