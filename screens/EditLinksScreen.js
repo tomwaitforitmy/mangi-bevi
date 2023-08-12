@@ -55,7 +55,8 @@ function EditLinksScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <SearchInput onChangeText={onChangeText} />
+      {/* Todo: this is bugged, because hiding meals, resets their selected state */}
+      {/* <SearchInput onChangeText={onChangeText} /> */}
       <MultiSelectMealsList
         meals={availableMeals}
         onEndSelection={onEndSelection}
