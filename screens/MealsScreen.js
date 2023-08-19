@@ -63,18 +63,18 @@ function MealsScreen({ navigation }) {
     //To find corrupt data
     filteredMeals.map((m) => {
       if (ContainsArray(m.ingredients)) {
-        console.log("⚡⚡⚡ Found corrupt INGREDIENTS");
-        console.log(
+        console.error("⚡⚡⚡ Found corrupt INGREDIENTS");
+        console.error(
           GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
         );
-        console.log(m);
+        console.error(m);
       }
       if (ContainsArray(m.steps)) {
-        console.log("⚡⚡⚡ Found corrupt STEPS");
-        console.log(
+        console.error("⚡⚡⚡ Found corrupt STEPS");
+        console.error(
           GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
         );
-        console.log(m);
+        console.error(m);
       }
     });
   }
