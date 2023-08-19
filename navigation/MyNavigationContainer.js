@@ -31,6 +31,9 @@ import EditLinksScreen from "../screens/EditLinksScreen";
 import { DEV_MODE } from "../data/Environment";
 import ManageAccountScreen from "../screens/ManageAccountScreen";
 import EditFriendsScreen from "../screens/EditFriendsScreen";
+import { GetAuthorByMealId } from "../common_functions/GetAuthorName";
+import { HasEditPermission } from "../common_functions/HasEditPermission";
+import { GetFriends } from "../common_functions/GetFriends";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -68,8 +71,22 @@ function AuthenticatedTabNavigator() {
 
 const MealsStack = createNativeStackNavigator();
 
+const showEditIcon = (mealId, user, users, navigation) => {
+  const authorId = GetAuthorByMealId(mealId, users).id;
+  const authorFriends = GetFriends(authorId, users);
+  let show = HasEditPermission(user, authorId, authorFriends);
+
+  if (show) {
+    return EditMangiIcon(navigation, mealId);
+  } else {
+    return <></>;
+  }
+};
+
 function MealsStackContainer({ navigation }) {
   const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.users);
+  const user = useSelector((state) => state.users.user);
 
   return (
     // See https://stackoverflow.com/questions/70341930/screens-dont-render-on-material-bottom-tab-navigator-since-upgrading-to-expo-sd/70998392#comment127025978_70998392
@@ -89,7 +106,8 @@ function MealsStackContainer({ navigation }) {
           component={MealDetailScreen}
           options={({ route }) => ({
             title: route.params.mealTitle,
-            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
+            headerRight: () =>
+              showEditIcon(route.params.mealId, user, users, navigation),
           })}
         />
         <MealsStack.Screen
