@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -14,7 +14,9 @@ function EditFriendsScreen({ navigation, route }) {
 
   const allUsers = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.users.user);
-  const availableUsers = allUsers.filter((u) => u.id !== user.id);
+  const otherUsers = allUsers.filter((u) => u.id !== user.id);
+  const availableUsers = PrepareSelectedFriends(otherUsers, user.friends);
+
   let visibleUsers = null;
 
   const [searchTerm, setSearchTerm] = useState();
@@ -24,12 +26,6 @@ function EditFriendsScreen({ navigation, route }) {
   const onChangeText = async (text) => {
     setSearchTerm(text);
   };
-
-  useEffect(() => {
-    PrepareSelectedFriends(availableUsers, user.friends);
-    //Todo: somehow this gets called all the time if I add availableUsers as dependency
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.friends]);
 
   const [isLoading, setIsLoading] = useState(false);
 

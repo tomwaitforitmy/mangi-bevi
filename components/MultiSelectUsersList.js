@@ -11,7 +11,7 @@ const MultiSelectUsersList = ({
   searchTerm,
 }) => {
   let hideUsers = false;
-  if (users.length !== visibleUsers.length) {
+  if (visibleUsers && users.length !== visibleUsers.length) {
     hideUsers = true;
   }
 

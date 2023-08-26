@@ -10,4 +10,6 @@ export const PrepareSelectedFriends = (candidates, friends) => {
       candidates.find((u) => u.id === id).isSelected = true;
     });
   }
+
+  return candidates;
 };
