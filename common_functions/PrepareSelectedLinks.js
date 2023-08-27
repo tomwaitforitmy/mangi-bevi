@@ -9,4 +9,6 @@ export const PrepareSelectedLinks = (candidates, links) => {
       candidates.find((m) => m.id === id).isSelected = true;
     });
   }
+
+  return candidates;
 };

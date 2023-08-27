@@ -7,9 +7,9 @@ describe("PrepareSelectedLinks", () => {
     m1.links = ["m2"];
     const m2 = new Meal("Another Sauce", "m2");
     m2.links = ["m1"];
-    const candidates = [m2];
+    let candidates = [m2];
 
-    PrepareSelectedLinks(candidates, m1.links);
+    candidates = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m2.isSelected).toBe(true);
   });
@@ -19,9 +19,9 @@ describe("PrepareSelectedLinks", () => {
     m1.links = [];
     const m2 = new Meal("Another Sauce", "m2");
     m2.links = [];
-    const candidates = [m2];
+    let candidates = [m2];
 
-    PrepareSelectedLinks(candidates, m1.links);
+    candidates = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m2.isSelected).toBe(false);
     expect(m1.isSelected).toBe(false);
@@ -34,8 +34,8 @@ describe("PrepareSelectedLinks", () => {
     m2.links = ["m1"];
     const m3 = new Meal("Another Sauce", "m3");
     m3.links = ["m1"];
-    const candidates = [m2, m3];
-    PrepareSelectedLinks(candidates, m1.links);
+    let candidates = [m2, m3];
+    candidates = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m1.isSelected).toBe(false);
     expect(m2.isSelected).toBe(true);
@@ -49,8 +49,8 @@ describe("PrepareSelectedLinks", () => {
     m2.links = ["m1"];
     const m3 = new Meal("Another Sauce", "m3");
     m3.links = ["m1"];
-    const candidates = [m2, m3];
-    PrepareSelectedLinks(candidates, m1.links);
+    let candidates = [m2, m3];
+    candidates = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m1.isSelected).toBe(false);
     expect(m2.isSelected).toBe(false);
@@ -64,8 +64,8 @@ describe("PrepareSelectedLinks", () => {
     m2.links = ["m1"];
     const m3 = new Meal("Another Sauce", "m3");
     m3.links = ["m1"];
-    const candidates = [m2, m3];
-    PrepareSelectedLinks(candidates, m1.links);
+    let candidates = [m2, m3];
+    candidates = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m1.isSelected).toBe(false);
     expect(m2.isSelected).toBe(false);

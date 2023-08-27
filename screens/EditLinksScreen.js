@@ -23,7 +23,7 @@ function EditLinksScreen({ navigation, route }) {
     setSearchTerm(text);
   };
 
-  PrepareSelectedLinks(availableMeals, selectedMeal.links);
+  availableMeals = PrepareSelectedLinks(availableMeals, selectedMeal.links);
 
   const [isLoading, setIsLoading] = useState(false);
 
