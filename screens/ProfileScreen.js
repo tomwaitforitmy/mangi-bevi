@@ -4,6 +4,7 @@ import { Divider } from "react-native-elements";
 import { useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import MyLevelViewContainer from "../components/MyLevelViewContainer";
+import Constants from "expo-constants";
 
 function ProfileScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -54,6 +55,9 @@ function ProfileScreen({ navigation }) {
           <MyButton onPress={() => navigation.navigate("EditFriendsScreen")}>
             {"Friends"}
           </MyButton>
+          <Text style={styles.bene}>
+            Mangi & Bevi version: {Constants.expoConfig.version}
+          </Text>
         </View>
       </ScrollView>
     </View>
