@@ -2,18 +2,18 @@ class Report {
   constructor(
     id,
     description,
-    mangiId,
+    mealId,
     reporterId,
-    mangiName,
+    mealTitle,
     reporterName,
     result,
     resultReason,
   ) {
     this.id = id;
     this.description = description;
-    this.mangiId = mangiId;
+    this.mealId = mealId;
     this.reporterId = reporterId;
-    this.mangiName = mangiName;
+    this.mealTitle = mealTitle;
     this.reporterName = reporterName;
     this.result = result;
     this.resultReason = resultReason;

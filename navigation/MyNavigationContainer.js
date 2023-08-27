@@ -34,6 +34,7 @@ import EditFriendsScreen from "../screens/EditFriendsScreen";
 import { GetAuthorByMealId } from "../common_functions/GetAuthorName";
 import { HasEditPermission } from "../common_functions/HasEditPermission";
 import { GetFriends } from "../common_functions/GetFriends";
+import SendReportScreen from "../screens/SendReportScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -135,6 +136,11 @@ function MealsStackContainer({ navigation }) {
           name="EditLinksScreen"
           component={EditLinksScreen}
           options={{ title: "Add Links" }}
+        />
+        <MealsStack.Screen
+          name="SendReportScreen"
+          component={SendReportScreen}
+          options={{ title: "Report" }}
         />
       </MealsStack.Navigator>
     </View>

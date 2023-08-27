@@ -3,4 +3,5 @@ export default {
   feather: "feather",
   fontAwesome: "font-awesome",
   fontAwesome5: "font-awesome-5",
+  material: "MaterialIcons",
 };

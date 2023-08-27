@@ -69,6 +69,14 @@ const MealSpeedDial = (props) => {
     });
   };
 
+  const navigateToReport = () => {
+    formDispatch({ type: CLOSE });
+    props.navigation.navigate("SendReportScreen", {
+      mealId: mealId,
+      mealTitle: selectedMeal.title,
+    });
+  };
+
   const iconType = IconTypes.ionicon;
 
   return (
@@ -116,6 +124,16 @@ const MealSpeedDial = (props) => {
         title="Links"
         color={Colors.primary}
         onPress={navigateToEditLinks}
+      />
+      <SpeedDial.Action
+        icon={{
+          name: "report",
+          color: Colors.speedDialIcon,
+          type: IconTypes.material,
+        }}
+        title="Report"
+        color={Colors.primary}
+        onPress={navigateToReport}
       />
     </SpeedDial>
   );
