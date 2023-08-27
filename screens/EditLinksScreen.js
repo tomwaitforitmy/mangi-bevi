@@ -14,6 +14,7 @@ function EditLinksScreen({ navigation, route }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = allMeals.find((meal) => meal.id === mealId);
   let availableMeals = allMeals.filter((m) => m.id !== mealId);
+  let visibleMeals = null;
 
   const [searchTerm, setSearchTerm] = useState();
 
@@ -46,7 +47,7 @@ function EditLinksScreen({ navigation, route }) {
   };
 
   if (searchTerm) {
-    availableMeals = FastFilterMeals(availableMeals, searchTerm);
+    visibleMeals = FastFilterMeals(availableMeals, searchTerm);
   }
 
   if (isLoading) {
@@ -55,10 +56,10 @@ function EditLinksScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {/* Todo: this is bugged, because hiding meals, resets their selected state */}
-      {/* <SearchInput onChangeText={onChangeText} /> */}
+      <SearchInput onChangeText={onChangeText} />
       <MultiSelectMealsList
         meals={availableMeals}
+        visibleMeals={visibleMeals ? visibleMeals : availableMeals}
         onEndSelection={onEndSelection}
         searchTerm={searchTerm}
       />
