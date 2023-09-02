@@ -15,6 +15,7 @@ function FiltersScreen({ navigation }) {
     (state) => state.tags.availableFilterTags,
   );
 
+  //Todo: What is this useEffect exactly for?
   useEffect(() => {
     dispatch(tagActions.setFilterTags([]));
   }, [dispatch]);

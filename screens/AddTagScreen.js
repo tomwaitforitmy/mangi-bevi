@@ -63,6 +63,7 @@ function AddTagScreen({ route, navigation }) {
     });
   }, [addedTags, dispatch, navigation, selectedMeal]);
 
+  //Todo: Is this maybe a derived state?
   useEffect(() => {
     dispatch(tagActions.setAddedTags(selectedMeal.tags));
   }, [dispatch, mealId, selectedMeal.tags]);

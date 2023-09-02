@@ -42,6 +42,7 @@ function MealsScreen({ navigation }) {
     fetchAll(dispatch).then(() => setRefreshing(false));
   }, [dispatch]);
 
+  //Todo: Could this be placed somewhere else without useEffect?
   useEffect(() => {
     setIsLoading(true);
     fetchAll(dispatch).then(() => setIsLoading(false));
