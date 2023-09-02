@@ -10,6 +10,8 @@ import User from "../models/User";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
+  //Todo: name and email can be replaced by useRef.
+  //No need to re-render every time the user enters a letter.
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [isLoading, setIsLoading] = useState(false);

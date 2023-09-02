@@ -16,6 +16,8 @@ import Colors from "../constants/Colors";
 
 function SendReportScreen({ navigation, route }) {
   const user = useSelector((state) => state.users.user);
+  //Todo: description can be replaced by useRef.
+  //No need to re-render every time the user enters a letter.
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { mealId, mealTitle } = route.params;
