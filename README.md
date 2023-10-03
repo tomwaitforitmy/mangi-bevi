@@ -1,2 +1,3 @@
 # mangi-bevi
-Food lover app for friends and family
+
+Food lover app for everyone

@@ -1,3 +1,4 @@
+import "react-native-gesture-handler"; //fixes a crash at app on iOS -> Needed for StackNavigator? See: https://developer.apple.com/forums/thread/722633
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
