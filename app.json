@@ -3,7 +3,7 @@
     "name": "Mangi & Bevi",
     "description": "An app for foodies to store your favorite recipes",
     "slug": "mangi-bevi",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/noodles.png",
     "splash": {
@@ -19,8 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "4",
-      "supportsTablet": false,
+      "buildNumber": "5",
+      "supportsTablet": true,
       "bundleIdentifier": "com.tomwaitforitmy.mangibevi",
       "infoPlist": {
         "NSCameraUsageDescription": "Mangi & Bevi uses the camera to take pictures of food.",
