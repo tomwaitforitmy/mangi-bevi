@@ -14,6 +14,7 @@ const MealList = (props) => {
             params: {
               mealId: itemData.item.id,
               mealTitle: itemData.item.title,
+              isAuthenticated: props.isAuthenticated,
             },
           });
         }}

@@ -24,6 +24,7 @@ function UserMealsScreen({ navigation, route }) {
         }
         mealsList={userMeals}
         navigation={navigation}
+        isAuthenticated={true}
       />
     </View>
   );

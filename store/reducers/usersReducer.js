@@ -65,6 +65,11 @@ const usersReducer = (state = initialState, action) => {
       };
     }
     case UPDATE_USER_STATS: {
+      if (!state.user) {
+        console.log("No user logged in. Cannot generate stats.");
+        return state;
+      }
+
       const userMeals = GetUserMeals(action.meals, state.user.meals);
       const updatedUserStats = GetUserStats(userMeals, state.user.id);
 

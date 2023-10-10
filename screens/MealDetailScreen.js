@@ -10,9 +10,10 @@ import { GetAuthorName } from "../common_functions/GetAuthorName";
 import moment from "moment";
 import LinkedMealsList from "../components/LinkedMealsList";
 import { GetLinkedMeals } from "../common_functions/GetLinkedMeals";
+import MyButton from "../components/MyButton";
 
 function MealDetailScreen({ route, navigation }) {
-  const { mealId } = route.params;
+  const { mealId, isAuthenticated } = route.params;
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
@@ -67,33 +68,54 @@ function MealDetailScreen({ route, navigation }) {
           <MyListItem key={step} title={step} searchTerm={searchTerm} />
         ))}
         {linkedMeals.length > 0 && (
-          <LinkedMealsList meals={linkedMeals} navigation={navigation} />
+          <LinkedMealsList
+            meals={linkedMeals}
+            navigation={navigation}
+            isAuthenticated={isAuthenticated}
+          />
         )}
 
-        <Text style={styles.authorBox}>
-          Created by
-          <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
-          {creationDateString}
-          {"\n"}
-          {editDateString !== creationDateString ? (
-            <Text>
-              Last edited by
-              <Text style={styles.authorHighlighted}>
-                {" "}
-                {editorName}
-              </Text> on {editDateString}{" "}
-            </Text>
-          ) : (
-            <Text />
-          )}
-        </Text>
+        {isAuthenticated && (
+          <Text style={styles.authorBox}>
+            Created by
+            <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
+            {creationDateString}
+            {"\n"}
+            {editDateString !== creationDateString ? (
+              <Text>
+                Last edited by
+                <Text style={styles.authorHighlighted}>
+                  {" "}
+                  {editorName}
+                </Text> on {editDateString}{" "}
+              </Text>
+            ) : (
+              <Text />
+            )}
+          </Text>
+        )}
       </ScrollView>
-      <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
+      {isAuthenticated && (
+        <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
+      )}
+      {!isAuthenticated && (
+        <MyButton
+          style={styles.loginButton}
+          onPress={() => {
+            navigation.navigate("LoginScreen");
+          }}>
+          {"Login or sign up"}
+        </MyButton>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  loginButton: {
+    borderRadius: 0,
+    height: "10%",
+  },
   subtitle: {
     fontSize: 22,
     textAlign: "center",

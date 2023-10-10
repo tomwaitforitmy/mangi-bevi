@@ -9,6 +9,7 @@ const LinkedMealsList = (props) => {
       params: {
         mealId: meal.id,
         mealTitle: meal.title,
+        isAuthenticated: props.isAuthenticated,
       },
     });
   };
