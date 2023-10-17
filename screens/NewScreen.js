@@ -217,6 +217,7 @@ function NewScreen({ route, navigation }) {
           inputMeal.creationDate,
           user.id,
           new Date(),
+          inputMeal.links,
         );
 
         await dispatch(mealsAction.editMeal(editedMeal));
