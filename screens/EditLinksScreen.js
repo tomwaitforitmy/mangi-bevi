@@ -42,6 +42,7 @@ function EditLinksScreen({ navigation, route }) {
       params: {
         mealId: selectedMeal.id,
         mealTitle: selectedMeal.title,
+        isAuthenticated: true,
       },
     });
   };

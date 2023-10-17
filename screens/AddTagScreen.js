@@ -59,6 +59,7 @@ function AddTagScreen({ route, navigation }) {
       params: {
         mealId: selectedMeal.id,
         mealTitle: selectedMeal.title,
+        isAuthenticated: true,
       },
     });
   }, [addedTags, dispatch, navigation, selectedMeal]);

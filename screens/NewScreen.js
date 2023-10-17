@@ -226,6 +226,7 @@ function NewScreen({ route, navigation }) {
           params: {
             mealId: mealId,
             mealTitle: formState.title,
+            isAuthenticated: true,
           },
         });
       } else {
@@ -265,6 +266,7 @@ function NewScreen({ route, navigation }) {
       params: {
         mealId: formState.newCreatedId,
         mealTitle: formState.title,
+        isAuthenticated: true,
       },
     });
   };
