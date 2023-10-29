@@ -1,0 +1,9 @@
+1. app.json -> increase version and iOS buildNumber
+2. npm test -> ok?
+3. git push
+4. eas build --platform ios
+5. eas submit
+6. apple page:
+** iOS-App +
+** "Neue Version für Store"
+** to be continued...
