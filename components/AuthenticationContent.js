@@ -14,6 +14,7 @@ import loginFormReducer, {
 } from "../store/formReducers/loginFormReducer";
 import MyButton from "./MyButton";
 import MyKeyboardAvoidingView from "./MyKeyboardAvoidingView";
+import { IsEmailValid } from "../common_functions/IsEmailValid";
 
 function AuthenticationContent({ navigation, login, passwordReset }) {
   const initialState = {
@@ -34,8 +35,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
   const passwordInput = React.createRef();
 
   function isFormValid() {
-    const validEmail =
-      formState.email.includes("@") && formState.email.includes(".");
+    const validEmail = IsEmailValid(formState.email);
     if (!validEmail) {
       formDispatch({
         type: SET_FIELD_ERROR,
