@@ -14,7 +14,7 @@ export default function loginFormReducer(state, action) {
   if (action.type === EDIT_FIELD) {
     return {
       ...state,
-      [action.field]: action.value.trim(),
+      [action.field]: action.value,
       [action.field + "Error"]: "",
     };
   }
