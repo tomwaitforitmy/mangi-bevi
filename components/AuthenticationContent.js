@@ -83,37 +83,39 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
   }
 
   const authHandler = async () => {
-    if (isFormValid()) {
-      let action;
-      if (login) {
-        action = authActions.login(formState.email, formState.password);
-      }
-      if (newAccount) {
-        action = authActions.signup(formState.email, formState.password);
-      }
-      if (passwordReset) {
-        action = authActions.resetPass(formState.email);
-      }
+    if (!isFormValid()) {
+      return;
+    }
 
-      formDispatch({ type: LOADING });
-      try {
-        await dispatch(action);
-      } catch (err) {
-        Alert.alert(
-          passwordReset
-            ? "Could not reset your password!"
-            : login
-            ? "Could not login!"
-            : "Could not create account!",
-          "Please check your input and your internet connection!",
-        );
-        console.log(err);
-        formDispatch({ type: SUBMITTED });
-      } finally {
-        //successful password reset ends here
-        formDispatch({ type: SUBMITTED });
-        navigation.replace("LoginScreen");
-      }
+    let action;
+    if (login) {
+      action = authActions.login(formState.email, formState.password);
+    }
+    if (newAccount) {
+      action = authActions.signup(formState.email, formState.password);
+    }
+    if (passwordReset) {
+      action = authActions.resetPass(formState.email);
+    }
+
+    formDispatch({ type: LOADING });
+    try {
+      await dispatch(action);
+    } catch (err) {
+      Alert.alert(
+        passwordReset
+          ? "Could not reset your password!"
+          : login
+          ? "Could not login!"
+          : "Could not create account!",
+        "Please check your input and your internet connection!",
+      );
+      console.log(err);
+      formDispatch({ type: SUBMITTED });
+    } finally {
+      //successful password reset ends here
+      formDispatch({ type: SUBMITTED });
+      navigation.replace("LoginScreen");
     }
   };
 
