@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
 import { Input } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,30 +7,88 @@ import * as usersAction from "../store/actions/usersAction";
 import * as authAction from "../store/actions/authAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import User from "../models/User";
+import { IsUserNameValid } from "../common_functions/IsUserNameValid";
+import { IsEmailValid } from "../common_functions/IsEmailValid";
+import loginFormReducer, {
+  EDIT_FIELD,
+  SET_FIELD_ERROR,
+  LOADING,
+  SUBMITTED,
+} from "../store/formReducers/loginFormReducer";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
-  //Todo: name and email can be replaced by useRef.
-  //No need to re-render every time the user enters a letter.
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [isLoading, setIsLoading] = useState(false);
+  const users = useSelector((state) => state.users.users);
+  const existingUserNames = users.map((u) => u.name);
+  const existingUsersWithoutCurrent = existingUserNames.filter(
+    (u) => u !== user.name,
+  );
 
   const dispatch = useDispatch();
 
+  const initialState = {
+    email: user.email,
+    emailError: "",
+    user: user.name,
+    userError: "",
+    isLoading: false,
+  };
+
+  const userInput = React.createRef();
+  const emailInput = React.createRef();
+
+  const [formState, formDispatch] = useReducer(loginFormReducer, initialState);
+
+  const isFormValid = () => {
+    const userValid = IsUserNameValid(
+      existingUsersWithoutCurrent,
+      formState.user,
+    );
+
+    if (!userValid) {
+      formDispatch({
+        type: SET_FIELD_ERROR,
+        field: "user",
+        error:
+          "User names have to be unique, @ is not allowed and max. 20 letters. Whitespace at start and end is not allowed.",
+      });
+      userInput.current.shake();
+    }
+
+    const emailValid = IsEmailValid(formState.email);
+
+    if (!emailValid) {
+      formDispatch({
+        type: SET_FIELD_ERROR,
+        field: "email",
+        error: "Invalid email.",
+      });
+      emailInput.current.shake();
+    }
+
+    return userValid && emailValid;
+  };
+
   const saveChanges = async () => {
-    setIsLoading(true);
+    if (!isFormValid()) {
+      return;
+    }
+
+    formDispatch({ type: LOADING });
+
     const updatedUser = new User(
       user.id,
-      name,
-      email,
+      formState.user,
+      formState.email,
       user.meals,
       user.firebaseId,
     );
 
     await dispatch(usersAction.editUser(updatedUser));
 
-    setIsLoading(false);
+    formDispatch({ type: SUBMITTED });
+
+    navigation.goBack();
   };
 
   const fullDelete = async () => {
@@ -39,11 +97,11 @@ function ManageAccountScreen({ navigation }) {
   };
 
   const softDelete = async () => {
-    setIsLoading(true);
+    formDispatch({ type: LOADING });
     await dispatch(usersAction.deleteUser(user));
     await dispatch(authAction.deleteAccount());
     await dispatch(authAction.logout());
-    setIsLoading(false);
+    formDispatch({ type: SUBMITTED });
   };
 
   const deleteAccount = async () => {
@@ -93,7 +151,7 @@ function ManageAccountScreen({ navigation }) {
     );
   };
 
-  if (isLoading) {
+  if (formState.isLoading) {
     return <LoadingIndicator />;
   }
 
@@ -104,14 +162,24 @@ function ManageAccountScreen({ navigation }) {
           <Text style={styles.bene}>Name</Text>
           <Input
             placeholder="Name"
-            onChangeText={(value) => setName(value)}
-            value={name}
+            onChangeText={(value) =>
+              formDispatch({ type: EDIT_FIELD, value: value, field: "user" })
+            }
+            errorStyle={{ color: "red" }}
+            errorMessage={formState.userError}
+            value={formState.user}
+            ref={userInput}
           />
           <Text style={styles.bene}>Email</Text>
           <Input
             placeholder="Email"
-            onChangeText={(value) => setEmail(value)}
-            value={email}
+            onChangeText={(value) =>
+              formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
+            }
+            errorStyle={{ color: "red" }}
+            errorMessage={formState.emailError}
+            value={formState.email}
+            ref={emailInput}
           />
           <MyButton onPress={() => saveChanges()}>{"Save"}</MyButton>
           <MyButton
