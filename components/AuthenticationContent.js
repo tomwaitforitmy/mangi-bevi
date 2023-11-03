@@ -14,7 +14,10 @@ import loginFormReducer, {
 } from "../store/formReducers/accountFormReducer";
 import MyButton from "./MyButton";
 import MyKeyboardAvoidingView from "./MyKeyboardAvoidingView";
-import { IsEmailValid } from "../common_functions/IsEmailValid";
+import {
+  INVALID_EMAIL_ERROR,
+  IsEmailValid,
+} from "../common_functions/IsEmailValid";
 
 function AuthenticationContent({ navigation, login, passwordReset }) {
   const initialState = {
@@ -40,7 +43,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
       formDispatch({
         type: SET_FIELD_ERROR,
         field: "email",
-        error: "Invalid email.",
+        error: INVALID_EMAIL_ERROR,
       });
       emailInput.current.shake();
     }

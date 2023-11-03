@@ -7,8 +7,14 @@ import * as usersAction from "../store/actions/usersAction";
 import * as authAction from "../store/actions/authAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import User from "../models/User";
-import { IsUserNameValid } from "../common_functions/IsUserNameValid";
-import { IsEmailValid } from "../common_functions/IsEmailValid";
+import {
+  INVALID_USER_ERROR,
+  IsUserNameValid,
+} from "../common_functions/IsUserNameValid";
+import {
+  INVALID_EMAIL_ERROR,
+  IsEmailValid,
+} from "../common_functions/IsEmailValid";
 import loginFormReducer, {
   EDIT_FIELD,
   SET_FIELD_ERROR,
@@ -49,8 +55,7 @@ function ManageAccountScreen({ navigation }) {
       formDispatch({
         type: SET_FIELD_ERROR,
         field: "user",
-        error:
-          "User names have to be unique, @ is not allowed and max. 20 letters. Whitespace at start and end is not allowed.",
+        error: INVALID_USER_ERROR,
       });
       userInput.current.shake();
     }
@@ -61,7 +66,7 @@ function ManageAccountScreen({ navigation }) {
       formDispatch({
         type: SET_FIELD_ERROR,
         field: "email",
-        error: "Invalid email.",
+        error: INVALID_EMAIL_ERROR,
       });
       emailInput.current.shake();
     }

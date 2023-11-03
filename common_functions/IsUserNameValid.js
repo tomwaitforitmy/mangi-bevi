@@ -11,3 +11,6 @@ export const IsUserNameValid = (existingUsers, candidateName) => {
 
   return true;
 };
+
+export const INVALID_USER_ERROR =
+  "User names have to be unique, @ is not allowed and max. 20 letters. Whitespace at start and end is not allowed.";

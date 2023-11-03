@@ -6,6 +6,8 @@ export const IsEmailValid = (email) => {
   return email.includes("@") && email.includes(".");
 };
 
+export const INVALID_EMAIL_ERROR = "Invalid email.";
+
 function hasWhiteSpace(s) {
   return /\s/g.test(s);
 }
