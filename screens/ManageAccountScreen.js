@@ -14,7 +14,7 @@ import loginFormReducer, {
   SET_FIELD_ERROR,
   LOADING,
   SUBMITTED,
-} from "../store/formReducers/loginFormReducer";
+} from "../store/formReducers/accountFormReducer";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);

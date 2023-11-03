@@ -11,7 +11,7 @@ import loginFormReducer, {
   SET_FIELD_ERROR,
   LOADING,
   SUBMITTED,
-} from "../store/formReducers/loginFormReducer";
+} from "../store/formReducers/accountFormReducer";
 import MyButton from "./MyButton";
 import MyKeyboardAvoidingView from "./MyKeyboardAvoidingView";
 import { IsEmailValid } from "../common_functions/IsEmailValid";
