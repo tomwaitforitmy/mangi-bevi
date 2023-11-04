@@ -92,59 +92,56 @@ function MealsStackContainer({ navigation }) {
   const user = useSelector((state) => state.users.user);
 
   return (
-    // See https://stackoverflow.com/questions/70341930/screens-dont-render-on-material-bottom-tab-navigator-since-upgrading-to-expo-sd/70998392#comment127025978_70998392
-    <View style={{ flex: 1 }} collapsable={false}>
-      <MealsStack.Navigator screenOptions={defaultScreenOptions}>
-        <MealsStack.Screen
-          name="Meals"
-          component={MealsScreen}
-          options={{
-            title: "  Mangi & Bevi",
-            headerLeft: () => NoodlesIcon(),
-          }}
-        />
-        <MealsStack.Screen
-          name="Details"
-          component={MealDetailScreen}
-          options={({ route }) => ({
-            title: route.params.mealTitle,
-            headerRight: () =>
-              showEditIcon(route.params.mealId, user, users, navigation),
-          })}
-        />
-        <MealsStack.Screen
-          name="EditScreen"
-          component={NewScreen}
-          options={{
-            title: "Edit Mangi / Bevi",
-            gestureEnabled: false,
-          }}
-        />
-        <MealsStack.Screen
-          name="ImagesScreen"
-          component={ImagesScreen}
-          options={({ route }) => ({
-            title: route.params.mealTitle,
-            headerRight: () => EditMangiIcon(navigation, route.params.mealId),
-          })}
-        />
-        <MealsStack.Screen
-          name="AddTagScreen"
-          component={AddTagScreen}
-          options={{ title: "Add Tag" }}
-        />
-        <MealsStack.Screen
-          name="EditLinksScreen"
-          component={EditLinksScreen}
-          options={{ title: "Add Links" }}
-        />
-        <MealsStack.Screen
-          name="SendReportScreen"
-          component={SendReportScreen}
-          options={{ title: "Report" }}
-        />
-      </MealsStack.Navigator>
-    </View>
+    <MealsStack.Navigator screenOptions={defaultScreenOptions}>
+      <MealsStack.Screen
+        name="Meals"
+        component={MealsScreen}
+        options={{
+          title: "  Mangi & Bevi",
+          headerLeft: () => NoodlesIcon(),
+        }}
+      />
+      <MealsStack.Screen
+        name="Details"
+        component={MealDetailScreen}
+        options={({ route }) => ({
+          title: route.params.mealTitle,
+          headerRight: () =>
+            showEditIcon(route.params.mealId, user, users, navigation),
+        })}
+      />
+      <MealsStack.Screen
+        name="EditScreen"
+        component={NewScreen}
+        options={{
+          title: "Edit Mangi / Bevi",
+          gestureEnabled: false,
+        }}
+      />
+      <MealsStack.Screen
+        name="ImagesScreen"
+        component={ImagesScreen}
+        options={({ route }) => ({
+          title: route.params.mealTitle,
+          headerRight: () => EditMangiIcon(navigation, route.params.mealId),
+        })}
+      />
+      <MealsStack.Screen
+        name="AddTagScreen"
+        component={AddTagScreen}
+        options={{ title: "Add Tag" }}
+      />
+      <MealsStack.Screen
+        name="EditLinksScreen"
+        component={EditLinksScreen}
+        options={{ title: "Add Links" }}
+      />
+      <MealsStack.Screen
+        name="SendReportScreen"
+        component={SendReportScreen}
+        options={{ title: "Report" }}
+      />
+    </MealsStack.Navigator>
   );
 }
 
@@ -152,15 +149,13 @@ const DevStack = createNativeStackNavigator();
 
 function DevStackContainer() {
   return (
-    <View style={{ flex: 1 }} collapsable={false}>
-      <DevStack.Navigator screenOptions={defaultScreenOptions}>
-        <DevStack.Screen
-          name="DevScreen"
-          component={DevScreen}
-          options={{ title: "Dev" }}
-        />
-      </DevStack.Navigator>
-    </View>
+    <DevStack.Navigator screenOptions={defaultScreenOptions}>
+      <DevStack.Screen
+        name="DevScreen"
+        component={DevScreen}
+        options={{ title: "Dev" }}
+      />
+    </DevStack.Navigator>
   );
 }
 
@@ -168,47 +163,45 @@ const LoginStack = createNativeStackNavigator();
 
 function LoginStackContainer() {
   return (
-    <View style={{ flex: 1 }} collapsable={false}>
-      <LoginStack.Navigator screenOptions={defaultScreenOptions}>
-        <MealsStack.Screen
-          name="Meals"
-          component={MealsScreenNotAuthenticated}
-          options={{
-            title: "  Mangi & Bevi",
-            headerLeft: () => NoodlesIcon(),
-          }}
-        />
-        <MealsStack.Screen
-          name="Details"
-          component={MealDetailScreen}
-          options={({ route }) => ({
-            title: route.params.mealTitle,
-          })}
-        />
-        <MealsStack.Screen
-          name="ImagesScreen"
-          component={ImagesScreen}
-          options={({ route }) => ({
-            title: route.params.mealTitle,
-          })}
-        />
-        <LoginStack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{ title: "Login" }}
-        />
-        <LoginStack.Screen
-          name="SignUpScreen"
-          component={SignUpScreen}
-          options={{ title: "Sign Up" }}
-        />
-        <LoginStack.Screen
-          name="PasswordResetScreen"
-          component={PasswordResetScreen}
-          options={{ title: "Reset Password" }}
-        />
-      </LoginStack.Navigator>
-    </View>
+    <LoginStack.Navigator screenOptions={defaultScreenOptions}>
+      <MealsStack.Screen
+        name="Meals"
+        component={MealsScreenNotAuthenticated}
+        options={{
+          title: "  Mangi & Bevi",
+          headerLeft: () => NoodlesIcon(),
+        }}
+      />
+      <MealsStack.Screen
+        name="Details"
+        component={MealDetailScreen}
+        options={({ route }) => ({
+          title: route.params.mealTitle,
+        })}
+      />
+      <MealsStack.Screen
+        name="ImagesScreen"
+        component={ImagesScreen}
+        options={({ route }) => ({
+          title: route.params.mealTitle,
+        })}
+      />
+      <LoginStack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ title: "Login" }}
+      />
+      <LoginStack.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ title: "Sign Up" }}
+      />
+      <LoginStack.Screen
+        name="PasswordResetScreen"
+        component={PasswordResetScreen}
+        options={{ title: "Reset Password" }}
+      />
+    </LoginStack.Navigator>
   );
 }
 
@@ -218,33 +211,31 @@ function ProfileStackContainer({ navigation }) {
   const dispatch = useDispatch();
 
   return (
-    <View style={{ flex: 1 }} collapsable={false}>
-      <ProfileStack.Navigator screenOptions={defaultScreenOptions}>
-        <ProfileStack.Screen
-          name="UserProfileScreen"
-          component={ProfileScreen}
-          options={{
-            title: "Your Data",
-            headerRight: () => LogoutIcon(dispatch, DEV_MODE, navigation),
-          }}
-        />
-        <ProfileStack.Screen
-          name="UserMealsScreen"
-          component={UserMealsScreen}
-          options={{ title: "Your Mangis" }}
-        />
-        <ProfileStack.Screen
-          name="ManageAccountScreen"
-          component={ManageAccountScreen}
-          options={{ title: "Your Account" }}
-        />
-        <ProfileStack.Screen
-          name="EditFriendsScreen"
-          component={EditFriendsScreen}
-          options={{ title: "Your Friends" }}
-        />
-      </ProfileStack.Navigator>
-    </View>
+    <ProfileStack.Navigator screenOptions={defaultScreenOptions}>
+      <ProfileStack.Screen
+        name="UserProfileScreen"
+        component={ProfileScreen}
+        options={{
+          title: "Your Data",
+          headerRight: () => LogoutIcon(dispatch, DEV_MODE, navigation),
+        }}
+      />
+      <ProfileStack.Screen
+        name="UserMealsScreen"
+        component={UserMealsScreen}
+        options={{ title: "Your Mangis" }}
+      />
+      <ProfileStack.Screen
+        name="ManageAccountScreen"
+        component={ManageAccountScreen}
+        options={{ title: "Your Account" }}
+      />
+      <ProfileStack.Screen
+        name="EditFriendsScreen"
+        component={EditFriendsScreen}
+        options={{ title: "Your Friends" }}
+      />
+    </ProfileStack.Navigator>
   );
 }
 
@@ -252,15 +243,13 @@ const FiltersStack = createNativeStackNavigator();
 
 function FiltersStackContainer() {
   return (
-    <View style={{ flex: 1 }} collapsable={false}>
-      <FiltersStack.Navigator screenOptions={defaultScreenOptions}>
-        <FiltersStack.Screen
-          name="FiltersScreen"
-          component={FiltersScreen}
-          options={{ title: "Filters" }}
-        />
-      </FiltersStack.Navigator>
-    </View>
+    <FiltersStack.Navigator screenOptions={defaultScreenOptions}>
+      <FiltersStack.Screen
+        name="FiltersScreen"
+        component={FiltersScreen}
+        options={{ title: "Filters" }}
+      />
+    </FiltersStack.Navigator>
   );
 }
 
@@ -268,15 +257,13 @@ const NewMealStack = createNativeStackNavigator();
 
 function NewMealStackContainer() {
   return (
-    <View style={{ flex: 1 }} collapsable={false}>
-      <NewMealStack.Navigator screenOptions={defaultScreenOptions}>
-        <NewMealStack.Screen
-          name="NewScreen"
-          component={NewScreen}
-          options={{ title: "New Mangi / Bevi" }}
-        />
-      </NewMealStack.Navigator>
-    </View>
+    <NewMealStack.Navigator screenOptions={defaultScreenOptions}>
+      <NewMealStack.Screen
+        name="NewScreen"
+        component={NewScreen}
+        options={{ title: "New Mangi / Bevi" }}
+      />
+    </NewMealStack.Navigator>
   );
 }
 
