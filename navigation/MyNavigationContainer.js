@@ -22,11 +22,10 @@ import {
   LoadToken,
 } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
-import { Platform, View } from "react-native";
+import { Platform } from "react-native";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
 import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
-import NoodlesIcon from "../components/HeaderIcons/NoodlesIcon";
 import EditMangiIcon from "../components/HeaderIcons/EditMangiIcon";
 import TabBarIcon from "../components/HeaderIcons/TabBarIcon";
 import EditLinksScreen from "../screens/EditLinksScreen";
@@ -88,7 +87,6 @@ const showEditIcon = (mealId, user, users, navigation) => {
 };
 
 function MealsStackContainer({ navigation }) {
-  const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.users.user);
 
@@ -98,8 +96,7 @@ function MealsStackContainer({ navigation }) {
         name="Meals"
         component={MealsScreen}
         options={{
-          title: "  Mangi & Bevi",
-          headerLeft: () => NoodlesIcon(),
+          title: "Mangi & Bevi",
         }}
       />
       <MealsStack.Screen
@@ -169,8 +166,7 @@ function LoginStackContainer() {
         name="Meals"
         component={MealsScreenNotAuthenticated}
         options={{
-          title: "  Mangi & Bevi",
-          headerLeft: () => NoodlesIcon(),
+          title: "Mangi & Bevi",
         }}
       />
       <MealsStack.Screen
