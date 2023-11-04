@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useReducer } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { Input } from "react-native-elements";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
@@ -18,6 +18,10 @@ import {
   INVALID_EMAIL_ERROR,
   IsEmailValid,
 } from "../common_functions/IsEmailValid";
+import {
+  INVALID_USER_ERROR,
+  IsUserNameValid,
+} from "../common_functions/IsUserNameValid";
 
 function AuthenticationContent({ navigation, login, passwordReset }) {
   const initialState = {
@@ -29,13 +33,19 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
     confirmEmailError: "",
     confirmPassword: "",
     confirmPasswordError: "",
+    user: "",
+    userError: "",
   };
 
   const [formState, formDispatch] = useReducer(loginFormReducer, initialState);
 
+  const users = useSelector((state) => state.users.users);
+  const existingUserNames = users.map((u) => u.name);
+
   const dispatch = useDispatch();
   const emailInput = React.createRef();
   const passwordInput = React.createRef();
+  const userInput = React.createRef();
 
   function isFormValid() {
     const validEmail = IsEmailValid(formState.email);
@@ -81,8 +91,23 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
         error: "Passwords not equal.",
       });
     }
+    const validUser = IsUserNameValid(existingUserNames, formState.user.trim());
+    if (!validUser) {
+      formDispatch({
+        type: SET_FIELD_ERROR,
+        field: "user",
+        error: INVALID_USER_ERROR,
+      });
+      userInput.current.shake();
+    }
 
-    return emailsAreEqual && passwordsAreEqual && validEmail && validPassword;
+    return (
+      emailsAreEqual &&
+      passwordsAreEqual &&
+      validUser &&
+      validEmail &&
+      validPassword
+    );
   }
 
   const authHandler = async () => {
@@ -95,7 +120,11 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
       action = authActions.login(formState.email, formState.password);
     }
     if (newAccount) {
-      action = authActions.signup(formState.email, formState.password);
+      action = authActions.signup(
+        formState.email,
+        formState.password,
+        formState.user.trim(),
+      );
     }
     if (passwordReset) {
       action = authActions.resetPass(formState.email);
@@ -183,21 +212,38 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
             />
           )}
           {newAccount && (
-            <Input
-              placeholderTextColor="white"
-              placeholder="Confirm Password"
-              inputStyle={{ color: "white" }}
-              inputContainerStyle={styles.inputContainerStyle}
-              onChangeText={(value) =>
-                formDispatch({
-                  type: EDIT_FIELD,
-                  value: value,
-                  field: "confirmPassword",
-                })
-              }
-              errorMessage={formState.confirmPasswordError}
-              secureTextEntry={true}
-            />
+            <View>
+              <Input
+                placeholderTextColor="white"
+                placeholder="Confirm Password"
+                inputStyle={{ color: "white" }}
+                inputContainerStyle={styles.inputContainerStyle}
+                onChangeText={(value) =>
+                  formDispatch({
+                    type: EDIT_FIELD,
+                    value: value,
+                    field: "confirmPassword",
+                  })
+                }
+                errorMessage={formState.confirmPasswordError}
+                secureTextEntry={true}
+              />
+              <Input
+                placeholderTextColor="white"
+                placeholder="User Name"
+                inputStyle={{ color: "white" }}
+                inputContainerStyle={styles.inputContainerStyle}
+                onChangeText={(value) =>
+                  formDispatch({
+                    type: EDIT_FIELD,
+                    value: value,
+                    field: "user",
+                  })
+                }
+                errorMessage={formState.userError}
+                ref={userInput}
+              />
+            </View>
           )}
           <MyButton onPress={authHandler}>
             {login ? "Login" : passwordReset ? "Reset password" : "Sign up"}

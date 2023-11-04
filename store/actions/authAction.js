@@ -56,7 +56,7 @@ const convertExpirationTimeToMs = (expirationTimeInMinutes) => {
   return parseInt(expirationTimeInMinutes, 10) * 1000;
 };
 
-export const signup = (email, password) => {
+export const signup = (email, password, username) => {
   return async (dispatch) => {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_API_KEY}`,
@@ -86,7 +86,7 @@ export const signup = (email, password) => {
       ),
     );
 
-    const user = new User("error", email, email, [], responseData.localId);
+    const user = new User("error", username, email, [], responseData.localId);
     dispatch(usersActions.createUser(user)).then(() => {
       console.log("logged in as", email);
     });
