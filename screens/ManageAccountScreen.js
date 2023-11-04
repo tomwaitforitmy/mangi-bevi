@@ -48,7 +48,7 @@ function ManageAccountScreen({ navigation }) {
   const isFormValid = () => {
     const userValid = IsUserNameValid(
       existingUsersWithoutCurrent,
-      formState.user,
+      formState.user.trim(),
     );
 
     if (!userValid) {
@@ -83,7 +83,7 @@ function ManageAccountScreen({ navigation }) {
 
     const updatedUser = new User(
       user.id,
-      formState.user,
+      formState.user.trim(),
       formState.email,
       user.meals,
       user.firebaseId,
