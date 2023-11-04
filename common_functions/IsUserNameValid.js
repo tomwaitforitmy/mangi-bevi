@@ -2,15 +2,25 @@ export const IsUserNameValid = (existingUsers, candidateName) => {
   if (candidateName.length > 20) {
     return false;
   }
+  if (candidateName.length < 1) {
+    return false;
+  }
   if (candidateName.includes("@")) {
     return false;
   }
-  if (existingUsers.includes(candidateName)) {
+  if (UserAlreadyExists(existingUsers, candidateName)) {
     return false;
   }
 
   return true;
 };
 
+function UserAlreadyExists(existingUsers, candidateName) {
+  const exists = existingUsers.find(
+    (u) => u.toLowerCase() === candidateName.toLowerCase(),
+  );
+  return exists;
+}
+
 export const INVALID_USER_ERROR =
-  "User names have to be unique, @ is not allowed and max. 20 letters. Whitespace at start and end is not allowed.";
+  "Max. 20 letters, @ is not allowed and names have to be unique.";
