@@ -8,9 +8,9 @@ export const fetchAll = async (dispatch) => {
   return await dispatch(mealsActions.fetchMeals());
 };
 
-//here we do not fetch users for now,
-//because fetchUsers expects the firebaseId
+//here we do not generate stats
 export const fetchAllNotAuthenticated = async (dispatch) => {
+  await dispatch(usersActions.fetchUsers());
   await dispatch(tagActions.fetchTags());
   return await dispatch(mealsActions.fetchMeals());
 };

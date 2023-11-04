@@ -6,6 +6,7 @@ import {
   EDIT_USER,
   EDIT_FRIENDS,
   UPDATE_USER_STATS,
+  ERROR_NO_USER_LOGGED_IN,
 } from "../actions/usersAction";
 
 const initialState = {
@@ -65,7 +66,7 @@ const usersReducer = (state = initialState, action) => {
       };
     }
     case UPDATE_USER_STATS: {
-      if (!state.user) {
+      if (!state.user || state.user === ERROR_NO_USER_LOGGED_IN) {
         console.log("No user logged in. Cannot generate stats.");
         return state;
       }

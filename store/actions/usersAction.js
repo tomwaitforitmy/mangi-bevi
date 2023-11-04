@@ -10,6 +10,7 @@ export const EDIT_USER = "EDIT_USER";
 export const EDIT_FRIENDS = "EDIT_FRIENDS";
 export const SET_USERS = "SET_USERS";
 export const UPDATE_USER_STATS = "UPDATE_USER_STATS";
+export const ERROR_NO_USER_LOGGED_IN = "ERROR_NO_USER_LOGGED_IN";
 
 export const fetchUsers = () => {
   return async (dispatch, getState) => {
@@ -37,8 +38,11 @@ export const fetchUsers = () => {
         );
       }
 
-      const firebaseId = getState().auth.userId;
-      const user = loadedUsers.find((u) => u.firebaseId === firebaseId);
+      let user = ERROR_NO_USER_LOGGED_IN;
+      if (getState().auth.userId) {
+        const firebaseId = getState().auth.userId;
+        user = loadedUsers.find((u) => u.firebaseId === firebaseId);
+      }
 
       dispatch({
         type: SET_USERS,
