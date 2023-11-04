@@ -25,7 +25,7 @@ describe("IsUserNameValid", () => {
     expect(actual).toBe(false);
   });
 
-  it("smilies are ok", () => {
+  it("smiles are ok", () => {
     const userName = "😍😍😍";
     const existingUsers = [];
     const actual = IsUserNameValid(existingUsers, userName);
@@ -77,6 +77,23 @@ describe("IsUserNameValid", () => {
       "franky",
       "jessie",
       "tommy 🤩",
+      "charlie",
+    ];
+    const actual = IsUserNameValid(existingUsers, userName);
+
+    expect(actual).toBe(false);
+  });
+
+  it("usernames have to be unique case sensitive", () => {
+    const userName = "TOMMY";
+    const existingUsers = [
+      "charlie",
+      "jules",
+      "john",
+      "doe",
+      "franky",
+      "jessie",
+      "tommy",
       "charlie",
     ];
     const actual = IsUserNameValid(existingUsers, userName);
