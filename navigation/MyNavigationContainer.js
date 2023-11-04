@@ -46,6 +46,7 @@ const defaultScreenOptions = {
   headerTitleStyle: {
     fontWeight: "bold",
   },
+  headerTitleAlign: "center",
 };
 
 const Tab = createMaterialBottomTabNavigator();
