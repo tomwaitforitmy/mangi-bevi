@@ -193,9 +193,7 @@ export const login = (email, password) => {
       ),
     );
 
-    dispatch(usersActions.fetchUsers()).then(() => {
-      console.log("logged in as", email);
-    });
+    console.log("logged in as", email);
 
     const expirationDate = new Date(new Date().getTime() + expirationTimeInMs);
     SaveTokenDataToStorage(
