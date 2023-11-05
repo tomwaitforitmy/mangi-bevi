@@ -101,7 +101,10 @@ function MealsScreen({ navigation }) {
         )}
         <MealList
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh()}
+            />
           }
           mealsList={filteredMeals}
           navigation={navigation}
