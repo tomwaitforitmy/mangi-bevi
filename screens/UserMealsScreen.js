@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import MealList from "../components/MealList";
 import { View, StyleSheet, RefreshControl } from "react-native";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAll } from "../firebase/fetchAll";
 
-function UserMealsScreen({ navigation, route }) {
+function UserMealsScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { userMeals } = route.params;
+  const userMealsData = useSelector((state) => state.users.userMealsData);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -22,7 +21,7 @@ function UserMealsScreen({ navigation, route }) {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        mealsList={userMeals}
+        mealsList={userMealsData}
         navigation={navigation}
         isAuthenticated={true}
       />

@@ -23,9 +23,7 @@ function ProfileScreen({ navigation }) {
             />
             <MyButton
               onPress={() => {
-                navigation.navigate("UserMealsScreen", {
-                  userMeals: userMealsData,
-                });
+                navigation.navigate("UserMealsScreen");
               }}>
               {"View your Mangis"}
             </MyButton>
