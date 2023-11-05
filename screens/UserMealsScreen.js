@@ -19,7 +19,10 @@ function UserMealsScreen({ navigation }) {
     <View style={styles.mealsScreen}>
       <MealList
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => onRefresh()}
+          />
         }
         mealsList={userMealsData}
         navigation={navigation}
