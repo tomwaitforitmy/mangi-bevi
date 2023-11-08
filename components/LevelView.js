@@ -25,11 +25,17 @@ const LevelView = (props) => {
 
   const sharedValue = useSharedValue(0);
 
+  //simulator to understand these params:
+  // https://docs.swmansion.com/react-native-reanimated/docs/animations/withSpring
   sharedValue.value = withDelay(
     500,
     withSpring(percent, {
-      duration: 1000,
+      mass: 1.5,
+      damping: 15,
       stiffness: 150,
+      overshootClamping: false,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 2,
     }),
   );
 
