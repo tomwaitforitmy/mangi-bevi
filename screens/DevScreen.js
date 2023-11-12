@@ -16,7 +16,7 @@ import Colors from "../constants/Colors";
 const numberOfTabs = 3;
 const paddingLeftRight = 5;
 const windowWidth = Dimensions.get("window").width;
-//we remove 2 times the site padding and we have 2 pixel
+//we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
 const tabWith = (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
 
 function DevScreen({ navigation }) {
@@ -31,10 +31,10 @@ function DevScreen({ navigation }) {
   //   setSearchTerm(text);
   // };
 
-  const indexArray = [];
-  for (let index = 0; index < numberOfTabs; index++) {
-    indexArray.push(index);
-  }
+  const textArray = [];
+  textArray.push("Steps");
+  textArray.push("Ingredients");
+  textArray.push("Pictures");
 
   const position = useSharedValue(1);
 
@@ -58,12 +58,12 @@ function DevScreen({ navigation }) {
         <Animated.View
           style={[styles.selectedButton, selectedButtonAnimatedStyle]}
         />
-        {indexArray.map((i) => (
+        {textArray.map((text, index) => (
           <Pressable
-            key={i}
+            key={index}
             style={styles.menuButton}
-            onPress={() => handlePress(i)}>
-            <Text style={styles.text}>category {i}</Text>
+            onPress={() => handlePress(index)}>
+            <Text style={styles.text}>{text}</Text>
           </Pressable>
         ))}
         {/* <Pressable style={styles.menuButton} onPress={() => handlePress(1)}>
