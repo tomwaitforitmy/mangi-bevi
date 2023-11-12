@@ -16,4 +16,5 @@ export default {
   selectedMealBackground: "#e0f1ff",
   selectedMealBorderColor: "#ccc",
   transparent: "rgba(0, 0, 0, 0.0)",
+  myTabMenuBackground: "lightgrey",
 };

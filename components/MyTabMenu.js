@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     maxHeight: 35,
-    backgroundColor: "lightgrey",
+    backgroundColor: Colors.myTabMenuBackground,
     borderRadius: 5,
     paddingBottom: 2,
     marginBottom: 5,
