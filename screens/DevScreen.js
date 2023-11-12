@@ -12,12 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Button, Divider } from "react-native-elements";
 import Colors from "../constants/Colors";
-
-const numberOfTabs = 3;
-const paddingLeftRight = 5;
-const windowWidth = Dimensions.get("window").width;
-//we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
-const tabWith = (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
+import MyTabMenu from "../components/MyTabMenu";
 
 function DevScreen({ navigation }) {
   // const allMeals = useSelector((state) => state.meals.meals);
@@ -36,44 +31,11 @@ function DevScreen({ navigation }) {
   textArray.push("Ingredients");
   textArray.push("Pictures");
 
-  const position = useSharedValue(1);
-
-  const selectedButtonAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      position: "absolute",
-      left: position.value,
-      right: 1,
-      top: 1,
-      width: tabWith,
-    };
-  });
-
-  const handlePress = (index) => {
-    position.value = withSpring(1 + tabWith * index);
-  };
+  const windowWidth = Dimensions.get("window").width;
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonGroup}>
-        <Animated.View
-          style={[styles.selectedButton, selectedButtonAnimatedStyle]}
-        />
-        {textArray.map((text, index) => (
-          <Pressable
-            key={index}
-            style={styles.menuButton}
-            onPress={() => handlePress(index)}>
-            <Text style={styles.text}>{text}</Text>
-          </Pressable>
-        ))}
-        {/* <Pressable style={styles.menuButton} onPress={() => handlePress(1)}>
-          <Text style={styles.text}>category 2</Text>
-        </Pressable>
-        <Pressable style={styles.menuButton} onPress={() => handlePress(2)}>
-          <Text style={styles.text}>category 3</Text>
-        </Pressable> */}
-      </View>
-      <Button title={"filler"}></Button>
+      <MyTabMenu titles={textArray} windowWidth={windowWidth} />
 
       {/* <SearchInput onChangeText={onChangeText} />
       <TinyMealList
@@ -86,35 +48,7 @@ function DevScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  text: {
-    textAlign: "center",
-  },
-  menuButton: {
-    height: "100%",
-    width: tabWith,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  selectedButton: {
-    backgroundColor: Colors.screenBackGround,
-    height: "100%",
-    borderRadius: 5,
-  },
-  buttonGroup: {
-    flex: 1,
-    alignItems: "center",
-    width: "100%",
-    flexDirection: "row",
-    maxHeight: 35,
-    backgroundColor: "lightgrey",
-    borderRadius: 5,
-    paddingBottom: 2,
-    marginBottom: 5,
-  },
   container: {
-    paddingTop: 5,
-    paddingLeft: paddingLeftRight,
-    paddingRight: paddingLeftRight,
     flex: 1,
     alignItems: "center",
     width: "100%",
