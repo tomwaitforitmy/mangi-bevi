@@ -31,7 +31,7 @@ const LinkedMealsList = (props) => {
 const styles = StyleSheet.create({
   container: { flex: 1, width: "100%", marginTop: 10 },
   subtitle: {
-    fontSize: 22,
+    fontSize: 18,
     textAlign: "center",
   },
 });
