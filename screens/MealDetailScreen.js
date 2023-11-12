@@ -12,6 +12,7 @@ import LinkedMealsList from "../components/LinkedMealsList";
 import { GetLinkedMeals } from "../common_functions/GetLinkedMeals";
 import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
+import TabMenuTitles from "../constants/TabMenuTitles";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId, isAuthenticated } = route.params;
@@ -38,16 +39,12 @@ function MealDetailScreen({ route, navigation }) {
 
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
-  const INFO = "Info";
-  const INGREDIENTS = "Ingredients";
-  const STEPS = "Steps";
+  const [selectedTab, setSelectedTab] = useState(TabMenuTitles.INFO);
 
-  const [selectedTab, setSelectedTab] = useState(INFO);
-
-  const textArray = [];
-  textArray.push(INFO);
-  textArray.push(INGREDIENTS);
-  textArray.push(STEPS);
+  const titles = [];
+  titles.push(TabMenuTitles.INFO);
+  titles.push(TabMenuTitles.INGREDIENTS);
+  titles.push(TabMenuTitles.STEPS);
 
   const windowWidth = Dimensions.get("window").width;
 
@@ -58,12 +55,12 @@ function MealDetailScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <MyTabMenu
-        titles={textArray}
+        titles={titles}
         windowWidth={windowWidth}
         onTabPress={(title) => ShowTitle(title)}
       />
       <ScrollView style={styles.container}>
-        {selectedTab === INFO && (
+        {selectedTab === TabMenuTitles.INFO && (
           <View>
             <Text style={styles.subtitle}>{selectedMeal.title}</Text>
             <Image
@@ -84,7 +81,7 @@ function MealDetailScreen({ route, navigation }) {
           </View>
         )}
 
-        {selectedTab === INGREDIENTS &&
+        {selectedTab === TabMenuTitles.INGREDIENTS &&
           selectedMeal.ingredients.map((ingredient) => (
             <MyListItem
               key={ingredient}
@@ -92,11 +89,11 @@ function MealDetailScreen({ route, navigation }) {
               searchTerm={searchTerm}
             />
           ))}
-        {selectedTab === STEPS &&
+        {selectedTab === TabMenuTitles.STEPS &&
           selectedMeal.steps.map((step) => (
             <MyListItem key={step} title={step} searchTerm={searchTerm} />
           ))}
-        {linkedMeals.length > 0 && selectedTab === INFO && (
+        {linkedMeals.length > 0 && selectedTab === TabMenuTitles.INFO && (
           <LinkedMealsList
             meals={linkedMeals}
             navigation={navigation}
@@ -104,7 +101,7 @@ function MealDetailScreen({ route, navigation }) {
           />
         )}
 
-        {isAuthenticated && selectedTab === INFO && (
+        {isAuthenticated && selectedTab === TabMenuTitles.INFO && (
           <Text style={styles.authorBox}>
             Created by
             <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
