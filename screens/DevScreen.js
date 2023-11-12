@@ -10,11 +10,14 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { Button } from "react-native-elements";
+import { Button, Divider } from "react-native-elements";
+import Colors from "../constants/Colors";
 
-const numberOfTabs = 2;
+const numberOfTabs = 3;
+const paddingLeftRight = 5;
 const windowWidth = Dimensions.get("window").width;
-const tabWith = windowWidth / numberOfTabs;
+//we remove 2 times the site padding and we have 2 pixel
+const tabWith = (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
 
 function DevScreen({ navigation }) {
   // const allMeals = useSelector((state) => state.meals.meals);
@@ -33,20 +36,20 @@ function DevScreen({ navigation }) {
     indexArray.push(index);
   }
 
-  const position = useSharedValue(0);
+  const position = useSharedValue(1);
 
   const selectedButtonAnimatedStyle = useAnimatedStyle(() => {
     return {
       position: "absolute",
       left: position.value,
-      right: 0,
-      top: 0,
+      right: 1,
+      top: 1,
       width: tabWith,
     };
   });
 
   const handlePress = (index) => {
-    position.value = withSpring(tabWith * index);
+    position.value = withSpring(1 + tabWith * index);
   };
 
   return (
@@ -91,22 +94,27 @@ const styles = StyleSheet.create({
     width: tabWith,
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "red",
   },
   selectedButton: {
-    backgroundColor: "green",
+    backgroundColor: Colors.screenBackGround,
     height: "100%",
+    borderRadius: 5,
   },
   buttonGroup: {
-    // position: "absolute",
     flex: 1,
     alignItems: "center",
     width: "100%",
     flexDirection: "row",
-    maxHeight: 50,
+    maxHeight: 35,
+    backgroundColor: "lightgrey",
+    borderRadius: 5,
+    paddingBottom: 2,
+    marginBottom: 5,
   },
   container: {
-    // margin: 10,
+    paddingTop: 5,
+    paddingLeft: paddingLeftRight,
+    paddingRight: paddingLeftRight,
     flex: 1,
     alignItems: "center",
     width: "100%",
