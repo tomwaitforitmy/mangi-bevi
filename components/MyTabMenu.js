@@ -7,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Colors from "../constants/Colors";
 
-const MyTabMenu = ({ titles, windowWidth }) => {
+const MyTabMenu = ({ titles, windowWidth, onTabPress }) => {
   const paddingLeftRight = 5;
   const textArray = titles;
   const numberOfTabs = titles.length;
@@ -26,8 +26,9 @@ const MyTabMenu = ({ titles, windowWidth }) => {
     };
   });
 
-  const handlePress = (index) => {
+  const handlePress = (index, text) => {
     position.value = withSpring(1 + tabWith * index);
+    onTabPress(text);
   };
 
   return (
@@ -44,7 +45,7 @@ const MyTabMenu = ({ titles, windowWidth }) => {
           <Pressable
             key={index}
             style={{ ...styles.menuButton, ...{ width: tabWith } }}
-            onPress={() => handlePress(index)}>
+            onPress={() => handlePress(index, text)}>
             <Text style={styles.text}>{text}</Text>
           </Pressable>
         ))}
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingTop: 5,
-    flex: 1,
+    minHeight: 35,
     alignItems: "center",
     width: "100%",
   },

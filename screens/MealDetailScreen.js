@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, ScrollView, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, ScrollView, Text, View, Dimensions } from "react-native";
 import { useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
 import { Image } from "react-native-elements";
@@ -11,6 +11,7 @@ import moment from "moment";
 import LinkedMealsList from "../components/LinkedMealsList";
 import { GetLinkedMeals } from "../common_functions/GetLinkedMeals";
 import MyButton from "../components/MyButton";
+import MyTabMenu from "../components/MyTabMenu";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId, isAuthenticated } = route.params;
@@ -37,37 +38,65 @@ function MealDetailScreen({ route, navigation }) {
 
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
+  const INFO = "Info";
+  const INGREDIENTS = "Ingredients";
+  const STEPS = "Steps";
+
+  const [selectedTab, setSelectedTab] = useState(INFO);
+
+  const textArray = [];
+  textArray.push(INFO);
+  textArray.push(INGREDIENTS);
+  textArray.push(STEPS);
+
+  const windowWidth = Dimensions.get("window").width;
+
+  const ShowTitle = (title) => {
+    setSelectedTab(title);
+  };
+
   return (
     <View style={styles.container}>
+      <MyTabMenu
+        titles={textArray}
+        windowWidth={windowWidth}
+        onTabPress={(title) => ShowTitle(title)}
+      />
       <ScrollView style={styles.container}>
-        <Image
-          source={{
-            uri: selectedMeal.primaryImageUrl
-              ? selectedMeal.primaryImageUrl
-              : "https://dummyimage.com/300x200&text=No+image+yet",
-          }}
-          style={styles.image}
-          onPress={() => {
-            navigation.navigate("ImagesScreen", {
-              mealId: selectedMeal.id,
-              mealTitle: selectedMeal.title,
-            });
-          }}
-        />
-        <TagList tags={tagList} />
-        <Text style={styles.subtitle}>Ingredients</Text>
-        {selectedMeal.ingredients.map((ingredient) => (
-          <MyListItem
-            key={ingredient}
-            title={ingredient}
-            searchTerm={searchTerm}
-          />
-        ))}
-        <Text style={styles.subtitle}>Steps</Text>
-        {selectedMeal.steps.map((step) => (
-          <MyListItem key={step} title={step} searchTerm={searchTerm} />
-        ))}
-        {linkedMeals.length > 0 && (
+        {selectedTab === INFO && (
+          <View>
+            <Text style={styles.subtitle}>{selectedMeal.title}</Text>
+            <Image
+              source={{
+                uri: selectedMeal.primaryImageUrl
+                  ? selectedMeal.primaryImageUrl
+                  : "https://dummyimage.com/300x200&text=No+image+yet",
+              }}
+              style={styles.image}
+              onPress={() => {
+                navigation.navigate("ImagesScreen", {
+                  mealId: selectedMeal.id,
+                  mealTitle: selectedMeal.title,
+                });
+              }}
+            />
+            <TagList tags={tagList} />
+          </View>
+        )}
+
+        {selectedTab === INGREDIENTS &&
+          selectedMeal.ingredients.map((ingredient) => (
+            <MyListItem
+              key={ingredient}
+              title={ingredient}
+              searchTerm={searchTerm}
+            />
+          ))}
+        {selectedTab === STEPS &&
+          selectedMeal.steps.map((step) => (
+            <MyListItem key={step} title={step} searchTerm={searchTerm} />
+          ))}
+        {linkedMeals.length > 0 && selectedTab === INFO && (
           <LinkedMealsList
             meals={linkedMeals}
             navigation={navigation}
@@ -75,7 +104,7 @@ function MealDetailScreen({ route, navigation }) {
           />
         )}
 
-        {isAuthenticated && (
+        {isAuthenticated && selectedTab === INFO && (
           <Text style={styles.authorBox}>
             Created by
             <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
@@ -117,6 +146,8 @@ const styles = StyleSheet.create({
     height: "10%",
   },
   subtitle: {
+    paddingTop: 10,
+    paddingBottom: 15,
     fontSize: 22,
     textAlign: "center",
   },
