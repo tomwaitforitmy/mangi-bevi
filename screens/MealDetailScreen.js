@@ -48,16 +48,12 @@ function MealDetailScreen({ route, navigation }) {
 
   const windowWidth = Dimensions.get("window").width;
 
-  const ShowTitle = (title) => {
-    setSelectedTab(title);
-  };
-
   return (
     <View style={styles.container}>
       <MyTabMenu
         titles={titles}
         windowWidth={windowWidth}
-        onTabPress={(title) => ShowTitle(title)}
+        onTabPress={(title) => setSelectedTab(title)}
       />
       <ScrollView style={styles.container}>
         {selectedTab === TabMenuTitles.INFO && (
