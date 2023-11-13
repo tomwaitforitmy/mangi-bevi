@@ -16,8 +16,16 @@ export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 export const REMOVE_STEP = "REMOVE_STEP";
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
 export const SHOW_MODAL = "SHOW_MODAL";
+export const CHANGE_PAGE_TITLE = "CHANGE_PAGE_TITLE";
 
 export default function newMealFormReducer(state, action) {
+  if (action.type === CHANGE_PAGE_TITLE) {
+    return {
+      ...state,
+      selectedTab: action.value,
+    };
+  }
+
   if (action.type === SHOW_MODAL) {
     return {
       ...state,

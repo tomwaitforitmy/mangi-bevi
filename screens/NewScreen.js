@@ -14,6 +14,7 @@ import {
   Alert,
   StatusBar,
   BackHandler,
+  Dimensions,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
@@ -21,8 +22,8 @@ import * as usersAction from "../store/actions/usersAction";
 import Meal from "../models/Meal";
 import { Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import newMealFormReducer from "../store/formReducers/newMealFormReducer";
-import {
+import newMealFormReducer, {
+  CHANGE_PAGE_TITLE,
   CHANGE_TITLE,
   CHANGE_PRIMARY_IMAGE,
   EDIT_INGREDIENT,
@@ -54,6 +55,8 @@ import { IsFormInvalid } from "../common_functions/IsMealInvalid";
 import HeaderBackIcon from "../components/HeaderIcons/HeaderBackIcon";
 import LevelsViewModal from "../components/LevelsViewModal";
 import deleteImages from "../firebase/deleteImages";
+import MyTabMenu from "../components/MyTabMenu";
+import TabMenuTitles from "../constants/TabMenuTitles";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -84,6 +87,7 @@ function NewScreen({ route, navigation }) {
     stepIndex: null,
     showModal: false,
     newCreatedId: "id-was-not-defined-yet",
+    selectedTab: TabMenuTitles.INFO,
   };
 
   const [formState, formDispatch] = useReducer(
@@ -92,6 +96,10 @@ function NewScreen({ route, navigation }) {
   );
 
   const dispatch = useDispatch();
+
+  const changePage = (title) => {
+    formDispatch({ type: CHANGE_PAGE_TITLE, value: title });
+  };
 
   const backAction = useCallback(() => {
     let anyImageToUpload = false,
@@ -282,111 +290,120 @@ function NewScreen({ route, navigation }) {
           modalVisible={formState.showModal}
           onRequestClose={onRequestCloseModal}
         />
-        {formState.imageUrls && formState.imageUrls.length > 0 && (
-          <ImageSwipe
-            images={formState.imageUrls}
-            onCheckCallback={(url) => {
-              Alert.alert(
-                "Make preview image?",
-                "Do you want to show this image as preview?",
-                [
-                  {
-                    text: "Yes",
-                    onPress: () => {
-                      formDispatch({
-                        type: CHANGE_PRIMARY_IMAGE,
-                        value: url,
-                      });
+        {formState.selectedTab === TabMenuTitles.INFO &&
+          formState.imageUrls &&
+          formState.imageUrls.length > 0 && (
+            <ImageSwipe
+              images={formState.imageUrls}
+              onCheckCallback={(url) => {
+                Alert.alert(
+                  "Make preview image?",
+                  "Do you want to show this image as preview?",
+                  [
+                    {
+                      text: "Yes",
+                      onPress: () => {
+                        formDispatch({
+                          type: CHANGE_PRIMARY_IMAGE,
+                          value: url,
+                        });
+                      },
                     },
-                  },
-                  {
-                    text: "No",
-                    style: "cancel",
-                  },
-                ],
-              );
+                    {
+                      text: "No",
+                      style: "cancel",
+                    },
+                  ],
+                );
+              }}
+              onTrashCallback={(url) => {
+                Alert.alert(
+                  "Remove image?",
+                  "Do you really want to delete this image? This action cannot be undone!",
+                  [
+                    {
+                      text: "Yes",
+                      onPress: () => onConfirmDeleteImage(url),
+                    },
+                    {
+                      text: "No",
+                      style: "cancel",
+                    },
+                  ],
+                );
+              }}
+            />
+          )}
+        {formState.selectedTab === TabMenuTitles.INFO && (
+          <MyButton onPress={pickImage}>{"Add image"}</MyButton>
+        )}
+
+        {formState.selectedTab === TabMenuTitles.INGREDIENTS && (
+          <InputListViewContainer
+            onLongPress={() => setRenderIngredientSort(true)}
+            title={"Ingredients"}
+            data={formState.ingredients}
+            inputRef={inputIngredient}
+            onPressIcon={(ingredient) => {
+              formDispatch({
+                type: PREPARE_EDIT_INGREDIENT,
+                key: ingredient,
+                ref: inputIngredient,
+              });
             }}
-            onTrashCallback={(url) => {
-              Alert.alert(
-                "Remove image?",
-                "Do you really want to delete this image? This action cannot be undone!",
-                [
-                  {
-                    text: "Yes",
-                    onPress: () => onConfirmDeleteImage(url),
-                  },
-                  {
-                    text: "No",
-                    style: "cancel",
-                  },
-                ],
-              );
+            onChangeText={(value) => {
+              formDispatch({ type: SET_INGREDIENT_VALUE, value });
+            }}
+            onBlur={() => {
+              if (formState.ingredientIndex !== null) {
+                formDispatch({
+                  type: EDIT_INGREDIENT,
+                  value: formState.ingredientValue,
+                  ref: inputIngredient,
+                });
+              } else {
+                formDispatch({
+                  type: ADD_INGREDIENT,
+                  value: formState.ingredientValue,
+                  ref: inputIngredient,
+                });
+              }
             }}
           />
         )}
-        <MyButton onPress={pickImage}>{"Add image"}</MyButton>
-        <InputListViewContainer
-          onLongPress={() => setRenderIngredientSort(true)}
-          title={"Ingredients"}
-          data={formState.ingredients}
-          inputRef={inputIngredient}
-          onPressIcon={(ingredient) => {
-            formDispatch({
-              type: PREPARE_EDIT_INGREDIENT,
-              key: ingredient,
-              ref: inputIngredient,
-            });
-          }}
-          onChangeText={(value) => {
-            formDispatch({ type: SET_INGREDIENT_VALUE, value });
-          }}
-          onBlur={() => {
-            if (formState.ingredientIndex !== null) {
+        {formState.selectedTab === TabMenuTitles.STEPS && (
+          <InputListViewContainer
+            title={"Steps"}
+            data={formState.steps}
+            onLongPress={() => setRenderStepsSort(true)}
+            inputRef={inputStep}
+            onPressIcon={(step) => {
               formDispatch({
-                type: EDIT_INGREDIENT,
-                value: formState.ingredientValue,
-                ref: inputIngredient,
-              });
-            } else {
-              formDispatch({
-                type: ADD_INGREDIENT,
-                value: formState.ingredientValue,
-                ref: inputIngredient,
-              });
-            }
-          }}
-        />
-        <InputListViewContainer
-          title={"Steps"}
-          data={formState.steps}
-          onLongPress={() => setRenderStepsSort(true)}
-          inputRef={inputStep}
-          onPressIcon={(step) => {
-            formDispatch({
-              type: PREPARE_EDIT_STEP,
-              key: step,
-              ref: inputStep,
-            });
-          }}
-          onChangeText={(value) => {
-            formDispatch({ type: SET_STEP_VALUE, value });
-          }}
-          onBlur={() => {
-            if (formState.stepIndex !== null) {
-              formDispatch({
-                type: EDIT_STEP,
-                value: formState.stepValue,
+                type: PREPARE_EDIT_STEP,
+                key: step,
                 ref: inputStep,
               });
-            } else {
-              formDispatch({
-                type: ADD_STEP,
-                value: formState.stepValue,
-                ref: inputStep,
-              });
-            }
-          }}
-        />
+            }}
+            onChangeText={(value) => {
+              formDispatch({ type: SET_STEP_VALUE, value });
+            }}
+            onBlur={() => {
+              if (formState.stepIndex !== null) {
+                formDispatch({
+                  type: EDIT_STEP,
+                  value: formState.stepValue,
+                  ref: inputStep,
+                });
+              } else {
+                formDispatch({
+                  type: ADD_STEP,
+                  value: formState.stepValue,
+                  ref: inputStep,
+                });
+              }
+            }}
+          />
+        )}
       </ScrollView>
     );
   };
@@ -423,19 +440,32 @@ function NewScreen({ route, navigation }) {
     );
   }
 
+  const titles = [];
+  titles.push(TabMenuTitles.INFO);
+  titles.push(TabMenuTitles.INGREDIENTS);
+  titles.push(TabMenuTitles.STEPS);
+
+  const windowWidth = Dimensions.get("window").width;
+
   return (
     <View style={styles.screenContainer}>
-      <View style={styles.title}>
-        <Input
-          label="Title"
-          value={formState.title}
-          placeholder="Enter title"
-          labelStyle={styles.title}
-          onChangeText={(value) => {
-            formDispatch({ type: CHANGE_TITLE, value: value });
-          }}
-        />
-      </View>
+      <MyTabMenu
+        titles={titles}
+        windowWidth={windowWidth}
+        onTabPress={(title) => changePage(title)}
+      />
+      {formState.selectedTab === TabMenuTitles.INFO && (
+        <View style={styles.title}>
+          <Input
+            value={formState.title}
+            placeholder="Enter title"
+            labelStyle={styles.title}
+            onChangeText={(value) => {
+              formDispatch({ type: CHANGE_TITLE, value: value });
+            }}
+          />
+        </View>
+      )}
       {Platform.OS === "android" ? (
         renderInputs()
       ) : (
@@ -462,14 +492,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "left",
   },
-  container: {
-    padding: 10,
-  },
   screenContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
     width: "100%",
   },
 });
