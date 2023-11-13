@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   StyleSheet,
-  ScrollView,
   Platform,
   Alert,
   StatusBar,
@@ -282,7 +281,7 @@ function NewScreen({ route, navigation }) {
 
   const renderInputs = () => {
     return (
-      <ScrollView style={styles.list}>
+      <View style={styles.list}>
         <LevelsViewModal
           countIngredients={userStats.countIngredients}
           countTags={userStats.countTags}
@@ -335,43 +334,74 @@ function NewScreen({ route, navigation }) {
             />
           )}
         {formState.selectedTab === TabMenuTitles.INFO && (
-          <MyButton onPress={pickImage}>{"Add image"}</MyButton>
+          <View style={styles.addImageButton}>
+            <MyButton onPress={pickImage}>{"Add image"}</MyButton>
+          </View>
         )}
 
-        {formState.selectedTab === TabMenuTitles.INGREDIENTS && (
-          <InputListViewContainer
-            onLongPress={() => setRenderIngredientSort(true)}
-            title={"Ingredients"}
-            data={formState.ingredients}
-            inputRef={inputIngredient}
-            onPressIcon={(ingredient) => {
+        {renderIngredientSort &&
+          formState.selectedTab === TabMenuTitles.INGREDIENTS && (
+            <SortingListViewContainer
+              onPressDoneSorting={() => setRenderIngredientSort(false)}
+              data={formState.ingredients}
+              onSortEnd={(sortedData) => {
+                formDispatch({
+                  type: SET_FIELD,
+                  value: sortedData,
+                  field: "ingredients",
+                });
+              }}
+            />
+          )}
+        {renderStepsSort && formState.selectedTab === TabMenuTitles.STEPS && (
+          <SortingListViewContainer
+            onPressDoneSorting={() => setRenderStepsSort(false)}
+            data={formState.steps}
+            onSortEnd={(sortedData) => {
               formDispatch({
-                type: PREPARE_EDIT_INGREDIENT,
-                key: ingredient,
-                ref: inputIngredient,
+                type: SET_FIELD,
+                value: sortedData,
+                field: "steps",
               });
-            }}
-            onChangeText={(value) => {
-              formDispatch({ type: SET_INGREDIENT_VALUE, value });
-            }}
-            onBlur={() => {
-              if (formState.ingredientIndex !== null) {
-                formDispatch({
-                  type: EDIT_INGREDIENT,
-                  value: formState.ingredientValue,
-                  ref: inputIngredient,
-                });
-              } else {
-                formDispatch({
-                  type: ADD_INGREDIENT,
-                  value: formState.ingredientValue,
-                  ref: inputIngredient,
-                });
-              }
             }}
           />
         )}
-        {formState.selectedTab === TabMenuTitles.STEPS && (
+
+        {!renderIngredientSort &&
+          formState.selectedTab === TabMenuTitles.INGREDIENTS && (
+            <InputListViewContainer
+              onLongPress={() => setRenderIngredientSort(true)}
+              title={"Ingredients"}
+              data={formState.ingredients}
+              inputRef={inputIngredient}
+              onPressIcon={(ingredient) => {
+                formDispatch({
+                  type: PREPARE_EDIT_INGREDIENT,
+                  key: ingredient,
+                  ref: inputIngredient,
+                });
+              }}
+              onChangeText={(value) => {
+                formDispatch({ type: SET_INGREDIENT_VALUE, value });
+              }}
+              onBlur={() => {
+                if (formState.ingredientIndex !== null) {
+                  formDispatch({
+                    type: EDIT_INGREDIENT,
+                    value: formState.ingredientValue,
+                    ref: inputIngredient,
+                  });
+                } else {
+                  formDispatch({
+                    type: ADD_INGREDIENT,
+                    value: formState.ingredientValue,
+                    ref: inputIngredient,
+                  });
+                }
+              }}
+            />
+          )}
+        {!renderStepsSort && formState.selectedTab === TabMenuTitles.STEPS && (
           <InputListViewContainer
             title={"Steps"}
             data={formState.steps}
@@ -404,41 +434,9 @@ function NewScreen({ route, navigation }) {
             }}
           />
         )}
-      </ScrollView>
+      </View>
     );
   };
-
-  if (renderIngredientSort) {
-    return (
-      <SortingListViewContainer
-        onPressDoneSorting={() => setRenderIngredientSort(false)}
-        data={formState.ingredients}
-        onSortEnd={(sortedData) => {
-          formDispatch({
-            type: SET_FIELD,
-            value: sortedData,
-            field: "ingredients",
-          });
-        }}
-      />
-    );
-  }
-
-  if (renderStepsSort) {
-    return (
-      <SortingListViewContainer
-        onPressDoneSorting={() => setRenderStepsSort(false)}
-        data={formState.steps}
-        onSortEnd={(sortedData) => {
-          formDispatch({
-            type: SET_FIELD,
-            value: sortedData,
-            field: "steps",
-          });
-        }}
-      />
-    );
-  }
 
   const titles = [];
   titles.push(TabMenuTitles.INFO);
@@ -450,6 +448,7 @@ function NewScreen({ route, navigation }) {
   return (
     <View style={styles.screenContainer}>
       <MyTabMenu
+        initialIndex={0}
         titles={titles}
         windowWidth={windowWidth}
         onTabPress={(title) => changePage(title)}
@@ -482,6 +481,7 @@ function NewScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   list: {
     width: "100%",
+    flex: 1,
   },
   title: {
     fontSize: 22,
@@ -498,6 +498,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  addImageButton: { padding: 5 },
 });
 
 export default NewScreen;
