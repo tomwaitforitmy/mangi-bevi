@@ -17,9 +17,9 @@ const SortingListViewContainer = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, width: "100%" },
   button: { padding: 5 },
-  draggableList: { flex: 1, marginTop: 5 },
+  draggableList: { flex: 1 },
 });
 
 export default SortingListViewContainer;
