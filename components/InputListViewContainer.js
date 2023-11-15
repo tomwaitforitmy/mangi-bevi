@@ -18,13 +18,15 @@ const InputListViewContainer = (props) => {
               />
             ))}
         </TouchableOpacity>
+        {/* I would love to move this outside of ScrollView, but when
+        I do, the scroll view does not work well with keyboard avoiding view */}
+        <Input
+          placeholder={"Enter " + props.title}
+          ref={props.inputRef}
+          onChangeText={(value) => props.onChangeText(value)}
+          onBlur={props.onBlur}
+        />
       </ScrollView>
-      <Input
-        placeholder={"Enter " + props.title}
-        ref={props.inputRef}
-        onChangeText={(value) => props.onChangeText(value)}
-        onBlur={props.onBlur}
-      />
     </View>
   );
 };
