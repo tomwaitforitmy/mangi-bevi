@@ -39,6 +39,8 @@ import newMealFormReducer, {
   LOADING,
   SUBMITTED,
   SHOW_MODAL,
+  INGREDIENT_SORT,
+  STEP_SORT,
 } from "../store/formReducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
 import MyButton from "../components/MyButton";
@@ -64,9 +66,6 @@ function NewScreen({ route, navigation }) {
   const userStats = useSelector((state) => state.users.userStats);
   const userMealsData = useSelector((state) => state.users.userMealsData);
 
-  const [renderIngredientSort, setRenderIngredientSort] = useState(false);
-  const [renderStepsSort, setRenderStepsSort] = useState(false);
-
   let inputMeal;
   if (mealId) {
     inputMeal = meals.find((m) => m.id === mealId);
@@ -87,6 +86,8 @@ function NewScreen({ route, navigation }) {
     showModal: false,
     newCreatedId: "id-was-not-defined-yet",
     selectedTab: TabMenuTitles.INFO,
+    ingredientSort: false,
+    stepSort: false,
   };
 
   const [formState, formDispatch] = useReducer(
@@ -263,6 +264,34 @@ function NewScreen({ route, navigation }) {
     return <LoadingIndicator />;
   }
 
+  const titles = [];
+  titles.push(TabMenuTitles.INFO);
+  titles.push(TabMenuTitles.INGREDIENTS);
+  titles.push(TabMenuTitles.STEPS);
+
+  const windowWidth = Dimensions.get("window").width;
+
+  let showIngredientSort =
+    formState.ingredientSort &&
+    formState.selectedTab === TabMenuTitles.INGREDIENTS;
+
+  let showIngredients =
+    !formState.ingredientSort &&
+    formState.selectedTab === TabMenuTitles.INGREDIENTS;
+
+  let showStepSort =
+    formState.stepSort && formState.selectedTab === TabMenuTitles.STEPS;
+
+  let showSteps =
+    !formState.stepSort && formState.selectedTab === TabMenuTitles.STEPS;
+
+  let showImageSwipe =
+    formState.selectedTab === TabMenuTitles.INFO &&
+    formState.imageUrls &&
+    formState.imageUrls.length > 0;
+
+  let showInfo = formState.selectedTab === TabMenuTitles.INFO;
+
   const inputStep = React.createRef();
   const inputIngredient = React.createRef();
 
@@ -289,73 +318,74 @@ function NewScreen({ route, navigation }) {
           modalVisible={formState.showModal}
           onRequestClose={onRequestCloseModal}
         />
-        {formState.selectedTab === TabMenuTitles.INFO &&
-          formState.imageUrls &&
-          formState.imageUrls.length > 0 && (
-            <ImageSwipe
-              images={formState.imageUrls}
-              onCheckCallback={(url) => {
-                Alert.alert(
-                  "Make preview image?",
-                  "Do you want to show this image as preview?",
-                  [
-                    {
-                      text: "Yes",
-                      onPress: () => {
-                        formDispatch({
-                          type: CHANGE_PRIMARY_IMAGE,
-                          value: url,
-                        });
-                      },
+        {showImageSwipe && (
+          <ImageSwipe
+            images={formState.imageUrls}
+            onCheckCallback={(url) => {
+              Alert.alert(
+                "Make preview image?",
+                "Do you want to show this image as preview?",
+                [
+                  {
+                    text: "Yes",
+                    onPress: () => {
+                      formDispatch({
+                        type: CHANGE_PRIMARY_IMAGE,
+                        value: url,
+                      });
                     },
-                    {
-                      text: "No",
-                      style: "cancel",
-                    },
-                  ],
-                );
-              }}
-              onTrashCallback={(url) => {
-                Alert.alert(
-                  "Remove image?",
-                  "Do you really want to delete this image? This action cannot be undone!",
-                  [
-                    {
-                      text: "Yes",
-                      onPress: () => onConfirmDeleteImage(url),
-                    },
-                    {
-                      text: "No",
-                      style: "cancel",
-                    },
-                  ],
-                );
-              }}
-            />
-          )}
-        {formState.selectedTab === TabMenuTitles.INFO && (
+                  },
+                  {
+                    text: "No",
+                    style: "cancel",
+                  },
+                ],
+              );
+            }}
+            onTrashCallback={(url) => {
+              Alert.alert(
+                "Remove image?",
+                "Do you really want to delete this image? This action cannot be undone!",
+                [
+                  {
+                    text: "Yes",
+                    onPress: () => onConfirmDeleteImage(url),
+                  },
+                  {
+                    text: "No",
+                    style: "cancel",
+                  },
+                ],
+              );
+            }}
+          />
+        )}
+        {showInfo && (
           <View style={styles.addImageButton}>
             <MyButton onPress={pickImage}>{"Add image"}</MyButton>
           </View>
         )}
 
-        {renderIngredientSort &&
-          formState.selectedTab === TabMenuTitles.INGREDIENTS && (
-            <SortingListViewContainer
-              onPressDoneSorting={() => setRenderIngredientSort(false)}
-              data={formState.ingredients}
-              onSortEnd={(sortedData) => {
-                formDispatch({
-                  type: SET_FIELD,
-                  value: sortedData,
-                  field: "ingredients",
-                });
-              }}
-            />
-          )}
-        {renderStepsSort && formState.selectedTab === TabMenuTitles.STEPS && (
+        {showIngredientSort && (
           <SortingListViewContainer
-            onPressDoneSorting={() => setRenderStepsSort(false)}
+            onPressDoneSorting={() =>
+              formDispatch({ type: INGREDIENT_SORT, value: false })
+            }
+            data={formState.ingredients}
+            onSortEnd={(sortedData) => {
+              formDispatch({
+                type: SET_FIELD,
+                value: sortedData,
+                field: "ingredients",
+              });
+            }}
+          />
+        )}
+        {showStepSort && (
+          <SortingListViewContainer
+            onPressDoneSorting={() =>
+              formDispatch({ type: STEP_SORT, value: false })
+            }
             data={formState.steps}
             onSortEnd={(sortedData) => {
               formDispatch({
@@ -367,45 +397,46 @@ function NewScreen({ route, navigation }) {
           />
         )}
 
-        {!renderIngredientSort &&
-          formState.selectedTab === TabMenuTitles.INGREDIENTS && (
-            <InputListViewContainer
-              onLongPress={() => setRenderIngredientSort(true)}
-              title={"Ingredients"}
-              data={formState.ingredients}
-              inputRef={inputIngredient}
-              onPressIcon={(ingredient) => {
+        {showIngredients && (
+          <InputListViewContainer
+            onLongPress={() =>
+              formDispatch({ type: INGREDIENT_SORT, value: true })
+            }
+            title={"Ingredients"}
+            data={formState.ingredients}
+            inputRef={inputIngredient}
+            onPressIcon={(ingredient) => {
+              formDispatch({
+                type: PREPARE_EDIT_INGREDIENT,
+                key: ingredient,
+                ref: inputIngredient,
+              });
+            }}
+            onChangeText={(value) => {
+              formDispatch({ type: SET_INGREDIENT_VALUE, value });
+            }}
+            onBlur={() => {
+              if (formState.ingredientIndex !== null) {
                 formDispatch({
-                  type: PREPARE_EDIT_INGREDIENT,
-                  key: ingredient,
+                  type: EDIT_INGREDIENT,
+                  value: formState.ingredientValue,
                   ref: inputIngredient,
                 });
-              }}
-              onChangeText={(value) => {
-                formDispatch({ type: SET_INGREDIENT_VALUE, value });
-              }}
-              onBlur={() => {
-                if (formState.ingredientIndex !== null) {
-                  formDispatch({
-                    type: EDIT_INGREDIENT,
-                    value: formState.ingredientValue,
-                    ref: inputIngredient,
-                  });
-                } else {
-                  formDispatch({
-                    type: ADD_INGREDIENT,
-                    value: formState.ingredientValue,
-                    ref: inputIngredient,
-                  });
-                }
-              }}
-            />
-          )}
-        {!renderStepsSort && formState.selectedTab === TabMenuTitles.STEPS && (
+              } else {
+                formDispatch({
+                  type: ADD_INGREDIENT,
+                  value: formState.ingredientValue,
+                  ref: inputIngredient,
+                });
+              }
+            }}
+          />
+        )}
+        {showSteps && (
           <InputListViewContainer
             title={"Steps"}
             data={formState.steps}
-            onLongPress={() => setRenderStepsSort(true)}
+            onLongPress={() => formDispatch({ type: STEP_SORT, value: true })}
             inputRef={inputStep}
             onPressIcon={(step) => {
               formDispatch({
@@ -438,13 +469,6 @@ function NewScreen({ route, navigation }) {
     );
   };
 
-  const titles = [];
-  titles.push(TabMenuTitles.INFO);
-  titles.push(TabMenuTitles.INGREDIENTS);
-  titles.push(TabMenuTitles.STEPS);
-
-  const windowWidth = Dimensions.get("window").width;
-
   return (
     <View style={styles.screenContainer}>
       <MyTabMenu
@@ -453,7 +477,7 @@ function NewScreen({ route, navigation }) {
         windowWidth={windowWidth}
         onTabPress={(title) => changePage(title)}
       />
-      {formState.selectedTab === TabMenuTitles.INFO && (
+      {showInfo && (
         <View style={styles.title}>
           <Input
             value={formState.title}

@@ -17,8 +17,24 @@ export const REMOVE_STEP = "REMOVE_STEP";
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
 export const SHOW_MODAL = "SHOW_MODAL";
 export const CHANGE_PAGE_TITLE = "CHANGE_PAGE_TITLE";
+export const INGREDIENT_SORT = "INGREDIENT_SORT";
+export const STEP_SORT = "STEP_SORT";
 
 export default function newMealFormReducer(state, action) {
+  if (action.type === STEP_SORT) {
+    return {
+      ...state,
+      stepSort: action.value,
+    };
+  }
+
+  if (action.type === INGREDIENT_SORT) {
+    return {
+      ...state,
+      ingredientSort: action.value,
+    };
+  }
+
   if (action.type === CHANGE_PAGE_TITLE) {
     return {
       ...state,
