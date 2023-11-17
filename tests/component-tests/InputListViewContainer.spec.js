@@ -8,18 +8,15 @@ jest.mock("expo-asset");
 describe("InputListViewContainer", () => {
   const sampleData = ["lemon", "pie", "tomato", "sauce"];
 
-  it("renders a title", () => {
-    render(<InputListViewContainer title="Insert your data here" />);
-    screen.getByText("Insert your data here");
+  it("renders a custom placeholder", () => {
+    render(<InputListViewContainer placeholder="text" />);
+    screen.queryByPlaceholderText("Enter text");
   });
   it("renders title and sample data", () => {
     render(
-      <InputListViewContainer
-        title="Insert your data here"
-        data={sampleData}
-      />,
+      <InputListViewContainer placeholder="your data here" data={sampleData} />,
     );
-    screen.getByText("Insert your data here");
+    screen.queryByPlaceholderText("Enter your data here");
     screen.getByText("lemon");
     screen.getByText("pie");
     screen.getByText("tomato");
@@ -30,7 +27,7 @@ describe("InputListViewContainer", () => {
     const mockOnLongPress = jest.fn();
     render(
       <InputListViewContainer
-        title="Insert your data here"
+        placeholder="your data here"
         data={sampleData}
         onLongPress={mockOnLongPress}
       />,
@@ -43,7 +40,7 @@ describe("InputListViewContainer", () => {
     const mockOnIconPress = jest.fn();
     render(
       <InputListViewContainer
-        title="Insert your data here"
+        placeholder="your data here"
         data={sampleData}
         onPressIcon={mockOnIconPress}
       />,
@@ -56,7 +53,7 @@ describe("InputListViewContainer", () => {
     const mockOnChangeText = jest.fn();
     render(
       <InputListViewContainer
-        title="Insert your data here"
+        placeholder="your data here"
         data={sampleData}
         onChangeText={mockOnChangeText}
       />,

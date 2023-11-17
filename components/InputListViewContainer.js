@@ -21,7 +21,7 @@ const InputListViewContainer = (props) => {
         {/* I would love to move this outside of ScrollView, but when
         I do, the scroll view does not work well with keyboard avoiding view */}
         <Input
-          placeholder={"Enter " + props.title}
+          placeholder={"Enter " + props.placeholder}
           ref={props.inputRef}
           onChangeText={(value) => props.onChangeText(value)}
           onBlur={props.onBlur}

@@ -402,7 +402,7 @@ function NewScreen({ route, navigation }) {
             onLongPress={() =>
               formDispatch({ type: INGREDIENT_SORT, value: true })
             }
-            title={"Ingredients"}
+            placeholder={"Ingredients"}
             data={formState.ingredients}
             inputRef={inputIngredient}
             onPressIcon={(ingredient) => {
@@ -434,7 +434,7 @@ function NewScreen({ route, navigation }) {
         )}
         {showSteps && (
           <InputListViewContainer
-            title={"Steps"}
+            placeholder={"Steps"}
             data={formState.steps}
             onLongPress={() => formDispatch({ type: STEP_SORT, value: true })}
             inputRef={inputStep}
