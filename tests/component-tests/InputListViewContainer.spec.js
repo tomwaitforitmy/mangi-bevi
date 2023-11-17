@@ -53,7 +53,7 @@ describe("InputListViewContainer", () => {
     const mockOnChangeText = jest.fn();
     render(
       <InputListViewContainer
-        placeholder="your data here"
+        placeholder="text"
         data={sampleData}
         onChangeText={mockOnChangeText}
       />,
