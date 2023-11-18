@@ -199,7 +199,48 @@ function NewScreen({ route, navigation }) {
     });
   };
 
+  const finishIngredientInput = useCallback(() => {
+    if (!formState.ingredientValue) {
+      return;
+    }
+    if (formState.ingredientIndex !== null) {
+      formDispatch({
+        type: EDIT_INGREDIENT,
+        value: formState.ingredientValue,
+        ref: inputIngredient,
+      });
+    } else {
+      formDispatch({
+        type: ADD_INGREDIENT,
+        value: formState.ingredientValue,
+        ref: inputIngredient,
+      });
+    }
+  }, [formState.ingredientIndex, formState.ingredientValue, inputIngredient]);
+
+  const finishStepInput = useCallback(() => {
+    if (!formState.stepValue) {
+      return;
+    }
+    if (formState.stepIndex !== null) {
+      formDispatch({
+        type: EDIT_STEP,
+        value: formState.stepValue,
+        ref: inputStep,
+      });
+    } else {
+      formDispatch({
+        type: ADD_STEP,
+        value: formState.stepValue,
+        ref: inputStep,
+      });
+    }
+  }, [formState.stepIndex, formState.stepValue, inputStep]);
+
   const createMealHandler = useCallback(async () => {
+    finishIngredientInput();
+    finishStepInput();
+
     if (
       IsFormInvalid(formState.title, formState.ingredients, formState.steps)
     ) {
@@ -258,7 +299,16 @@ function NewScreen({ route, navigation }) {
     } catch (err) {
       throw err;
     }
-  }, [dispatch, formState, mealId, navigation, user, inputMeal]);
+  }, [
+    dispatch,
+    formState,
+    mealId,
+    navigation,
+    user,
+    inputMeal,
+    finishIngredientInput,
+    finishStepInput,
+  ]);
 
   if (formState.isLoading) {
     return <LoadingIndicator />;
@@ -415,21 +465,7 @@ function NewScreen({ route, navigation }) {
             onChangeText={(value) => {
               formDispatch({ type: SET_INGREDIENT_VALUE, value });
             }}
-            onBlur={() => {
-              if (formState.ingredientIndex !== null) {
-                formDispatch({
-                  type: EDIT_INGREDIENT,
-                  value: formState.ingredientValue,
-                  ref: inputIngredient,
-                });
-              } else {
-                formDispatch({
-                  type: ADD_INGREDIENT,
-                  value: formState.ingredientValue,
-                  ref: inputIngredient,
-                });
-              }
-            }}
+            onBlur={() => finishIngredientInput()}
           />
         )}
         {showSteps && (
@@ -448,21 +484,7 @@ function NewScreen({ route, navigation }) {
             onChangeText={(value) => {
               formDispatch({ type: SET_STEP_VALUE, value });
             }}
-            onBlur={() => {
-              if (formState.stepIndex !== null) {
-                formDispatch({
-                  type: EDIT_STEP,
-                  value: formState.stepValue,
-                  ref: inputStep,
-                });
-              } else {
-                formDispatch({
-                  type: ADD_STEP,
-                  value: formState.stepValue,
-                  ref: inputStep,
-                });
-              }
-            }}
+            onBlur={() => finishStepInput()}
           />
         )}
       </View>
