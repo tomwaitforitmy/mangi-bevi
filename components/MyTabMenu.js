@@ -9,7 +9,6 @@ import Colors from "../constants/Colors";
 
 const MyTabMenu = ({ titles, windowWidth, onTabPress }) => {
   const paddingLeftRight = 5;
-  const textArray = titles;
   const numberOfTabs = titles.length;
   //we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
   const tabWith = (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
@@ -41,7 +40,7 @@ const MyTabMenu = ({ titles, windowWidth, onTabPress }) => {
         <Animated.View
           style={[styles.selectedButton, selectedButtonAnimatedStyle]}
         />
-        {textArray.map((text, index) => (
+        {titles.map((text, index) => (
           <Pressable
             key={index}
             style={{ ...styles.menuButton, ...{ width: tabWith } }}
