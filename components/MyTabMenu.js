@@ -7,13 +7,14 @@ import Animated, {
 } from "react-native-reanimated";
 import Colors from "../constants/Colors";
 
-const MyTabMenu = ({ titles, windowWidth, onTabPress }) => {
+const MyTabMenu = ({ titles, windowWidth, onTabPress, initialIndex }) => {
   const paddingLeftRight = 5;
   const numberOfTabs = titles.length;
   //we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
   const tabWith = (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
+  const initialPosition = 1 + tabWith * initialIndex;
 
-  const position = useSharedValue(1);
+  const position = useSharedValue(initialPosition);
 
   const selectedButtonAnimatedStyle = useAnimatedStyle(() => {
     return {
