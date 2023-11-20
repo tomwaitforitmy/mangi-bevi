@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, ScrollView, Text, View, Dimensions } from "react-native";
 import { useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
@@ -12,10 +12,13 @@ import LinkedMealsList from "../components/LinkedMealsList";
 import { GetLinkedMeals } from "../common_functions/GetLinkedMeals";
 import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
-import TabMenuTitles from "../constants/TabMenuTitles";
+import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 
 function MealDetailScreen({ route, navigation }) {
-  const { mealId, isAuthenticated } = route.params;
+  const { mealId, isAuthenticated, selectedTabMealDetail } = route.params;
+  const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
+  const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
+  console.log("MealDetailScreen.initialIndex", initialIndex);
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
@@ -37,26 +40,36 @@ function MealDetailScreen({ route, navigation }) {
     }
   });
 
+  const ChangeSelectedTab = useCallback(
+    (title) => {
+      navigation.setParams({ selectedTabEdit: title });
+      setSelectedTab(title);
+    },
+    [navigation],
+  );
+
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
-  const [selectedTab, setSelectedTab] = useState(TabMenuTitles.INFO);
+  const [selectedTab, setSelectedTab] = useState(initiallySelectedTab);
 
-  const titles = [];
-  titles.push(TabMenuTitles.INFO);
-  titles.push(TabMenuTitles.INGREDIENTS);
-  titles.push(TabMenuTitles.STEPS);
+  //update the view if the initial position changes
+  useEffect(() => {
+    console.log("triggered");
+    ChangeSelectedTab(initiallySelectedTab);
+  }, [ChangeSelectedTab, initiallySelectedTab]);
 
   const windowWidth = Dimensions.get("window").width;
 
   return (
     <View style={styles.container}>
       <MyTabMenu
-        titles={titles}
+        initialIndex={initialIndex}
+        titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
-        onTabPress={(title) => setSelectedTab(title)}
+        onTabPress={(title) => ChangeSelectedTab(title)}
       />
       <ScrollView style={styles.container}>
-        {selectedTab === TabMenuTitles.INFO && (
+        {selectedTab === TITLES.INFO && (
           <View>
             <Text style={styles.subtitle}>{selectedMeal.title}</Text>
             <Image
@@ -77,7 +90,7 @@ function MealDetailScreen({ route, navigation }) {
           </View>
         )}
 
-        {selectedTab === TabMenuTitles.INGREDIENTS &&
+        {selectedTab === TITLES.INGREDIENTS &&
           selectedMeal.ingredients.map((ingredient) => (
             <MyListItem
               key={ingredient}
@@ -85,11 +98,11 @@ function MealDetailScreen({ route, navigation }) {
               searchTerm={searchTerm}
             />
           ))}
-        {selectedTab === TabMenuTitles.STEPS &&
+        {selectedTab === TITLES.STEPS &&
           selectedMeal.steps.map((step) => (
             <MyListItem key={step} title={step} searchTerm={searchTerm} />
           ))}
-        {linkedMeals.length > 0 && selectedTab === TabMenuTitles.INFO && (
+        {linkedMeals.length > 0 && selectedTab === TITLES.INFO && (
           <LinkedMealsList
             meals={linkedMeals}
             navigation={navigation}
@@ -97,7 +110,7 @@ function MealDetailScreen({ route, navigation }) {
           />
         )}
 
-        {isAuthenticated && selectedTab === TabMenuTitles.INFO && (
+        {isAuthenticated && selectedTab === TITLES.INFO && (
           <Text style={styles.authorBox}>
             Created by
             <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -8,11 +8,12 @@ import Animated, {
 import Colors from "../constants/Colors";
 
 const MyTabMenu = ({ titles, windowWidth, onTabPress, initialIndex }) => {
+  console.log("initialIndex", initialIndex);
   const paddingLeftRight = 5;
   const numberOfTabs = titles.length;
   //we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
   const tabWith = (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
-  const initialPosition = 1 + tabWith * initialIndex;
+  let initialPosition = 1 + tabWith * initialIndex;
 
   const position = useSharedValue(initialPosition);
 
@@ -30,6 +31,11 @@ const MyTabMenu = ({ titles, windowWidth, onTabPress, initialIndex }) => {
     position.value = withSpring(1 + tabWith * index);
     onTabPress(text);
   };
+
+  //update the view if the initial position changes
+  useEffect(() => {
+    position.value = initialPosition;
+  }, [initialPosition, initialIndex, position]);
 
   return (
     <View

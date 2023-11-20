@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useLayoutEffect,
   useReducer,
-  useState,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -57,7 +56,7 @@ import HeaderBackIcon from "../components/HeaderIcons/HeaderBackIcon";
 import LevelsViewModal from "../components/LevelsViewModal";
 import deleteImages from "../firebase/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
-import TabMenuTitles from "../constants/TabMenuTitles";
+import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -67,8 +66,10 @@ function NewScreen({ route, navigation }) {
   const userMealsData = useSelector((state) => state.users.userMealsData);
 
   let inputMeal;
+  let initiallySelectedTab = TITLES.INFO;
   if (mealId) {
     inputMeal = meals.find((m) => m.id === mealId);
+    initiallySelectedTab = route.params.selectedTabEdit ?? TITLES.INFO;
   }
 
   const initialState = {
@@ -85,7 +86,7 @@ function NewScreen({ route, navigation }) {
     stepIndex: null,
     showModal: false,
     newCreatedId: "id-was-not-defined-yet",
-    selectedTab: TabMenuTitles.INFO,
+    selectedTab: initiallySelectedTab,
     ingredientSort: false,
     stepSort: false,
   };
@@ -277,6 +278,7 @@ function NewScreen({ route, navigation }) {
             mealId: mealId,
             mealTitle: formState.title,
             isAuthenticated: true,
+            selectedTabMealDetail: formState.selectedTab,
           },
         });
       } else {
@@ -314,33 +316,25 @@ function NewScreen({ route, navigation }) {
     return <LoadingIndicator />;
   }
 
-  const titles = [];
-  titles.push(TabMenuTitles.INFO);
-  titles.push(TabMenuTitles.INGREDIENTS);
-  titles.push(TabMenuTitles.STEPS);
-
   const windowWidth = Dimensions.get("window").width;
 
   let showIngredientSort =
-    formState.ingredientSort &&
-    formState.selectedTab === TabMenuTitles.INGREDIENTS;
+    formState.ingredientSort && formState.selectedTab === TITLES.INGREDIENTS;
 
   let showIngredients =
-    !formState.ingredientSort &&
-    formState.selectedTab === TabMenuTitles.INGREDIENTS;
+    !formState.ingredientSort && formState.selectedTab === TITLES.INGREDIENTS;
 
   let showStepSort =
-    formState.stepSort && formState.selectedTab === TabMenuTitles.STEPS;
+    formState.stepSort && formState.selectedTab === TITLES.STEPS;
 
-  let showSteps =
-    !formState.stepSort && formState.selectedTab === TabMenuTitles.STEPS;
+  let showSteps = !formState.stepSort && formState.selectedTab === TITLES.STEPS;
 
   let showImageSwipe =
-    formState.selectedTab === TabMenuTitles.INFO &&
+    formState.selectedTab === TITLES.INFO &&
     formState.imageUrls &&
     formState.imageUrls.length > 0;
 
-  let showInfo = formState.selectedTab === TabMenuTitles.INFO;
+  let showInfo = formState.selectedTab === TITLES.INFO;
 
   const inputStep = React.createRef();
   const inputIngredient = React.createRef();
@@ -494,8 +488,8 @@ function NewScreen({ route, navigation }) {
   return (
     <View style={styles.screenContainer}>
       <MyTabMenu
-        initialIndex={0}
-        titles={titles}
+        initialIndex={mealTabMenuTitleArray.indexOf(initiallySelectedTab)}
+        titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
         onTabPress={(title) => changePage(title)}
       />
