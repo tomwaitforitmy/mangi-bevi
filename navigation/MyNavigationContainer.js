@@ -74,13 +74,13 @@ function AuthenticatedTabNavigator() {
 
 const MealsStack = createNativeStackNavigator();
 
-const showEditIcon = (mealId, user, users, navigation) => {
+const showEditIcon = (mealId, user, users, navigation, selectedTabParam) => {
   const authorId = GetAuthorByMealId(mealId, users).id;
   const authorFriends = GetFriends(authorId, users);
   let show = HasEditPermission(user, authorId, authorFriends);
 
   if (show) {
-    return EditMangiIcon(navigation, mealId);
+    return EditMangiIcon(navigation, mealId, selectedTabParam);
   } else {
     return <></>;
   }
@@ -105,7 +105,13 @@ function MealsStackContainer({ navigation }) {
         options={({ route }) => ({
           title: route.params.mealTitle,
           headerRight: () =>
-            showEditIcon(route.params.mealId, user, users, navigation),
+            showEditIcon(
+              route.params.mealId,
+              user,
+              users,
+              navigation,
+              route.params.selectedTabParam,
+            ),
         })}
       />
       <MealsStack.Screen
