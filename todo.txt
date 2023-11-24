@@ -1,0 +1,6 @@
+For viewing mangis without login:
+- New Screen / newMealFromReducer sollten gleichen initial state haben!
+- Add counter for 5 meals
+- Tab Menu
+** Am liebsten hätte ich das Input Field unten, aber mit Scrollview geht nur oben?
+
