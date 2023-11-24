@@ -1,3 +1,5 @@
+import { TITLES } from "../../constants/TabMenuTitles";
+
 export const CHANGE_TITLE = "CHANGE_TITLE";
 export const CHANGE_PRIMARY_IMAGE = "CHANGE_PRIMARY_IMAGE";
 export const SUBMITTED = "SUBMITTED";
@@ -287,6 +289,9 @@ export default function newMealFormReducer(state, action) {
       ingredientIndex: null,
       stepIndex: null,
       showModal: false,
+      selectedTab: TITLES.INFO,
+      ingredientSort: false,
+      stepSort: false,
     };
   }
 
