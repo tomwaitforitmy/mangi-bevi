@@ -60,6 +60,9 @@ import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
+  //I was not able to use route.params.updateRenderCounter directly as dependency for
+  //useCallback of createMealHandler. Therefore, this variable.
+  let updateRenderCounter = route.params?.updateRenderCounter;
   const user = useSelector((state) => state.users.user);
   const meals = useSelector((state) => state.meals.meals);
   const userStats = useSelector((state) => state.users.userStats);
@@ -279,6 +282,7 @@ function NewScreen({ route, navigation }) {
             mealTitle: formState.title,
             isAuthenticated: true,
             selectedTabMealDetail: formState.selectedTab,
+            updateRenderCounter: updateRenderCounter + 1,
           },
         });
       } else {
@@ -310,6 +314,7 @@ function NewScreen({ route, navigation }) {
     inputMeal,
     finishIngredientInput,
     finishStepInput,
+    updateRenderCounter,
   ]);
 
   if (formState.isLoading) {

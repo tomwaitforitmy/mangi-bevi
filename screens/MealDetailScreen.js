@@ -15,10 +15,14 @@ import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 
 function MealDetailScreen({ route, navigation }) {
-  const { mealId, isAuthenticated, selectedTabMealDetail } = route.params;
+  const {
+    mealId,
+    isAuthenticated,
+    selectedTabMealDetail,
+    updateRenderCounter,
+  } = route.params;
   const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
-  console.log("MealDetailScreen.initialIndex", initialIndex);
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
@@ -54,9 +58,8 @@ function MealDetailScreen({ route, navigation }) {
 
   //update the view if the initial position changes
   useEffect(() => {
-    console.log("triggered");
     ChangeSelectedTab(initiallySelectedTab);
-  }, [ChangeSelectedTab, initiallySelectedTab]);
+  }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
 
   const windowWidth = Dimensions.get("window").width;
 
@@ -67,6 +70,7 @@ function MealDetailScreen({ route, navigation }) {
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
         onTabPress={(title) => ChangeSelectedTab(title)}
+        updateRenderCounter={updateRenderCounter} //to update if the initial position changes
       />
       <ScrollView style={styles.container}>
         {selectedTab === TITLES.INFO && (

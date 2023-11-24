@@ -3,18 +3,36 @@ import Colors from "../../constants/Colors";
 import { Icon } from "react-native-elements";
 import IconTypes from "../../constants/IconTypes";
 
-const onHeaderIconPress = (navigation, mealId, selectedTabEdit) => {
+const onHeaderIconPress = (
+  navigation,
+  mealId,
+  selectedTabEdit,
+  updateRenderCounter,
+) => {
   navigation.navigate("EditScreen", {
     mealId: mealId,
     selectedTabEdit: selectedTabEdit,
+    updateRenderCounter: updateRenderCounter,
   });
 };
 
-const EditMangiIcon = (navigation, mealId, selectedTabEdit) => {
+const EditMangiIcon = (
+  navigation,
+  mealId,
+  selectedTabEdit,
+  updateRenderCounter,
+) => {
   return (
     <Icon
       name={"create-outline"}
-      onPress={() => onHeaderIconPress(navigation, mealId, selectedTabEdit)}
+      onPress={() =>
+        onHeaderIconPress(
+          navigation,
+          mealId,
+          selectedTabEdit,
+          updateRenderCounter,
+        )
+      }
       type={IconTypes.ionicon}
       color={Colors.navigationIcon}
     />

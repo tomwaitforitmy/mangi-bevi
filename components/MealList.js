@@ -15,6 +15,7 @@ const MealList = (props) => {
               mealId: itemData.item.id,
               mealTitle: itemData.item.title,
               isAuthenticated: props.isAuthenticated,
+              updateRenderCounter: 0,
             },
           });
         }}
