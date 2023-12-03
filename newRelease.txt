@@ -10,5 +10,7 @@
 ** TestFlight -> fehlende Compliance bearbeiten -> ist neuer Build da?
 ** App Store -> Allgemein -> Build hinzufügen
 ** Sicher + Zur Prüfung hinzufügen
+** "Zur App-Prüfung übermitteln"
+-> "Ihre Übermittlung wurde zur App-Prüfung eingereicht."
 7. eas update
 ** Link teilen mit Android Usern
