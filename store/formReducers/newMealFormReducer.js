@@ -22,6 +22,27 @@ export const CHANGE_PAGE_TITLE = "CHANGE_PAGE_TITLE";
 export const INGREDIENT_SORT = "INGREDIENT_SORT";
 export const STEP_SORT = "STEP_SORT";
 
+export const GetInitialState = (inputMeal, initiallySelectedTab) => {
+  return {
+    title: inputMeal ? inputMeal.title : "",
+    primaryImageUrl: inputMeal ? inputMeal.primaryImageUrl : null,
+    ingredients: inputMeal ? inputMeal.ingredients : [],
+    steps: inputMeal ? inputMeal.steps : [],
+    imageUrls: inputMeal ? inputMeal.imageUrls : [],
+    imageUrlsToDelete: [],
+    ingredientValue: "",
+    stepValue: "",
+    isLoading: false,
+    ingredientIndex: null,
+    stepIndex: null,
+    showModal: false,
+    newCreatedId: "id-was-not-defined-yet",
+    selectedTab: initiallySelectedTab ? initiallySelectedTab : TITLES.INFO,
+    ingredientSort: false,
+    stepSort: false,
+  };
+};
+
 export default function newMealFormReducer(state, action) {
   if (action.type === STEP_SORT) {
     return {
@@ -277,22 +298,7 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === SUBMITTED) {
-    return {
-      title: "",
-      primaryImageUrl: null,
-      ingredients: [],
-      steps: [],
-      ingredientValue: "",
-      stepValue: "",
-      imageUrls: [],
-      isLoading: false,
-      ingredientIndex: null,
-      stepIndex: null,
-      showModal: false,
-      selectedTab: TITLES.INFO,
-      ingredientSort: false,
-      stepSort: false,
-    };
+    return GetInitialState(null, null);
   }
 
   return state;

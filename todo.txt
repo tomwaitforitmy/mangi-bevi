@@ -1,6 +1,6 @@
 For viewing mangis without login:
-- New Screen / newMealFromReducer sollten gleichen initial state haben!
 - Add counter for 5 meals
 - Tab Menu
 ** Am liebsten hätte ich das Input Field unten, aber mit Scrollview geht nur oben?
-
+- Bring API ansteuern: https://www.bit01.de/blog/bring-einkaufsapp-einkaufslisten-api/ -> könnte gehen!
+** https://sites.google.com/getbring.com/bring-import-dev-guide/web-to-app-integration?authuser=0 <- scheint schlecht?

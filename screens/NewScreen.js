@@ -40,6 +40,7 @@ import newMealFormReducer, {
   SHOW_MODAL,
   INGREDIENT_SORT,
   STEP_SORT,
+  GetInitialState,
 } from "../store/formReducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
 import MyButton from "../components/MyButton";
@@ -68,31 +69,14 @@ function NewScreen({ route, navigation }) {
   const userStats = useSelector((state) => state.users.userStats);
   const userMealsData = useSelector((state) => state.users.userMealsData);
 
-  let inputMeal;
+  let inputMeal = null;
   let initiallySelectedTab = TITLES.INFO;
   if (mealId) {
     inputMeal = meals.find((m) => m.id === mealId);
     initiallySelectedTab = route.params.selectedTabEdit ?? TITLES.INFO;
   }
 
-  const initialState = {
-    title: mealId ? inputMeal.title : "",
-    primaryImageUrl: mealId ? inputMeal.primaryImageUrl : null,
-    ingredients: mealId ? inputMeal.ingredients : [],
-    steps: mealId ? inputMeal.steps : [],
-    imageUrls: mealId ? inputMeal.imageUrls : [],
-    imageUrlsToDelete: [],
-    ingredientValue: "",
-    stepValue: "",
-    isLoading: false,
-    ingredientIndex: null,
-    stepIndex: null,
-    showModal: false,
-    newCreatedId: "id-was-not-defined-yet",
-    selectedTab: initiallySelectedTab,
-    ingredientSort: false,
-    stepSort: false,
-  };
+  const initialState = GetInitialState(inputMeal, initiallySelectedTab);
 
   const [formState, formDispatch] = useReducer(
     newMealFormReducer,
