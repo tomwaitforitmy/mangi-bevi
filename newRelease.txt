@@ -7,3 +7,5 @@
 ** iOS-App +
 ** "Neue Version für Store"
 ** to be continued...
+7. eas update
+** Link teilen mit Android Usern
