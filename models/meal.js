@@ -26,7 +26,7 @@ class Meal {
     this.creationDate = creationDate;
     this.editorId = editorId;
     this.editDate = editDate;
-    this.links = links;
+    this.links = links ? links : [];
     this.isSelected = false;
   }
 }
