@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   iosSmaller: {
-    //render the item smaller on IOS to allow scrolling
-    width: Platform.OS === "ios" ? "90%" : "100%",
+    //render the item smaller to allow scrolling
+    width: "90%",
   },
 });
 
