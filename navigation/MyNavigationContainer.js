@@ -45,7 +45,8 @@ const defaultScreenOptions = {
   headerTitleStyle: {
     fontWeight: "bold",
   },
-  headerTitleAlign: "center",
+  //This centers on Android, but makes the text overflow the header-buttons somehow
+  // headerTitleAlign: "center",
 };
 
 const Tab = createMaterialBottomTabNavigator();
