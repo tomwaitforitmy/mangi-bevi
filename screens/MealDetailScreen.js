@@ -11,14 +11,13 @@ import MyListItem from "../components/MyListItem";
 import { Image } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
 import TagList from "../components/TagList";
-import Colors from "../constants/Colors";
 import { GetAuthorName } from "../common_functions/GetAuthorName";
-import moment from "moment";
 import LinkedMealsList from "../components/LinkedMealsList";
 import { GetLinkedMeals } from "../common_functions/GetLinkedMeals";
 import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
+import AuthorBox from "../components/AuthorBox";
 
 function MealDetailScreen({ route, navigation }) {
   const {
@@ -36,9 +35,6 @@ function MealDetailScreen({ route, navigation }) {
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
   const authorName = GetAuthorName(selectedMeal.authorId, users);
   const editorName = GetAuthorName(selectedMeal.editorId, users);
-
-  const creationDateString = moment(selectedMeal.creationDate).format("LLL");
-  const editDateString = moment(selectedMeal.editDate).format("LLL");
 
   const allTags = useSelector((state) => state.tags.tags);
   const tagList = [];
@@ -121,24 +117,12 @@ function MealDetailScreen({ route, navigation }) {
         )}
 
         {isAuthenticated && selectedTab === TITLES.INFO && (
-          <Text style={styles.authorBox}>
-            Created by
-            {/* the {" "}'s and  {"\n"} are needed here for nice formatting. The white spaces would be deleted by Prettier*/}
-            <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
-            {creationDateString}
-            {"\n"}
-            {editDateString !== creationDateString ? (
-              <Text>
-                Last edited by
-                <Text style={styles.authorHighlighted}>
-                  {" "}
-                  {editorName}
-                </Text> on {editDateString}{" "}
-              </Text>
-            ) : (
-              <Text />
-            )}
-          </Text>
+          <AuthorBox
+            authorName={authorName}
+            editorName={editorName}
+            creationDate={selectedMeal.creationDate}
+            editDate={selectedMeal.editDate}
+          />
         )}
       </ScrollView>
       {isAuthenticated && (
@@ -174,17 +158,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  },
-  authorBox: {
-    textAlign: "left",
-    fontSize: 12,
-    paddingLeft: 12,
-    paddingBottom: 10,
-    paddingTop: 10,
-  },
-  authorHighlighted: {
-    fontWeight: "bold",
-    color: Colors.primary,
   },
 });
 
