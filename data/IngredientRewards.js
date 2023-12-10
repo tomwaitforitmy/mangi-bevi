@@ -26,7 +26,7 @@ export const INGREDIENT_REWARDS = [
   new Reward("Masala-Hexenmeister \nmit +8 auf 🌶 und 🧄", 23, 500),
   new Reward("Großmeister der Thai-Zutaten", 24, 1000),
   new Reward("Nr. 1 der Foodblogger in Deutschland", 25, 2000),
-  new Reward("Alexander Herrmanns Sous-Chef", 26, 4000),
+  new Reward("Alexander Herrmanns Sous Chef", 26, 4000),
   new Reward("Erina Nakiri's Sekretärin", 27, 7500),
   new Reward("Zweiter Sitz im 10er Rat der Totsuki-Akademie
     ", 28, 10000),
