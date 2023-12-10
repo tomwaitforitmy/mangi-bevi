@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, ScrollView, Text, View, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
 import { Image } from "react-native-elements";
@@ -61,7 +67,7 @@ function MealDetailScreen({ route, navigation }) {
     ChangeSelectedTab(initiallySelectedTab);
   }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
 
-  const windowWidth = Dimensions.get("window").width;
+  const windowWidth = useWindowDimensions().width;
 
   return (
     <View style={styles.container}>

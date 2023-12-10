@@ -12,7 +12,7 @@ import {
   Alert,
   StatusBar,
   BackHandler,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
@@ -77,6 +77,8 @@ function NewScreen({ route, navigation }) {
   }
 
   const initialState = GetInitialState(inputMeal, initiallySelectedTab);
+
+  const windowWidth = useWindowDimensions().width;
 
   const [formState, formDispatch] = useReducer(
     newMealFormReducer,
@@ -304,8 +306,6 @@ function NewScreen({ route, navigation }) {
   if (formState.isLoading) {
     return <LoadingIndicator />;
   }
-
-  const windowWidth = Dimensions.get("window").width;
 
   let showIngredientSort =
     formState.ingredientSort && formState.selectedTab === TITLES.INGREDIENTS;
