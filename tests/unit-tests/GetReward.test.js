@@ -9,7 +9,7 @@ describe("GetReward", () => {
     expect(result).toEqual(expectedReward);
   });
   it("returns first reward for 0", () => {
-    const expectedReward = new Reward("Fertigsuppen Koch", 1, 0);
+    const expectedReward = new Reward("Fertigsuppen-Koch", 1, 0);
     const result = GetReward(0, RECIPE_REWARDS);
     expect(result).toEqual(expectedReward);
   });
