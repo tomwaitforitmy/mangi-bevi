@@ -28,9 +28,12 @@ export const INGREDIENT_REWARDS = [
   new Reward("Nr. 1 der Foodblogger in Deutschland", 25, 2000),
   new Reward("Alexander Herrmanns Sous Chef", 26, 4000),
   new Reward("Erina Nakiri's Sekretärin", 27, 7500),
-  new Reward("Zweiter Sitz im 10er Rat der Totsuki-Akademie
-    ", 28, 10000),
-  new Reward("Mehr Zutaten zu Hause als es französische Käsesorten gibt", 29, 20000),
+  new Reward("Zweiter Sitz im 10er Rat der Totsuki-Akademie", 28, 10000),
+  new Reward(
+    "Mehr Zutaten zu Hause als es französische Käsesorten gibt",
+    29,
+    20000,
+  ),
   new Reward("Gast-Juror bei The Taste", 30, 50000),
-  new Reward("Fast ein Haubenkoch", 31, 100000),
+  new Reward("Drei Hauben-👨‍🍳 mit +42 auf 🥕🌶🥩🍤🥦🧅🧄🍕", 31, 100000),
 ];
