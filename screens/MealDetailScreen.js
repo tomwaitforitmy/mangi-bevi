@@ -123,6 +123,7 @@ function MealDetailScreen({ route, navigation }) {
         {isAuthenticated && selectedTab === TITLES.INFO && (
           <Text style={styles.authorBox}>
             Created by
+            {/* the {" "}'s and  {"\n"} are needed here for nice formatting. The white spaces would be deleted by Prettier*/}
             <Text style={styles.authorHighlighted}> {authorName}</Text> on{" "}
             {creationDateString}
             {"\n"}
