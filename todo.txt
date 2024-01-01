@@ -5,3 +5,8 @@
 ** https://sites.google.com/getbring.com/bring-import-dev-guide/web-to-app-integration?authuser=0 <- scheint schlecht?
 - Einkaufswagen Feature
 - Settings Seite/Ort
+
+* Reactions
+- https://github.com/TheWidlarzGroup/rn-emoji-keyboard
+- RNGH for animation 
+- Nice search tool: https://reactnative.directory/?search=emoji
