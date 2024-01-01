@@ -13,8 +13,19 @@ import Animated, {
 import { Button, Divider } from "react-native-elements";
 import Colors from "../constants/Colors";
 import MyTabMenu from "../components/MyTabMenu";
+import * as Notifications from "expo-notifications";
 
 function DevScreen({ navigation }) {
+  async function notifyMe() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "New Mangi!",
+        body: "A new mangi has been added.",
+      },
+      trigger: { seconds: 1 },
+      data: { mangiId: "123" },
+    });
+  }
   // const allMeals = useSelector((state) => state.meals.meals);
   // const [searchTerm, setSearchTerm] = useState("");
 
@@ -26,17 +37,14 @@ function DevScreen({ navigation }) {
   //   setSearchTerm(text);
   // };
 
-  const textArray = [];
-  textArray.push("Steps");
-  textArray.push("Ingredients");
-  textArray.push("Pictures");
-
-  const windowWidth = Dimensions.get("window").width;
-
   return (
     <View style={styles.container}>
-      <MyTabMenu titles={textArray} windowWidth={windowWidth} />
-
+      <Button
+        title="Press to schedule a notification"
+        onPress={async () => {
+          await notifyMe();
+        }}
+      />
       {/* <SearchInput onChangeText={onChangeText} />
       <TinyMealList
         meals={lessMeals}
@@ -45,6 +53,17 @@ function DevScreen({ navigation }) {
       /> */}
     </View>
   );
+}
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "New Mangi!",
+      body: "A new mangi has been added.",
+    },
+    trigger: { seconds: 1 },
+    data: { mangiId: "123" },
+  });
 }
 
 const styles = StyleSheet.create({

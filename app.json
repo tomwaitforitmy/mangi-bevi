@@ -38,6 +38,12 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      ["expo-notifications",
+        {
+          "icon": "./local/assets/noodles.png",
+          "color": "#ffffff"
+        }
+      ],
       "expo-localization"
     ],
     "extra": {

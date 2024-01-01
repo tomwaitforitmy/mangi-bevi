@@ -17,6 +17,17 @@ import authReducer from "./store/reducers/authReducer";
 import tagsReducer from "./store/reducers/tagsReducer";
 import usersReducer from "./store/reducers/usersReducer";
 import searchReducer from "./store/reducers/searchReducer";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    };
+  },
+});
 
 const rootReducer = combineReducers({
   meals: mealsReducer,
