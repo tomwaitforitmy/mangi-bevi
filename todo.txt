@@ -10,3 +10,7 @@
 - https://github.com/TheWidlarzGroup/rn-emoji-keyboard
 - RNGH for animation 
 - Nice search tool: https://reactnative.directory/?search=emoji
+
+* Push notifications
+- New Mangi added
+- Reaction given
