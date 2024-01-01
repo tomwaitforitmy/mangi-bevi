@@ -40,7 +40,7 @@
     "plugins": [
       ["expo-notifications",
         {
-          "icon": "./local/assets/noodles.png",
+          "icon": "./assets/noodles.png",
           "color": "#ffffff"
         }
       ],
