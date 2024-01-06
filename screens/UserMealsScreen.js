@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import MealList from "../components/MealList";
-import { View, StyleSheet, RefreshControl } from "react-native";
+import { View, StyleSheet, RefreshControl, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAll } from "../firebase/fetchAll";
+import MyButton from "../components/MyButton";
 
 function UserMealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -17,6 +18,20 @@ function UserMealsScreen({ navigation }) {
 
   return (
     <View style={styles.mealsScreen}>
+      {userMealsData.length === 0 && (
+        <View style={styles.bene}>
+          <Text style={styles.bene}>
+            You added {userMealsData.length} Mangis. How about adding one?
+          </Text>
+          <MyButton
+            onPress={() => {
+              navigation.jumpTo("New");
+            }}>
+            {"Add"}
+          </MyButton>
+        </View>
+      )}
+
       <MealList
         refreshControl={
           <RefreshControl
@@ -37,6 +52,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  bene: {
+    fontSize: 14,
+    lineHeight: 30,
+    margin: 5,
   },
 });
 
