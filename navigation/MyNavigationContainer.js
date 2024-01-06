@@ -182,21 +182,21 @@ const LoginStack = createNativeStackNavigator();
 function LoginStackContainer() {
   return (
     <LoginStack.Navigator screenOptions={defaultScreenOptions}>
-      <MealsStack.Screen
+      <LoginStack.Screen
         name="Meals"
         component={MealsScreenNotAuthenticated}
         options={{
           title: "Mangi & Bevi",
         }}
       />
-      <MealsStack.Screen
+      <LoginStack.Screen
         name="Details"
         component={MealDetailScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
         })}
       />
-      <MealsStack.Screen
+      <LoginStack.Screen
         name="ImagesScreen"
         component={ImagesScreen}
         options={({ route }) => ({
