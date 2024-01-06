@@ -26,7 +26,8 @@ const MealItem = (props) => {
             />
           </View>
           <View style={styles.titleContainer}>
-            <Text style={styles.title} numberOfLines={1} ellipsizeMode="clip">
+            {/* ellipsizeMode="tail" -> "..." on android */}
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
               <HighlightedText
                 text={props.title}
                 searchTerm={props.searchTerm}
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     overflow: "hidden",
     // margin: 10,
-    marginBottom: 8,
+    marginBottom: 20,
     // marginLeft: 5,
     // marginRight: 5,
   },
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     // justifyContent: "flex-end",
   },
   title: {
-    fontSize: 14,
+    fontSize: 20,
     // color: "white",
     overflow: "hidden",
     // textAlign: "left",
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     height: "15%",
     // paddingVertical: 5,
     paddingHorizontal: 5,
-    backgroundColor: "darkgrey",
+    backgroundColor: Colors.screenBackGround,
   },
 });
 
