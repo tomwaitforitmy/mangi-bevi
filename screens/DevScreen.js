@@ -20,10 +20,25 @@ function DevScreen({ navigation }) {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "New Mangi!",
-        body: "A new mangi has been added.",
+        body: "Gebackene rote Zwiebeln mit Walnuss-Salsa",
+        data: {
+          mangiId: "-Mqf8oW0jKxIx5SIjz3F",
+          title: "Gebackene rote Zwiebeln mit Walnuss-Salsa",
+        },
       },
       trigger: { seconds: 1 },
-      data: { mangiId: "123" },
+    });
+  }
+
+  async function navToMeal() {
+    navigation.navigate("Mangi & Bevi", {
+      screen: "Details",
+      params: {
+        mealId: "-Mqf8oW0jKxIx5SIjz3F",
+        mealTitle: "Gebackene rote Zwiebeln mit Walnuss-Salsa",
+        isAuthenticated: true,
+        updateRenderCounter: 0,
+      },
     });
   }
   // const allMeals = useSelector((state) => state.meals.meals);
@@ -40,9 +55,15 @@ function DevScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Button
-        title="Press to schedule a notification"
+        title="Schedule a notification"
         onPress={async () => {
           await notifyMe();
+        }}
+      />
+      <Button
+        title="Navigate to meal"
+        onPress={async () => {
+          await navToMeal();
         }}
       />
       {/* <SearchInput onChangeText={onChangeText} />
@@ -53,17 +74,6 @@ function DevScreen({ navigation }) {
       /> */}
     </View>
   );
-}
-
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "New Mangi!",
-      body: "A new mangi has been added.",
-    },
-    trigger: { seconds: 1 },
-    data: { mangiId: "123" },
-  });
 }
 
 const styles = StyleSheet.create({

@@ -15,6 +15,7 @@ import { TagFilterMeals } from "../common_functions/TagFilterMeals";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
 import { ContainsArray } from "../common_functions/ContainsArray";
 import { DEV_MODE } from "../data/Environment";
+import * as Notifications from "expo-notifications";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -47,6 +48,25 @@ function MealsScreen({ navigation }) {
     setIsLoading(true);
     fetchAll(dispatch).then(() => setIsLoading(false));
   }, [dispatch]);
+
+  useEffect(() => {
+    const subscriptionPushClicked =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        const mangiId = response.notification.request.content.data.mangiId;
+        const title = response.notification.request.content.data.title;
+
+        navigation.navigate("Details", {
+          mealId: mangiId,
+          mealTitle: title,
+          isAuthenticated: true,
+          updateRenderCounter: 0,
+        });
+      });
+
+    return () => {
+      subscriptionPushClicked.remove();
+    };
+  }, [navigation]);
 
   if (isLoading) {
     return <LoadingIndicator />;
