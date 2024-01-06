@@ -14,35 +14,18 @@ function ProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {userStats.experiencedUser ? (
-          <View style={styles.bene}>
-            <MyLevelViewContainer
-              numberOfRecipes={userMealsData.length}
-              numberOfTags={userStats.countTags}
-              numberOfIngredients={userStats.countIngredients}
-            />
-            <MyButton
-              onPress={() => {
-                navigation.navigate("UserMealsScreen");
-              }}>
-              {"View your Mangis"}
-            </MyButton>
-          </View>
-        ) : (
-          <View style={styles.bene}>
-            <Text style={styles.bene}>
-              You added {userMealsData.length} Mangis. How about adding one?
-            </Text>
-            <MyButton
-              onPress={() => {
-                navigation.jumpTo("New");
-              }}>
-              {"Add"}
-            </MyButton>
-          </View>
-        )}
-
         <View style={styles.bene}>
+          <MyLevelViewContainer
+            numberOfRecipes={userMealsData.length}
+            numberOfTags={userStats.countTags}
+            numberOfIngredients={userStats.countIngredients}
+          />
+          <MyButton
+            onPress={() => {
+              navigation.navigate("UserMealsScreen");
+            }}>
+            {"View your Mangis"}
+          </MyButton>
           <Text style={styles.bene}>Name: {user.name} </Text>
           <Divider />
           <Text style={styles.bene}>Email: {user.email}</Text>
@@ -72,11 +55,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 30,
     margin: 5,
-  },
-  beneCenter: {
-    textAlign: "center",
-    fontSize: 14,
-    lineHeight: 30,
   },
 });
 
