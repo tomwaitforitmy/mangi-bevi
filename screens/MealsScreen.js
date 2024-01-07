@@ -50,16 +50,19 @@ function MealsScreen({ navigation }) {
   }, [dispatch]);
 
   useEffect(() => {
+    //let's navigate to meals here for now until the header issue is fixed.
+    //https://github.com/react-navigation/react-navigation/issues/11773
     const subscriptionPushClicked =
       Notifications.addNotificationResponseReceivedListener((response) => {
         const mangiId = response.notification.request.content.data.mangiId;
         const title = response.notification.request.content.data.title;
+        console.log("Push clicked on " + title);
 
-        navigation.navigate("Details", {
-          mealId: mangiId,
-          mealTitle: title,
-          isAuthenticated: true,
-          updateRenderCounter: 0,
+        navigation.navigate("Meals", {
+          // mealId: mangiId,
+          // mealTitle: title,
+          // isAuthenticated: true,
+          // updateRenderCounter: 0,
         });
       });
 
