@@ -18,122 +18,123 @@ import { DEV_MODE } from "../data/Environment";
 import * as Notifications from "expo-notifications";
 
 function MealsScreen({ navigation }) {
-  const dispatch = useDispatch();
+  return <></>;
+  // const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [refreshing, setRefreshing] = useState(false);
 
-  const allMeals = useSelector((state) => state.meals.meals);
-  const filterTags = useSelector((state) => state.tags.filterTags);
-  const filterMode = useSelector((state) => state.tags.filterMode);
-  const searchTerm = useSelector((state) => state.search.searchTerm);
+  // const allMeals = useSelector((state) => state.meals.meals);
+  // const filterTags = useSelector((state) => state.tags.filterTags);
+  // const filterMode = useSelector((state) => state.tags.filterMode);
+  // const searchTerm = useSelector((state) => state.search.searchTerm);
 
-  const filtersActive = filterTags.length > 0;
+  // const filtersActive = filterTags.length > 0;
 
-  const onPressTagsActiveHandler = () => {
-    navigation.navigate("Filters");
-  };
+  // const onPressTagsActiveHandler = () => {
+  //   navigation.navigate("Filters");
+  // };
 
-  const onChangeText = async (text) => {
-    await dispatch(searchAction.setSearchTerm(text));
-  };
+  // const onChangeText = async (text) => {
+  //   await dispatch(searchAction.setSearchTerm(text));
+  // };
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    fetchAll(dispatch).then(() => setRefreshing(false));
-  }, [dispatch]);
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   fetchAll(dispatch).then(() => setRefreshing(false));
+  // }, [dispatch]);
 
-  //Todo: Could this be placed somewhere else without useEffect?
-  useEffect(() => {
-    setIsLoading(true);
-    fetchAll(dispatch).then(() => setIsLoading(false));
-  }, [dispatch]);
+  // //Todo: Could this be placed somewhere else without useEffect?
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   fetchAll(dispatch).then(() => setIsLoading(false));
+  // }, [dispatch]);
 
-  useEffect(() => {
-    const subscriptionPushClicked =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        const mangiId = response.notification.request.content.data.mangiId;
-        const title = response.notification.request.content.data.title;
+  // useEffect(() => {
+  //   const subscriptionPushClicked =
+  //     Notifications.addNotificationResponseReceivedListener((response) => {
+  //       const mangiId = response.notification.request.content.data.mangiId;
+  //       const title = response.notification.request.content.data.title;
 
-        navigation.navigate("Details", {
-          mealId: mangiId,
-          mealTitle: title,
-          isAuthenticated: true,
-          updateRenderCounter: 0,
-        });
-      });
+  //       navigation.navigate("Details", {
+  //         mealId: mangiId,
+  //         mealTitle: title,
+  //         isAuthenticated: true,
+  //         updateRenderCounter: 0,
+  //       });
+  //     });
 
-    return () => {
-      subscriptionPushClicked.remove();
-    };
-  }, [navigation]);
+  //   return () => {
+  //     subscriptionPushClicked.remove();
+  //   };
+  // }, [navigation]);
 
-  if (isLoading) {
-    return <LoadingIndicator />;
-  }
+  // if (isLoading) {
+  //   return <LoadingIndicator />;
+  // }
 
-  let filteredMeals = [];
+  // let filteredMeals = [];
 
-  const tagIdsToFilter = filterTags.map((t) => t.id);
+  // const tagIdsToFilter = filterTags.map((t) => t.id);
 
-  filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterMode);
-  filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
+  // filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterMode);
+  // filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
 
-  //To find new corrupt data
-  if (DEV_MODE) {
-    //To find corrupt data
-    filteredMeals.map((m) => {
-      if (ContainsArray(m.ingredients)) {
-        console.error("⚡⚡⚡ Found corrupt INGREDIENTS");
-        console.error(
-          GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
-        );
-        console.error(m);
-      }
-      if (ContainsArray(m.steps)) {
-        console.error("⚡⚡⚡ Found corrupt STEPS");
-        console.error(
-          GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
-        );
-        console.error(m);
-      }
-    });
-  }
+  // //To find new corrupt data
+  // if (DEV_MODE) {
+  //   //To find corrupt data
+  //   filteredMeals.map((m) => {
+  //     if (ContainsArray(m.ingredients)) {
+  //       console.error("⚡⚡⚡ Found corrupt INGREDIENTS");
+  //       console.error(
+  //         GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
+  //       );
+  //       console.error(m);
+  //     }
+  //     if (ContainsArray(m.steps)) {
+  //       console.error("⚡⚡⚡ Found corrupt STEPS");
+  //       console.error(
+  //         GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
+  //       );
+  //       console.error(m);
+  //     }
+  //   });
+  // }
 
-  return (
-    <View style={styles.container}>
-      <SearchInput onChangeText={onChangeText} />
-      <View style={styles.mealsScreen}>
-        {filtersActive && (
-          <View style={styles.overlay}>
-            <Chip
-              title={"Active filters"}
-              icon={{
-                name: "ios-filter",
-                type: IconTypes.ionicon,
-                size: 20,
-                color: Colors.navigationIcon,
-              }}
-              onPress={() => onPressTagsActiveHandler()}
-              buttonStyle={{ backgroundColor: Colors.second }}
-            />
-          </View>
-        )}
-        <MealList
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => onRefresh()}
-            />
-          }
-          mealsList={filteredMeals}
-          navigation={navigation}
-          searchTerm={searchTerm}
-          isAuthenticated={true}
-        />
-      </View>
-    </View>
-  );
+  // return (
+  //   <View style={styles.container}>
+  //     <SearchInput onChangeText={onChangeText} />
+  //     <View style={styles.mealsScreen}>
+  //       {filtersActive && (
+  //         <View style={styles.overlay}>
+  //           <Chip
+  //             title={"Active filters"}
+  //             icon={{
+  //               name: "ios-filter",
+  //               type: IconTypes.ionicon,
+  //               size: 20,
+  //               color: Colors.navigationIcon,
+  //             }}
+  //             onPress={() => onPressTagsActiveHandler()}
+  //             buttonStyle={{ backgroundColor: Colors.second }}
+  //           />
+  //         </View>
+  //       )}
+  //       <MealList
+  //         refreshControl={
+  //           <RefreshControl
+  //             refreshing={refreshing}
+  //             onRefresh={() => onRefresh()}
+  //           />
+  //         }
+  //         mealsList={filteredMeals}
+  //         navigation={navigation}
+  //         searchTerm={searchTerm}
+  //         isAuthenticated={true}
+  //       />
+  //     </View>
+  //   </View>
+  // );
 }
 
 const styles = StyleSheet.create({

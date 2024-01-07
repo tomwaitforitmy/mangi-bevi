@@ -36,15 +36,16 @@ import { GetAuthorByMealId } from "../common_functions/GetAuthorName";
 import { HasEditPermission } from "../common_functions/HasEditPermission";
 import { GetFriends } from "../common_functions/GetFriends";
 import SendReportScreen from "../screens/SendReportScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const defaultScreenOptions = {
-  headerStyle: {
-    backgroundColor: Colors.primary,
-  },
-  headerTintColor: Colors.white,
-  headerTitleStyle: {
-    fontWeight: "bold",
-  },
+  // headerStyle: {
+  //   backgroundColor: Colors.primary,
+  // },
+  // headerTintColor: Colors.white,
+  // headerTitleStyle: {
+  //   fontWeight: "bold",
+  // },
   //This centers on Android, but makes the text overflow the header-buttons somehow
   // headerTitleAlign: "center",
 };
@@ -54,21 +55,23 @@ const Tab = createMaterialBottomTabNavigator();
 function AuthenticatedTabNavigator() {
   return (
     <Tab.Navigator
-      activeColor={Colors.navigationIcon}
-      inactiveColor={Colors.second}
-      //it was mentioned on github, that this should be false on iOS
-      //and true on android to make keyboardAvoidingView work with material-bottom-tabs
-      keyboardHidesNavigationBar={Platform.OS === "ios" ? false : true}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color }) =>
-          TabBarIcon(focused, color, route.name),
-        tabBarColor: Colors.primary,
-      })}>
+      screenOptions={{ headerShown: false }}
+      // activeColor={Colors.navigationIcon}
+      // inactiveColor={Colors.second}
+      // //it was mentioned on github, that this should be false on iOS
+      // //and true on android to make keyboardAvoidingView work with material-bottom-tabs
+      // keyboardHidesNavigationBar={Platform.OS === "ios" ? false : true}
+      // screenOptions={({ route }) => ({
+      //   tabBarIcon: ({ focused, color }) =>
+      //     TabBarIcon(focused, color, route.name),
+      //   tabBarColor: Colors.primary,
+      // })}
+    >
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
       {DEV_MODE && <Tab.Screen name="Dev" component={DevStackContainer} />}
-      <Tab.Screen name="Filters" component={FiltersStackContainer} />
+      {/* <Tab.Screen name="Filters" component={FiltersStackContainer} />
       <Tab.Screen name="Profile" component={ProfileStackContainer} />
-      <Tab.Screen name="New" component={NewMealStackContainer} />
+      <Tab.Screen name="New" component={NewMealStackContainer} /> */}
     </Tab.Navigator>
   );
 }
@@ -100,8 +103,8 @@ const showEditIcon = (
 };
 
 function MealsStackContainer({ navigation }) {
-  const users = useSelector((state) => state.users.users);
-  const user = useSelector((state) => state.users.user);
+  // const users = useSelector((state) => state.users.users);
+  // const user = useSelector((state) => state.users.user);
 
   return (
     <MealsStack.Navigator screenOptions={defaultScreenOptions}>
@@ -115,20 +118,20 @@ function MealsStackContainer({ navigation }) {
       <MealsStack.Screen
         name="Details"
         component={MealDetailScreen}
-        options={({ route }) => ({
-          title: route.params.mealTitle,
-          headerRight: () =>
-            showEditIcon(
-              route.params.mealId,
-              user,
-              users,
-              navigation,
-              route.params.selectedTabEdit,
-              route.params.updateRenderCounter,
-            ),
-        })}
+        // options={({ route }) => ({
+        //   title: route.params.mealTitle,
+        //   headerRight: () =>
+        //     showEditIcon(
+        //       route.params.mealId,
+        //       user,
+        //       users,
+        //       navigation,
+        //       route.params.selectedTabEdit,
+        //       route.params.updateRenderCounter,
+        //     ),
+        // })}
       />
-      <MealsStack.Screen
+      {/* <MealsStack.Screen
         name="EditScreen"
         component={NewScreen}
         options={{
@@ -158,7 +161,7 @@ function MealsStackContainer({ navigation }) {
         name="SendReportScreen"
         component={SendReportScreen}
         options={{ title: "Report" }}
-      />
+      /> */}
     </MealsStack.Navigator>
   );
 }
@@ -285,59 +288,60 @@ function NewMealStackContainer() {
 }
 
 const MyNavigationContainer = () => {
-  const token = useSelector((state) => state.auth.token);
-  const isAuthenticated = !!token;
-  console.log("isAuthenticated " + isAuthenticated);
-  const [appIsReady, setAppIsReady] = useState(false);
+  // const token = useSelector((state) => state.auth.token);
+  // const isAuthenticated = !!token;
+  // console.log("isAuthenticated " + isAuthenticated);
+  // const [appIsReady, setAppIsReady] = useState(false);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    const tryLogin = async () => {
-      const tokenData = await LoadToken();
+  // useEffect(() => {
+  //   const tryLogin = async () => {
+  //     const tokenData = await LoadToken();
 
-      if (tokenData) {
-        dispatch(
-          authActions.authenticate(
-            tokenData.token,
-            tokenData.userId,
-            tokenData.expirationTime,
-          ),
-        );
-        return;
-      }
+  //     if (tokenData) {
+  //       dispatch(
+  //         authActions.authenticate(
+  //           tokenData.token,
+  //           tokenData.userId,
+  //           tokenData.expirationTime,
+  //         ),
+  //       );
+  //       return;
+  //     }
 
-      const credentials = await LoadCredentials();
+  //     const credentials = await LoadCredentials();
 
-      if (credentials) {
-        dispatch(authActions.login(credentials.email, credentials.password));
-      }
-    };
-    async function prepare() {
-      try {
-        // Keep the splash screen visible while we try login
-        await SplashScreen.preventAutoHideAsync();
-        await tryLogin();
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        // Tell the application to render
-        setAppIsReady(true);
-        await SplashScreen.hideAsync();
-      }
-    }
+  //     if (credentials) {
+  //       dispatch(authActions.login(credentials.email, credentials.password));
+  //     }
+  //   };
+  //   async function prepare() {
+  //     try {
+  //       // Keep the splash screen visible while we try login
+  //       await SplashScreen.preventAutoHideAsync();
+  //       await tryLogin();
+  //     } catch (e) {
+  //       console.warn(e);
+  //     } finally {
+  //       // Tell the application to render
+  //       setAppIsReady(true);
+  //       await SplashScreen.hideAsync();
+  //     }
+  //   }
 
-    prepare();
-  }, [dispatch]);
+  //   prepare();
+  // }, [dispatch]);
 
-  if (!appIsReady) {
-    return null;
-  }
+  // if (!appIsReady) {
+  //   return null;
+  // }
 
   return (
     <NavigationContainer>
-      {!isAuthenticated && <LoginStackContainer />}
-      {isAuthenticated && <AuthenticatedTabNavigator />}
+      <AuthenticatedTabNavigator />
+      {/* {!isAuthenticated && <LoginStackContainer />} */}
+      {/* {isAuthenticated && <AuthenticatedTabNavigator />} */}
     </NavigationContainer>
   );
 };

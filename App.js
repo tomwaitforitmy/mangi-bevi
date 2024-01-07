@@ -19,33 +19,33 @@ import usersReducer from "./store/reducers/usersReducer";
 import searchReducer from "./store/reducers/searchReducer";
 import * as Notifications from "expo-notifications";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    };
-  },
-});
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => {
+//     return {
+//       shouldShowAlert: true,
+//       shouldPlaySound: false,
+//       shouldSetBadge: false,
+//     };
+//   },
+// });
 
-const rootReducer = combineReducers({
-  meals: mealsReducer,
-  auth: authReducer,
-  tags: tagsReducer,
-  users: usersReducer,
-  search: searchReducer,
-});
+// const rootReducer = combineReducers({
+//   meals: mealsReducer,
+//   auth: authReducer,
+//   tags: tagsReducer,
+//   users: usersReducer,
+//   search: searchReducer,
+// });
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+// const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 function App() {
   return (
-    <Provider store={store}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <MyNavigationContainer />
-      </GestureHandlerRootView>
-    </Provider>
+    <MyNavigationContainer />
+    // <Provider store={store}>
+    //   <GestureHandlerRootView style={{ flex: 1 }}>
+    //   </GestureHandlerRootView>
+    // </Provider>
   );
 }
 

@@ -54,12 +54,12 @@ function DevScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Button
+      {/* <Button
         title="Schedule a notification"
         onPress={async () => {
           await notifyMe();
         }}
-      />
+      /> */}
       <Button
         title="Navigate to meal"
         onPress={async () => {
