@@ -16,6 +16,7 @@ import { GetMealSummary } from "../common_functions/GetMealSummary";
 import { ContainsArray } from "../common_functions/ContainsArray";
 import { DEV_MODE } from "../data/Environment";
 import * as Notifications from "expo-notifications";
+import { registerForPushNotificationsAsync } from "../notifications/RegisterForPushNotifications";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -50,6 +51,10 @@ function MealsScreen({ navigation }) {
   }, [dispatch]);
 
   useEffect(() => {
+    registerForPushNotificationsAsync().then((pushToken) => {
+      console.log(pushToken);
+    });
+
     //let's navigate to meals here for now until the header issue is fixed.
     //https://github.com/react-navigation/react-navigation/issues/11773
     const subscriptionPushClicked =
