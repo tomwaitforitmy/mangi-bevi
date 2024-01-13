@@ -56,6 +56,7 @@ function MealsScreen({ navigation }) {
     if (!user) {
       return;
     }
+    console.log("Start register push notifications");
     //always surround await with try/catch in case the promise doesn't resolve
     try {
       registerForPushNotificationsAsync()
@@ -70,7 +71,9 @@ function MealsScreen({ navigation }) {
           }
           //Add or update token
           user.expoPushToken = token;
-          dispatch(usersAction.editUser(user));
+          //Technically, we don't have to await here.
+          //Not sure if this works.
+          dispatch(usersAction.editExpoPushToken(user));
         })
         .catch((error) => {
           console.error(error);

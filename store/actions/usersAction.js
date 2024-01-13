@@ -56,6 +56,7 @@ export const fetchUsers = () => {
     } catch (error) {
       throw error;
     }
+    console.log("End fetch Users");
   };
 };
 
@@ -156,6 +157,7 @@ export const editFriends = (user) => {
 export const editExpoPushToken = (user) => {
   return async (dispatch, getState) => {
     console.log("begin edit expoPushToken");
+    console.log(user);
     const token = getState().auth.token;
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,

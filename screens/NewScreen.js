@@ -58,6 +58,7 @@ import LevelsViewModal from "../components/LevelsViewModal";
 import deleteImages from "../firebase/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
+import { newMealCreated } from "../notifications/NewMealCreated";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -65,6 +66,7 @@ function NewScreen({ route, navigation }) {
   //useCallback of createMealHandler. Therefore, this variable.
   let updateRenderCounter = route.params?.updateRenderCounter;
   const user = useSelector((state) => state.users.user);
+  const users = useSelector((state) => state.users.users);
   const meals = useSelector((state) => state.meals.meals);
   const userStats = useSelector((state) => state.users.userStats);
   const userMealsData = useSelector((state) => state.users.userMealsData);
@@ -285,6 +287,13 @@ function NewScreen({ route, navigation }) {
         //afterward, we can update the user and stats
         user.meals.push(id);
         await dispatch(usersAction.editUser(user));
+        try {
+          //Technically, we don't have to await here.
+          //Not sure if this works.
+          newMealCreated(users, newMeal.title, id, user);
+        } catch (error) {
+          console.error(error);
+        }
         //now we can show the modal, with updated stats
         formDispatch({ type: SHOW_MODAL, value: id });
       }
@@ -301,6 +310,7 @@ function NewScreen({ route, navigation }) {
     finishIngredientInput,
     finishStepInput,
     updateRenderCounter,
+    users,
   ]);
 
   if (formState.isLoading) {
