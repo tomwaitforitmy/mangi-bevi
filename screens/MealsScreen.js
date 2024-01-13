@@ -16,6 +16,7 @@ import { ContainsArray } from "../common_functions/ContainsArray";
 import { DEV_MODE } from "../data/Environment";
 import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../notifications/RegisterForPushNotifications";
+import * as usersAction from "../store/actions/usersAction";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -49,16 +50,37 @@ function MealsScreen({ navigation }) {
     fetchAll(dispatch).then(() => setIsLoading(false));
   }, [dispatch]);
 
-  useEffect(() => {
-    async () => {
-      //always surround await with try/catch in case the promise doesn't resolve
-      try {
-        await registerForPushNotificationsAsync()();
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const user = useSelector((state) => state.users.user);
 
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    //always surround await with try/catch in case the promise doesn't resolve
+    try {
+      registerForPushNotificationsAsync()
+        .then((token) => {
+          //Not a real device, don't do anything
+          if (!token) {
+            return;
+          }
+          //Token already in database, don't do anything
+          if (token === user.expoPushToken) {
+            return;
+          }
+          //Add or update token
+          user.expoPushToken = token;
+          dispatch(usersAction.editUser(user));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
     //let's navigate to meals here for now until the header issue is fixed.
     //https://github.com/react-navigation/react-navigation/issues/11773
     const subscriptionPushClicked =

@@ -4,6 +4,11 @@ import * as Device from "expo-device";
 import Constants from "expo-constants";
 
 export async function registerForPushNotificationsAsync() {
+  if (!Device.isDevice) {
+    console.log("Must use physical device for Push Notifications");
+    return;
+  }
+
   try {
     let token;
 
@@ -14,26 +19,22 @@ export async function registerForPushNotificationsAsync() {
       });
     }
 
-    if (Device.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        Alert.alert(
-          "If you change your mind, you can activate push notification in settings",
-        );
-        return;
-      }
-      token = await Notifications.getExpoPushTokenAsync({
-        projectId: Constants.expoConfig.extra.eas.projectId,
-      });
-    } else {
-      console.log("Must use physical device for Push Notifications");
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
     }
+    if (finalStatus !== "granted") {
+      Alert.alert(
+        "If you change your mind, you can activate push notification in settings",
+      );
+      return;
+    }
+    token = await Notifications.getExpoPushTokenAsync({
+      projectId: Constants.expoConfig.extra.eas.projectId,
+    });
 
     return token.data;
   } catch (error) {

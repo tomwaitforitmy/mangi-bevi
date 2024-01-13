@@ -8,6 +8,7 @@ import User from "../../models/User";
 export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const EDIT_FRIENDS = "EDIT_FRIENDS";
+export const EDIT_EXPO_PUSH_TOKEN = "EDIT_EXPO_PUSH_TOKEN";
 export const SET_USERS = "SET_USERS";
 export const UPDATE_USER_STATS = "UPDATE_USER_STATS";
 export const ERROR_NO_USER_LOGGED_IN = "ERROR_NO_USER_LOGGED_IN";
@@ -149,6 +150,31 @@ export const editFriends = (user) => {
     console.log("end edit friends");
 
     dispatch({ type: EDIT_FRIENDS, user: user });
+  };
+};
+
+export const editExpoPushToken = (user) => {
+  return async (dispatch, getState) => {
+    console.log("begin edit expoPushToken");
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        header: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          expoPushToken: user.expoPushToken,
+        }),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    console.log("end edit expoPushToken");
+
+    dispatch({ type: EDIT_EXPO_PUSH_TOKEN, user: user });
   };
 };
 
