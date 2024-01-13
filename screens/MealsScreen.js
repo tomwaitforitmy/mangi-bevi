@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MealList from "../components/MealList";
 import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-
 import { Chip } from "react-native-elements";
 import Colors from "../constants/Colors";
 import { fetchAll } from "../firebase/fetchAll";
@@ -51,9 +50,14 @@ function MealsScreen({ navigation }) {
   }, [dispatch]);
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((pushToken) => {
-      console.log(pushToken);
-    });
+    async () => {
+      //always surround await with try/catch in case the promise doesn't resolve
+      try {
+        await registerForPushNotificationsAsync()();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     //let's navigate to meals here for now until the header issue is fixed.
     //https://github.com/react-navigation/react-navigation/issues/11773
