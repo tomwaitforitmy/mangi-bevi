@@ -111,12 +111,13 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === ADD_INGREDIENT) {
-    if (state.ingredients.includes(action.value) || action.value === "") {
-      action.ref.current.clear();
-      return state;
-    } else {
+    if (action.ref.current) {
       action.ref.current.clear();
       action.ref.current.focus();
+    }
+    if (state.ingredients.includes(action.value) || action.value === "") {
+      return state;
+    } else {
       return {
         ...state,
         ingredients: [...state.ingredients, action.value],
@@ -126,15 +127,16 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === EDIT_INGREDIENT) {
+    if (action.ref.current) {
+      action.ref.current.clear();
+      action.ref.current.focus();
+    }
     if (
       state.ingredients.includes(action.value) ||
       state.ingredientIndex === null
     ) {
-      action.ref.current.clear();
       return state;
     } else {
-      action.ref.current.clear();
-      action.ref.current.focus();
       //In case of an empty value, we like to remove
       if (action.value === "") {
         return {
@@ -158,12 +160,13 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === EDIT_STEP) {
-    if (state.steps.includes(action.value) || state.stepIndex === null) {
-      action.ref.current.clear();
-      return state;
-    } else {
+    if (action.ref.current) {
       action.ref.current.clear();
       action.ref.current.focus();
+    }
+    if (state.steps.includes(action.value) || state.stepIndex === null) {
+      return state;
+    } else {
       //In case of an empty value, we like to remove
       if (action.value === "") {
         return {
@@ -185,12 +188,13 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === ADD_STEP) {
-    if (state.steps.includes(action.value) || action.value === "") {
-      action.ref.current.clear();
-      return state;
-    } else {
+    if (action.ref.current) {
       action.ref.current.clear();
       action.ref.current.focus();
+    }
+    if (state.steps.includes(action.value) || action.value === "") {
+      return state;
+    } else {
       return {
         ...state,
         steps: [...state.steps, action.value],
