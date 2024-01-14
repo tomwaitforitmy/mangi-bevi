@@ -1,8 +1,19 @@
-export async function sendPushNotification(expoPushToken, title, body, data) {
+export async function sendPushNotification(
+  expoPushToken,
+  title,
+  body,
+  data,
+  userToken,
+) {
   if (!expoPushToken) {
     return;
   }
   if (expoPushToken === "no token") {
+    return;
+  }
+  //you never want to send yourself a push notification
+  if (expoPushToken === userToken) {
+    console.warn("You never want to send yourself a push notification");
     return;
   }
 

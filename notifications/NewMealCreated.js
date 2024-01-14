@@ -40,6 +40,7 @@ export async function newMealCreated(users, mealTitle, mealId, author) {
         notificationTitle,
         notificationText,
         data,
+        author.expoPushToken,
       );
     });
   } catch (error) {
