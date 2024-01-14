@@ -19,8 +19,6 @@ describe("AuthorBox", () => {
     );
     expect(screen.queryByText("Tom")).toBeTruthy();
     expect(screen.getByText("Tom").props.style.color).toBe(expectedColor);
-
-    screen.debug();
   });
 
   it("renders author and editor", () => {
