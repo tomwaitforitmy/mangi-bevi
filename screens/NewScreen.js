@@ -13,6 +13,7 @@ import {
   StatusBar,
   BackHandler,
   useWindowDimensions,
+  Keyboard,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
@@ -230,6 +231,7 @@ function NewScreen({ route, navigation }) {
   }, [formState.stepIndex, formState.stepValue, inputStep]);
 
   const createMealHandler = useCallback(async () => {
+    Keyboard.dismiss();
     finishIngredientInput();
     finishStepInput();
 
