@@ -17,6 +17,7 @@ import { DEV_MODE } from "../data/Environment";
 import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../notifications/RegisterForPushNotifications";
 import * as usersAction from "../store/actions/usersAction";
+import { IsEmailValid } from "../common_functions/IsEmailValid";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -54,6 +55,16 @@ function MealsScreen({ navigation }) {
 
   useEffect(() => {
     if (!user) {
+      return;
+    }
+    //At least on my iPhone I experienced cases where there was an extra user, like this:
+    //{"0": "E", "1": "R", "10": "S", "11": "E", "12": "R", "13": "_", "14": "L", "15": "O", "16": "G", "17": "G", "18": "E", "19": "D", "2": "R", "20": "_", "21": "I", "22": "N", "3": "O", "4": "R", "5": "_", "6": "N", "7": "O", "8": "_", "9": "U", "expoPushToken": "ExponentPushToken[validToken]"}
+    //Everything was invalid except for the token.
+    //This occurred when I was using expo go and didn't start the app for a while. Perhaps the user was forced to log out?
+    //I chose to fix this by checking for a valid email.
+    if (!IsEmailValid(user.email)) {
+      console.warn("E-Mail is invalid. Will stop registering...");
+      console.warn("User", user);
       return;
     }
     console.log("Start register push notifications");
