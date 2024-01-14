@@ -32,7 +32,8 @@
         "foregroundImage": "./assets/adaptive-noodles.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.tomwaitforitmy.mangibevi"
+      "package": "com.tomwaitforitmy.mangibevi",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
