@@ -192,9 +192,6 @@ function NewScreen({ route, navigation }) {
   };
 
   const finishIngredientInput = useCallback(() => {
-    if (!formState.ingredientValue) {
-      return;
-    }
     if (formState.ingredientIndex !== null) {
       formDispatch({
         type: EDIT_INGREDIENT,
@@ -202,6 +199,9 @@ function NewScreen({ route, navigation }) {
         ref: inputIngredient,
       });
     } else {
+      if (!formState.ingredientValue) {
+        return;
+      }
       formDispatch({
         type: ADD_INGREDIENT,
         value: formState.ingredientValue,
@@ -211,9 +211,6 @@ function NewScreen({ route, navigation }) {
   }, [formState.ingredientIndex, formState.ingredientValue, inputIngredient]);
 
   const finishStepInput = useCallback(() => {
-    if (!formState.stepValue) {
-      return;
-    }
     if (formState.stepIndex !== null) {
       formDispatch({
         type: EDIT_STEP,
@@ -221,6 +218,9 @@ function NewScreen({ route, navigation }) {
         ref: inputStep,
       });
     } else {
+      if (!formState.stepValue) {
+        return;
+      }
       formDispatch({
         type: ADD_STEP,
         value: formState.stepValue,
