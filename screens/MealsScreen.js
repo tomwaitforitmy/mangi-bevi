@@ -62,6 +62,11 @@ function MealsScreen({ navigation }) {
     //Everything was invalid except for the token.
     //This occurred when I was using expo go and didn't start the app for a while. Perhaps the user was forced to log out?
     //I chose to fix this by checking for a valid email.
+    if (!user.email) {
+      console.log("E-Mail is invalid. Will stop registering...");
+      console.log("User", user);
+      return;
+    }
     if (!IsEmailValid(user.email)) {
       console.warn("E-Mail is invalid. Will stop registering...");
       console.warn("User", user);
