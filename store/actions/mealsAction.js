@@ -1,6 +1,9 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import Meal from "../../models/Meal";
 import { UPDATE_USER_STATS } from "./usersAction";
+import * as usersAction from "./usersAction";
+import { DEV_MODE } from "../../data/Environment";
+import { UnlinkMeals } from "../../common_functions/UnlinkMeals";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -47,6 +50,9 @@ export const fetchMeals = () => {
               ? new Date(responseData[key].editDate)
               : "error",
             responseData[key].links ? responseData[key].links : [],
+            responseData[key].isTestMangi
+              ? responseData[key].isTestMangi
+              : false,
           ),
         );
       }
@@ -87,6 +93,10 @@ export const createMeal = (meal) => {
     const token = getState().auth.token;
     if (!token) {
       console.log("No token found! Request will fail! Reload App tommy");
+    }
+
+    if (DEV_MODE) {
+      meal.isTestMangi = true;
     }
 
     const response = await fetch(
@@ -159,5 +169,48 @@ export const editLinks = (meal) => {
     console.log("end edit links");
 
     dispatch({ type: EDIT_LINKS, meal: meal });
+  };
+};
+
+export const deleteMeal = (meal, user, allMeals) => {
+  return async (dispatch, getState) => {
+    console.log("begin delete meal");
+
+    if (meal.authorId !== user.id) {
+      console.error(
+        `Attempting to delete ${meal.title} where ${user.name} is not the author`,
+      );
+      return;
+    }
+
+    //remove all links
+    const mealsToRemoveLinks = UnlinkMeals(meal, [], allMeals);
+    console.log(mealsToRemoveLinks);
+    await Promise.all(
+      mealsToRemoveLinks.map(async (item) => {
+        await dispatch(editLinks(item));
+      }),
+    );
+
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
+      {
+        method: "DELETE",
+      },
+    );
+    await HandleResponseError(response);
+    if (response.ok) {
+      console.log("Successfully deleted meal");
+    }
+
+    dispatch({ type: DELETE_MEAL, meal: meal });
+
+    //Remove the meal from the user's list as well
+    user.meals = user.meals.filter((m) => m !== meal.id);
+    console.log(user);
+    await dispatch(usersAction.editUser(user));
+
+    console.log("end delete meal");
   };
 };

@@ -13,6 +13,7 @@ class Meal {
     editorId,
     editDate,
     links,
+    isTestMangi,
   ) {
     this.title = title;
     this.id = id;
@@ -28,6 +29,7 @@ class Meal {
     this.editDate = editDate;
     this.links = links ? links : [];
     this.isSelected = false;
+    this.isTestMangi = isTestMangi ? isTestMangi : false;
   }
 }
 

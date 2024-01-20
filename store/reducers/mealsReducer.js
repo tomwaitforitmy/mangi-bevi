@@ -5,6 +5,7 @@ import {
   CREATE_MEAL,
   EDIT_MEAL,
   EDIT_LINKS,
+  DELETE_MEAL,
 } from "../actions/mealsAction";
 
 const initialState = {
@@ -45,6 +46,14 @@ const mealsReducer = (state = initialState, action) => {
       const mealIndex = state.meals.findIndex((m) => m.id === action.meal.id);
       const updatedMeals = [...state.meals];
       updatedMeals[mealIndex] = action.meal;
+
+      return {
+        ...state,
+        meals: updatedMeals,
+      };
+    }
+    case DELETE_MEAL: {
+      const updatedMeals = state.meals.filter((m) => m.id === action.meal.id);
 
       return {
         ...state,

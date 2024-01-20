@@ -119,13 +119,15 @@ export const editUser = (user) => {
     );
 
     await HandleResponseError(response);
-
-    console.log("end edit user");
+    if (response.ok) {
+      console.log("Successfully edited user");
+    }
 
     //Meals are needed to update stats and user meals data.
     const meals = getState().meals.meals;
 
     dispatch({ type: EDIT_USER, user: user, meals: meals });
+    console.log("end edit user");
   };
 };
 
@@ -181,7 +183,7 @@ export const editExpoPushToken = (user) => {
 };
 
 export const deleteUser = (user) => {
-  return async (dispatch, getState) => {
+  return async (getState) => {
     console.log("begin delete user");
     if (
       user.email === "tomwaitforitmy@gmail.com" ||
