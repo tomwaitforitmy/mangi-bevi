@@ -53,7 +53,7 @@ const mealsReducer = (state = initialState, action) => {
       };
     }
     case DELETE_MEAL: {
-      const updatedMeals = state.meals.filter((m) => m.id === action.meal.id);
+      const updatedMeals = state.meals.filter((m) => m.id !== action.meal.id);
 
       return {
         ...state,
