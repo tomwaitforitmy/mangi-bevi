@@ -14,6 +14,7 @@ class Meal {
     editDate,
     links,
     isTestMangi,
+    reactions,
   ) {
     this.title = title;
     this.id = id;
@@ -30,6 +31,7 @@ class Meal {
     this.links = links ? links : [];
     this.isSelected = false;
     this.isTestMangi = isTestMangi ? isTestMangi : false;
+    this.reactions = reactions ? reactions : [];
   }
 }
 
