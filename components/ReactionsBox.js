@@ -21,7 +21,7 @@ const ReactionsBox = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { flex: 1, flexDirection: "row" },
 });
 
 export default ReactionsBox;
