@@ -12,5 +12,7 @@ export function CountReactions(reactions) {
     }
   });
 
+  result.sort((a, b) => (a.amount <= b.amount ? 1 : -1));
+
   return result;
 }

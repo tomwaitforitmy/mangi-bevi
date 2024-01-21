@@ -45,11 +45,11 @@ describe("CountReactions", () => {
       new Reaction("z", "🤤"),
     ];
     const expected = [
+      { emoji: "😋", amount: 13 },
       { emoji: "🥰", amount: 9 },
+      { emoji: "🤤", amount: 2 },
       { emoji: "👌", amount: 1 },
       { emoji: "❤", amount: 1 },
-      { emoji: "😋", amount: 13 },
-      { emoji: "🤤", amount: 2 },
     ];
     const result = CountReactions(reactions);
     expect(result).toEqual(expected);
