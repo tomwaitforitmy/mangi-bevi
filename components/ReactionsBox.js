@@ -5,8 +5,6 @@ import { CountReactions } from "../common_functions/CountReactions";
 const ReactionsBox = (props) => {
   const reactionAmounts = CountReactions(props.reactions);
 
-  console.log(reactionAmounts);
-
   return (
     <View style={{ ...styles.container, ...props.style }}>
       {reactionAmounts.map((r) => {
