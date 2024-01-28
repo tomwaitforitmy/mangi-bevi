@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-native-elements";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
 import Reaction from "../models/Reaction";
 import ReactionsBox from "../components/ReactionsBox";
+import SelectReactionBox from "../components/SelectReactionBox";
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
+  const [selectedReaction, setSelectedReaction] = useState("❤");
 
   async function navToMeal() {
     navigation.navigate("Mangi & Bevi", {
@@ -55,6 +57,10 @@ function DevScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ReactionsBox reactions={reactions} />
+      <SelectReactionBox
+        selectedReaction={selectedReaction}
+        onReactionSelected={(r) => setSelectedReaction(r)}
+      />
 
       <Button
         title="Navigate to meal"
