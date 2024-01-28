@@ -5,31 +5,34 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
+  Image,
 } from "react-native";
 import HighlightedText from "./HighlightedText";
+import Colors from "../constants/Colors";
 
 const MealItem = (props) => {
   return (
     <View style={{ ...styles.mealItem, ...props.style }}>
       <TouchableOpacity onPress={props.onSelectMeal}>
-        <View>
-          <View style={{ ...styles.mealRow, ...styles.mealHeader }}>
-            <ImageBackground
+        <View style={styles.mealRow}>
+          <View style={styles.imageContainer}>
+            <Image
               source={{
                 uri: props.image
                   ? props.image
                   : "https://dummyimage.com/300x200&text=No+image+yet",
               }}
-              style={styles.backgroundImage}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={1}>
-                  <HighlightedText
-                    text={props.title}
-                    searchTerm={props.searchTerm}
-                  />
-                </Text>
-              </View>
-            </ImageBackground>
+              style={styles.backgroundImage}
+            />
+          </View>
+          <View style={styles.titleContainer}>
+            {/* ellipsizeMode="tail" -> "..." on android */}
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+              <HighlightedText
+                text={props.title}
+                searchTerm={props.searchTerm}
+              />
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -41,30 +44,43 @@ const styles = StyleSheet.create({
   mealItem: {
     flex: 1,
     height: 200,
-    backgroundColor: "#ccc",
+    // backgroundColor: "blue",
     borderRadius: 3,
     overflow: "hidden",
-    margin: 10,
+    // margin: 10,
+    marginBottom: 20,
+    // marginLeft: 5,
+    // marginRight: 5,
   },
   mealRow: {
-    flexDirection: "row",
+    // flexDirection: "column",
+    // height: "100%", //change back to 85% tommy if you want more space below item
   },
-  mealHeader: {
-    height: "100%", //change back to 85% tommy if you want more space below item
+  imageContainer: {
+    height: "85%",
+    borderRadius: 3,
   },
   backgroundImage: {
-    width: "100%",
+    // width: "100%",
     height: "100%",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
   },
   title: {
     fontSize: 20,
-    color: "white",
+    // color: "white",
+    overflow: "hidden",
+    // textAlign: "left",
+    textAlignVertical: "center",
+    color: "black",
   },
   titleContainer: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    // marginTop: 2,
+    borderRadius: 3,
+    justifyContent: "center",
+    height: "15%",
+    // paddingVertical: 5,
+    paddingHorizontal: 5,
+    backgroundColor: Colors.screenBackGround,
   },
 });
 
