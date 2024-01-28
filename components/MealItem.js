@@ -2,12 +2,14 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import HighlightedText from "./HighlightedText";
 import Colors from "../constants/Colors";
+import ReactionsBox from "./ReactionsBox";
 
 const MealItem = (props) => {
   return (
     <View style={{ ...styles.mealItem, ...props.style }}>
       <TouchableOpacity onPress={props.onSelectMeal}>
         <View style={styles.imageContainer}>
+          <ReactionsBox style={styles.reactions} reactions={props.reactions} />
           <Image
             source={{
               uri: props.image
@@ -29,6 +31,11 @@ const MealItem = (props) => {
 };
 
 const styles = StyleSheet.create({
+  reactions: {
+    alignSelf: "flex-end",
+    position: "absolute",
+    zIndex: 1,
+  },
   mealItem: {
     flex: 1,
     height: 200,
