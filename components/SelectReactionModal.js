@@ -33,14 +33,13 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: Colors.screenBackGround,
+    alignItems: "center",
   },
   modelView: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "stretch",
+    justifyContent: "center",
     paddingTop: 22,
     padding: 4,
-    width: "100%",
     backgroundColor: Colors.screenBackGround,
   },
   modalText: {
