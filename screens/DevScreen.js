@@ -6,12 +6,14 @@ import { deleteTestMangis } from "../firebase/deleteTestMangis";
 import Reaction from "../models/Reaction";
 import ReactionsBox from "../components/ReactionsBox";
 import SelectReactionBox from "../components/SelectReactionBox";
+import SelectReactionModal from "../components/SelectReactionModal";
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
   const [selectedReaction, setSelectedReaction] = useState("❤");
+  const [showModal, setShowModal] = useState(false);
 
   async function navToMeal() {
     navigation.navigate("Mangi & Bevi", {
@@ -54,13 +56,30 @@ function DevScreen({ navigation }) {
     new Reaction("z", "🤤"),
   ];
 
+  const onRequestCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const onReactionSelected = (r) => {
+    setSelectedReaction(r);
+    setShowModal(false);
+  };
+
   return (
     <View style={styles.container}>
+      <SelectReactionModal
+        modalVisible={showModal}
+        onReactionSelected={onReactionSelected}
+        onRequestClose={onRequestCloseModal}
+        selectedReaction={selectedReaction}
+      />
+
       <ReactionsBox reactions={reactions} />
       <SelectReactionBox
         selectedReaction={selectedReaction}
         onReactionSelected={(r) => setSelectedReaction(r)}
       />
+      <Button title="Open Selection Modal" onPress={() => setShowModal(true)} />
 
       <Button
         title="Navigate to meal"
