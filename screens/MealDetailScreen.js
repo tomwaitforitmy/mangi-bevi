@@ -18,6 +18,7 @@ import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import AuthorBox from "../components/AuthorBox";
+import SelectReactionModal from "../components/SelectReactionModal";
 
 function MealDetailScreen({ route, navigation }) {
   const {
@@ -57,6 +58,15 @@ function MealDetailScreen({ route, navigation }) {
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
   const [selectedTab, setSelectedTab] = useState(initiallySelectedTab);
+  const [showSelectReactionModal, setShowSelectReactionModal] = useState(false);
+
+  const onRequestCloseModal = () => {
+    setShowSelectReactionModal(false);
+  };
+
+  const onReactionSelected = (r) => {
+    setShowSelectReactionModal(false);
+  };
 
   //update the view if the initial position changes
   useEffect(() => {
@@ -67,6 +77,12 @@ function MealDetailScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <SelectReactionModal
+        onReactionSelected={onReactionSelected}
+        onRequestClose={onRequestCloseModal}
+        modalVisible={showSelectReactionModal}
+        selectedMeal={selectedMeal}
+      />
       <MyTabMenu
         initialIndex={initialIndex}
         titles={mealTabMenuTitleArray}
@@ -126,7 +142,11 @@ function MealDetailScreen({ route, navigation }) {
         )}
       </ScrollView>
       {isAuthenticated && (
-        <MealSpeedDial mealId={selectedMeal.id} navigation={navigation} />
+        <MealSpeedDial
+          mealId={selectedMeal.id}
+          navigation={navigation}
+          onPressReact={() => setShowSelectReactionModal(true)}
+        />
       )}
       {!isAuthenticated && (
         <MyButton

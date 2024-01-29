@@ -9,6 +9,7 @@ export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
 export const EDIT_MEAL = "EDIT_MEAL";
 export const EDIT_LINKS = "EDIT_LINKS";
+export const EDIT_REACTIONS = "EDIT_REACTIONS";
 export const SET_MEALS = "SET_MEALS";
 
 export const TOGGLE_FAVORITE = "TOGGLE_FAVORITE";
@@ -53,6 +54,7 @@ export const fetchMeals = () => {
             responseData[key].isTestMangi
               ? responseData[key].isTestMangi
               : false,
+            responseData[key].reactions ? responseData[key].reactions : [],
           ),
         );
       }
@@ -169,6 +171,31 @@ export const editLinks = (meal) => {
     console.log("end edit links");
 
     dispatch({ type: EDIT_LINKS, meal: meal });
+  };
+};
+
+export const editReactions = (meal) => {
+  return async (dispatch, getState) => {
+    console.log("begin edit reactions");
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        header: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          reactions: meal.reactions,
+        }),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    console.log("end edit reactions");
+
+    dispatch({ type: EDIT_REACTIONS, meal: meal });
   };
 };
 

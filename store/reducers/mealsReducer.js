@@ -5,6 +5,7 @@ import {
   CREATE_MEAL,
   EDIT_MEAL,
   EDIT_LINKS,
+  EDIT_REACTIONS,
   DELETE_MEAL,
 } from "../actions/mealsAction";
 
@@ -41,7 +42,8 @@ const mealsReducer = (state = initialState, action) => {
         meals: [action.meal].concat(state.meals),
       };
     }
-    case EDIT_LINKS: //not sure if i need to pass the links array
+    case EDIT_REACTIONS:
+    case EDIT_LINKS:
     case EDIT_MEAL: {
       const mealIndex = state.meals.findIndex((m) => m.id === action.meal.id);
       const updatedMeals = [...state.meals];
