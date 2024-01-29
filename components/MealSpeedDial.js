@@ -77,6 +77,11 @@ const MealSpeedDial = (props) => {
     });
   };
 
+  const onPressReact = () => {
+    formDispatch({ type: CLOSE });
+    props.onPressReact();
+  };
+
   const iconType = IconTypes.ionicon;
 
   return (
@@ -134,6 +139,16 @@ const MealSpeedDial = (props) => {
         title="Report"
         color={Colors.primary}
         onPress={navigateToReport}
+      />
+      <SpeedDial.Action
+        icon={{
+          name: "heart",
+          color: Colors.speedDialIcon,
+          type: IconTypes.fontAwesome,
+        }}
+        title="React"
+        color={Colors.primary}
+        onPress={onPressReact}
       />
     </SpeedDial>
   );
