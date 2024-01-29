@@ -12,13 +12,20 @@ import LoadingIndicator from "./LoadingIndicator";
 const SelectReactionModal = ({
   modalVisible,
   onRequestClose,
-  preSelectedReaction,
   onReactionSelected,
   selectedMeal,
 }) => {
+  const user = useSelector((state) => state.users.user);
+  const userHasReactedBefore = selectedMeal.reactions.find(
+    (r) => r.authorId === user.id,
+  );
+
+  const preSelectedReaction = userHasReactedBefore
+    ? userHasReactedBefore.emoji
+    : "";
+
   const [selectedReaction, setSelectedReaction] = useState(preSelectedReaction);
   const [isLoading, setIsLoading] = useState(false);
-  const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
 
   const onReactionSelectedInternal = async (r) => {
