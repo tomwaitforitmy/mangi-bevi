@@ -12,6 +12,11 @@ export async function reactionGiven(
   reactionGiver,
   users,
 ) {
+  //don't send any notification in case of removal
+  if (reaction.emoji === "") {
+    return;
+  }
+
   const data = {
     mealId: mealId,
     mealTitle: mealTitle,
@@ -48,7 +53,7 @@ export async function reactionGiven(
           " Text: " +
           notificationText,
       );
-      // return;
+      return;
     }
 
     //Technically, we don't have to await here.

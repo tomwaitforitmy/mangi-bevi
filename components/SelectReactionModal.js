@@ -31,6 +31,11 @@ const SelectReactionModal = ({
   const dispatch = useDispatch();
 
   const onReactionSelectedInternal = async (r) => {
+    if (preSelectedReaction === r) {
+      //nothing todo
+      onReactionSelected();
+      return;
+    }
     setSelectedReaction(r);
     setIsLoading(true);
     const newReaction = new Reaction(user.id, r);
@@ -51,6 +56,16 @@ const SelectReactionModal = ({
     onReactionSelected();
   };
 
+  const onRequestCloseInternal = async (r) => {
+    if (!userHasReactedBefore) {
+      //return if there was no reaction given
+      onReactionSelected();
+      return;
+    }
+
+    onReactionSelectedInternal("");
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -66,7 +81,7 @@ const SelectReactionModal = ({
               selectedReaction={selectedReaction}
               onReactionSelected={(r) => onReactionSelectedInternal(r)}
             />
-            <MyButton onPress={onRequestClose}> {"Cancel"}</MyButton>
+            <MyButton onPress={onRequestCloseInternal}>{"Cancel"}</MyButton>
           </View>
         )}
       </SafeAreaView>
