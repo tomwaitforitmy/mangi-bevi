@@ -8,6 +8,7 @@ import * as mealsAction from "../store/actions/mealsAction";
 import { AddOrUpdateReaction } from "../common_functions/AddOrUpdateReaction";
 import Reaction from "../models/Reaction";
 import LoadingIndicator from "./LoadingIndicator";
+import { reactionGiven } from "../notifications/ReactionGiven";
 
 const SelectReactionModal = ({
   modalVisible,
@@ -16,6 +17,7 @@ const SelectReactionModal = ({
   selectedMeal,
 }) => {
   const user = useSelector((state) => state.users.user);
+  const users = useSelector((state) => state.users.users);
   const userHasReactedBefore = selectedMeal.reactions.find(
     (r) => r.authorId === user.id,
   );
@@ -38,6 +40,13 @@ const SelectReactionModal = ({
     );
     selectedMeal.reactions = newReactions;
     await dispatch(mealsAction.editReactions(selectedMeal));
+    await reactionGiven(
+      newReaction,
+      selectedMeal.title,
+      selectedMeal.id,
+      user,
+      users,
+    );
     setIsLoading(false);
     onReactionSelected();
   };
