@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Modal, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import Colors from "../constants/Colors";
 import MyButton from "./MyButton";
 import SelectReactionBox from "./SelectReactionBox";
@@ -70,19 +77,21 @@ const SelectReactionModal = ({
     <Modal
       animationType="slide"
       visible={modalVisible}
-      onRequestClose={onRequestClose}>
+      onRequestClose={onRequestCloseInternal}>
       <SafeAreaView style={styles.safeAreaView}>
         {isLoading ? (
           <LoadingIndicator />
         ) : (
-          <View style={styles.modelView}>
-            <Text style={styles.modalText}>Select your reaction</Text>
-            <SelectReactionBox
-              selectedReaction={selectedReaction}
-              onReactionSelected={(r) => onReactionSelectedInternal(r)}
-            />
-            <MyButton onPress={onRequestCloseInternal}>{"Cancel"}</MyButton>
-          </View>
+          <TouchableWithoutFeedback onPress={onRequestCloseInternal}>
+            <View style={styles.modelView}>
+              <Text style={styles.modalText}>Select your reaction</Text>
+              <SelectReactionBox
+                selectedReaction={selectedReaction}
+                onReactionSelected={(r) => onReactionSelectedInternal(r)}
+              />
+              <MyButton onPress={onRequestCloseInternal}>{"Cancel"}</MyButton>
+            </View>
+          </TouchableWithoutFeedback>
         )}
       </SafeAreaView>
     </Modal>
