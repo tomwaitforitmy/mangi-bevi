@@ -36,6 +36,7 @@ import { GetAuthorByMealId } from "../common_functions/GetAuthorName";
 import { HasEditPermission } from "../common_functions/HasEditPermission";
 import { GetFriends } from "../common_functions/GetFriends";
 import SendReportScreen from "../screens/SendReportScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -251,6 +252,11 @@ function ProfileStackContainer({ navigation }) {
         name="EditFriendsScreen"
         component={EditFriendsScreen}
         options={{ title: "Your Friends" }}
+      />
+      <ProfileStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{ title: "Your Settings" }}
       />
     </ProfileStack.Navigator>
   );

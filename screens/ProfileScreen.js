@@ -36,6 +36,9 @@ function ProfileScreen({ navigation }) {
           <MyButton onPress={() => navigation.navigate("EditFriendsScreen")}>
             {"Friends"}
           </MyButton>
+          <MyButton onPress={() => navigation.navigate("SettingsScreen")}>
+            {"Settings"}
+          </MyButton>
           <Text style={styles.bene}>
             Mangi & Bevi version: {Constants.expoConfig.version}
           </Text>
