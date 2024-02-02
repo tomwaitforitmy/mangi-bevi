@@ -19,7 +19,7 @@ import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import AuthorBox from "../components/AuthorBox";
 import SelectReactionModal from "../components/SelectReactionModal";
-import ReactionsBox from "../components/ReactionsBox";
+import ReactionsList from "../components/ReactionsList";
 
 function MealDetailScreen({ route, navigation }) {
   const {
@@ -110,9 +110,10 @@ function MealDetailScreen({ route, navigation }) {
               }}
             />
             <TagList tags={tagList} />
-            <ReactionsBox
+            <ReactionsList
               style={styles.reactions}
               reactions={selectedMeal.reactions}
+              users={users}
             />
           </View>
         )}
