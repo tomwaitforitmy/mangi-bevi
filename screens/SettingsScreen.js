@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 import { useSelector } from "react-redux";
+import NotificationsSwitch from "../components/Switches/NotificationsSwitch";
 
 function SettingsScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -10,13 +11,7 @@ function SettingsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
+      <NotificationsSwitch />
     </View>
   );
 }

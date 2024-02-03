@@ -1,5 +1,14 @@
 class User {
-  constructor(id, name, email, meals, firebaseId, friends, expoPushToken) {
+  constructor(
+    id,
+    name,
+    email,
+    meals,
+    firebaseId,
+    friends,
+    expoPushToken,
+    settings,
+  ) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -8,6 +17,7 @@ class User {
     this.friends = friends;
     this.isSelected = false;
     this.expoPushToken = expoPushToken;
+    this.settings = settings;
   }
 }
 

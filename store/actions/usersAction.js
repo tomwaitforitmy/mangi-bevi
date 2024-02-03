@@ -9,6 +9,7 @@ export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const EDIT_FRIENDS = "EDIT_FRIENDS";
 export const EDIT_EXPO_PUSH_TOKEN = "EDIT_EXPO_PUSH_TOKEN";
+export const EDIT_SETTINGS = "EDIT_SETTINGS";
 export const SET_USERS = "SET_USERS";
 export const UPDATE_USER_STATS = "UPDATE_USER_STATS";
 export const ERROR_NO_USER_LOGGED_IN = "ERROR_NO_USER_LOGGED_IN";
@@ -38,6 +39,7 @@ export const fetchUsers = () => {
             responseData[key].expoPushToken
               ? responseData[key].expoPushToken
               : "no token",
+            responseData[key].settings ? responseData[key].settings : [],
           ),
         );
       }
@@ -159,7 +161,6 @@ export const editFriends = (user) => {
 export const editExpoPushToken = (user) => {
   return async (dispatch, getState) => {
     console.log("begin edit expoPushToken");
-    console.log(user);
     const token = getState().auth.token;
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
@@ -179,6 +180,31 @@ export const editExpoPushToken = (user) => {
     console.log("end edit expoPushToken");
 
     dispatch({ type: EDIT_EXPO_PUSH_TOKEN, user: user });
+  };
+};
+
+export const editSettings = (user) => {
+  return async (dispatch, getState) => {
+    console.log("begin edit settings");
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        header: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          settings: user.settings,
+        }),
+      },
+    );
+
+    await HandleResponseError(response);
+
+    console.log("end edit settings");
+
+    dispatch({ type: EDIT_SETTINGS, user: user });
   };
 };
 

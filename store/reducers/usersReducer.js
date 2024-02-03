@@ -8,6 +8,7 @@ import {
   UPDATE_USER_STATS,
   ERROR_NO_USER_LOGGED_IN,
   EDIT_EXPO_PUSH_TOKEN,
+  EDIT_SETTINGS,
 } from "../actions/usersAction";
 
 const initialState = {
@@ -35,6 +36,8 @@ const usersReducer = (state = initialState, action) => {
         user: action.user,
       };
     }
+    case EDIT_EXPO_PUSH_TOKEN:
+    case EDIT_SETTINGS:
     case EDIT_FRIENDS: {
       //create a new user object, to make sure state is updated
       const editedUser = { ...action.user };
@@ -79,19 +82,6 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         userStats: updatedUserStats,
         userMealsData: userMeals,
-      };
-    }
-    case EDIT_EXPO_PUSH_TOKEN: {
-      //create a new user object, to make sure state is updated
-      const editedUser = { ...action.user };
-      const userId = state.users.findIndex((u) => u.id === action.user.id);
-      const updatedUsers = [...state.users];
-      updatedUsers[userId] = editedUser;
-
-      return {
-        ...state,
-        users: updatedUsers,
-        user: editedUser,
       };
     }
 

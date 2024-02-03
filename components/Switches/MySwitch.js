@@ -32,7 +32,7 @@ const MySwitch = ({
         }} //track is part in the background
         thumbColor={Colors.white} //thumb is the toggle in the front
         ios_backgroundColor={falseColor}
-        onValueChange={onValueChange}
+        onValueChange={(v) => onValueChange(v)}
         value={value}
       />
     </View>
