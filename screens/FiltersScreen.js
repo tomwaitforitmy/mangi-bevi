@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
-import FilterModeSwitch from "../components/FilterModeSwitch";
+import FilterModeSwitch from "../components/Switches/FilterModeSwitch";
 import TagList from "../components/TagList";
 import * as tagActions from "../store/actions/tagsAction";
 
