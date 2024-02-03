@@ -72,7 +72,6 @@ function MealsScreen({ navigation }) {
       console.warn("User", user);
       return;
     }
-    console.log("Start register push notifications");
     //always surround await with try/catch in case the promise doesn't resolve
     try {
       registerForPushNotificationsAsync()
@@ -85,6 +84,8 @@ function MealsScreen({ navigation }) {
           if (token === user.expoPushToken) {
             return;
           }
+          console.log("Start register push notifications");
+
           //Add or update token
           user.expoPushToken = token;
           //Technically, we don't have to await here.
