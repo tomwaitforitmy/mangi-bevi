@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, Switch, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { StyleSheet, Text, View } from "react-native";
 import NotificationsSwitch from "../components/Switches/NotificationsSwitch";
+import NotificationsForNewMealsSwitch from "../components/Switches/NotificationsForNewMealsSwitch";
+import NotificationsForNewMealsForFriendsOnlySwitch from "../components/Switches/NotificationsForNewMealsForFriendsOnlySwitch";
+import NotificationsForReactionsSwitch from "../components/Switches/NotificationsForReactionsSwitch";
 
-function SettingsScreen({ navigation }) {
-  const user = useSelector((state) => state.users.user);
-
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-
+function SettingsScreen() {
   return (
     <View style={styles.container}>
+      <Text style={styles.headline}>Push notifications</Text>
       <NotificationsSwitch />
+      <NotificationsForNewMealsSwitch />
+      <NotificationsForNewMealsForFriendsOnlySwitch />
+      <NotificationsForReactionsSwitch />
     </View>
   );
 }
@@ -19,10 +20,11 @@ function SettingsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    alignItems: "stretch",
+    // flexDirection: "column",
+    // alignItems: "flex-start",
+    // justifyContent: "flex-start",
   },
-  bene: {
+  headline: {
     fontSize: 14,
     lineHeight: 30,
     margin: 5,
