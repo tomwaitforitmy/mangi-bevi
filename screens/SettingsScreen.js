@@ -19,10 +19,9 @@ function SettingsScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // flexDirection: "column",
-    // alignItems: "flex-start",
-    // justifyContent: "flex-start",
+    height: 250,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
   headline: {
     fontSize: 14,
