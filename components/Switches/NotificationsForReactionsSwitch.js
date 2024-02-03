@@ -5,9 +5,7 @@ import BoolSettingSwitch from "./BoolSettingSwitch";
 const NotificationsForReactionsSwitch = () => {
   return (
     <BoolSettingSwitch
-      trueText={"Yes"}
-      falseText={"No"}
-      descriptionText={"Notifications for reactions: "}
+      descriptionText={"Notifications for reactions"}
       settingName={enableNotificationsForReactions}
     />
   );

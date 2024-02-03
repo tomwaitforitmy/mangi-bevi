@@ -4,12 +4,7 @@ import MySwitch from "./MySwitch";
 import * as usersAction from "../../store/actions/usersAction";
 import Setting from "../../models/Setting";
 
-const BoolSettingSwitch = ({
-  settingName,
-  trueText,
-  falseText,
-  descriptionText,
-}) => {
+const BoolSettingSwitch = ({ settingName, descriptionText }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.user);
   let initialSetting = true;
@@ -34,8 +29,6 @@ const BoolSettingSwitch = ({
 
   return (
     <MySwitch
-      trueText={trueText}
-      falseText={falseText}
       descriptionText={descriptionText}
       onValueChange={(v) => onChangeValue(v)}
       value={settingState}

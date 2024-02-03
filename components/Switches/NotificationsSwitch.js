@@ -5,9 +5,7 @@ import BoolSettingSwitch from "./BoolSettingSwitch";
 const NotificationsSwitch = () => {
   return (
     <BoolSettingSwitch
-      trueText={"Yes"}
-      falseText={"No"}
-      descriptionText={"Enable push notifications: "}
+      descriptionText={"Enable push notifications"}
       settingName={enableNotifications}
     />
   );

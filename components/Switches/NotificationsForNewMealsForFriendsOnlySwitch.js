@@ -5,9 +5,7 @@ import BoolSettingSwitch from "./BoolSettingSwitch";
 const NotificationsForNewMealsForFriendsOnlySwitch = () => {
   return (
     <BoolSettingSwitch
-      trueText={"Yes"}
-      falseText={"No"}
-      descriptionText={"Notifications for new Mangis of friends only: "}
+      descriptionText={"Notifications for new Mangis of friends only"}
       settingName={enableNotificationsForNewMealsForFriendsOnly}
     />
   );

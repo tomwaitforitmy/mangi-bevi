@@ -5,9 +5,7 @@ import BoolSettingSwitch from "./BoolSettingSwitch";
 const NotificationsForNewMealsSwitch = () => {
   return (
     <BoolSettingSwitch
-      trueText={"Yes"}
-      falseText={"No"}
-      descriptionText={"Notifications for new Mangis: "}
+      descriptionText={"Notifications for new Mangis"}
       settingName={enableNotificationsForNewMeals}
     />
   );
