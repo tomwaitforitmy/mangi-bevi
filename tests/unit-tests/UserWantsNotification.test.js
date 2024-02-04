@@ -87,3 +87,29 @@ describe("UserWantsNotificationForNewMeal", () => {
     expect(result).toBeFalsy();
   });
 });
+
+describe("UserWantsNotificationForReaction", () => {
+  it("returns true, if all settings are default state", () => {
+    const u1 = new User("u1", "Tommy");
+
+    const result = UserWantsNotificationForReaction(u1);
+
+    expect(result).toBeTruthy();
+  });
+  it("returns false, if notifications are disabled", () => {
+    const u1 = new User("u1", "Tommy");
+    u1.settings.push(new Setting(enableNotifications, false));
+
+    const result = UserWantsNotificationForReaction(u1);
+
+    expect(result).toBeFalsy();
+  });
+  it("returns false, if notifications for reactions are disabled", () => {
+    const u1 = new User("u1", "Tommy");
+    u1.settings.push(new Setting(enableNotificationsForReactions, false));
+
+    const result = UserWantsNotificationForReaction(u1);
+
+    expect(result).toBeFalsy();
+  });
+});
