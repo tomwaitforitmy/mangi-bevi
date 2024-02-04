@@ -12,12 +12,12 @@ class User {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.meals = meals;
+    this.meals = meals ? meals : [];
     this.firebaseId = firebaseId;
-    this.friends = friends;
+    this.friends = friends ? friends : [];
     this.isSelected = false;
     this.expoPushToken = expoPushToken;
-    this.settings = settings;
+    this.settings = settings ? settings : [];
   }
 }
 
