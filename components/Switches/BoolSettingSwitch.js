@@ -7,6 +7,7 @@ import Setting from "../../models/Setting";
 const BoolSettingSwitch = ({
   settingName,
   descriptionText,
+  onValueChanged,
   defaultValue = true,
 }) => {
   const dispatch = useDispatch();
@@ -29,6 +30,9 @@ const BoolSettingSwitch = ({
       user.settings.push(new Setting(settingName, v));
     }
     dispatch(usersAction.editSettings(user));
+    if (onValueChanged) {
+      onValueChanged(v);
+    }
   };
 
   return (
