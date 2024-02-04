@@ -41,7 +41,7 @@ const MySwitch = ({
 
 const styles = StyleSheet.create({
   descriptionText: {
-    fontSize: 14,
+    fontSize: 16,
     textAlign: "left",
     color: "grey",
   },
@@ -55,6 +55,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     width: "100%",
+    backgroundColor: "white",
+    borderColor: Colors.screenBackGround,
+    borderWidth: 1,
   },
 });
 
