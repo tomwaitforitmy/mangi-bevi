@@ -2,6 +2,7 @@ import {
   GetAuthorByMealId,
   GetAuthorName,
 } from "../common_functions/GetAuthorName";
+import { UserWantsNotificationForReaction } from "../common_functions/UserWantsNotification";
 import { DEV_MODE } from "../data/Environment";
 import { sendPushNotification } from "./SendPushNotification";
 
@@ -41,6 +42,11 @@ export async function reactionGiven(
     }
 
     if (!mealAuthor.expoPushToken.startsWith("ExponentPushToken[")) {
+      return;
+    }
+
+    if (!UserWantsNotificationForReaction(mealAuthor)) {
+      console.log(mealAuthor.name + " doesn't want the notification");
       return;
     }
 

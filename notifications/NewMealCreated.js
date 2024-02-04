@@ -1,3 +1,4 @@
+import { UserWantsNotificationForNewMeal } from "../common_functions/UserWantsNotification";
 import { DEV_MODE } from "../data/Environment";
 import { sendPushNotification } from "./SendPushNotification";
 
@@ -18,6 +19,11 @@ export async function newMealCreated(users, mealTitle, mealId, author) {
       }
 
       if (!user.expoPushToken.startsWith("ExponentPushToken[")) {
+        return;
+      }
+
+      if (!UserWantsNotificationForNewMeal(user, author)) {
+        console.log(user.name + " doesn't want the notification");
         return;
       }
 
