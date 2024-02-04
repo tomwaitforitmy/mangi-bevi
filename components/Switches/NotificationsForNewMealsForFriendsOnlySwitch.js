@@ -7,6 +7,7 @@ const NotificationsForNewMealsForFriendsOnlySwitch = () => {
     <BoolSettingSwitch
       descriptionText={"Notifications for new Mangis of friends only"}
       settingName={enableNotificationsForNewMealsForFriendsOnly}
+      defaultValue={false}
     />
   );
 };

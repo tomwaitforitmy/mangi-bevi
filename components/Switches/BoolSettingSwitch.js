@@ -4,10 +4,14 @@ import MySwitch from "./MySwitch";
 import * as usersAction from "../../store/actions/usersAction";
 import Setting from "../../models/Setting";
 
-const BoolSettingSwitch = ({ settingName, descriptionText }) => {
+const BoolSettingSwitch = ({
+  settingName,
+  descriptionText,
+  defaultValue = true,
+}) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.user);
-  let initialSetting = true;
+  let initialSetting = defaultValue;
   const foundSetting = user.settings.find((s) => s.name === settingName);
 
   if (foundSetting) {
@@ -19,10 +23,10 @@ const BoolSettingSwitch = ({ settingName, descriptionText }) => {
 
   const onChangeValue = (v) => {
     setSettingState((prev) => !prev);
-    if (v) {
+    if (foundSetting) {
       user.settings = user.settings.filter((s) => s.name !== settingName);
     } else {
-      user.settings.push(new Setting(settingName, false));
+      user.settings.push(new Setting(settingName, v));
     }
     dispatch(usersAction.editSettings(user));
   };
