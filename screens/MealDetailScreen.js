@@ -107,9 +107,9 @@ function MealDetailScreen({ route, navigation }) {
       style={styles.container}
       onTouchStart={(e) => (this.touchX = e.nativeEvent.pageX)}
       onTouchEnd={(e) => {
-        if (this.touchX - e.nativeEvent.pageX > 20) {
+        if (this.touchX - e.nativeEvent.pageX > 100) {
           TrySelectRightTab();
-        } else if (e.nativeEvent.pageX - this.touchX > 20) {
+        } else if (e.nativeEvent.pageX - this.touchX > 100) {
           TrySelectLeftTab();
         }
       }}>
