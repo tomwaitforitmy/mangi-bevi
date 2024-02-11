@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 5,
+    width: "99%", //I chose that here, because without the width, the screen was slightly smaller than 100
     backgroundColor: Colors.screenBackGround,
   },
 });
