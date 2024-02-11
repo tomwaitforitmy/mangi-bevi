@@ -44,7 +44,11 @@ function MealsScreenNotAuthenticated({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SearchInput onChangeText={onChangeText} />
+      <SearchInput
+        onChangeText={onChangeText}
+        numberOfLabels={filteredMeals.length}
+        label={"Mangis"}
+      />
       <View style={styles.mealsScreen}>
         <MealList
           refreshControl={

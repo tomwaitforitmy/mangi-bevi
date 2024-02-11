@@ -156,7 +156,11 @@ function MealsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SearchInput onChangeText={onChangeText} />
+      <SearchInput
+        onChangeText={onChangeText}
+        numberOfLabels={filteredMeals.length}
+        label={"Mangis"}
+      />
       <View style={styles.mealsScreen}>
         {filtersActive && (
           <View style={styles.overlay}>

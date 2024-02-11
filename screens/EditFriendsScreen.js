@@ -51,7 +51,13 @@ function EditFriendsScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <SearchInput onChangeText={onChangeText} />
+      <SearchInput
+        onChangeText={onChangeText}
+        numberOfLabels={
+          visibleUsers ? visibleUsers.length : availableUsers.length
+        }
+        label={"User"}
+      />
       <MultiSelectUsersList
         users={availableUsers}
         visibleUsers={visibleUsers ? visibleUsers : availableUsers}

@@ -57,7 +57,13 @@ function EditLinksScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <SearchInput onChangeText={onChangeText} />
+      <SearchInput
+        onChangeText={onChangeText}
+        numberOfLabels={
+          visibleMeals ? visibleMeals.length : availableMeals.length
+        }
+        label={"Mangis"}
+      />
       <MultiSelectMealsList
         meals={availableMeals}
         visibleMeals={visibleMeals ? visibleMeals : availableMeals}

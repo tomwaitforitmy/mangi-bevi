@@ -1,18 +1,27 @@
 import React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import Colors from "../constants/Colors";
 
-const SearchInput = ({ style, onChangeText }) => {
+const SearchInput = ({ style, onChangeText, numberOfLabels, label }) => {
   return (
     <View style={{ ...styles.textContainer, ...style }}>
       <TextInput
-        placeholder="Enter text for profit 🍕"
+        placeholder="Enter text to search 🍕"
         placeholderTextColor={Colors.searchTextPlaceholder}
         onChangeText={(value) => onChangeText(value)}
         style={styles.searchTerm}
         //auto correct makes it hard to search for uncommon words
         autoCorrect={false}
       />
+      <Text
+        style={{
+          color: Colors.white,
+          textAlign: "center",
+          textAlignVertical: "center",
+          width: "30%",
+        }}>
+        {numberOfLabels} {label}
+      </Text>
     </View>
   );
 };
@@ -26,10 +35,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     color: "black",
     minHeight: 30,
+    width: "70%",
   },
   textContainer: {
     backgroundColor: Colors.primary,
-    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 
