@@ -12,5 +12,5 @@
 ** Sicher + Zur Prüfung hinzufügen
 ** "Zur App-Prüfung übermitteln"
 -> "Ihre Übermittlung wurde zur App-Prüfung eingereicht."
-7. eas update
+7. eas build --platform android
 ** Link teilen mit Android Usern
