@@ -25,6 +25,9 @@
       "infoPlist": {
         "NSCameraUsageDescription": "Mangi & Bevi uses the camera to take pictures of food.",
         "NSPhotoLibraryUsageDescription": "Mangi & Bevi accesses your photo library to upload pictures of food."
+      },
+      "config" : {
+        "usesNonExemptEncryption": false
       }
     },
     "android": {
