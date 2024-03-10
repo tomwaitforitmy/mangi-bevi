@@ -8,9 +8,9 @@ const TabBarIcon = (focused, color, routeName) => {
   if (routeName === "Mangi & Bevi") {
     return <MaterialCommunityIcons name={"noodles"} size={25} color={color} />;
   } else if (routeName === "Filters") {
-    iconName = focused ? "ios-filter" : "ios-filter-outline";
+    iconName = focused ? "filter" : "filter-outline";
   } else if (routeName === "New") {
-    iconName = focused ? "ios-create" : "ios-create-outline";
+    iconName = focused ? "create" : "create-outline";
   } else if (routeName === "Profile") {
     iconName = focused ? "person" : "person-outline";
   } else if (routeName === "Dev") {

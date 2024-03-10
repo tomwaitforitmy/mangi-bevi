@@ -167,7 +167,7 @@ function MealsScreen({ navigation }) {
             <Chip
               title={"Active filters"}
               icon={{
-                name: "ios-filter",
+                name: "filter",
                 type: IconTypes.ionicon,
                 size: 20,
                 color: Colors.navigationIcon,
