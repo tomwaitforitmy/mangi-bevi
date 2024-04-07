@@ -2,14 +2,15 @@
 2. npm test -> ok?
 3. git push
 4. eas build --platform ios
+4. eas build --platform android
 5. eas submit
 6. apple page:
 ** iOS-App +
 ** "Neue Version für Store"
 ** "Neues in dieser Version ausfüllen"
-** TestFlight -> fehlende Compliance bearbeiten -> ist neuer Build da?
+** TestFlight -> ist neuer Build da?
 ** App Store -> Allgemein -> Build hinzufügen
-** Sicher + Zur Prüfung hinzufügen
+** Sichern + Zur Prüfung hinzufügen
 ** "Zur App-Prüfung übermitteln"
 -> "Ihre Übermittlung wurde zur App-Prüfung eingereicht."
 7. eas build --platform android
