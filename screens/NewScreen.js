@@ -261,6 +261,8 @@ function NewScreen({ route, navigation }) {
           user.id,
           new Date(),
           inputMeal.links,
+          inputMeal.isTestMangi,
+          inputMeal.reactions,
         );
 
         await dispatch(mealsAction.editMeal(editedMeal));

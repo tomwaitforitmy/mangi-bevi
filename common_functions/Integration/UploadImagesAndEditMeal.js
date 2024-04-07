@@ -19,6 +19,8 @@ export async function UploadImagesAndEditMeal(
   editorId,
   editDate,
   links,
+  isTestMangi,
+  reactions,
 ) {
   //Upload only the images we haven't uploaded, yet.
   const imagesToUpload = GetImagesToUpload(imageUrls);
@@ -46,6 +48,8 @@ export async function UploadImagesAndEditMeal(
     editorId,
     editDate,
     links,
+    isTestMangi,
+    reactions,
   );
   return editedMeal;
 }
