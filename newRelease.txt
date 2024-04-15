@@ -1,5 +1,6 @@
 1. app.json -> increase version and iOS buildNumber
 2. npm test -> ok?
+2.a) npx expo install --check -> Notfalls nochmal git commit und npm test
 3. git push
 4. eas build --platform ios
 4. eas build --platform android
