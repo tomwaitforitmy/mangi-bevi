@@ -60,11 +60,13 @@ export const fetchMeals = () => {
       }
 
       //Invert order to show newest
-      loadedMeals.reverse();
+      // loadedMeals.reverse();
+
+      const takeOnlySome = [];
 
       dispatch({
         type: SET_MEALS,
-        meals: loadedMeals,
+        meals: takeOnlySome,
       });
       //Update the statistics and the user meals data.
       //This is possible the first time after we received all meals.

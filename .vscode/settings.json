@@ -6,5 +6,8 @@
     "Mangi",
     "Mangis",
     "Pressable"
+  ],
+  "cSpell.ignoreWords": [
+    "reduxjs"
   ]
 }

@@ -7,10 +7,9 @@ LogBox.ignoreLogs([
 ]); //Ignore a warning from my third parties
 
 import MyNavigationContainer from "./navigation/MyNavigationContainer";
-import ReduxThunk from "redux-thunk";
 
 // Redux Store
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import mealsReducer from "./store/reducers/mealsReducer";
 import authReducer from "./store/reducers/authReducer";
@@ -29,15 +28,22 @@ Notifications.setNotificationHandler({
   },
 });
 
-const rootReducer = combineReducers({
-  meals: mealsReducer,
-  auth: authReducer,
-  tags: tagsReducer,
-  users: usersReducer,
-  search: searchReducer,
+const store = configureStore({
+  reducer: {
+    meals: mealsReducer,
+    auth: authReducer,
+    tags: tagsReducer,
+    users: usersReducer,
+    search: searchReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these paths in the state
+        ignoredPaths: ["meals", "users", "tags"],
+      },
+    }),
 });
-
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 function App() {
   return (

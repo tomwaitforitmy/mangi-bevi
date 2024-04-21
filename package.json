@@ -17,6 +17,7 @@
     "@react-navigation/material-bottom-tabs": "^6.2.19",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+    "@reduxjs/toolkit": "^2.2.3",
     "@shopify/flash-list": "1.6.3",
     "@types/react": "~18.2.45",
     "ajv": "^6.12.6",
@@ -58,8 +59,6 @@
     "react-native-web": "~0.19.6",
     "react-redux": "^7.2.8",
     "react-test-renderer": "18.1.0",
-    "redux": "^4.1.1",
-    "redux-thunk": "^2.3.0",
     "typescript": "^5.3.0",
     "uuid": "^9.0.1"
   },
