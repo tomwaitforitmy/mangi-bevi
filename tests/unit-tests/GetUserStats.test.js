@@ -5,7 +5,7 @@ import UserStats from "../../models/UserStats";
 describe("GetUserStats", () => {
   it("calculates statistics over two meals", () => {
     const userMeals = [];
-    const m1 = new Meal(
+    const m1 = Meal(
       "Pizza",
       "m1",
       "NotNeededHere",
@@ -15,7 +15,7 @@ describe("GetUserStats", () => {
       ["t1", "t2"],
       "NotNeedHere",
     );
-    const m2 = new Meal(
+    const m2 = Meal(
       "Spaghetti",
       "m2",
       "NotNeededHere",
@@ -38,7 +38,7 @@ describe("GetUserStats", () => {
 
   it("calculates statistics over one meal", () => {
     const userMeals = [];
-    const m1 = new Meal(
+    const m1 = Meal(
       "Pizza",
       "m1",
       "NotNeededHere",
@@ -69,15 +69,15 @@ describe("GetUserStats", () => {
 
   it("calculates values for meals without data", () => {
     const userMeals = [];
-    const m1 = new Meal("Pizza");
+    const m1 = Meal("Pizza");
     m1.ingredients = [];
     m1.steps = [];
     m1.tags = [];
-    const m2 = new Meal("Pasta");
+    const m2 = Meal("Pasta");
     m2.ingredients = [];
     m2.steps = [];
     m2.tags = [];
-    const m3 = new Meal("Fries");
+    const m3 = Meal("Fries");
     m3.ingredients = [];
     m3.steps = [];
     m3.tags = [];

@@ -3,9 +3,9 @@ import Meal from "../../models/Meal";
 
 describe("LinkMeals", () => {
   it("adds id of another meal", () => {
-    const m1 = new Meal("Tomato Sauce", "m1");
+    const m1 = Meal("Tomato Sauce", "m1");
     m1.links = [];
-    const m2 = new Meal("Another Sauce", "m2");
+    const m2 = Meal("Another Sauce", "m2");
     m2.links = [];
     const newLinks = [m2];
 
@@ -16,11 +16,11 @@ describe("LinkMeals", () => {
   });
 
   it("adds 2 ids", () => {
-    const m1 = new Meal("Tomato Sauce", "m1");
+    const m1 = Meal("Tomato Sauce", "m1");
     m1.links = [];
-    const m2 = new Meal("Another Sauce", "m2");
+    const m2 = Meal("Another Sauce", "m2");
     m2.links = [];
-    const m3 = new Meal("Another Sauce", "m3");
+    const m3 = Meal("Another Sauce", "m3");
     m3.links = [];
     const newLinks = [m2, m3];
 
@@ -32,7 +32,7 @@ describe("LinkMeals", () => {
   });
 
   it("does nothing for empty new links", () => {
-    const m1 = new Meal("Tomato Sauce", "m1");
+    const m1 = Meal("Tomato Sauce", "m1");
     m1.links = [];
     const newLinks = [];
 
@@ -42,9 +42,9 @@ describe("LinkMeals", () => {
   });
 
   it("overwrites existing links", () => {
-    const m1 = new Meal("Tomato Sauce", "m1");
+    const m1 = Meal("Tomato Sauce", "m1");
     m1.links = ["mX", "mY"];
-    const m2 = new Meal("Another Sauce", "m2");
+    const m2 = Meal("Another Sauce", "m2");
     m2.links = [];
     const newLinks = [m2];
 
@@ -54,9 +54,9 @@ describe("LinkMeals", () => {
   });
 
   it("adds m1 only once", () => {
-    const m1 = new Meal("Tomato Sauce", "m1");
+    const m1 = Meal("Tomato Sauce", "m1");
     m1.links = ["mX", "mY"];
-    const m2 = new Meal("Another Sauce", "m2");
+    const m2 = Meal("Another Sauce", "m2");
     // already linked here
     m2.links = ["m1"];
     const newLinks = [m2];
@@ -68,9 +68,9 @@ describe("LinkMeals", () => {
   });
 
   it("keeps existing links in m2", () => {
-    const m1 = new Meal("Tomato Sauce", "m1");
+    const m1 = Meal("Tomato Sauce", "m1");
     m1.links = [];
-    const m2 = new Meal("Another Sauce", "m2");
+    const m2 = Meal("Another Sauce", "m2");
     // already linked here
     m2.links = ["mX", "mY"];
     const newLinks = [m2];

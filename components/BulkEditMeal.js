@@ -61,7 +61,7 @@ const BulkEditMeal = (props) => {
               m.primaryImageUrl,
             );
 
-            const editedMeal = new Meal(
+            const editedMeal = Meal(
               m.title,
               m.id,
               //if the primary images is uploaded, take it from here
@@ -92,7 +92,7 @@ const BulkEditMeal = (props) => {
         await addAuthorData();
 
         async function addAuthorData() {
-          const editedMeal = new Meal(
+          const editedMeal = Meal(
             m.title,
             m.id,
             //if the primary images is uploaded, take it from here

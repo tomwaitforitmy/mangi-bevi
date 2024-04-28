@@ -104,7 +104,7 @@ function NewScreen({ route, navigation }) {
       anyImageToUpload = imagesToUpload.length > 0;
       anyImageToDelete = formState.imageUrlsToDelete.length > 0;
 
-      const editedMeal = new Meal(
+      const editedMeal = Meal(
         formState.title,
         mealId,
         formState.primaryImageUrl,

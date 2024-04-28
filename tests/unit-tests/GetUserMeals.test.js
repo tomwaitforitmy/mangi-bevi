@@ -13,7 +13,7 @@ describe("GetUserMeals", () => {
       ["m1", "m2"],
       "NotNeededHere",
     );
-    const m1 = new Meal(
+    const m1 = Meal(
       "Pizza",
       "m1",
       "NotNeededHere",
@@ -23,7 +23,7 @@ describe("GetUserMeals", () => {
       ["t1", "t2"],
       "NotNeedHere",
     );
-    const m2 = new Meal(
+    const m2 = Meal(
       "Spaghetti",
       "m2",
       "NotNeededHere",

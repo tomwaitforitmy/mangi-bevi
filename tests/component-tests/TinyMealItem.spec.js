@@ -5,7 +5,7 @@ import Meal from "../../models/Meal";
 
 describe("TinyMealItem", () => {
   const expectedTitle = "My nice title 😊";
-  const niceInput = new Meal(
+  const niceInput = Meal(
     "My nice title 😊",
     "-N6nqAyvPZDY5N6fQHWo",
     "https:/some/url",

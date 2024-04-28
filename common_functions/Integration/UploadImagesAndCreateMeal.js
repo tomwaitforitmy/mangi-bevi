@@ -10,7 +10,7 @@ export async function UploadImagesAndCreateMeal(
 ) {
   let uploadedImages = await uploadImages(urls);
   const now = new Date();
-  return new Meal(
+  return Meal(
     title,
     "error",
     uploadedImages[0],

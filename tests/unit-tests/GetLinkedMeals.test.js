@@ -3,7 +3,7 @@ import Meal from "../../models/Meal.js";
 
 describe("GetLinkedMeals", () => {
   const allMeals = [];
-  const m1 = new Meal(
+  const m1 = Meal(
     "Pizza",
     "m1",
     "NotNeededHere",
@@ -13,7 +13,7 @@ describe("GetLinkedMeals", () => {
     ["t1", "t2"],
     "NotNeedHere",
   );
-  const m2 = new Meal(
+  const m2 = Meal(
     "Spaghetti",
     "m2",
     "NotNeededHere",
@@ -23,7 +23,7 @@ describe("GetLinkedMeals", () => {
     [],
     "NotNeedHere",
   );
-  const m3 = new Meal(
+  const m3 = Meal(
     "Another Spaghetti",
     "m3",
     "NotNeededHere",

@@ -42,7 +42,7 @@ describe("Given a nicely initialized meal", () => {
     expect(result).toEqual(expectedOutput);
   });
   it("integrates with GetAuthorNameByMealId", () => {
-    const niceInput = new Meal(
+    const niceInput = Meal(
       "My nice title 😊",
       "-N6nqAyvPZDY5N6fQHWo",
       "https:/some/url",
@@ -69,7 +69,7 @@ describe("Given a nicely initialized meal", () => {
   });
 
   it("integrates with GetAuthorName", () => {
-    const niceInput = new Meal(
+    const niceInput = Meal(
       "My nice title 😊",
       "-N6nqAyvPZDY5N6fQHWo",
       "https:/some/url",

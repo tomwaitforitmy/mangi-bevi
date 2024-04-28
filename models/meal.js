@@ -1,38 +1,36 @@
-class Meal {
-  constructor(
-    title,
-    id,
-    primaryImageUrl,
-    ingredients,
-    steps,
-    imageUrls,
-    tags,
-    rating,
-    authorId,
-    creationDate,
-    editorId,
-    editDate,
-    links,
-    isTestMangi,
-    reactions,
-  ) {
-    this.title = title;
-    this.id = id;
-    this.primaryImageUrl = primaryImageUrl;
-    this.ingredients = ingredients;
-    this.steps = steps;
-    this.imageUrls = imageUrls;
-    this.tags = tags;
-    this.rating = rating;
-    this.authorId = authorId;
-    this.creationDate = creationDate;
-    this.editorId = editorId;
-    this.editDate = editDate;
-    this.links = links ? links : [];
-    this.isSelected = false;
-    this.isTestMangi = isTestMangi ? isTestMangi : false;
-    this.reactions = reactions ? reactions : [];
-  }
-}
+const Meal = (
+  title,
+  id,
+  primaryImageUrl,
+  ingredients,
+  steps,
+  imageUrls,
+  tags,
+  rating,
+  authorId,
+  creationDate,
+  editorId,
+  editDate,
+  links,
+  isTestMangi,
+  reactions,
+) => ({
+  title,
+  id,
+  primaryImageUrl,
+  ingredients,
+  steps,
+  imageUrls,
+  tags,
+  rating,
+  authorId,
+  creationDate,
+  editorId,
+  editDate,
+  links: links ? links : [],
+  isSelected: false,
+  isTestMangi: isTestMangi ? isTestMangi : false,
+  reactions: reactions ? reactions : [],
+});
 
 export default Meal;

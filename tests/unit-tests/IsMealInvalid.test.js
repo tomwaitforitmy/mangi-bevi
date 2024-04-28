@@ -6,7 +6,7 @@ import Meal from "../../models/Meal";
 
 describe("IsMealInvalid", () => {
   it("Returns false if title exists, at least one ingredient and one step is given", () => {
-    const m1 = new Meal(
+    const m1 = Meal(
       "Valid title",
       "m1",
       "NotNeededHere",
@@ -23,7 +23,7 @@ describe("IsMealInvalid", () => {
   });
 
   it("Returns true if no title given", () => {
-    const m1 = new Meal(
+    const m1 = Meal(
       null,
       "m1",
       "NotNeededHere",
@@ -40,7 +40,7 @@ describe("IsMealInvalid", () => {
   });
 
   it("Returns true if no ingredients given", () => {
-    const m1 = new Meal(
+    const m1 = Meal(
       "Valid title",
       "m1",
       "NotNeededHere",
@@ -57,7 +57,7 @@ describe("IsMealInvalid", () => {
   });
 
   it("Returns true if no steps given", () => {
-    const m1 = new Meal(
+    const m1 = Meal(
       "Valid title",
       "m1",
       "NotNeededHere",

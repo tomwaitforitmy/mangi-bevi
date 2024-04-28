@@ -31,7 +31,7 @@ export async function UploadImagesAndEditMeal(
 
   let uploadedImages = await uploadImages(imagesToUpload);
 
-  const editedMeal = new Meal(
+  const editedMeal = Meal(
     title,
     mealId,
     //if the primary image is uploaded, take it from here

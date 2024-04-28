@@ -33,7 +33,7 @@ export const fetchMeals = () => {
 
       for (const key in responseData) {
         loadedMeals.push(
-          new Meal(
+          Meal(
             responseData[key].title,
             key,
             responseData[key].primaryImageUrl,
@@ -60,13 +60,13 @@ export const fetchMeals = () => {
       }
 
       //Invert order to show newest
-      // loadedMeals.reverse();
+      loadedMeals.reverse();
 
       const takeOnlySome = [];
 
       dispatch({
         type: SET_MEALS,
-        meals: takeOnlySome,
+        meals: loadedMeals,
       });
       //Update the statistics and the user meals data.
       //This is possible the first time after we received all meals.

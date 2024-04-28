@@ -4,7 +4,7 @@ import Meal from "../../models/Meal";
 import LinkedMealsList from "../../components/LinkedMealsList";
 
 describe("LinkedMealsList", () => {
-  const m1 = new Meal(
+  const m1 = Meal(
     "My nice title 😊",
     "m1",
     "https:/some/url",
@@ -12,7 +12,7 @@ describe("LinkedMealsList", () => {
     ["Mix it all together"],
   );
 
-  const m2 = new Meal(
+  const m2 = Meal(
     "My nice title 😊 2",
     "m2",
     "https:/some/url",
@@ -20,7 +20,7 @@ describe("LinkedMealsList", () => {
     ["Mix it all together"],
   );
 
-  const m3 = new Meal(
+  const m3 = Meal(
     "My nice title 😊 3",
     "m3",
     "https:/some/url",
