@@ -38,9 +38,11 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      immutableCheck: false,
       serializableCheck: {
         // Ignore these paths in the state
-        ignoredPaths: ["meals", "users", "tags"],
+        ignoredPaths: ["meals", "user", "users"],
+        ignoredActionPaths: ["meals", "user", "users"],
       },
     }),
 });
