@@ -81,7 +81,7 @@ function ManageAccountScreen({ navigation }) {
 
     formDispatch({ type: LOADING });
 
-    const updatedUser = new User(
+    const updatedUser = User(
       user.id,
       formState.user.trim(),
       formState.email,

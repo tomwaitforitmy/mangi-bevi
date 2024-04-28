@@ -4,29 +4,11 @@ import User from "../../models/User";
 import MultiSelectUsersList from "../../components/MultiSelectUsersList";
 
 describe("MultiSelectUsersList", () => {
-  const u1 = new User(
-    "u1",
-    "My nice user 😊",
-    "user1@users.com",
-    [],
-    "some id",
-  );
+  const u1 = User("u1", "My nice user 😊", "user1@users.com", [], "some id");
 
-  const u2 = new User(
-    "u2",
-    "My nice user 😊 2",
-    "user3@users.com",
-    [],
-    "some id",
-  );
+  const u2 = User("u2", "My nice user 😊 2", "user3@users.com", [], "some id");
 
-  const u3 = new User(
-    "u3",
-    "My nice user 😊 3",
-    "user3@users.com",
-    [],
-    "some id",
-  );
+  const u3 = User("u3", "My nice user 😊 3", "user3@users.com", [], "some id");
 
   const users = [u1, u2, u3];
 

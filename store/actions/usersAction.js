@@ -29,7 +29,7 @@ export const fetchUsers = () => {
 
       for (const key in responseData) {
         loadedUsers.push(
-          new User(
+          User(
             key,
             responseData[key].name,
             responseData[key].email,

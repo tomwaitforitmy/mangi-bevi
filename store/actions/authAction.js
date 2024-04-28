@@ -86,7 +86,7 @@ export const signup = (email, password, username) => {
       ),
     );
 
-    const user = new User("error", username, email, [], responseData.localId);
+    const user = User("error", username, email, [], responseData.localId);
     dispatch(usersActions.createUser(user)).then(() => {
       console.log("logged in as", email);
     });

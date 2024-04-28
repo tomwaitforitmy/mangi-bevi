@@ -5,7 +5,7 @@ import User from "../../models/User.js";
 
 describe("TinyUserItem", () => {
   const expectedTitle = "My nice name 😊";
-  const niceInput = new User(
+  const niceInput = User(
     "-N6nqAyvPZDY5N6fQHWo",
     "My nice name 😊",
     "user1@users.com",

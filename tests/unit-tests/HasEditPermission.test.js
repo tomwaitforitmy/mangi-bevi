@@ -4,7 +4,7 @@ import User from "../../models/User.js";
 
 describe("HasEditPermission", () => {
   it("author always has permission", () => {
-    const user = new User(
+    const user = User(
       "-N7fSxspZ7Yn91evKqd8", //author id of first meal in ZATARMEALS
       "any name",
       "any@mail.com",
@@ -18,7 +18,7 @@ describe("HasEditPermission", () => {
   });
 
   it("friends of the author have permission", () => {
-    const user = new User(
+    const user = User(
       "I am a friend id", //author id of first meal in ZATARMEALS
       "any name",
       "any@mail.com",
@@ -33,7 +33,7 @@ describe("HasEditPermission", () => {
     );
   });
   it("doesn't crash if author doesn't have friends", () => {
-    const user = new User(
+    const user = User(
       "I am not a friend id", //author id of first meal in ZATARMEALS
       "any name",
       "any@mail.com",
@@ -49,7 +49,7 @@ describe("HasEditPermission", () => {
     );
   });
   it("if there is only one friend, he still has permissions", () => {
-    const user = new User(
+    const user = User(
       "I the only friend id", //author id of first meal in ZATARMEALS
       "any name",
       "any@mail.com",
