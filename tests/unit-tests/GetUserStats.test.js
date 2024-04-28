@@ -30,7 +30,7 @@ describe("GetUserStats", () => {
     userMeals.push(m2);
 
     const userId = "u1";
-    const expected = new UserStats(userId, 2, 5, 6);
+    const expected = UserStats(userId, 2, 5, 6);
 
     const result = GetUserStats(userMeals, userId);
     expect(result).toEqual(expected);
@@ -52,7 +52,7 @@ describe("GetUserStats", () => {
     userMeals.push(m1);
 
     const userId = "u1";
-    const expected = new UserStats(userId, 2, 3, 3);
+    const expected = UserStats(userId, 2, 3, 3);
 
     const result = GetUserStats(userMeals, userId);
     expect(result).toEqual(expected);
@@ -61,7 +61,7 @@ describe("GetUserStats", () => {
   it("returns default values for no meals", () => {
     const userMeals = [];
     const userId = "u1";
-    const expected = new UserStats(userId, 0, 0, 0);
+    const expected = UserStats(userId, 0, 0, 0);
 
     const result = GetUserStats(userMeals, userId);
     expect(result).toEqual(expected);
@@ -86,7 +86,7 @@ describe("GetUserStats", () => {
     userMeals.push(m3);
 
     const userId = "u1";
-    const expected = new UserStats(userId, 0, 0, 0);
+    const expected = UserStats(userId, 0, 0, 0);
 
     const result = GetUserStats(userMeals, userId);
     expect(result).toEqual(expected);

@@ -1,10 +1,8 @@
-class UserStats {
-  constructor(userId, countTags, countSteps, countIngredients) {
-    this.userId = userId;
-    this.countTags = countTags;
-    this.countSteps = countSteps;
-    this.countIngredients = countIngredients;
-  }
-}
+const UserStats = (userId, countTags, countSteps, countIngredients) => ({
+  userId,
+  countTags,
+  countSteps,
+  countIngredients,
+});
 
 export default UserStats;
