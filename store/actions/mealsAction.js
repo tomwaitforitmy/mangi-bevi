@@ -215,7 +215,7 @@ export const deleteMeal = (meal, user, allMeals) => {
 
     //remove all links
     const mealsToRemoveLinks = UnlinkMeals(meal, [], allMeals);
-    console.log(mealsToRemoveLinks);
+    console.log("mealsToRemoveLinks", mealsToRemoveLinks);
     await Promise.all(
       mealsToRemoveLinks.map(async (item) => {
         await dispatch(editLinks(item));
@@ -237,16 +237,7 @@ export const deleteMeal = (meal, user, allMeals) => {
     dispatch({ type: DELETE_MEAL, meal: meal });
 
     //Remove the meal from the user's list as well
-    const editedUser = User(
-      user.id,
-      user.name,
-      user.email,
-      user.meals,
-      user.firebaseId,
-      user.friends,
-      user.expoPushToken,
-      user.settings,
-    );
+    const editedUser = { ...user };
     editedUser.meals = user.meals.filter((m) => m !== meal.id);
     await dispatch(usersAction.editUser(editedUser));
 
