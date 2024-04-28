@@ -18,6 +18,7 @@ import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../notifications/RegisterForPushNotifications";
 import * as usersAction from "../store/actions/usersAction";
 import { IsEmailValid } from "../common_functions/IsEmailValid";
+import User from "../models/User";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -83,14 +84,27 @@ function MealsScreen({ navigation }) {
           //Token already in database, don't do anything
           if (token === user.expoPushToken) {
             return;
+          } else {
+            console.log("Token changed");
+            console.log("new ", token);
+            console.log("old ", user.expoPushToken);
           }
           console.log("Start register push notifications");
 
+          const editedUser = User(
+            user.id,
+            user.name,
+            user.email,
+            user.meals,
+            user.firebaseId,
+            user.friends,
+            token,
+            user.settings,
+          );
           //Add or update token
-          user.expoPushToken = token;
           //Technically, we don't have to await here.
           //Not sure if this works.
-          dispatch(usersAction.editExpoPushToken(user));
+          dispatch(usersAction.editExpoPushToken(editedUser));
         })
         .catch((error) => {
           console.error(error);

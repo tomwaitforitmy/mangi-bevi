@@ -87,6 +87,9 @@ function ManageAccountScreen({ navigation }) {
       formState.email,
       user.meals,
       user.firebaseId,
+      user.friends,
+      user.expoPushToken,
+      user.settings,
     );
 
     await dispatch(usersAction.editUser(updatedUser));

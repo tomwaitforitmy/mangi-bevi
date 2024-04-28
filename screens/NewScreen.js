@@ -60,6 +60,7 @@ import deleteImages from "../firebase/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";
+import User from "../models/User";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -288,9 +289,20 @@ function NewScreen({ route, navigation }) {
 
         //first we have to update the meals to get the new id
         const id = await dispatch(mealsAction.createMeal(newMeal));
+
         //afterward, we can update the user and stats
-        user.meals.push(id);
-        await dispatch(usersAction.editUser(user));
+        const editUser = User(
+          user.id,
+          user.name,
+          user.email,
+          [...user.meals, id],
+          user.firebaseId,
+          user.friends,
+          user.expoPushToken,
+          user.settings,
+        );
+
+        await dispatch(usersAction.editUser(editUser));
         try {
           //Technically, we don't have to await here.
           //Not sure if this works.
