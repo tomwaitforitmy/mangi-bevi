@@ -85,7 +85,7 @@ const BulkEditMeal = (props) => {
     await Promise.all(
       toEdit.map(async (m) => {
         const author = GetAuthorByMealId(m.id, users);
-        const now = new Date();
+        const now = new Date().toISOString();
 
         console.log(m.title + " by " + author.name);
 

@@ -9,7 +9,7 @@ export async function UploadImagesAndCreateMeal(
   author,
 ) {
   let uploadedImages = await uploadImages(urls);
-  const now = new Date();
+  const now = new Date().toISOString();
   return Meal(
     title,
     "error",

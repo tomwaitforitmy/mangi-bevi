@@ -44,11 +44,11 @@ export const fetchMeals = () => {
             responseData[key].rating ? responseData[key].rating : 0,
             responseData[key].authorId ? responseData[key].authorId : "error",
             responseData[key].creationDate
-              ? new Date(responseData[key].creationDate)
+              ? new Date(responseData[key].creationDate).toISOString()
               : "error",
             responseData[key].editorId ? responseData[key].editorId : "error",
             responseData[key].editDate
-              ? new Date(responseData[key].editDate)
+              ? new Date(responseData[key].editDate).toISOString()
               : "error",
             responseData[key].links ? responseData[key].links : [],
             responseData[key].isTestMangi

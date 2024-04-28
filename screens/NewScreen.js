@@ -259,7 +259,7 @@ function NewScreen({ route, navigation }) {
           inputMeal.authorId,
           inputMeal.creationDate,
           user.id,
-          new Date(),
+          new Date().toISOString(),
           inputMeal.links,
           inputMeal.isTestMangi,
           inputMeal.reactions,
