@@ -135,7 +135,7 @@ function AddTagScreen({ route, navigation }) {
     }
 
     formDispatch({ type: LOADING });
-    const newTag = new Tag(formState.newTagTitle, "not used");
+    const newTag = Tag(formState.newTagTitle, "not used");
 
     try {
       await dispatch(tagActions.createTag(newTag));

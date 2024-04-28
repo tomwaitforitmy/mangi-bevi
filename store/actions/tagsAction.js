@@ -70,7 +70,7 @@ export const fetchTags = () => {
       const loadedTags = [];
 
       for (const key in responseData) {
-        loadedTags.push(new Tag(responseData[key].title, key));
+        loadedTags.push(Tag(responseData[key].title, key));
       }
 
       //Order alphabetically

@@ -1,8 +1,6 @@
-class Tag {
-  constructor(title, id) {
-    this.title = title;
-    this.id = id;
-  }
-}
+const Tag = (title, id) => ({
+  title,
+  id,
+});
 
 export default Tag;

@@ -121,7 +121,7 @@ const tagsReducer = (state = initialState, action) => {
       };
     }
     case CREATE_TAG: {
-      const newTag = new Tag(action.tag.title, action.tag.id);
+      const newTag = Tag(action.tag.title, action.tag.id);
 
       return {
         ...state,
