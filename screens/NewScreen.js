@@ -291,18 +291,10 @@ function NewScreen({ route, navigation }) {
         const id = await dispatch(mealsAction.createMeal(newMeal));
 
         //afterward, we can update the user and stats
-        const editUser = User(
-          user.id,
-          user.name,
-          user.email,
-          [...user.meals, id],
-          user.firebaseId,
-          user.friends,
-          user.expoPushToken,
-          user.settings,
-        );
+        const editedUser = { ...user };
+        editedUser.meals = [...user.meals, id];
 
-        await dispatch(usersAction.editUser(editUser));
+        await dispatch(usersAction.editUser(editedUser));
         try {
           //Technically, we don't have to await here.
           //Not sure if this works.

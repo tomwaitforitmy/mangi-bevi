@@ -81,16 +81,9 @@ function ManageAccountScreen({ navigation }) {
 
     formDispatch({ type: LOADING });
 
-    const updatedUser = User(
-      user.id,
-      formState.user.trim(),
-      formState.email,
-      user.meals,
-      user.firebaseId,
-      user.friends,
-      user.expoPushToken,
-      user.settings,
-    );
+    const updatedUser = { ...user };
+    updatedUser.name = formState.user.trim();
+    updatedUser.email = formState.email;
 
     await dispatch(usersAction.editUser(updatedUser));
 

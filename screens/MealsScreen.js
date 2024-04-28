@@ -91,16 +91,8 @@ function MealsScreen({ navigation }) {
           }
           console.log("Start register push notifications");
 
-          const editedUser = User(
-            user.id,
-            user.name,
-            user.email,
-            user.meals,
-            user.firebaseId,
-            user.friends,
-            token,
-            user.settings,
-          );
+          const editedUser = { ...user };
+          editedUser.expoPushToken = token;
           //Add or update token
           //Technically, we don't have to await here.
           //Not sure if this works.
