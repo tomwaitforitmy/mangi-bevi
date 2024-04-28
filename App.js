@@ -17,7 +17,6 @@ import tagsReducer from "./store/reducers/tagsReducer";
 import usersReducer from "./store/reducers/usersReducer";
 import searchReducer from "./store/reducers/searchReducer";
 import * as Notifications from "expo-notifications";
-import { DEV_MODE } from "./data/Environment";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -39,12 +38,14 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      immutableCheck: DEV_MODE,
-      serializableCheck: DEV_MODE,
+      immutableCheck: { warnAfter: 100 },
+      serializableCheck: { warnAfter: 100 },
+      // immutableCheck: false,
+      // serializableCheck: false,
       //These checks are disabled in production anyway.
-      //However, they cause warnings like this if I work with all data
-      //ImmutableStateInvariantMiddleware took 56ms, which is more than the warning threshold of 32ms.
-      //Therefore they are disabled by default and only run in DEV_MODE.
+      //However, they cause warnings like this if I work with all data:
+      //"ImmutableStateInvariantMiddleware took 56ms, which is more than the warning threshold of 32ms."
+      //Therefore, I increased the threshold.
       //Use this to fine tune ignore filters in case of too much errors:
       // serializableCheck: {
       //   // Ignore these paths in the state
