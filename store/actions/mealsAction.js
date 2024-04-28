@@ -4,6 +4,7 @@ import { UPDATE_USER_STATS } from "./usersAction";
 import * as usersAction from "./usersAction";
 import { DEV_MODE } from "../../data/Environment";
 import { UnlinkMeals } from "../../common_functions/UnlinkMeals";
+import User from "../../models/User";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -236,9 +237,18 @@ export const deleteMeal = (meal, user, allMeals) => {
     dispatch({ type: DELETE_MEAL, meal: meal });
 
     //Remove the meal from the user's list as well
-    user.meals = user.meals.filter((m) => m !== meal.id);
-    console.log(user);
-    await dispatch(usersAction.editUser(user));
+    const editedUser = User(
+      user.id,
+      user.name,
+      user.email,
+      user.meals,
+      user.firebaseId,
+      user.friends,
+      user.expoPushToken,
+      user.settings,
+    );
+    editedUser.meals = user.meals.filter((m) => m !== meal.id);
+    await dispatch(usersAction.editUser(editedUser));
 
     console.log("end delete meal");
   };
