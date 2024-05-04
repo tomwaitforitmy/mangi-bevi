@@ -18,7 +18,6 @@ import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../notifications/RegisterForPushNotifications";
 import * as usersAction from "../store/actions/usersAction";
 import { IsEmailValid } from "../common_functions/IsEmailValid";
-import User from "../models/User";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
