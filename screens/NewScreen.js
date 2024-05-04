@@ -60,7 +60,6 @@ import deleteImages from "../firebase/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";
-import User from "../models/User";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
