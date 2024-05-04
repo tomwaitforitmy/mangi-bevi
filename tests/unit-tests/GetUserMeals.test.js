@@ -1,6 +1,6 @@
 import { GetUserMeals } from "../../common_functions/GetUserMeals.js";
 import { MEALS } from "../../data/DummyMeals.js";
-import Meal from "../../models/Meal";
+import Meal from "../../models/Meal.js";
 import User from "../../models/User.js";
 
 describe("GetUserMeals", () => {

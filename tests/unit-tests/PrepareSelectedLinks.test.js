@@ -1,5 +1,5 @@
 import { PrepareSelectedLinks } from "../../common_functions/PrepareSelectedLinks.js";
-import Meal from "../../models/Meal";
+import Meal from "../../models/Meal.js";
 
 describe("PrepareSelectedLinks", () => {
   it("marks m2 as selected", () => {

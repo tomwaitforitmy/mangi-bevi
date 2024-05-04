@@ -2,7 +2,7 @@ import {
   IsFormInvalid,
   IsMealInvalid,
 } from "../../common_functions/IsMealInvalid.js";
-import Meal from "../../models/Meal";
+import Meal from "../../models/Meal.js";
 
 describe("IsMealInvalid", () => {
   it("Returns false if title exists, at least one ingredient and one step is given", () => {

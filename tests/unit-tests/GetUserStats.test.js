@@ -1,5 +1,5 @@
 import { GetUserStats } from "../../common_functions/GetUserStats.js";
-import Meal from "../../models/Meal";
+import Meal from "../../models/Meal.js";
 import UserStats from "../../models/UserStats";
 
 describe("GetUserStats", () => {

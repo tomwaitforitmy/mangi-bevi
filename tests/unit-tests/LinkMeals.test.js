@@ -1,5 +1,5 @@
 import { LinkMeals } from "../../common_functions/LinkMeals.js";
-import Meal from "../../models/Meal";
+import Meal from "../../models/Meal.js";
 
 describe("LinkMeals", () => {
   it("adds id of another meal", () => {
