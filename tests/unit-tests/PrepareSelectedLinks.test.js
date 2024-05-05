@@ -7,11 +7,11 @@ describe("PrepareSelectedLinks", () => {
     m1.links = ["m2"];
     const m2 = Meal("Another Sauce", "m2");
     m2.links = ["m1"];
-    let candidates = [m2];
+    const candidates = [m2];
 
-    candidates = PrepareSelectedLinks(candidates, m1.links);
+    const result = PrepareSelectedLinks(candidates, m1.links);
 
-    expect(m2.isSelected).toBe(true);
+    expect(result[0].isSelected).toBe(true);
   });
 
   it("marks nothing with empty links", () => {
@@ -19,12 +19,11 @@ describe("PrepareSelectedLinks", () => {
     m1.links = [];
     const m2 = Meal("Another Sauce", "m2");
     m2.links = [];
-    let candidates = [m2];
+    const candidates = [m2];
 
-    candidates = PrepareSelectedLinks(candidates, m1.links);
+    const result = PrepareSelectedLinks(candidates, m1.links);
 
-    expect(m2.isSelected).toBe(false);
-    expect(m1.isSelected).toBe(false);
+    expect(result[0].isSelected).toBe(false);
   });
 
   it("marks two meals", () => {
@@ -34,12 +33,12 @@ describe("PrepareSelectedLinks", () => {
     m2.links = ["m1"];
     const m3 = Meal("Another Sauce", "m3");
     m3.links = ["m1"];
-    let candidates = [m2, m3];
-    candidates = PrepareSelectedLinks(candidates, m1.links);
+    const candidates = [m2, m3];
+    const result = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m1.isSelected).toBe(false);
-    expect(m2.isSelected).toBe(true);
-    expect(m3.isSelected).toBe(true);
+    expect(result[0].isSelected).toBe(true);
+    expect(result[1].isSelected).toBe(true);
   });
 
   it("does nothing if links is null", () => {
@@ -49,12 +48,12 @@ describe("PrepareSelectedLinks", () => {
     m2.links = ["m1"];
     const m3 = Meal("Another Sauce", "m3");
     m3.links = ["m1"];
-    let candidates = [m2, m3];
-    candidates = PrepareSelectedLinks(candidates, m1.links);
+    const candidates = [m2, m3];
+    const result = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m1.isSelected).toBe(false);
-    expect(m2.isSelected).toBe(false);
-    expect(m3.isSelected).toBe(false);
+    expect(result[0].isSelected).toBe(false);
+    expect(result[1].isSelected).toBe(false);
   });
 
   it("does nothing if links is undefined", () => {
@@ -64,11 +63,11 @@ describe("PrepareSelectedLinks", () => {
     m2.links = ["m1"];
     const m3 = Meal("Another Sauce", "m3");
     m3.links = ["m1"];
-    let candidates = [m2, m3];
-    candidates = PrepareSelectedLinks(candidates, m1.links);
+    const candidates = [m2, m3];
+    const result = PrepareSelectedLinks(candidates, m1.links);
 
     expect(m1.isSelected).toBe(false);
-    expect(m2.isSelected).toBe(false);
-    expect(m3.isSelected).toBe(false);
+    expect(result[0].isSelected).toBe(false);
+    expect(result[1].isSelected).toBe(false);
   });
 });
