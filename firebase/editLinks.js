@@ -8,13 +8,24 @@ export async function editLinks(
   mealsToLink,
   candidates,
 ) {
+  //create a copy to avoid state corruption
+  const editedMeal = { ...selectedMeal };
+  //Because we have an array of objects [meals] containing an array of mealIds [m1.friends, m2.friends, ...]
+  //we need to deep copy everything here to avoid state corruptions.
+  const localMealsToLink = JSON.parse(JSON.stringify(mealsToLink));
+
   //update the actual link arrays correctly
-  const mealsToRemoveLinks = UnlinkMeals(selectedMeal, mealsToLink, candidates);
-  LinkMeals(selectedMeal, mealsToLink);
+  const mealsToRemoveLinks = UnlinkMeals(
+    editedMeal,
+    localMealsToLink,
+    candidates,
+  );
+
+  LinkMeals(editedMeal, localMealsToLink);
 
   //first edit all meals that are linked to the selected
   await Promise.all(
-    mealsToLink.map(async (item) => {
+    localMealsToLink.map(async (item) => {
       await dispatch(mealsActions.editLinks(item));
     }),
   );
@@ -27,5 +38,5 @@ export async function editLinks(
   );
 
   //third, edit the meal that was selected
-  return await dispatch(mealsActions.editLinks(selectedMeal));
+  return await dispatch(mealsActions.editLinks(editedMeal));
 }

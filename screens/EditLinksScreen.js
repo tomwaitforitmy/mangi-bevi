@@ -13,7 +13,7 @@ function EditLinksScreen({ navigation, route }) {
 
   const allMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = allMeals.find((meal) => meal.id === mealId);
-  let availableMeals = allMeals.filter((m) => m.id !== mealId);
+  const availableMeals = allMeals.filter((m) => m.id !== mealId);
   let visibleMeals = null;
 
   const [searchTerm, setSearchTerm] = useState();
@@ -24,7 +24,10 @@ function EditLinksScreen({ navigation, route }) {
     setSearchTerm(text);
   };
 
-  availableMeals = PrepareSelectedLinks(availableMeals, selectedMeal.links);
+  const localAvailableMeals = PrepareSelectedLinks(
+    availableMeals,
+    selectedMeal.links,
+  );
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +37,7 @@ function EditLinksScreen({ navigation, route }) {
   const onEndSelection = async (meals) => {
     setIsLoading(true);
     const mealsToLink = meals.filter((m) => m.isSelected);
-    await editLinks(dispatch, selectedMeal, mealsToLink, availableMeals);
+    await editLinks(dispatch, selectedMeal, mealsToLink, localAvailableMeals);
     setIsLoading(false);
 
     navigation.navigate({
@@ -48,7 +51,7 @@ function EditLinksScreen({ navigation, route }) {
   };
 
   if (searchTerm) {
-    visibleMeals = FastFilterMeals(availableMeals, searchTerm);
+    visibleMeals = FastFilterMeals(localAvailableMeals, searchTerm);
   }
 
   if (isLoading) {
@@ -60,13 +63,13 @@ function EditLinksScreen({ navigation, route }) {
       <SearchInput
         onChangeText={onChangeText}
         numberOfLabels={
-          visibleMeals ? visibleMeals.length : availableMeals.length
+          visibleMeals ? visibleMeals.length : localAvailableMeals.length
         }
         label={"Mangis"}
       />
       <MultiSelectMealsList
-        meals={availableMeals}
-        visibleMeals={visibleMeals ? visibleMeals : availableMeals}
+        meals={localAvailableMeals}
+        visibleMeals={visibleMeals ? visibleMeals : localAvailableMeals}
         onEndSelection={onEndSelection}
         searchTerm={searchTerm}
       />
