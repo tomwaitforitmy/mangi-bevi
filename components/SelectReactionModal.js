@@ -45,20 +45,26 @@ const SelectReactionModal = ({
     }
     setSelectedReaction(r);
     setIsLoading(true);
-    const newReaction = new Reaction(user.id, r);
+
+    const newReaction = Reaction(user.id, r);
     const newReactions = AddOrUpdateReaction(
       selectedMeal.reactions,
       newReaction,
     );
-    selectedMeal.reactions = newReactions;
-    await dispatch(mealsAction.editReactions(selectedMeal));
+
+    //create a copy to avoid state corruption
+    const editedMeal = { ...selectedMeal };
+    editedMeal.reactions = newReactions;
+
+    await dispatch(mealsAction.editReactions(editedMeal));
     await reactionGiven(
       newReaction,
-      selectedMeal.title,
-      selectedMeal.id,
+      editedMeal.title,
+      editedMeal.id,
       user,
       users,
     );
+
     setIsLoading(false);
     onReactionSelected();
   };

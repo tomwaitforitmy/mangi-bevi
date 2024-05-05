@@ -1,8 +1,6 @@
-class Reaction {
-  constructor(authorId, emoji) {
-    this.authorId = authorId;
-    this.emoji = emoji;
-  }
-}
+const Reaction = (authorId, emoji) => ({
+  authorId,
+  emoji,
+});
 
 export default Reaction;

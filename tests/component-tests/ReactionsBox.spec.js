@@ -5,7 +5,7 @@ import Reaction from "../../models/Reaction.js";
 
 describe("ReactionsBox", () => {
   it("renders a single reaction", () => {
-    const reactions = [new Reaction("tommy", "🥰")];
+    const reactions = [Reaction("tommy", "🥰")];
 
     render(<ReactionsBox reactions={reactions} />);
     expect(screen.queryByText("🥰")).toBeTruthy();
@@ -13,9 +13,9 @@ describe("ReactionsBox", () => {
 
   it("renders groups of emojis as numbers", () => {
     const reactions = [
-      new Reaction("tommy", "🥰"),
-      new Reaction("kathrin", "🥰"),
-      new Reaction("markus", "😋"),
+      Reaction("tommy", "🥰"),
+      Reaction("kathrin", "🥰"),
+      Reaction("markus", "😋"),
     ];
     render(<ReactionsBox reactions={reactions} />);
 
