@@ -1,14 +1,16 @@
 export const PrepareSelectedFriends = (candidates, friends) => {
-  // reset everything that might have been selected
-  candidates.forEach((user) => {
+  //create a local copy to not modify state (deep clone array of objects)
+  const localCandidates = candidates.map((u) => ({ ...u }));
+  //reset everything that might have been selected
+  localCandidates.forEach((user) => {
     user.isSelected = false;
   });
-
+  //mark the friends
   if (friends) {
     friends.map((id) => {
-      candidates.find((u) => u.id === id).isSelected = true;
+      localCandidates.find((u) => u.id === id).isSelected = true;
     });
   }
 
-  return candidates;
+  return localCandidates;
 };

@@ -9,7 +9,8 @@ import * as usersActions from "../store/actions/usersAction";
 import { FastFilterUsers } from "../common_functions/FastFilterUsers";
 
 function EditFriendsScreen({ navigation, route }) {
-  //why is this called? allUsers changes?
+  //This is called when users.users AND state.users.user change
+  //However, I don't understand why it is called between begin/end editUser once
   console.log("render call");
 
   const allUsers = useSelector((state) => state.users.users);
@@ -32,8 +33,11 @@ function EditFriendsScreen({ navigation, route }) {
   const onEndSelection = async (users) => {
     setIsLoading(true);
     const selectedFriends = users.filter((u) => u.isSelected);
-    user.friends = selectedFriends.map((f) => f.id);
-    await dispatch(usersActions.editFriends(user));
+    const editedUser = { ...user };
+    editedUser.friends = selectedFriends.map((f) => f.id);
+
+    await dispatch(usersActions.editFriends(editedUser));
+
     setIsLoading(false);
 
     navigation.navigate({
