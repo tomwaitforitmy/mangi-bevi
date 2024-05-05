@@ -24,12 +24,15 @@ const BoolSettingSwitch = ({
 
   const onChangeValue = (v) => {
     setSettingState((prev) => !prev);
+    //Create a deep copy to avoid state corruption
+    const editedUser = { ...user };
+    editedUser.settings = user.settings.map((s) => ({ ...s }));
     if (foundSetting) {
-      user.settings = user.settings.filter((s) => s.name !== settingName);
+      editedUser.settings = user.settings.filter((s) => s.name !== settingName);
     } else {
-      user.settings.push(new Setting(settingName, v));
+      editedUser.settings.push(Setting(settingName, v));
     }
-    dispatch(usersAction.editSettings(user));
+    dispatch(usersAction.editSettings(editedUser));
     if (onValueChanged) {
       onValueChanged(v);
     }

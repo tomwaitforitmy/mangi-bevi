@@ -1,8 +1,6 @@
-class Setting {
-  constructor(name, value) {
-    this.name = name;
-    this.value = value;
-  }
-}
+const Setting = (name, value) => ({
+  name,
+  value,
+});
 
 export default Setting;

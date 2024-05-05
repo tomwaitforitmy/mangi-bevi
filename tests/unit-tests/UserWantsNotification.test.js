@@ -23,7 +23,7 @@ describe("UserWantsNotificationForNewMeal", () => {
   it("returns false, if notifications are disabled", () => {
     const u1 = User("u1", "Tommy");
     const u2 = User("u2", "Tom Test");
-    u1.settings.push(new Setting(enableNotifications, false));
+    u1.settings.push(Setting(enableNotifications, false));
 
     const result = UserWantsNotificationForNewMeal(u1, u2);
 
@@ -32,10 +32,10 @@ describe("UserWantsNotificationForNewMeal", () => {
   it("returns false, if notifications are disabled and others are explicitly enabled", () => {
     const u1 = User("u1", "Tommy");
     const u2 = User("u2", "Tom Test");
-    u1.settings.push(new Setting(enableNotifications, false));
-    u1.settings.push(new Setting(enableNotificationsForNewMeals, true));
+    u1.settings.push(Setting(enableNotifications, false));
+    u1.settings.push(Setting(enableNotificationsForNewMeals, true));
     u1.settings.push(
-      new Setting(enableNotificationsForNewMealsForFriendsOnly, true),
+      Setting(enableNotificationsForNewMealsForFriendsOnly, true),
     );
 
     const result = UserWantsNotificationForNewMeal(u1, u2);
@@ -45,8 +45,8 @@ describe("UserWantsNotificationForNewMeal", () => {
   it("returns false, if notifications are enabled and new meals are disabled", () => {
     const u1 = User("u1", "Tommy");
     const u2 = User("u2", "Tom Test");
-    u1.settings.push(new Setting(enableNotifications, true));
-    u1.settings.push(new Setting(enableNotificationsForNewMeals, false));
+    u1.settings.push(Setting(enableNotifications, true));
+    u1.settings.push(Setting(enableNotificationsForNewMeals, false));
 
     const result = UserWantsNotificationForNewMeal(u1, u2);
 
@@ -55,8 +55,8 @@ describe("UserWantsNotificationForNewMeal", () => {
   it("returns true, if notifications are enabled and new meals are enabled", () => {
     const u1 = User("u1", "Tommy");
     const u2 = User("u2", "Tom Test");
-    u1.settings.push(new Setting(enableNotifications, true));
-    u1.settings.push(new Setting(enableNotificationsForNewMeals, true));
+    u1.settings.push(Setting(enableNotifications, true));
+    u1.settings.push(Setting(enableNotificationsForNewMeals, true));
 
     const result = UserWantsNotificationForNewMeal(u1, u2);
 
@@ -66,7 +66,7 @@ describe("UserWantsNotificationForNewMeal", () => {
     const u1 = User("u1", "Tommy");
     const u2 = User("u2", "Tom Test");
     u1.settings.push(
-      new Setting(enableNotificationsForNewMealsForFriendsOnly, true),
+      Setting(enableNotificationsForNewMealsForFriendsOnly, true),
     );
     u1.friends = ["u2", "u3", "u4"];
 
@@ -78,7 +78,7 @@ describe("UserWantsNotificationForNewMeal", () => {
     const u1 = User("u1", "Tommy");
     const u2 = User("u2", "Tom Test");
     u1.settings.push(
-      new Setting(enableNotificationsForNewMealsForFriendsOnly, true),
+      Setting(enableNotificationsForNewMealsForFriendsOnly, true),
     );
     u1.friends = ["u3", "u4"];
 
@@ -98,7 +98,7 @@ describe("UserWantsNotificationForReaction", () => {
   });
   it("returns false, if notifications are disabled", () => {
     const u1 = User("u1", "Tommy");
-    u1.settings.push(new Setting(enableNotifications, false));
+    u1.settings.push(Setting(enableNotifications, false));
 
     const result = UserWantsNotificationForReaction(u1);
 
@@ -106,7 +106,7 @@ describe("UserWantsNotificationForReaction", () => {
   });
   it("returns false, if notifications for reactions are disabled", () => {
     const u1 = User("u1", "Tommy");
-    u1.settings.push(new Setting(enableNotificationsForReactions, false));
+    u1.settings.push(Setting(enableNotificationsForReactions, false));
 
     const result = UserWantsNotificationForReaction(u1);
 
