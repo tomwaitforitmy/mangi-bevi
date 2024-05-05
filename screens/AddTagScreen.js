@@ -43,9 +43,11 @@ function AddTagScreen({ route, navigation }) {
   const saveTagsHandler = useCallback(async () => {
     const saveTags = async (meal, tags) => {
       formDispatch({ type: LOADING });
-      meal.tags = tags.map((t) => t.id);
+      //Create a copy to avoid state corruption
+      const editedMeal = { ...meal };
+      editedMeal.tags = tags.map((t) => t.id);
       try {
-        await dispatch(mealActions.editMeal(meal));
+        await dispatch(mealActions.editMeal(editedMeal));
       } catch (error) {
         console.log(error.message);
       } finally {
