@@ -38,8 +38,8 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      immutableCheck: { warnAfter: 100 },
-      serializableCheck: { warnAfter: 100 },
+      immutableCheck: { warnAfter: 200 },
+      serializableCheck: { warnAfter: 200 },
       // immutableCheck: false,
       // serializableCheck: false,
       //These checks are disabled in production anyway.
