@@ -16,6 +16,7 @@ import authReducer from "./store/reducers/authReducer";
 import tagsReducer from "./store/reducers/tagsReducer";
 import usersReducer from "./store/reducers/usersReducer";
 import searchReducer from "./store/reducers/searchReducer";
+import mealCookedByUserReducer from "./store/reducers/mealCookedByUserReducer";
 import * as Notifications from "expo-notifications";
 
 Notifications.setNotificationHandler({
@@ -35,6 +36,7 @@ const store = configureStore({
     tags: tagsReducer,
     users: usersReducer,
     search: searchReducer,
+    mealsCookedByUser: mealCookedByUserReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
