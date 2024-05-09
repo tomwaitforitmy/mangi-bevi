@@ -4,7 +4,6 @@ import { UPDATE_USER_STATS } from "./usersAction";
 import * as usersAction from "./usersAction";
 import { DEV_MODE } from "../../data/Environment";
 import { UnlinkMeals } from "../../common_functions/UnlinkMeals";
-import User from "../../models/User";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -62,8 +61,6 @@ export const fetchMeals = () => {
 
       //Invert order to show newest
       loadedMeals.reverse();
-
-      const takeOnlySome = [];
 
       dispatch({
         type: SET_MEALS,
