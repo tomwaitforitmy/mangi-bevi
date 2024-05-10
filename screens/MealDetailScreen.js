@@ -6,7 +6,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
 import { Image } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
@@ -20,6 +20,10 @@ import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import AuthorBox from "../components/AuthorBox";
 import SelectReactionModal from "../components/SelectReactionModal";
 import ReactionsList from "../components/ReactionsList";
+//todo: Take method form here
+import { fetchCookedByUsers } from "../store/actions/mealCookedByUserAction";
+import CookedByUserList from "../components/CookedByUserList";
+import { fetchCookedByUsersForThis } from "../firebase/fetchAll";
 
 function MealDetailScreen({ route, navigation }) {
   const {
@@ -30,6 +34,9 @@ function MealDetailScreen({ route, navigation }) {
   } = route.params;
   const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
+  const mealsCookedByUser = useSelector(
+    (state) => state.mealsCookedByUser.mealsCookedByUser,
+  );
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
@@ -37,6 +44,7 @@ function MealDetailScreen({ route, navigation }) {
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
   const authorName = GetAuthorName(selectedMeal.authorId, users);
   const editorName = GetAuthorName(selectedMeal.editorId, users);
+  const dispatch = useDispatch();
 
   const allTags = useSelector((state) => state.tags.tags);
   const tagList = [];
@@ -100,6 +108,15 @@ function MealDetailScreen({ route, navigation }) {
     ChangeSelectedTab(initiallySelectedTab);
   }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
 
+  //Todo: Could this be placed somewhere else without useEffect?
+  useEffect(() => {
+    try {
+      fetchCookedByUsersForThis(dispatch, mealId);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [dispatch, mealId]);
+
   const windowWidth = useWindowDimensions().width;
 
   return (
@@ -149,6 +166,12 @@ function MealDetailScreen({ route, navigation }) {
             <ReactionsList
               style={styles.reactions}
               reactions={selectedMeal.reactions}
+              users={users}
+            />
+            <CookedByUserList
+              cookedByUser={mealsCookedByUser.filter(
+                (e) => e.mealId === mealId,
+              )}
               users={users}
             />
           </View>

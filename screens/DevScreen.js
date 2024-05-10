@@ -8,10 +8,12 @@ import {
   fetchCookedByUsers,
 } from "../store/actions/mealCookedByUserAction";
 import MealCookedByUser from "../models/MealCookedByUser";
+import CookedByUserList from "../components/CookedByUserList";
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const user = useSelector((state) => state.users.user);
+  const users = useSelector((state) => state.users.users);
   const mealsCookedByUser = useSelector(
     (state) => state.mealsCookedByUser.mealsCookedByUser,
   );
@@ -35,6 +37,12 @@ function DevScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <CookedByUserList
+        cookedByUser={mealsCookedByUser.filter(
+          (e) => e.mealId === "-NxBZLQp3PLRUYxygc7C",
+        )}
+        users={users}
+      />
       <Button
         title="I cooked this!"
         onPress={async () => {

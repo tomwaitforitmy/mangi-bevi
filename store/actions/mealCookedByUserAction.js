@@ -50,37 +50,41 @@ export const addMealCookedByUser = (mealCookedByUser) => {
 export const fetchCookedByUsers = (mealId) => {
   return async (dispatch, getState) => {
     console.log("Begin fetchCookedByUsers");
+    try {
+      const token = getState().auth.token;
 
-    const token = getState().auth.token;
-
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?mealId=${mealId}&auth=${token}`,
-    );
-
-    await HandleResponseError(response);
-
-    const responseData = await response.json();
-
-    const loadedCookedByUsers = [];
-
-    for (const key in responseData) {
-      loadedCookedByUsers.push(
-        MealCookedByUser(
-          key,
-          responseData[key].mealId,
-          responseData[key].userId,
-          responseData[key].date
-            ? new Date(responseData[key].date).toISOString()
-            : "error",
-        ),
+      const response = await fetch(
+        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?mealId=${mealId}&auth=${token}`,
       );
+
+      await HandleResponseError(response);
+
+      const responseData = await response.json();
+
+      const loadedCookedByUsers = [];
+
+      for (const key in responseData) {
+        loadedCookedByUsers.push(
+          MealCookedByUser(
+            key,
+            responseData[key].mealId,
+            responseData[key].userId,
+            responseData[key].date
+              ? new Date(responseData[key].date).toISOString()
+              : "error",
+          ),
+        );
+      }
+
+      console.log("End fetchCookedByUsers");
+
+      dispatch({
+        type: SET_MEALS_COOKED_BY_USER,
+        mealCookedByUser: loadedCookedByUsers,
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-
-    console.log("End fetchCookedByUsers");
-
-    dispatch({
-      type: SET_MEALS_COOKED_BY_USER,
-      mealCookedByUser: loadedCookedByUsers,
-    });
   };
 };

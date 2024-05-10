@@ -8,17 +8,38 @@ const initialState = {
 };
 
 const mealCookedByUserReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_MEAL_COOKED_BY_USER:
-    case SET_MEALS_COOKED_BY_USER:
-      return {
-        ...state,
-        mealsCookedByUser: [
-          ...new Set(...state.mealsCookedByUser, action.mealCookedByUser),
-        ],
-      };
-    default:
-      return state;
+  try {
+    switch (action.type) {
+      case ADD_MEAL_COOKED_BY_USER:
+      case SET_MEALS_COOKED_BY_USER: {
+        let temp = {};
+        const arrayWithDuplicates = [
+          ...state.mealsCookedByUser,
+          ...action.mealCookedByUser,
+        ];
+
+        //todo: extract method
+        let arrayWithoutDuplicates = arrayWithDuplicates.reduce((acc, cur) => {
+          if (!temp[cur.id]) {
+            temp[cur.id] = true;
+            acc.push(cur);
+          }
+          return acc;
+        }, []);
+
+        const newMealsCookedByUser = arrayWithoutDuplicates;
+
+        console.log(newMealsCookedByUser);
+        return {
+          ...state,
+          mealsCookedByUser: newMealsCookedByUser,
+        };
+      }
+      default:
+        return state;
+    }
+  } catch (error) {
+    console.error(error);
   }
 };
 
