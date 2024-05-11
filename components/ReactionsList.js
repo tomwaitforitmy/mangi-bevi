@@ -12,7 +12,7 @@ const ReactionsList = (props) => {
       const authorName = GetAuthorName(r.authorId, users);
 
       content.push(
-        <Text style={styles.emoji} key={r.authorId}>
+        <Text style={styles.text} key={r.authorId}>
           {authorName + " reacted with " + r.emoji}
         </Text>,
       );
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-start",
   },
-  emoji: {
+  text: {
     borderRadius: 11,
     padding: 5,
     overflow: "hidden",

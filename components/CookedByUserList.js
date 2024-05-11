@@ -14,13 +14,13 @@ const CookedByUserList = (props) => {
 
       if (cook.amount === 1) {
         content.push(
-          <Text style={styles.emoji} key={cook.userId}>
+          <Text style={styles.text} key={cook.userId}>
             {authorName + " cooked this"}
           </Text>,
         );
       } else {
         content.push(
-          <Text style={styles.emoji} key={cook.userId}>
+          <Text style={styles.text} key={cook.userId}>
             {authorName + " cooked this " + cook.amount + " times"}
           </Text>,
         );
@@ -42,8 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-start",
   },
-  emoji: {
-    height: 20,
+  text: {
     borderRadius: 11,
     padding: 5,
     overflow: "hidden",

@@ -160,15 +160,15 @@ function MealDetailScreen({ route, navigation }) {
               }}
             />
             <TagList tags={tagList} />
-            <ReactionsList
-              style={styles.reactions}
-              reactions={selectedMeal.reactions}
-              users={users}
-            />
             <CookedByUserList
               cookedByUser={mealsCookedByUser.filter(
                 (e) => e.mealId === mealId,
               )}
+              users={users}
+            />
+            <ReactionsList
+              style={styles.reactions}
+              reactions={selectedMeal.reactions}
               users={users}
             />
           </View>
