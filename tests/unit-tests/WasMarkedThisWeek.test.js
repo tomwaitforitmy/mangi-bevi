@@ -52,4 +52,36 @@ describe("WasMarkedThisWeek", () => {
 
     expect(result).toEqual(false);
   });
+
+  it("returns false for this example", () => {
+    const data = [
+      {
+        date: "2024-04-09T15:05:33.528Z",
+        id: "-NxSsq3gG5qKejd_eYko",
+        mealId: "-NxBZLQp3PLRUYxygc7C",
+        userId: "-N7fTSUz_WVEjEruisQV",
+      },
+      {
+        date: "2024-04-09T15:05:48.435Z",
+        id: "-NxSsthYKNlmoIIxG1h7",
+        mealId: "-NxBZLQp3PLRUYxygc7C",
+        userId: "-N7fTSUz_WVEjEruisQV",
+      },
+      {
+        date: "2024-04-09T15:05:48.749Z",
+        id: "-NxSstls9-1llFKFd97x",
+        mealId: "-NxBZLQp3PLRUYxygc7C",
+        userId: "-N7fTSUz_WVEjEruisQV",
+      },
+    ];
+
+    const result = WasMarkedThisWeek(
+      data,
+      "-NxBZLQp3PLRUYxygc7C",
+      "-N7fTSUz_WVEjEruisQV",
+      new Date("05/1/2024"),
+    );
+
+    expect(result).toEqual(false);
+  });
 });
