@@ -14,36 +14,39 @@ const replacer = (key, value) => {
 
 export const addMealCookedByUser = (mealCookedByUser) => {
   return async (dispatch, getState) => {
-    console.log("Begin mealCookedByUser");
-    const token = getState().auth.token;
-    if (!token) {
-      console.log("No token found! Request will fail! Reload App tommy");
-    }
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?auth=${token}`,
-      {
-        method: "POST",
-        header: {
-          "Content-type": "application/json",
+    console.log("Begin addMealCookedByUser");
+    try {
+      const token = getState().auth.token;
+      if (!token) {
+        console.log("No token found! Request will fail! Reload App tommy");
+      }
+      const response = await fetch(
+        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?auth=${token}`,
+        {
+          method: "POST",
+          header: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(mealCookedByUser, replacer),
         },
-        body: JSON.stringify(mealCookedByUser, replacer),
-      },
-    );
+      );
 
-    await HandleResponseError(response);
+      await HandleResponseError(response);
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    mealCookedByUser = { ...mealCookedByUser, id: responseData.name };
+      mealCookedByUser = { ...mealCookedByUser, id: responseData.name };
 
-    console.log("End mealCookedByUser");
+      console.log("End addMealCookedByUser");
 
-    dispatch({
-      type: ADD_MEAL_COOKED_BY_USER,
-      mealCookedByUser: mealCookedByUser,
-    });
-
-    return responseData.name;
+      dispatch({
+        type: ADD_MEAL_COOKED_BY_USER,
+        mealCookedByUser: mealCookedByUser,
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 };
 
