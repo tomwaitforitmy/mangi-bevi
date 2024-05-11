@@ -5,6 +5,7 @@ import {
   Text,
   View,
   useWindowDimensions,
+  Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
@@ -22,6 +23,9 @@ import SelectReactionModal from "../components/SelectReactionModal";
 import ReactionsList from "../components/ReactionsList";
 import * as mealCookedByUserActions from "../store/actions/mealCookedByUserAction";
 import CookedByUserList from "../components/CookedByUserList";
+import { WasMarkedThisWeek } from "../common_functions/WasMarkedThisWeek";
+import MealCookedByUser from "../models/MealCookedByUser";
+import { markedAsCooked } from "../notifications/MarkedAsCooked";
 
 function MealDetailScreen({ route, navigation }) {
   const {
@@ -38,6 +42,7 @@ function MealDetailScreen({ route, navigation }) {
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const users = useSelector((state) => state.users.users);
+  const user = useSelector((state) => state.users.user);
   const searchTerm = useSelector((state) => state.search.searchTerm);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
   const authorName = GetAuthorName(selectedMeal.authorId, users);
@@ -53,6 +58,38 @@ function MealDetailScreen({ route, navigation }) {
       tagList.push(found);
     }
   });
+
+  const enableMarkCooked = !WasMarkedThisWeek(
+    mealsCookedByUser,
+    mealId,
+    user.id,
+    Date.now(),
+  );
+
+  const onPressMarkCooked = async () => {
+    const MarkCooked = async () => {
+      const newMealsCookedByUser = MealCookedByUser("error", mealId, user.id);
+      await dispatch(
+        mealCookedByUserActions.addMealCookedByUser(newMealsCookedByUser),
+      );
+      await markedAsCooked(selectedMeal.title, mealId, user, users);
+    };
+
+    Alert.alert(
+      "Did you cook this?",
+      "This action cannot be undone and might send a push notification to the author to say thanks.",
+      [
+        {
+          text: "Yes",
+          onPress: () => MarkCooked(),
+        },
+        {
+          text: "No",
+          style: "cancel",
+        },
+      ],
+    );
+  };
 
   const ChangeSelectedTab = useCallback(
     (title) => {
@@ -208,6 +245,8 @@ function MealDetailScreen({ route, navigation }) {
           mealId={selectedMeal.id}
           navigation={navigation}
           onPressReact={() => setShowSelectReactionModal(true)}
+          onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
+          enableMarkCooked={enableMarkCooked}
         />
       )}
       {!isAuthenticated && (
