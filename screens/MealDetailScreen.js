@@ -20,10 +20,8 @@ import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import AuthorBox from "../components/AuthorBox";
 import SelectReactionModal from "../components/SelectReactionModal";
 import ReactionsList from "../components/ReactionsList";
-//todo: Take method form here
-import { fetchCookedByUsers } from "../store/actions/mealCookedByUserAction";
+import * as mealCookedByUserActions from "../store/actions/mealCookedByUserAction";
 import CookedByUserList from "../components/CookedByUserList";
-import { fetchCookedByUsersForThis } from "../firebase/fetchAll";
 
 function MealDetailScreen({ route, navigation }) {
   const {
@@ -108,10 +106,9 @@ function MealDetailScreen({ route, navigation }) {
     ChangeSelectedTab(initiallySelectedTab);
   }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
 
-  //Todo: Could this be placed somewhere else without useEffect?
   useEffect(() => {
     try {
-      fetchCookedByUsersForThis(dispatch, mealId);
+      dispatch(mealCookedByUserActions.fetchCookedByUsers(mealId));
     } catch (error) {
       console.error(error);
     }
