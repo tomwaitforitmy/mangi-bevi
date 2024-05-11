@@ -12,6 +12,15 @@ const mealCookedByUserReducer = (state = initialState, action) => {
   try {
     switch (action.type) {
       case ADD_MEAL_COOKED_BY_USER:
+        const addedMealCookedByUser = [
+          ...state.mealsCookedByUser,
+          action.mealCookedByUser,
+        ];
+
+        return {
+          ...state,
+          mealsCookedByUser: addedMealCookedByUser,
+        };
       case SET_MEALS_COOKED_BY_USER: {
         const arrayWithDuplicates = [
           ...state.mealsCookedByUser,
@@ -20,7 +29,6 @@ const mealCookedByUserReducer = (state = initialState, action) => {
 
         const newMealsCookedByUser = RemoveDuplicates(arrayWithDuplicates);
 
-        console.log(newMealsCookedByUser);
         return {
           ...state,
           mealsCookedByUser: newMealsCookedByUser,
