@@ -155,16 +155,18 @@ const MealSpeedDial = (props) => {
         color={Colors.primary}
         onPress={onPressReact}
       />
-      <SpeedDial.Action
-        icon={{
-          name: "chef-hat",
-          color: Colors.speedDialIcon,
-          type: IconTypes.materialCommunityIcons,
-        }}
-        title="Mark cooked"
-        color={Colors.primary}
-        onPress={onPressMarkCooked}
-      />
+      {props.enableMarkCooked && (
+        <SpeedDial.Action
+          icon={{
+            name: "chef-hat",
+            color: Colors.speedDialIcon,
+            type: IconTypes.materialCommunityIcons,
+          }}
+          title="Mark as cooked"
+          color={Colors.primary}
+          onPress={onPressMarkCooked}
+        />
+      )}
     </SpeedDial>
   );
 };
