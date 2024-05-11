@@ -82,6 +82,11 @@ const MealSpeedDial = (props) => {
     props.onPressReact();
   };
 
+  const onPressMarkCooked = () => {
+    formDispatch({ type: CLOSE });
+    props.onPressMarkCooked();
+  };
+
   const iconType = IconTypes.ionicon;
 
   return (
@@ -149,6 +154,16 @@ const MealSpeedDial = (props) => {
         title="React"
         color={Colors.primary}
         onPress={onPressReact}
+      />
+      <SpeedDial.Action
+        icon={{
+          name: "chef-hat",
+          color: Colors.speedDialIcon,
+          type: IconTypes.materialCommunityIcons,
+        }}
+        title="Mark cooked"
+        color={Colors.primary}
+        onPress={onPressMarkCooked}
       />
     </SpeedDial>
   );
