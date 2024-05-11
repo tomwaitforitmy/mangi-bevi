@@ -1,3 +1,4 @@
+import { RemoveDuplicates } from "../../common_functions/RemoveDuplicates";
 import {
   SET_MEALS_COOKED_BY_USER,
   ADD_MEAL_COOKED_BY_USER,
@@ -12,22 +13,12 @@ const mealCookedByUserReducer = (state = initialState, action) => {
     switch (action.type) {
       case ADD_MEAL_COOKED_BY_USER:
       case SET_MEALS_COOKED_BY_USER: {
-        let temp = {};
         const arrayWithDuplicates = [
           ...state.mealsCookedByUser,
           ...action.mealCookedByUser,
         ];
 
-        //todo: extract method
-        let arrayWithoutDuplicates = arrayWithDuplicates.reduce((acc, cur) => {
-          if (!temp[cur.id]) {
-            temp[cur.id] = true;
-            acc.push(cur);
-          }
-          return acc;
-        }, []);
-
-        const newMealsCookedByUser = arrayWithoutDuplicates;
+        const newMealsCookedByUser = RemoveDuplicates(arrayWithDuplicates);
 
         console.log(newMealsCookedByUser);
         return {
