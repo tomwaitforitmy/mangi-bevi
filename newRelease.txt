@@ -1,4 +1,4 @@
-1. app.json -> increase version and iOS buildNumber
+1. app.json -> increase version, iOS buildNumber and versionCode
 2. npm test -> ok?
 2.a) npx expo install --check -> Notfalls nochmal git commit und npm test
 3. git push
