@@ -4,24 +4,24 @@
   },
   "build": {
     "development": {
-      "android" : {
+      "android": {
         "buildType": "apk"
       },
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
-      "android" : {
+      "android": {
         "buildType": "apk"
       },
-      "ios":{
-          "simulator": false
+      "ios": {
+        "simulator": false
       },
       "distribution": "internal"
     },
     "production": {
-      "android" : {
-        "buildType": "apk"
+      "android": {
+        "buildType": "app-bundle"
       }
     }
   },
