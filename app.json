@@ -33,6 +33,7 @@
         "foregroundImage": "./assets/adaptive-noodles.png",
         "backgroundColor": "#FFFFFF"
       },
+      "versionCode": "2",
       "package": "com.tomwaitforitmy.mangibevi",
       "googleServicesFile": "./google-services.json"
     },
