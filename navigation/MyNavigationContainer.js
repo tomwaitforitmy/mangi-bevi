@@ -225,7 +225,7 @@ function LoginStackContainer() {
 
 const ProfileStack = createNativeStackNavigator();
 
-function ProfileStackContainer({ navigation }) {
+function ProfileStackContainer() {
   const dispatch = useDispatch();
 
   return (
@@ -235,7 +235,7 @@ function ProfileStackContainer({ navigation }) {
         component={ProfileScreen}
         options={{
           title: "Your Data",
-          headerRight: () => LogoutIcon(dispatch, DEV_MODE, navigation),
+          headerRight: () => LogoutIcon(dispatch),
         }}
       />
       <ProfileStack.Screen
