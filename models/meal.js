@@ -21,7 +21,7 @@ const Meal = (
   ingredients,
   steps,
   imageUrls,
-  tags,
+  tags: tags ? tags : [],
   rating,
   authorId,
   creationDate,
