@@ -3,7 +3,7 @@ import MealList from "../components/MealList";
 import { View, StyleSheet, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchAllNotAuthenticated } from "../firebase/fetchAll";
+import { fetchAll } from "../firebase/fetchAll";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import SearchInput from "../components/SearchInput";
@@ -25,13 +25,13 @@ function MealsScreenNotAuthenticated({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    fetchAllNotAuthenticated(dispatch).then(() => setRefreshing(false));
+    fetchAll(dispatch).then(() => setRefreshing(false));
   }, [dispatch]);
 
   //Todo: Could this be placed somewhere else without useEffect?
   useEffect(() => {
     setIsLoading(true);
-    fetchAllNotAuthenticated(dispatch).then(() => setIsLoading(false));
+    fetchAll(dispatch).then(() => setIsLoading(false));
   }, [dispatch]);
 
   if (isLoading) {
