@@ -21,4 +21,4 @@ const app = initializeApp(firebaseConfig);
 // docs fore storage: https://firebase.google.com/docs/storage/web/create-reference
 const storage = getStorage(app);
 
-export { storage };
+export { storage, firebaseConfig };

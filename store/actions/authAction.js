@@ -15,7 +15,7 @@ export const LOGOUT = "LOGOUT";
 
 let timer;
 
-const FIREBASE_API_KEY = "AIzaSyBK-NbCaWKt412ZW0uBZP5N87RQHck8KwA";
+const FIREBASE_API_KEY = firebaseConfig.apiKey;
 
 export const authenticate = (token, userId, expirationTime) => {
   return (dispatch) => {
