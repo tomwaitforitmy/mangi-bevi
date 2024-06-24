@@ -4,7 +4,9 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.firebaseApiKey ?? process.env.REACT_APP_firebaseApiKey,
+  apiKey:
+    process.env.EXPO_BUILD_FIREBASE_API_KEY ?? //from expo build secrets
+    process.env.EXPO_PUBLIC_FIREBASE_API_KEY, //from my local .env file
   authDomain: "testshop-39aae.firebaseapp.com",
   databaseURL:
     "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app",
