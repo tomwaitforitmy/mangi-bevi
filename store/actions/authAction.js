@@ -5,6 +5,8 @@ import {
   SaveCredentialsToStorage,
   SaveTokenDataToStorage,
 } from "../../common_functions/CredentialStorage";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseConfig } from "../../firebase/firebase";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
 //---------------------------------------------
@@ -164,43 +166,21 @@ export const deleteAccount = () => {
 
 export const login = (email, password) => {
   return async (dispatch) => {
-    const response = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      },
-    );
+    console.log("begin login");
+    const auth = getAuth();
+    await signInWithEmailAndPassword(auth, email, password);
+    const token = await auth.currentUser.getIdToken();
+    const localId = await auth.currentUser.uid;
 
-    await HandleResponseError(response);
-
-    const responseData = await response.json();
-
-    const expirationTimeInMs = convertExpirationTimeToMs(
-      responseData.expiresIn,
-    );
-
-    dispatch(
-      authenticate(
-        responseData.idToken,
-        responseData.localId,
-        expirationTimeInMs,
-      ),
-    );
+    const expirationTimeInMs_byTommy = 60 * 60 * 1000;
+    dispatch(authenticate(token, localId, expirationTimeInMs_byTommy));
 
     console.log("logged in as", email);
 
-    const expirationDate = new Date(new Date().getTime() + expirationTimeInMs);
-    SaveTokenDataToStorage(
-      responseData.idToken,
-      responseData.localId,
-      expirationDate,
+    const expirationDate = new Date(
+      new Date().getTime() + expirationTimeInMs_byTommy,
     );
+    SaveTokenDataToStorage(token, localId, expirationDate);
     SaveCredentialsToStorage(email, password);
   };
 };
