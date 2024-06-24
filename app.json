@@ -34,8 +34,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "versionCode": "3",
-      "package": "com.tomwaitforitmy.mangibevi",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.tomwaitforitmy.mangibevi"
     },
     "web": {
       "favicon": "./assets/favicon.png"
