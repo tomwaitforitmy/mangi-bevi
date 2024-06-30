@@ -134,6 +134,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
     try {
       await dispatch(action);
     } catch (err) {
+      Alert.alert(err.message);
       Alert.alert(
         passwordReset
           ? "Could not reset your password!"
