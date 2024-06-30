@@ -16,9 +16,7 @@ export const LOGOUT = "LOGOUT";
 
 let timer;
 
-const FIREBASE_API_KEY =
-  process.env.EXPO_BUILD_FIREBASE_API_KEY ?? //from expo build secrets
-  process.env.EXPO_PUBLIC_FIREBASE_API_KEY; //from my local .env file
+const FIREBASE_API_KEY = "AIzaSyBK-NbCaWKt412ZW0uBZP5N87RQHck8KwA";
 
 export const authenticate = (token, userId, expirationTime) => {
   return (dispatch) => {
