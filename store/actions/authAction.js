@@ -9,6 +9,7 @@ import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { firebaseConfig } from "../../firebase/firebase";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
+import { Alert } from "react-native";
 //---------------------------------------------
 // Authentication is for the firebase accounts
 //---------------------------------------------
@@ -176,25 +177,32 @@ export const login = (email, password) => {
   return async (dispatch) => {
     console.log("begin login");
 
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    console.log(userCredential.user);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      console.log(userCredential.user);
 
-    const token = await auth.currentUser.getIdToken();
-    const localId = await auth.currentUser.uid;
+      const token = await auth.currentUser.getIdToken();
+      const localId = await auth.currentUser.uid;
 
-    const expirationTimeInMs_byTommy = 60 * 60 * 1000;
-    dispatch(authenticate(token, localId, expirationTimeInMs_byTommy));
+      const expirationTimeInMs_byTommy = 60 * 60 * 1000;
+      dispatch(authenticate(token, localId, expirationTimeInMs_byTommy));
 
-    console.log("logged in as", email);
+      console.log("logged in as", email);
 
-    const expirationDate = new Date(
-      new Date().getTime() + expirationTimeInMs_byTommy,
-    );
-    SaveTokenDataToStorage(token, localId, expirationDate);
-    SaveCredentialsToStorage(email, password);
+      const expirationDate = new Date(
+        new Date().getTime() + expirationTimeInMs_byTommy,
+      );
+      SaveTokenDataToStorage(token, localId, expirationDate);
+      SaveCredentialsToStorage(email, password);
+    } catch (error) {
+      Alert.alert(
+        "error",
+        error + "\n### message " + error.message + "\n### code " + error.code,
+      );
+    }
   };
 };
