@@ -5,17 +5,14 @@ import {
   SaveCredentialsToStorage,
   SaveTokenDataToStorage,
 } from "../../common_functions/CredentialStorage";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { firebaseConfig } from "../../firebase/firebase";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
-import { Alert } from "react-native";
 //---------------------------------------------
 // Authentication is for the firebase accounts
 //---------------------------------------------
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
-const auth = getAuth();
 
 let timer;
 
@@ -29,24 +26,17 @@ export const authenticate = (token, userId, expirationTime) => {
 };
 
 export const logout = () => {
-  return async (dispatch) => {
-    console.log("begin logout");
-    await signOut(auth);
-    clearLogoutTimer();
-    ResetStorage();
+  clearLogoutTimer();
+  ResetStorage();
 
-    dispatch({ type: LOGOUT });
-  };
+  return { type: LOGOUT };
 };
 
 export const logoutTimeout = async () => {
-  return async (dispatch) => {
-    await signOut(auth);
-    clearLogoutTimer();
-    ClearToken();
+  clearLogoutTimer();
+  ClearToken();
 
-    dispatch({ type: LOGOUT });
-  };
+  return { type: LOGOUT };
 };
 
 const clearLogoutTimer = () => {
@@ -176,33 +166,35 @@ export const deleteAccount = () => {
 export const login = (email, password) => {
   return async (dispatch) => {
     console.log("begin login");
+    const response = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+      },
+    );
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      console.log(userCredential.user);
+    await HandleResponseError(response);
 
-      const token = await auth.currentUser.getIdToken();
-      const localId = await auth.currentUser.uid;
+    const responseData = await response.json();
 
-      const expirationTimeInMs_byTommy = 60 * 60 * 1000;
-      dispatch(authenticate(token, localId, expirationTimeInMs_byTommy));
+    const expirationTimeInMs = convertExpirationTimeToMs(
+      responseData.expiresIn,
+    );
+    const token = responseData.idToken;
+    const localId = responseData.localId;
 
-      console.log("logged in as", email);
+    console.log("logged in as", email);
 
-      const expirationDate = new Date(
-        new Date().getTime() + expirationTimeInMs_byTommy,
-      );
-      SaveTokenDataToStorage(token, localId, expirationDate);
-      SaveCredentialsToStorage(email, password);
-    } catch (error) {
-      Alert.alert(
-        "error",
-        error + "\n### message " + error.message + "\n### code " + error.code,
-      );
-    }
+    dispatch(authenticate(token, localId, expirationTimeInMs));
+
+    const expirationDate = new Date(new Date().getTime() + expirationTimeInMs);
+    SaveTokenDataToStorage(token, localId, expirationDate);
+    SaveCredentialsToStorage(email, password);
   };
 };

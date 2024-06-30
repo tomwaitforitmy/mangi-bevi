@@ -140,7 +140,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
           : login
           ? "Could not login!"
           : "Could not create account!",
-        "Please check your input and your internet connection!",
+        "Please check your input and your internet connection!\n" + err,
       );
       console.log(err);
       formDispatch({ type: SUBMITTED });
