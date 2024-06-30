@@ -8,11 +8,14 @@ import {
 import { firebaseConfig } from "../../firebase/firebase";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+
 //---------------------------------------------
 // Authentication is for the firebase accounts
 //---------------------------------------------
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
+const auth = getAuth();
 
 let timer;
 
@@ -26,17 +29,21 @@ export const authenticate = (token, userId, expirationTime) => {
 };
 
 export const logout = () => {
-  clearLogoutTimer();
-  ResetStorage();
+  return async (dispatch) => {
+    clearLogoutTimer();
+    ResetStorage();
 
-  return { type: LOGOUT };
+    dispatch({ type: LOGOUT });
+  };
 };
 
-export const logoutTimeout = async () => {
-  clearLogoutTimer();
-  ClearToken();
+export const logoutTimeout = () => {
+  return async (dispatch) => {
+    clearLogoutTimer();
+    ClearToken();
 
-  return { type: LOGOUT };
+    dispatch({ type: LOGOUT });
+  };
 };
 
 const clearLogoutTimer = () => {
@@ -166,28 +173,41 @@ export const deleteAccount = () => {
 export const login = (email, password) => {
   return async (dispatch) => {
     console.log("begin login");
-    const response = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      },
+
+    //## rest login
+    // const response = await fetch(
+    //   `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({
+    //       email: email,
+    //       password: password,
+    //       returnSecureToken: true,
+    //     }),
+    //   },
+    // );
+
+    // await HandleResponseError(response);
+
+    // const responseData = await response.json();
+
+    // const expirationTimeInMs = convertExpirationTimeToMs(
+    //   responseData.expiresIn,
+    // );
+    // const token = responseData.idToken;
+    // const localId = responseData.localId;
+
+    //## SDK login
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
     );
 
-    await HandleResponseError(response);
-
-    const responseData = await response.json();
-
-    const expirationTimeInMs = convertExpirationTimeToMs(
-      responseData.expiresIn,
-    );
-    const token = responseData.idToken;
-    const localId = responseData.localId;
+    const expirationTimeInMs = 60 * 60 * 1000;
+    const token = await auth.currentUser.getIdToken();
+    const localId = await auth.currentUser.uid;
 
     console.log("logged in as", email);
 
