@@ -5,7 +5,7 @@ import {
   SaveCredentialsToStorage,
   SaveTokenDataToStorage,
 } from "../../common_functions/CredentialStorage";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { firebaseConfig } from "../../firebase/firebase";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
@@ -14,6 +14,7 @@ import User from "../../models/User";
 //---------------------------------------------
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
+const auth = getAuth();
 
 let timer;
 
@@ -27,17 +28,24 @@ export const authenticate = (token, userId, expirationTime) => {
 };
 
 export const logout = () => {
-  clearLogoutTimer();
-  ResetStorage();
+  return async (dispatch) => {
+    console.log("begin logout");
+    await signOut(auth);
+    clearLogoutTimer();
+    ResetStorage();
 
-  return { type: LOGOUT };
+    dispatch({ type: LOGOUT });
+  };
 };
 
-export const logoutTimeout = () => {
-  clearLogoutTimer();
-  ClearToken();
+export const logoutTimeout = async () => {
+  return async (dispatch) => {
+    await signOut(auth);
+    clearLogoutTimer();
+    ClearToken();
 
-  return { type: LOGOUT };
+    dispatch({ type: LOGOUT });
+  };
 };
 
 const clearLogoutTimer = () => {
@@ -167,8 +175,14 @@ export const deleteAccount = () => {
 export const login = (email, password) => {
   return async (dispatch) => {
     console.log("begin login");
-    const auth = getAuth();
-    await signInWithEmailAndPassword(auth, email, password);
+
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+    console.log(userCredential.user);
+
     const token = await auth.currentUser.getIdToken();
     const localId = await auth.currentUser.uid;
 

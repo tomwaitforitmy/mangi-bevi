@@ -8,8 +8,8 @@ const onHeaderIconPress = (dispatch) => {
   Alert.alert("Logout", "Do you really want to logout?", [
     {
       text: "Yes",
-      onPress: () => {
-        dispatch(authActions.logout());
+      onPress: async () => {
+        await dispatch(authActions.logout());
       },
     },
     {
