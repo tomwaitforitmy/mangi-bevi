@@ -15,4 +15,9 @@
 ** "Zur App-Prüfung übermitteln"
 -> "Ihre Übermittlung wurde zur App-Prüfung eingereicht."
 7. eas build --platform android
-** Link teilen mit Android Usern
+8. eas submit
+** In der Google Play Console einen geschlossenen Test erstellen
+** Neue Version inklusive Beschreibung hinzufügen
+** Irgendwo kann man dann "Änderungen übermitteln"
+** Ein paar Tage/Stunden später kann man dann "Veröffentlichen" -> Danach gibt es die Version unter 
+https://play.google.com/apps/testing/com.tomwaitforitmy.mangibevi
