@@ -17,10 +17,7 @@ import SignUpScreen from "../screens/SignUpScreen";
 import PasswordResetScreen from "../screens/PasswordResetScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../store/actions/authAction";
-import {
-  LoadCredentials,
-  LoadToken,
-} from "../common_functions/CredentialStorage";
+import { LoadCredentials } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
 import { Platform } from "react-native";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -300,19 +297,6 @@ const MyNavigationContainer = () => {
 
   useEffect(() => {
     const tryLogin = async () => {
-      const tokenData = await LoadToken();
-
-      if (tokenData) {
-        dispatch(
-          authActions.authenticate(
-            tokenData.token,
-            tokenData.userId,
-            tokenData.expirationTime,
-          ),
-        );
-        return;
-      }
-
       const credentials = await LoadCredentials();
 
       if (credentials) {
