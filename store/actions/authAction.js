@@ -1,14 +1,18 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import {
-  ClearToken,
+  LoadCredentials,
   ResetStorage,
   SaveCredentialsToStorage,
-  SaveTokenDataToStorage,
 } from "../../common_functions/CredentialStorage";
 import { firebaseConfig } from "../../firebase/firebase";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 //---------------------------------------------
 // Authentication is for the firebase accounts
@@ -17,51 +21,31 @@ export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 const auth = getAuth();
 
-let timer;
+let intervalTimer;
 
 const FIREBASE_API_KEY = firebaseConfig.apiKey;
 
-export const authenticate = (token, userId, expirationTime) => {
+export const authenticate = (token, userId) => {
   return (dispatch) => {
-    dispatch(setLogoutTimer(expirationTime));
+    intervalTimer = setInterval(checkAndRefresh, 30 * 60 * 1000);
     dispatch({ type: AUTHENTICATE, token: token, userId: userId });
   };
 };
 
 export const logout = () => {
   return async (dispatch) => {
-    clearLogoutTimer();
+    await signOut(auth);
+    clearLogoutInterval();
     ResetStorage();
 
     dispatch({ type: LOGOUT });
   };
 };
 
-export const logoutTimeout = () => {
-  return async (dispatch) => {
-    clearLogoutTimer();
-    ClearToken();
-
-    dispatch({ type: LOGOUT });
-  };
-};
-
-const clearLogoutTimer = () => {
-  if (timer) {
-    clearTimeout(timer);
+const clearLogoutInterval = () => {
+  if (intervalTimer) {
+    clearInterval(intervalTimer);
   }
-};
-
-const setLogoutTimer = (expirationTime) => {
-  return (dispatch) => {
-    timer = setTimeout(() => {
-      dispatch(logoutTimeout());
-    }, expirationTime);
-  };
-};
-
-const convertExpirationTimeToMs = (expirationTimeInMinutes) => {
-  return parseInt(expirationTimeInMinutes, 10) * 1000;
 };
 
 export const signup = (email, password, username) => {
@@ -82,29 +66,14 @@ export const signup = (email, password, username) => {
     await HandleResponseError(response);
 
     const responseData = await response.json();
-    const expirationTimeInMs = convertExpirationTimeToMs(
-      responseData.expiresIn,
-    );
 
-    dispatch(
-      authenticate(
-        responseData.idToken,
-        responseData.localId,
-        expirationTimeInMs,
-      ),
-    );
+    dispatch(authenticate(responseData.idToken, responseData.localId));
 
     const user = User("error", username, email, [], responseData.localId);
     dispatch(usersActions.createUser(user)).then(() => {
       console.log("logged in as", email);
     });
 
-    const expirationDate = new Date(new Date().getTime() + expirationTimeInMs);
-    SaveTokenDataToStorage(
-      responseData.idToken,
-      responseData.localId,
-      expirationDate,
-    );
     SaveCredentialsToStorage(email, password);
   };
 };
@@ -174,47 +143,48 @@ export const login = (email, password) => {
   return async (dispatch) => {
     console.log("begin login");
 
-    //## rest login
-    // const response = await fetch(
-    //   `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
-    //   {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //       email: email,
-    //       password: password,
-    //       returnSecureToken: true,
-    //     }),
-    //   },
-    // );
+    const credentials = await refreshLogin(email, password, dispatch);
 
-    // await HandleResponseError(response);
+    dispatch(authenticate(credentials.token, credentials.localId));
 
-    // const responseData = await response.json();
-
-    // const expirationTimeInMs = convertExpirationTimeToMs(
-    //   responseData.expiresIn,
-    // );
-    // const token = responseData.idToken;
-    // const localId = responseData.localId;
-
-    //## SDK login
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-
-    const expirationTimeInMs = 60 * 60 * 1000;
-    const token = await auth.currentUser.getIdToken();
-    const localId = await auth.currentUser.uid;
-
-    console.log("logged in as", email);
-
-    dispatch(authenticate(token, localId, expirationTimeInMs));
-
-    const expirationDate = new Date(new Date().getTime() + expirationTimeInMs);
-    SaveTokenDataToStorage(token, localId, expirationDate);
     SaveCredentialsToStorage(email, password);
   };
 };
+
+const refreshLogin = async (email, password) => {
+  //## SDK login
+  const userCredential = await signInWithEmailAndPassword(
+    auth,
+    email,
+    password,
+  );
+
+  const token = await auth.currentUser.getIdToken();
+  const localId = await auth.currentUser.uid;
+
+  console.log("refreshed/logged in as", email);
+  return { token, localId };
+};
+
+const checkAndRefresh = async () => {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    return; // No user logged in
+  }
+
+  console.log("Force refresh token");
+
+  const credentials = await LoadCredentials();
+
+  await refreshLogin(credentials.email, credentials.password);
+};
+
+//klingt gut, aber brauche ich das?
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User is signed in:", user.uid);
+    // Start periodic refresh (adjust interval as needed)
+  } else {
+    console.log("onAuthStateChanged: auto log out");
+  }
+});
