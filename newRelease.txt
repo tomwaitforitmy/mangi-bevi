@@ -16,8 +16,11 @@
 -> "Ihre Übermittlung wurde zur App-Prüfung eingereicht."
 7. eas build --platform android
 8. eas submit
-** In der Google Play Console einen geschlossenen Test erstellen
-** Neue Version inklusive Beschreibung hinzufügen
-** Irgendwo kann man dann "Änderungen übermitteln"
+* In der Google Play Console
+** "geschlossener Test" -> Beta Test -> Track verwalten
+** Versionshinweise eintragen
+** Neue App Bundle Version hinzufügen
+** "Veröffentlichung Übersicht" -> "Änderungen zur Überprüfung senden"
+** "Schnelle Vorabprüfungen auf häufig auftretende Probleme werden ausgeführt" abwarten
 ** Ein paar Tage/Stunden später kann man dann "Veröffentlichen" -> Danach gibt es die Version unter 
 https://play.google.com/apps/testing/com.tomwaitforitmy.mangibevi
