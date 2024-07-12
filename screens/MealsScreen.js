@@ -46,6 +46,7 @@ function MealsScreen({ navigation }) {
   }, [dispatch]);
 
   //Todo: Could this be placed somewhere else without useEffect?
+  //Somehow I need this for the first refresh. onRefresh doesn't trigger
   useEffect(() => {
     setIsLoading(true);
     fetchAll(dispatch).then(() => setIsLoading(false));
