@@ -4,6 +4,7 @@ import { UPDATE_USER_STATS } from "./usersAction";
 import * as usersAction from "./usersAction";
 import { DEV_MODE } from "../../data/Environment";
 import { UnlinkMeals } from "../../common_functions/UnlinkMeals";
+import { firebaseAuth } from "../../firebase/firebase";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -90,9 +91,9 @@ const replacer = (key, value) => {
 };
 
 export const createMeal = (meal) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin createMeal");
-    const token = getState().auth.token;
+    const token = await firebaseAuth.currentUser.getIdToken();
     if (!token) {
       console.log("No token found! Request will fail! Reload App tommy");
     }
@@ -127,9 +128,9 @@ export const createMeal = (meal) => {
 };
 
 export const editMeal = (meal) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin edit meal");
-    const token = getState().auth.token;
+    const token = await firebaseAuth.currentUser.getIdToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
       {
