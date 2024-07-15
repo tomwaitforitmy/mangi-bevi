@@ -1,51 +1,34 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import {
-  LoadCredentials,
   ResetStorage,
   SaveCredentialsToStorage,
 } from "../../common_functions/CredentialStorage";
-import { firebaseConfig } from "../../firebase/firebase";
+import { firebaseAuth, firebaseConfig } from "../../firebase/firebase";
 import * as usersActions from "./usersAction";
 import User from "../../models/User";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 //---------------------------------------------
 // Authentication is for the firebase accounts
 //---------------------------------------------
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
-const auth = getAuth();
-
-let intervalTimer;
 
 const FIREBASE_API_KEY = firebaseConfig.apiKey;
 
 export const authenticate = (token, userId) => {
   return (dispatch) => {
-    intervalTimer = setInterval(checkAndRefresh, 30 * 60 * 1000);
     dispatch({ type: AUTHENTICATE, token: token, userId: userId });
   };
 };
 
 export const logout = () => {
   return async (dispatch) => {
-    await signOut(auth);
-    clearLogoutInterval();
+    await signOut(firebaseAuth);
     ResetStorage();
 
     dispatch({ type: LOGOUT });
   };
-};
-
-const clearLogoutInterval = () => {
-  if (intervalTimer) {
-    clearInterval(intervalTimer);
-  }
 };
 
 export const signup = (email, password, username) => {
@@ -143,48 +126,23 @@ export const login = (email, password) => {
   return async (dispatch) => {
     console.log("begin login");
 
-    const credentials = await refreshLogin(email, password, dispatch);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password,
+      );
 
-    dispatch(authenticate(credentials.token, credentials.localId));
+      const token = await firebaseAuth.currentUser.getIdToken();
+      const localId = firebaseAuth.currentUser.uid;
 
-    SaveCredentialsToStorage(email, password);
+      console.log("logged in as", email);
+
+      await dispatch(authenticate(token, localId));
+
+      SaveCredentialsToStorage(email, password);
+    } catch (error) {
+      console.error(error);
+    }
   };
 };
-
-const refreshLogin = async (email, password) => {
-  //## SDK login
-  const userCredential = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password,
-  );
-
-  const token = await auth.currentUser.getIdToken();
-  const localId = await auth.currentUser.uid;
-
-  console.log("refreshed/logged in as", email);
-  return { token, localId };
-};
-
-const checkAndRefresh = async () => {
-  const currentUser = auth.currentUser;
-  if (!currentUser) {
-    return; // No user logged in
-  }
-
-  console.log("Force refresh token");
-
-  const credentials = await LoadCredentials();
-
-  await refreshLogin(credentials.email, credentials.password);
-};
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("User is signed in:", user.uid);
-  } else {
-    console.log(
-      "onAuthStateChanged: user log out or token invalid. Make sure to invalidate state.",
-    );
-  }
-});
