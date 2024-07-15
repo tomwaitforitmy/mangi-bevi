@@ -19,8 +19,9 @@
 * In der Google Play Console
 ** "geschlossener Test" -> Beta Test -> Track verwalten
 ** Versionshinweise eintragen
-** Neue App Bundle Version hinzufügen
+** Jetzt auf dem Dashboard warten, bis das .aab file Fertig ist
+** "interner Test" -> hochstufen zu Beta Test
 ** "Veröffentlichung Übersicht" -> "Änderungen zur Überprüfung senden"
 ** "Schnelle Vorabprüfungen auf häufig auftretende Probleme werden ausgeführt" abwarten
-** Ein paar Tage/Stunden später kann man dann "Veröffentlichen" -> Danach gibt es die Version unter 
+** Ein paar Tage/Stunden später gibt es die Version unter 
 https://play.google.com/apps/testing/com.tomwaitforitmy.mangibevi
