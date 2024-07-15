@@ -34,6 +34,8 @@ import { HasEditPermission } from "../common_functions/HasEditPermission";
 import { GetFriends } from "../common_functions/GetFriends";
 import SendReportScreen from "../screens/SendReportScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import { onAuthStateChanged } from "firebase/auth";
+import { firebaseAuth } from "../firebase/firebase";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -288,9 +290,23 @@ function NewMealStackContainer() {
 }
 
 const MyNavigationContainer = () => {
-  const token = useSelector((state) => state.auth.token);
-  const isAuthenticated = !!token;
-  console.log("isAuthenticated " + isAuthenticated);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  console.log("isAuthenticated in MyNavigationContainer " + isAuthenticated);
+
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        console.log("User is signed in:", user.uid);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        console.log(
+          "onAuthStateChanged: user log out or token invalid. Make sure to invalidate state.",
+        );
+      }
+    });
+  }, []);
+
   const [appIsReady, setAppIsReady] = useState(false);
 
   const dispatch = useDispatch();
