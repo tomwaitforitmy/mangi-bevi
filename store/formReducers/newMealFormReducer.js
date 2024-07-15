@@ -4,6 +4,7 @@ export const CHANGE_TITLE = "CHANGE_TITLE";
 export const CHANGE_PRIMARY_IMAGE = "CHANGE_PRIMARY_IMAGE";
 export const SUBMITTED = "SUBMITTED";
 export const LOADING = "LOADING";
+export const ABORT_LOADING = "ABORT_LOADING";
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const EDIT_INGREDIENT = "EDIT_INGREDIENT";
 export const EDIT_STEP = "EDIT_STEP";
@@ -298,6 +299,13 @@ export default function newMealFormReducer(state, action) {
     return {
       ...state,
       isLoading: true,
+    };
+  }
+
+  if (action.type === ABORT_LOADING) {
+    return {
+      ...state,
+      isLoading: false,
     };
   }
 

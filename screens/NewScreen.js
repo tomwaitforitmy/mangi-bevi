@@ -42,6 +42,7 @@ import newMealFormReducer, {
   INGREDIENT_SORT,
   STEP_SORT,
   GetInitialState,
+  ABORT_LOADING,
 } from "../store/formReducers/newMealFormReducer";
 import ImageSwipe from "../components/ImageSwipe";
 import MyButton from "../components/MyButton";
@@ -60,6 +61,8 @@ import deleteImages from "../firebase/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";
+import { LoadCredentials } from "../common_functions/CredentialStorage";
+import * as authActions from "../store/actions/authAction";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -231,6 +234,13 @@ function NewScreen({ route, navigation }) {
   }, [formState.stepIndex, formState.stepValue, inputStep]);
 
   const createMealHandler = useCallback(async () => {
+    const tryLogin = async () => {
+      const credentials = await LoadCredentials();
+      await dispatch(
+        authActions.login(credentials.email, credentials.password),
+      );
+    };
+
     Keyboard.dismiss();
     finishIngredientInput();
     finishStepInput();
@@ -244,6 +254,7 @@ function NewScreen({ route, navigation }) {
 
     try {
       formDispatch({ type: LOADING });
+      await tryLogin();
 
       if (mealId) {
         await deleteImages(formState.imageUrlsToDelete);
@@ -305,7 +316,13 @@ function NewScreen({ route, navigation }) {
         formDispatch({ type: SHOW_MODAL, value: id });
       }
     } catch (err) {
-      throw err;
+      console.error(err);
+      Alert.alert(
+        "Could not save your data.",
+        "Maybe you don't have internet connection. Please try again in a few minutes. Error: " +
+          err,
+      );
+      formDispatch({ type: ABORT_LOADING });
     }
   }, [
     dispatch,

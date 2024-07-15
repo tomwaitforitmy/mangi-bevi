@@ -179,12 +179,12 @@ const checkAndRefresh = async () => {
   await refreshLogin(credentials.email, credentials.password);
 };
 
-//klingt gut, aber brauche ich das?
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("User is signed in:", user.uid);
-    // Start periodic refresh (adjust interval as needed)
   } else {
-    console.log("onAuthStateChanged: auto log out");
+    console.log(
+      "onAuthStateChanged: user log out or token invalid. Make sure to invalidate state.",
+    );
   }
 });
