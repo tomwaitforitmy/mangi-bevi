@@ -1,3 +1,5 @@
+import { DEV_MODE } from "../data/Environment";
+
 export const GetUserMeals = (meals, userMeals) => {
   const result = [];
   userMeals.map((id) => {
@@ -5,7 +7,11 @@ export const GetUserMeals = (meals, userMeals) => {
     if (found) {
       result.push(found);
     } else {
-      console.log("Error! Could not find meal id '" + id + "' in meals");
+      if (DEV_MODE) {
+        console.error("Error! Could not find meal id '" + id + "' in meals");
+      } else {
+        console.log("Error! Could not find meal id '" + id + "' in meals");
+      }
     }
   });
 
