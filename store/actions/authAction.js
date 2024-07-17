@@ -4,7 +4,6 @@ import {
   SaveCredentialsToStorage,
 } from "../../common_functions/CredentialStorage";
 import { firebaseAuth, firebaseConfig } from "../../firebase/firebase";
-import * as usersActions from "./usersAction";
 import User from "../../models/User";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
@@ -15,6 +14,18 @@ export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 
 const FIREBASE_API_KEY = firebaseConfig.apiKey;
+
+export const getToken = async () => {
+  try {
+    const token = await firebaseAuth.currentUser.getIdToken();
+    return token;
+  } catch (error) {
+    console.error(
+      "Could not get firebase token! User:" + firebaseAuth.currentUser,
+    );
+    throw error;
+  }
+};
 
 export const authenticate = (token, userId) => {
   return (dispatch) => {
@@ -50,14 +61,13 @@ export const signup = (email, password, username) => {
 
     const responseData = await response.json();
 
-    dispatch(authenticate(responseData.idToken, responseData.localId));
-
-    const user = User("error", username, email, [], responseData.localId);
-    dispatch(usersActions.createUser(user)).then(() => {
-      console.log("logged in as", email);
-    });
+    await dispatch(authenticate(responseData.idToken, responseData.localId));
 
     SaveCredentialsToStorage(email, password);
+
+    const user = User("error", username, email, [], responseData.localId);
+
+    return user;
   };
 };
 
@@ -91,15 +101,13 @@ export const resetPass = (email) => {
 export const deleteAccount = () => {
   //together with redux-thunk, this wrapper is needed
   //even if we technically don't need dispatch
-  return async (dispatch, getState) => {
-    const firebaseId = getState().auth.userId;
+  return async (dispatch) => {
+    const firebaseId = firebaseAuth.currentUser.uid;
+    const token = await getToken();
 
     console.log("begin delete account " + firebaseId);
 
-    if (
-      firebaseId === "JfrGXVhcsNY78LnqQSie0GTcj692" || //tommy
-      firebaseId === "GgseoJjsy8NocDOjWZedK9gDfF53" //kathrin
-    ) {
+    if (firebaseId === "JfrGXVhcsNY78LnqQSie0GTcj692") {
       console.error("Stop deleting your account tommy!");
     } else {
       const response = await fetch(
@@ -108,7 +116,7 @@ export const deleteAccount = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            idToken: getState().auth.token,
+            idToken: token,
           }),
         },
       );
@@ -133,7 +141,7 @@ export const login = (email, password) => {
         password,
       );
 
-      const token = await firebaseAuth.currentUser.getIdToken();
+      const token = await getToken();
       const localId = firebaseAuth.currentUser.uid;
 
       console.log("logged in as", email);

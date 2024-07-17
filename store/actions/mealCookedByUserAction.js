@@ -1,5 +1,6 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import MealCookedByUser from "../../models/MealCookedByUser";
+import * as authAction from "./authAction";
 
 export const ADD_MEAL_COOKED_BY_USER = "ADD_MEAL_COOKED_BY_USER";
 export const SET_MEALS_COOKED_BY_USER = "SET_MEALS_COOKED_BY_USER";
@@ -13,10 +14,10 @@ const replacer = (key, value) => {
 };
 
 export const addMealCookedByUser = (mealCookedByUser) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin addMealCookedByUser");
     try {
-      const token = getState().auth.token;
+      const token = await authAction.getToken();
       if (!token) {
         console.log("No token found! Request will fail! Reload App tommy");
       }
@@ -51,10 +52,10 @@ export const addMealCookedByUser = (mealCookedByUser) => {
 };
 
 export const fetchCookedByUsers = (mealId) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin fetchCookedByUsers");
     try {
-      const token = getState().auth.token;
+      const token = await authAction.getToken();
 
       const response = await fetch(
         `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?mealId=${mealId}&auth=${token}`,

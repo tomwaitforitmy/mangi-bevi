@@ -1,5 +1,6 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import Tag from "../../models/Tag";
+import * as authAction from "./authAction";
 
 export const DELETE_TAG = "DELETE_TAG";
 export const CREATE_TAG = "CREATE_TAG";
@@ -95,13 +96,9 @@ const replacer = (key, value) => {
 };
 
 export const createTag = (tag) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin createTag");
-    const token = getState().auth.token;
-    if (!token) {
-      console.log("No token found! Request will fail! Reload App tommy");
-    }
-
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags.json?auth=${token}`,
       {
@@ -126,9 +123,9 @@ export const createTag = (tag) => {
 };
 
 export const editTag = (tag) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin edit tag");
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags/${tag.id}.json?auth=${token}`,
       {
@@ -149,8 +146,8 @@ export const editTag = (tag) => {
 };
 
 export const deleteTag = (id) => {
-  return async (dispatch, getState) => {
-    const token = getState().auth.token;
+  return async (dispatch) => {
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags/${id}.json?auth=${token}`,
       {

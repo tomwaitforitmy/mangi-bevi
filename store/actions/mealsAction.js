@@ -2,9 +2,9 @@ import { HandleResponseError } from "../../common_functions/HandleResponseError"
 import Meal from "../../models/Meal";
 import { UPDATE_USER_STATS } from "./usersAction";
 import * as usersAction from "./usersAction";
+import * as authAction from "./authAction";
 import { DEV_MODE } from "../../data/Environment";
 import { UnlinkMeals } from "../../common_functions/UnlinkMeals";
-import { firebaseAuth } from "../../firebase/firebase";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -93,10 +93,7 @@ const replacer = (key, value) => {
 export const createMeal = (meal) => {
   return async (dispatch) => {
     console.log("Begin createMeal");
-    const token = await firebaseAuth.currentUser.getIdToken();
-    if (!token) {
-      console.log("No token found! Request will fail! Reload App tommy");
-    }
+    const token = await authAction.getToken();
 
     if (DEV_MODE) {
       meal.isTestMangi = true;
@@ -130,7 +127,7 @@ export const createMeal = (meal) => {
 export const editMeal = (meal) => {
   return async (dispatch) => {
     console.log("begin edit meal");
-    const token = await firebaseAuth.currentUser.getIdToken();
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
       {
@@ -151,9 +148,9 @@ export const editMeal = (meal) => {
 };
 
 export const editLinks = (meal) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin edit links");
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
       {
@@ -176,9 +173,9 @@ export const editLinks = (meal) => {
 };
 
 export const editReactions = (meal) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin edit reactions");
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
       {
@@ -201,7 +198,7 @@ export const editReactions = (meal) => {
 };
 
 export const deleteMeal = (meal, user, allMeals) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin delete meal");
 
     if (meal.authorId !== user.id) {
@@ -220,7 +217,7 @@ export const deleteMeal = (meal, user, allMeals) => {
       }),
     );
 
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
       {
@@ -238,6 +235,10 @@ export const deleteMeal = (meal, user, allMeals) => {
     const editedUser = { ...user };
     editedUser.meals = user.meals.filter((m) => m !== meal.id);
     await dispatch(usersAction.editUser(editedUser));
+
+    //todo:
+    //Remove reactions
+    //Remove mark as cooked entries
 
     console.log("end delete meal");
   };

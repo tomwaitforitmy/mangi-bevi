@@ -1,11 +1,12 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import Report from "../../models/Report";
+import * as authAction from "./authAction";
 
 export const CREATE_REPORT = "CREATE_REPORT";
 export const SET_REPORTS = "SET_REPORTS";
 
 export const fetchReports = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin fetch Reports");
     try {
       const response = await fetch(
@@ -51,13 +52,9 @@ const replacer = (key, value) => {
 };
 
 export const createReport = (report) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin create Report");
-    const token = getState().auth.token;
-
-    if (!token) {
-      console.log("No token found! Request will fail! Reload App tommy");
-    }
+    const token = await authAction.getToken();
 
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/reports.json?auth=${token}`,
