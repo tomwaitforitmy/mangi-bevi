@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
+import * as userActions from "../store/actions/usersAction";
 import loginFormReducer, {
   EDIT_FIELD,
   SET_FIELD_ERROR,
@@ -115,24 +116,23 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
       return;
     }
 
-    let action;
-    if (login) {
-      action = authActions.login(formState.email, formState.password);
-    }
-    if (newAccount) {
-      action = authActions.signup(
-        formState.email,
-        formState.password,
-        formState.user.trim(),
-      );
-    }
-    if (passwordReset) {
-      action = authActions.resetPass(formState.email);
-    }
-
     formDispatch({ type: LOADING });
     try {
-      await dispatch(action);
+      if (login) {
+        await authActions.login(formState.email, formState.password);
+      }
+      if (newAccount) {
+        await dispatch(
+          userActions.signUpAndCreateUser(
+            formState.email,
+            formState.password,
+            formState.user.trim(),
+          ),
+        );
+      }
+      if (passwordReset) {
+        await authActions.resetPass(formState.email);
+      }
     } catch (err) {
       Alert.alert(
         passwordReset
