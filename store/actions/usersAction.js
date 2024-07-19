@@ -1,5 +1,7 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
+import { firebaseAuth } from "../../firebase/firebase";
 import User from "../../models/User";
+import * as authAction from "./authAction";
 
 //---------------------------------------------
 // user action is for my user data such as name
@@ -15,7 +17,7 @@ export const UPDATE_USER_STATS = "UPDATE_USER_STATS";
 export const ERROR_NO_USER_LOGGED_IN = "ERROR_NO_USER_LOGGED_IN";
 
 export const fetchUsers = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin fetch Users");
     try {
       const response = await fetch(
@@ -45,8 +47,8 @@ export const fetchUsers = () => {
       }
 
       let user = ERROR_NO_USER_LOGGED_IN;
-      if (getState().auth.userId) {
-        const firebaseId = getState().auth.userId;
+      if (firebaseAuth.currentUser) {
+        const firebaseId = firebaseAuth.currentUser.uid;
         user = loadedUsers.find((u) => u.firebaseId === firebaseId);
       }
 
@@ -70,16 +72,21 @@ const replacer = (key, value) => {
   }
 };
 
+export const signUpAndCreateUser = (email, password, username) => {
+  return async (dispatch) => {
+    console.log("begin signUpAndCreateUser");
+    const user = await authAction.signup(email, password, username);
+
+    await dispatch(createUser(user)).then(() => {
+      console.log("end signed up as", user.email);
+    });
+  };
+};
+
 export const createUser = (user) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("Begin create User");
-    const token = getState().auth.token;
-    user.firebaseId = getState().auth.userId;
-
-    if (!token) {
-      console.log("No token found! Request will fail! Reload App tommy");
-    }
-
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
       {
@@ -108,7 +115,7 @@ export const createUser = (user) => {
 export const editUser = (user) => {
   return async (dispatch, getState) => {
     console.log("begin edit user");
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
       {
@@ -134,9 +141,9 @@ export const editUser = (user) => {
 };
 
 export const editFriends = (user) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin edit friends");
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
       {
@@ -159,9 +166,9 @@ export const editFriends = (user) => {
 };
 
 export const editExpoPushToken = (user) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin edit expoPushToken");
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
       {
@@ -184,9 +191,9 @@ export const editExpoPushToken = (user) => {
 };
 
 export const editSettings = (user) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     console.log("begin edit settings");
-    const token = getState().auth.token;
+    const token = await authAction.getToken();
     const response = await fetch(
       `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
       {
@@ -209,15 +216,12 @@ export const editSettings = (user) => {
 };
 
 export const deleteUser = (user) => {
-  return async (getState) => {
+  return async (dispatch) => {
     console.log("begin delete user");
-    if (
-      user.email === "tomwaitforitmy@gmail.com" ||
-      user.email === "kathi_j@gmx.de"
-    ) {
+    if (user.email === "tomwaitforitmy@gmail.com") {
       console.error("Stop deleting yourself tommy!");
     } else {
-      const token = getState().auth.token;
+      const token = await authAction.getToken();
       const response = await fetch(
         `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
         {
