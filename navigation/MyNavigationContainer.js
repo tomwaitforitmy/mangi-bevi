@@ -225,8 +225,6 @@ function LoginStackContainer() {
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackContainer() {
-  const dispatch = useDispatch();
-
   return (
     <ProfileStack.Navigator screenOptions={defaultScreenOptions}>
       <ProfileStack.Screen
@@ -234,7 +232,7 @@ function ProfileStackContainer() {
         component={ProfileScreen}
         options={{
           title: "Your Data",
-          headerRight: () => LogoutIcon(dispatch),
+          headerRight: () => LogoutIcon(),
         }}
       />
       <ProfileStack.Screen
@@ -316,7 +314,7 @@ const MyNavigationContainer = () => {
       const credentials = await LoadCredentials();
 
       if (credentials) {
-        dispatch(authActions.login(credentials.email, credentials.password));
+        await authActions.login(credentials.email, credentials.password);
       }
     };
     async function prepare() {

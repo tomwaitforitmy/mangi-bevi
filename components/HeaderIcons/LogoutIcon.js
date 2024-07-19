@@ -4,12 +4,12 @@ import * as authActions from "../../store/actions/authAction";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert } from "react-native";
 
-const onHeaderIconPress = (dispatch) => {
+const onHeaderIconPress = () => {
   Alert.alert("Logout", "Do you really want to logout?", [
     {
       text: "Yes",
       onPress: async () => {
-        await dispatch(authActions.logout());
+        await authActions.logout();
       },
     },
     {
@@ -19,13 +19,13 @@ const onHeaderIconPress = (dispatch) => {
   ]);
 };
 
-const LogoutIcon = (dispatch) => {
+const LogoutIcon = () => {
   return (
     <Ionicons
       name={"exit-outline"}
       size={25}
       color={Colors.navigationIcon}
-      onPress={() => onHeaderIconPress(dispatch)}
+      onPress={() => onHeaderIconPress()}
     />
   );
 };
