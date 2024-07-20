@@ -1,9 +1,9 @@
-import { TagFilterMeals } from "../../common_functions/TagFilterMeals.js";
-import { ZATARMEALS } from "../../data/DummyMeals.js";
 import {
   FILTER_MODE_AND,
   FILTER_MODE_OR,
-} from "../../store/actions/tagsAction.js";
+  TagFilterMeals,
+} from "../../common_functions/TagFilterMeals.js";
+import { ZATARMEALS } from "../../data/DummyMeals.js";
 
 describe("TagFilterMeals", () => {
   it("finds 3 meals with tag -MwD2GS0FdbqWp1kCqmg inside ZATARMEALS", () => {

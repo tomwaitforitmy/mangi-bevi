@@ -1,4 +1,5 @@
-import { FILTER_MODE_AND, FILTER_MODE_OR } from "../store/actions/tagsAction";
+export const FILTER_MODE_AND = "FILTER_MODE_AND";
+export const FILTER_MODE_OR = "FILTER_MODE_OR";
 
 export const TagFilterMeals = (allMeals, tagIdsToFilter, filterMode) => {
   if (!tagIdsToFilter || tagIdsToFilter.length < 1) {
