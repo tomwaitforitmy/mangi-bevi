@@ -1,7 +1,10 @@
+import {
+  FILTER_MODE_AND,
+  FILTER_MODE_OR,
+} from "../../common_functions/TagFilterMeals";
 import { TAGS } from "../../data/DummyTags";
 import Tag from "../../models/Tag";
 import {
-  EDIT_TAG,
   SET_TAGS,
   SET_ADDED_TAGS,
   CREATE_TAG,
@@ -11,8 +14,6 @@ import {
   ADD_FILTER_TAG,
   REMOVE_FILTER_TAG,
   SET_FILTER_TAGS,
-  FILTER_MODE_OR,
-  FILTER_MODE_AND,
 } from "../actions/tagsAction";
 
 const initialState = {
