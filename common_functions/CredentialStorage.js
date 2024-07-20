@@ -24,8 +24,8 @@ export const SaveCredentialsToStorage = (email, password) => {
   );
 };
 
-export const ResetStorage = () => {
-  AsyncStorage.removeItem(CREDENTIALS);
+export const ResetStorage = async () => {
+  await AsyncStorage.removeItem(CREDENTIALS);
 };
 
 export const CREDENTIALS = "mangi-bevi-credentials";

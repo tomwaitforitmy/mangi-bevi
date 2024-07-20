@@ -21,6 +21,7 @@ import loginFormReducer, {
   LOADING,
   SUBMITTED,
 } from "../store/formReducers/accountFormReducer";
+import { ResetStorage } from "../common_functions/CredentialStorage";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -100,8 +101,8 @@ function ManageAccountScreen({ navigation }) {
   const softDelete = async () => {
     formDispatch({ type: LOADING });
     await dispatch(usersAction.deleteUser(user));
-    await dispatch(authAction.deleteAccount());
-    await dispatch(authAction.logout());
+    await authAction.deleteAccount();
+    await ResetStorage();
     formDispatch({ type: SUBMITTED });
   };
 

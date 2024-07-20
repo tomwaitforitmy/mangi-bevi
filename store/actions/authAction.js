@@ -1,7 +1,3 @@
-import {
-  ResetStorage,
-  SaveCredentialsToStorage,
-} from "../../common_functions/CredentialStorage";
 import { firebaseAuth } from "../../firebase/firebase";
 import User from "../../models/User";
 import {
@@ -32,7 +28,6 @@ export const getToken = async () => {
 export const logout = async () => {
   try {
     await signOut(firebaseAuth);
-    ResetStorage();
   } catch (error) {
     console.error("Error logout:" + error);
   }
@@ -56,7 +51,6 @@ export const signup = async (email, password, username) => {
 export const resetPass = async (email) => {
   try {
     await sendPasswordResetEmail(firebaseAuth, email);
-    ResetStorage();
     console.log("Password reset successful for " + email);
   } catch (error) {
     console.error("Error reset password:" + error);
@@ -72,7 +66,6 @@ export const deleteAccount = async () => {
       console.error("Stop deleting your account tommy!");
     } else {
       deleteUser(firebaseUser);
-      ResetStorage();
     }
   } catch (error) {
     console.error("Error delete user:" + error);
@@ -84,8 +77,6 @@ export const login = async (email, password) => {
 
   try {
     await signInWithEmailAndPassword(firebaseAuth, email, password);
-
-    SaveCredentialsToStorage(email, password);
     console.log("logged in as", email);
   } catch (error) {
     console.error("error login:" + error);

@@ -23,6 +23,10 @@ import {
   INVALID_USER_ERROR,
   IsUserNameValid,
 } from "../common_functions/IsUserNameValid";
+import {
+  ResetStorage,
+  SaveCredentialsToStorage,
+} from "../common_functions/CredentialStorage";
 
 function AuthenticationContent({ navigation, login, passwordReset }) {
   const initialState = {
@@ -120,6 +124,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
     try {
       if (login) {
         await authActions.login(formState.email, formState.password);
+        SaveCredentialsToStorage(formState.email, formState.password);
       }
       if (newAccount) {
         await dispatch(
@@ -129,9 +134,11 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
             formState.user.trim(),
           ),
         );
+        SaveCredentialsToStorage(formState.email, formState.password);
       }
       if (passwordReset) {
         await authActions.resetPass(formState.email);
+        await ResetStorage();
       }
     } catch (err) {
       Alert.alert(
