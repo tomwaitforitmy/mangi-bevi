@@ -2,12 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import Constants from "expo-constants";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBK-NbCaWKt412ZW0uBZP5N87RQHck8KwA",
-  // process.env.EXPO_BUILD_FIREBASE_API_KEY ?? //from expo build secrets
-  // process.env.EXPO_PUBLIC_FIREBASE_API_KEY, //from my local .env file
+  apiKey: Constants.expoConfig.mySecrets.firebaseApiKey,
   authDomain: "testshop-39aae.firebaseapp.com",
   databaseURL:
     "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app",

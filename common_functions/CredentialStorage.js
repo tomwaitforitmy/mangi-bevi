@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import * as Application from "expo-application";
+import Constants from "expo-constants";
 import { Platform } from "react-native";
 
 export const LoadCredentials = async () => {
@@ -19,10 +20,10 @@ export const LoadCredentials = async () => {
 
 const LoadCredentialsSafely = async () => {
   const mailKey = await generateUserSpecificKey(
-    process.env.EXPO_PUBLIC_EMAIL_KEY,
+    Constants.expoConfig.mySecrets.emailKey,
   );
   const passKey = await generateUserSpecificKey(
-    process.env.EXPO_PUBLIC_PASSWORD_KEY,
+    Constants.expoConfig.mySecrets.passKey,
   );
 
   const email = await SecureStore.getItemAsync(mailKey);
@@ -33,10 +34,10 @@ const LoadCredentialsSafely = async () => {
 
 export const SaveCredentialsToStorage = async (email, password) => {
   const mailKey = await generateUserSpecificKey(
-    process.env.EXPO_PUBLIC_EMAIL_KEY,
+    Constants.expoConfig.mySecrets.emailKey,
   );
   const passKey = await generateUserSpecificKey(
-    process.env.EXPO_PUBLIC_PASSWORD_KEY,
+    Constants.expoConfig.mySecrets.passKey,
   );
   await SecureStore.setItemAsync(mailKey, email);
   await SecureStore.setItemAsync(passKey, password);
@@ -55,16 +56,16 @@ const generateUserSpecificKey = async (key) => {
     const combinedString = `${key}-${uniqueId}`;
     return combinedString;
   } catch (error) {
-    console.log("Error getting user specific key:", error);
+    console.error("Error getting user specific key:", error);
   }
 };
 
 export const ResetSecureStorage = async () => {
   const mailKey = await generateUserSpecificKey(
-    process.env.EXPO_PUBLIC_EMAIL_KEY,
+    Constants.expoConfig.mySecrets.emailKey,
   );
   const passKey = await generateUserSpecificKey(
-    process.env.EXPO_PUBLIC_PASSWORD_KEY,
+    Constants.expoConfig.mySecrets.passKey,
   );
 
   await SecureStore.deleteItemAsync(mailKey);
