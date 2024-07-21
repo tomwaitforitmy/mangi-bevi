@@ -47,7 +47,13 @@
           "color": "#ffffff"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow Mangi & Bevi to access your Face ID biometric data."
+        }
+      ]
     ],
     "extra": {
       "eas": {

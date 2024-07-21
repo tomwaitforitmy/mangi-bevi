@@ -24,7 +24,7 @@ import {
   IsUserNameValid,
 } from "../common_functions/IsUserNameValid";
 import {
-  ResetStorage,
+  ResetSecureStorage,
   SaveCredentialsToStorage,
 } from "../common_functions/CredentialStorage";
 
@@ -138,7 +138,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
       }
       if (passwordReset) {
         await authActions.resetPass(formState.email);
-        await ResetStorage();
+        await ResetSecureStorage();
       }
     } catch (err) {
       Alert.alert(

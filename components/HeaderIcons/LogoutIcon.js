@@ -3,7 +3,7 @@ import Colors from "../../constants/Colors";
 import * as authActions from "../../store/actions/authAction";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert } from "react-native";
-import { ResetStorage } from "../../common_functions/CredentialStorage";
+import { ResetSecureStorage } from "../../common_functions/CredentialStorage";
 
 const onHeaderIconPress = () => {
   Alert.alert("Logout", "Do you really want to logout?", [
@@ -11,7 +11,7 @@ const onHeaderIconPress = () => {
       text: "Yes",
       onPress: async () => {
         await authActions.logout();
-        await ResetStorage();
+        await ResetSecureStorage();
       },
     },
     {

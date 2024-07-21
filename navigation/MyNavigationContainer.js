@@ -294,13 +294,11 @@ const MyNavigationContainer = () => {
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
-        console.log("User is signed in:", user.uid);
+        console.log("onAuthStateChanged: User is signed in:", user.uid);
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
-        console.log(
-          "onAuthStateChanged: user log out or token invalid. Make sure to invalidate state.",
-        );
+        console.log("onAuthStateChanged: user log out or invalid.");
       }
     });
   }, []);
@@ -313,8 +311,10 @@ const MyNavigationContainer = () => {
     const tryLogin = async () => {
       const credentials = await LoadCredentials();
 
-      if (credentials) {
+      if (credentials && credentials.email && credentials.password) {
         await authActions.login(credentials.email, credentials.password);
+      } else {
+        console.log("Could not load any credentials");
       }
     };
     async function prepare() {

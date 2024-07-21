@@ -6,7 +6,6 @@ import MyButton from "../components/MyButton";
 import * as usersAction from "../store/actions/usersAction";
 import * as authAction from "../store/actions/authAction";
 import LoadingIndicator from "../components/LoadingIndicator";
-import User from "../models/User";
 import {
   INVALID_USER_ERROR,
   IsUserNameValid,
@@ -21,7 +20,7 @@ import loginFormReducer, {
   LOADING,
   SUBMITTED,
 } from "../store/formReducers/accountFormReducer";
-import { ResetStorage } from "../common_functions/CredentialStorage";
+import { ResetSecureStorage } from "../common_functions/CredentialStorage";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -102,7 +101,7 @@ function ManageAccountScreen({ navigation }) {
     formDispatch({ type: LOADING });
     await dispatch(usersAction.deleteUser(user));
     await authAction.deleteAccount();
-    await ResetStorage();
+    await ResetSecureStorage();
     formDispatch({ type: SUBMITTED });
   };
 
