@@ -20,10 +20,10 @@ export const LoadCredentials = async () => {
 
 const LoadCredentialsSafely = async () => {
   const mailKey = await generateUserSpecificKey(
-    Constants.expoConfig.mySecrets.emailKey,
+    Constants.expoConfig.extra.emailKey,
   );
   const passKey = await generateUserSpecificKey(
-    Constants.expoConfig.mySecrets.passKey,
+    Constants.expoConfig.extra.passKey,
   );
 
   const email = await SecureStore.getItemAsync(mailKey);
@@ -34,10 +34,10 @@ const LoadCredentialsSafely = async () => {
 
 export const SaveCredentialsToStorage = async (email, password) => {
   const mailKey = await generateUserSpecificKey(
-    Constants.expoConfig.mySecrets.emailKey,
+    Constants.expoConfig.extra.emailKey,
   );
   const passKey = await generateUserSpecificKey(
-    Constants.expoConfig.mySecrets.passKey,
+    Constants.expoConfig.extra.passKey,
   );
   await SecureStore.setItemAsync(mailKey, email);
   await SecureStore.setItemAsync(passKey, password);
@@ -62,10 +62,10 @@ const generateUserSpecificKey = async (key) => {
 
 export const ResetSecureStorage = async () => {
   const mailKey = await generateUserSpecificKey(
-    Constants.expoConfig.mySecrets.emailKey,
+    Constants.expoConfig.extra.emailKey,
   );
   const passKey = await generateUserSpecificKey(
-    Constants.expoConfig.mySecrets.passKey,
+    Constants.expoConfig.extra.passKey,
   );
 
   await SecureStore.deleteItemAsync(mailKey);

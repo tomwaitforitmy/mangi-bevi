@@ -7,7 +7,8 @@ module.exports = ({ config }) => {
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
     },
-    mySecrets: {
+    extra: {
+      ...config.extra,
       firebaseApiKey:
         process.env.EXPO_BUILD_FIREBASE_API_KEY ?? //from expo build secrets
         process.env.EXPO_PUBLIC_FIREBASE_API_KEY, //from my local .env file
