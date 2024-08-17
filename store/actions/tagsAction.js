@@ -1,8 +1,4 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
-import {
-  FILTER_MODE_AND,
-  FILTER_MODE_OR,
-} from "../../common_functions/TagFilterMeals";
 import Tag from "../../models/Tag";
 import * as authAction from "./authAction";
 
@@ -39,14 +35,6 @@ export const addFilterTag = (tag) => {
 
 export const removeFilterTag = (tag) => {
   return { type: REMOVE_FILTER_TAG, tag: tag };
-};
-
-export const setFilterModeOr = () => {
-  return { type: FILTER_MODE_OR };
-};
-
-export const setFilterModeAnd = () => {
-  return { type: FILTER_MODE_AND };
 };
 
 const compareTags = (a, b) => {

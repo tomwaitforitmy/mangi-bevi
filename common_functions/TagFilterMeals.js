@@ -1,29 +1,14 @@
-export const FILTER_MODE_AND = "FILTER_MODE_AND";
-export const FILTER_MODE_OR = "FILTER_MODE_OR";
-
-export const TagFilterMeals = (allMeals, tagIdsToFilter, filterMode) => {
+export const TagFilterMeals = (allMeals, tagIdsToFilter, filterOr = true) => {
   if (!tagIdsToFilter || tagIdsToFilter.length < 1) {
     return allMeals;
-  }
-  //check for default mode
-  if (!filterMode) {
-    filterMode = FILTER_MODE_OR;
   }
 
   let filteredMeals = [];
 
-  switch (filterMode) {
-    case FILTER_MODE_AND: {
-      filterAndMode(allMeals, tagIdsToFilter, filteredMeals);
-      break;
-    }
-    case FILTER_MODE_OR: {
-      filterOrMode(allMeals, tagIdsToFilter, filteredMeals);
-      break;
-    }
-
-    default:
-      throw new Error("Invalid filter mode for tags! Mode is " + filterMode);
+  if (filterOr) {
+    filterOrMode(allMeals, tagIdsToFilter, filteredMeals);
+  } else {
+    filterAndMode(allMeals, tagIdsToFilter, filteredMeals);
   }
 
   return filteredMeals;

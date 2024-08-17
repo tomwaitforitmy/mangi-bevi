@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
-import FilterModeSwitch from "../components/Switches/FilterModeSwitch";
 import TagList from "../components/TagList";
 import * as tagActions from "../store/actions/tagsAction";
+import AndOrTagFilterSwitch from "../components/Switches/AndOrTagFilterSwitch";
 
 function FiltersScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function FiltersScreen({ navigation }) {
         <Text style={styles.subtitle}>Active Tag Filters</Text>
         <Divider />
         <TagList tags={filterTags} onPressTag={removeTagHandler} />
-        <FilterModeSwitch />
+        <AndOrTagFilterSwitch />
         <Text style={styles.subtitle}>Available Tags</Text>
         <Divider />
         <TagList tags={availableFilterTags} onPressTag={addTagHandler} />

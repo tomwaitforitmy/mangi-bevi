@@ -18,6 +18,7 @@ import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../notifications/RegisterForPushNotifications";
 import * as usersAction from "../store/actions/usersAction";
 import { IsEmailValid } from "../common_functions/IsEmailValid";
+import { enableAndFilter } from "../data/AvailableSettings";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -27,7 +28,6 @@ function MealsScreen({ navigation }) {
 
   const allMeals = useSelector((state) => state.meals.meals);
   const filterTags = useSelector((state) => state.tags.filterTags);
-  const filterMode = useSelector((state) => state.tags.filterMode);
   const searchTerm = useSelector((state) => state.search.searchTerm);
 
   const filtersActive = filterTags.length > 0;
@@ -136,7 +136,13 @@ function MealsScreen({ navigation }) {
 
   const tagIdsToFilter = filterTags.map((t) => t.id);
 
-  filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterMode);
+  const filterAndSettingEnabled = user.settings.find(
+    (s) => s.name === enableAndFilter,
+  );
+
+  const filterOr = filterAndSettingEnabled ? false : true;
+
+  filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterOr);
   filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
 
   //To find new corrupt data
