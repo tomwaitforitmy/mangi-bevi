@@ -11,7 +11,13 @@ function DevScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
 
+  // Assume a default font size and line height
+  const lineHeight = 30; // Adjust this to match your font's line height
+  const maxLines = 2;
+  const maxHeight = lineHeight * maxLines; // Calculate max height for 3 lines
+
   const [inputValue, setInputValue] = useState("");
+  const [inputHeight, setInputHeight] = useState(lineHeight);
   const [items, setItems] = useState([]); // State to store the list of inputs
   const inputRef = useRef(null); // Ref to access the TextInput
   const scrollViewRef = useRef(null); // Ref to access the ScrollView
@@ -93,7 +99,8 @@ function DevScreen({ navigation }) {
       /> */}
       <View style={styles.inputContainer}>
         <TextInput
-          style={styles.input}
+          // style={[styles.input, { height: inputHeight }]} // Dynamically adjust height
+          style={styles.input} // Dynamically adjust height
           multiline={true}
           ref={inputRef} // Attach the ref to the TextInput
           placeholder="Input"
@@ -105,6 +112,11 @@ function DevScreen({ navigation }) {
           onEndEditing={() => {
             handleAddItem(); // Handles the action when return is pressed
           }}
+          // onContentSizeChange={(event) => {
+          //   const contentHeight = event.nativeEvent.contentSize.height;
+          //   // Set a maximum height for 3 lines (adjust 120 for your font size and line height)
+          //   setInputHeight(Math.min(contentHeight, maxHeight)); // Adjust the maximum height for 3 lines
+          // }}
         />
         <Text style={styles.text}>Send</Text>
       </View>
@@ -119,8 +131,8 @@ const styles = StyleSheet.create({
     textAlignVertical: "bottom",
     backgroundColor: "red",
     // alignContent: "center",
-    minHeight: 50,
-    maxHeight: 50,
+    minHeight: 60,
+    maxHeight: 60,
     marginVertical: 10, // Add some vertical margin for spacing
   },
   inputContainer: {
@@ -137,8 +149,8 @@ const styles = StyleSheet.create({
     color: "white",
     backgroundColor: "lightgrey",
     width: "80%", // Use full width
-    minHeight: 50,
-    maxHeight: 50,
+    minHeight: 30,
+    maxHeight: 60,
     marginVertical: 10, // Add some vertical margin for spacing
     fontSize: 20,
   },
