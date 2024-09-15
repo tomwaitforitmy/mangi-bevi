@@ -44,7 +44,7 @@ function DevScreen({ navigation }) {
         setKeyboardOffset(offset); // Set keyboard height
         setTimeout(() => {
           scrollViewRef.current?.scrollToEnd({ animated: true });
-        }, 100);
+        }, 10);
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
@@ -69,7 +69,7 @@ function DevScreen({ navigation }) {
       setInputValue(""); // Clear the input field
       setTimeout(() => {
         inputRef.current?.focus(); // Refocus on the TextInput
-      }, 100);
+      }, 10);
     }
   };
 
