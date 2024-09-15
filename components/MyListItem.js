@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { ListItem, Icon } from "react-native-elements";
 import Hyperlink from "react-native-hyperlink";
+import { Icon } from "react-native-elements";
 import Colors from "../constants/Colors";
 import HighlightedText from "./HighlightedText";
 import { PreTestSplit } from "../common_functions/SplitTextToHighlight";
@@ -14,24 +14,20 @@ const MyListItem = (props) => {
 
   return (
     <View style={styles.listItemView}>
-      <ListItem bottomDivider>
-        <ListItem.Content>
+      <View style={styles.listItem}>
+        <View style={styles.textContainer}>
           {highlightText ? (
-            <ListItem.Title>
-              <HighlightedText
-                text={props.title}
-                searchTerm={searchTerm}
-                highlightColor={Colors.searchTermHighlight}
-              />
-            </ListItem.Title>
+            <HighlightedText
+              text={props.title}
+              searchTerm={searchTerm}
+              highlightColor={Colors.searchTermHighlight}
+            />
           ) : (
             <Hyperlink linkDefault={true} linkStyle={styles.linkStyle}>
-              <ListItem.Title>
-                <Text>{props.title}</Text>
-              </ListItem.Title>
+              <Text style={styles.text}>{props.title}</Text>
             </Hyperlink>
           )}
-        </ListItem.Content>
+        </View>
         {props.IconName && (
           <Icon
             name={props.IconName}
@@ -40,17 +36,28 @@ const MyListItem = (props) => {
             testID={testIconId}
           />
         )}
-      </ListItem>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  markedText: { color: Colors.searchTermHighlight },
   linkStyle: { color: Colors.hyperlink },
   listItemView: {
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     padding: 2,
+  },
+  listItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  text: {
+    fontSize: 16,
   },
 });
 

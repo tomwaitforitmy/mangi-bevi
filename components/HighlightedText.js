@@ -35,7 +35,9 @@ const HighlightedText = ({ text, searchTerm, highlightColor }) => {
 };
 
 const styles = StyleSheet.create({
-  regularText: {},
+  regularText: {
+    fontSize: 16,
+  },
 });
 
 export default HighlightedText;

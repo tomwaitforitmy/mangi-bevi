@@ -82,6 +82,9 @@ describe("MyListItem", () => {
 
     expect(screen.queryByText("trillion")).toBeFalsy();
     expect(screen.getByText("million")).toBeTruthy();
-    expect(screen.getByText("million").props.style).toBeFalsy();
+    //Small hack, because I didn't now how check that color is not set
+    expect(screen.getByText("million").props.style).toStrictEqual({
+      fontSize: 16,
+    });
   });
 });
