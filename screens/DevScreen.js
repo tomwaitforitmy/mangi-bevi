@@ -42,6 +42,8 @@ function DevScreen({ navigation }) {
       (event) => {
         const offset = event.endCoordinates.height - getExtraHeight();
         setKeyboardOffset(offset); // Set keyboard height
+        //We cannot directly call scroll to end, because the height
+        //of the content might not have changed, yet.
         setTimeout(() => {
           scrollViewRef.current?.scrollToEnd({ animated: true });
         }, 10);
@@ -67,9 +69,7 @@ function DevScreen({ navigation }) {
       }
       setItems((prevItems) => [...prevItems, inputValue]); // Add the input value to the list
       setInputValue(""); // Clear the input field
-      setTimeout(() => {
-        inputRef.current?.focus(); // Refocus on the TextInput
-      }, 10);
+      inputRef.current?.focus(); // Refocus on the TextInput
     }
   };
 
