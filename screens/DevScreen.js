@@ -1,7 +1,13 @@
 import React, { useRef, useState } from "react";
-import { Text, StyleSheet, TextInput, Dimensions, View } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  Dimensions,
+  View,
+  Button,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "react-native-elements";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import MyListItem from "../components/MyListItem";
@@ -11,20 +17,11 @@ function DevScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
 
-  // Assume a default font size and line height
-  const lineHeight = 30; // Adjust this to match your font's line height
-  const maxLines = 2;
-  const maxHeight = lineHeight * maxLines; // Calculate max height for 3 lines
-
   const [inputValue, setInputValue] = useState("");
-  const [inputHeight, setInputHeight] = useState(lineHeight);
   const [items, setItems] = useState([]); // State to store the list of inputs
   const inputRef = useRef(null); // Ref to access the TextInput
-  const scrollViewRef = useRef(null); // Ref to access the ScrollView
 
   const handleAddItem = () => {
-    console.log(inputValue);
-
     if (inputValue.trim()) {
       if (items.includes(inputValue) || inputValue === "") {
         return;
@@ -34,10 +31,6 @@ function DevScreen({ navigation }) {
       setTimeout(() => {
         inputRef.current?.focus(); // Refocus on the TextInput
       }, 100);
-      // Scroll to bottom after adding a new item
-      // setTimeout(() => {
-      //   scrollViewRef.current?.scrollToEnd({ animated: true });
-      // }, 200);
     }
   };
 
@@ -56,53 +49,25 @@ function DevScreen({ navigation }) {
 
   return (
     <KeyboardAwareScrollView
-      ref={scrollViewRef} // Attach the ref to the ScrollView
       contentContainerStyle={styles.container}
       extraHeight={getExtraHeight()} // Adjust this value if necessary
       keyboardOpeningTime={0}
       enableOnAndroid={true}
       keyboardShouldPersistTaps="handled">
-      {items.map((i) => (
-        // <Text style={styles.item} key={i}>
-        //   {i}
-        // </Text>
-        <MyListItem
-          key={i}
-          title={i}
-          IconName={"edit"}
-          // onPressIcon={() => props.onPressIcon(e)}
-        />
-      ))}
-      {/* <Button
-        title="I cooked this!"
-        onPress={async () => {
-          // await cooked();
-        }}
-      />
-      <Button title="Dummy" />
-      <Button title="Dummy" />
-      <Button title="Dummy" />
-      <Button title="Dummy" />
-      <Button title="Dummy" />
-      <Button title="Dummy" />
-      <Button
-        title="Navigate to meal"
-        onPress={async () => {
-          // await navToMeal();
-        }}
-      />
       <Button
         title="Delete all test mangis"
         onPress={async () => {
           await deleteTestMangis(dispatch, allMeals, user);
         }}
-      /> */}
+      />
+      {items.map((i) => (
+        <MyListItem key={i} title={i} IconName={"edit"} />
+      ))}
       <View style={styles.inputContainer}>
         <TextInput
-          // style={[styles.input, { height: inputHeight }]} // Dynamically adjust height
-          style={styles.input} // Dynamically adjust height
+          style={styles.input}
           multiline={true}
-          ref={inputRef} // Attach the ref to the TextInput
+          ref={inputRef}
           placeholder="Input"
           placeholderTextColor={"white"}
           value={inputValue}
@@ -112,11 +77,6 @@ function DevScreen({ navigation }) {
           onEndEditing={() => {
             handleAddItem(); // Handles the action when return is pressed
           }}
-          // onContentSizeChange={(event) => {
-          //   const contentHeight = event.nativeEvent.contentSize.height;
-          //   // Set a maximum height for 3 lines (adjust 120 for your font size and line height)
-          //   setInputHeight(Math.min(contentHeight, maxHeight)); // Adjust the maximum height for 3 lines
-          // }}
         />
         <Text style={styles.text}>Send</Text>
       </View>
@@ -130,36 +90,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "bottom",
     backgroundColor: "red",
-    // alignContent: "center",
     minHeight: 60,
     maxHeight: 60,
     marginVertical: 10, // Add some vertical margin for spacing
   },
   inputContainer: {
     flexDirection: "row",
-    // alignContent: "center",
     justifyContent: "center",
   },
   container: {
     flexGrow: 1,
-    paddingBottom: 20, // Add padding to ensure the last item is fully visible    // alignItems: "center",
-    // width: "100%",
   },
   input: {
     color: "white",
     backgroundColor: "lightgrey",
-    width: "80%", // Use full width
+    width: "80%",
     minHeight: 30,
     maxHeight: 60,
     marginVertical: 10, // Add some vertical margin for spacing
     fontSize: 20,
-  },
-  item: {
-    flex: 1,
-    padding: 10,
-    fontSize: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: "red",
   },
 });
 
