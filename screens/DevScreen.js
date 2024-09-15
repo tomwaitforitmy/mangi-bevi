@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
 import MyListItem from "../components/MyListItem";
+import Colors from "../constants/Colors";
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
@@ -93,8 +94,9 @@ function DevScreen({ navigation }) {
             style={styles.input}
             multiline={true}
             ref={inputRef}
-            placeholder="Input"
-            placeholderTextColor={"white"}
+            placeholder="Enter text"
+            placeholderTextColor={"lightgrey"}
+            selectionColor={"white"}
             value={inputValue}
             onChangeText={setInputValue}
             returnKeyType="default"
@@ -103,7 +105,9 @@ function DevScreen({ navigation }) {
               handleAddItem(); // Handles the action when return is pressed
             }}
           />
-          <Text style={styles.text}>Send</Text>
+          <View style={styles.sendButtonContainer}>
+            <Text style={styles.sendButtonText}>+</Text>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -111,30 +115,40 @@ function DevScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  text: {
-    width: "15%",
-    textAlign: "center",
-    textAlignVertical: "bottom",
-    backgroundColor: "red",
-    minHeight: 60,
-    maxHeight: 60,
-    marginVertical: 10, // Add some vertical margin for spacing
-  },
   inputContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center", // Aligns input and send button vertically
   },
   container: {
     flexGrow: 1,
   },
   input: {
     color: "white",
-    backgroundColor: "lightgrey",
+    backgroundColor: Colors.primary,
     width: "80%",
     minHeight: 60,
     maxHeight: 60,
     marginVertical: 10, // Add some vertical margin for spacing
     fontSize: 20,
+    borderRadius: 10, // Rounded corners
+    paddingHorizontal: 10, // Inner padding for text input
+  },
+  sendButtonContainer: {
+    width: 40, // Set width and height to the same value for a perfect circle
+    height: 40,
+    backgroundColor: Colors.primary,
+    justifyContent: "center",
+    borderRadius: 20, // Half of the width/height for a circle
+    marginVertical: 10,
+    marginLeft: 5,
+  },
+  sendButtonText: {
+    fontSize: 40, // Large "+"
+    color: Colors.white,
+    textAlign: "center", // Ensures centering
+    textAlignVertical: "center", // For vertical centering on Android
+    lineHeight: 42, // Match the button height to vertically center the +
   },
 });
 
