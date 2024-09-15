@@ -65,7 +65,7 @@ const InputListViewContainer = (props) => {
               props.onBlur(); // Handles the action when return is pressed
             }}
           />
-          <View style={styles.sendButtonContainer}>
+          <View style={styles.sendIconContainer}>
             <Icon
               name={"arrowup"}
               type={IconTypes.antdesign}
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center", // Aligns input and send button vertically
+    alignItems: "center", // Aligns input and send icon vertically
   },
   container: {
     flexGrow: 1,
@@ -93,13 +93,13 @@ const styles = StyleSheet.create({
     width: "85%",
     minHeight: 60,
     maxHeight: 60,
-    marginVertical: 10, // Add some vertical margin for spacing
+    marginVertical: 10, // Add some vertical margin for space between input and items
     fontSize: 20,
-    borderRadius: 10, // Rounded corners
-    paddingHorizontal: 10, // Inner padding for text input
+    borderRadius: 10,
+    paddingHorizontal: 6, //to align text with rounded corners
   },
-  sendButtonContainer: {
-    width: 40, // Set width and height to the same value for a perfect circle
+  sendIconContainer: {
+    width: 40, // Set width and height to the same value for a circle
     height: 40,
     backgroundColor: Colors.primary,
     justifyContent: "center",
