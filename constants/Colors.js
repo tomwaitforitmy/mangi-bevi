@@ -17,4 +17,7 @@ export default {
   selectedMealBorderColor: "#ccc",
   transparent: "rgba(0, 0, 0, 0.0)",
   myTabMenuBackground: "lightgrey",
+  //TextInput
+  textInputBackground: "#0571ff",
+  textInputPlaceholderColor: "lightgrey",
 };
