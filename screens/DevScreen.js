@@ -8,6 +8,7 @@ import {
   Button,
   ScrollView,
   Keyboard,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
@@ -41,8 +42,11 @@ function DevScreen({ navigation }) {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       (event) => {
-        const offset = event.endCoordinates.height - getExtraHeight();
-        setKeyboardOffset(offset); // Set keyboard height
+        //Not needed on Android
+        if (Platform.OS === "ios") {
+          const offset = event.endCoordinates.height - getExtraHeight();
+          setKeyboardOffset(offset); // Set keyboard height
+        }
         //We cannot directly call scroll to end, because the height
         //of the content might not have changed, yet.
         setTimeout(() => {
@@ -66,6 +70,7 @@ function DevScreen({ navigation }) {
   const handleAddItem = () => {
     if (inputValue.trim()) {
       if (items.includes(inputValue) || inputValue === "") {
+        inputRef.current?.focus(); // Refocus on the TextInput
         return;
       }
       setItems((prevItems) => [...prevItems, inputValue]); // Add the input value to the list
