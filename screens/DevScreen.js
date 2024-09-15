@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Text,
   StyleSheet,
@@ -6,10 +6,11 @@ import {
   Dimensions,
   View,
   Button,
+  ScrollView,
+  Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import MyListItem from "../components/MyListItem";
 
 function DevScreen({ navigation }) {
@@ -20,6 +21,44 @@ function DevScreen({ navigation }) {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState([]); // State to store the list of inputs
   const inputRef = useRef(null); // Ref to access the TextInput
+  const scrollViewRef = useRef(null); // Ref to access the ScrollView
+  const [keyboardOffset, setKeyboardOffset] = useState(0); // To store keyboard offset
+
+  useEffect(() => {
+    const screenHeight = Dimensions.get("window").height;
+
+    const getExtraHeight = () => {
+      if (screenHeight >= 812) {
+        return 94; // Adjust based on device height
+      } else if (screenHeight >= 667 && screenHeight < 812) {
+        return 60;
+      } else {
+        return 35;
+      }
+    };
+
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      (event) => {
+        const offset = event.endCoordinates.height - getExtraHeight();
+        setKeyboardOffset(offset); // Set keyboard height
+        setTimeout(() => {
+          scrollViewRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardOffset(0); // Reset keyboard height
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const handleAddItem = () => {
     if (inputValue.trim()) {
@@ -34,53 +73,40 @@ function DevScreen({ navigation }) {
     }
   };
 
-  const screenHeight = Dimensions.get("window").height;
-
-  // Dynamically calculate extraHeight based on screen height
-  const getExtraHeight = () => {
-    if (screenHeight >= 812) {
-      return 95; // Adjust based on device height
-    } else if (screenHeight >= 667 && screenHeight < 812) {
-      return 65;
-    } else {
-      return 35;
-    }
-  };
-
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.container}
-      extraHeight={getExtraHeight()} // Adjust this value if necessary
-      keyboardOpeningTime={0}
-      enableOnAndroid={true}
-      keyboardShouldPersistTaps="handled">
-      <Button
-        title="Delete all test mangis"
-        onPress={async () => {
-          await deleteTestMangis(dispatch, allMeals, user);
-        }}
-      />
-      {items.map((i) => (
-        <MyListItem key={i} title={i} IconName={"edit"} />
-      ))}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          multiline={true}
-          ref={inputRef}
-          placeholder="Input"
-          placeholderTextColor={"white"}
-          value={inputValue}
-          onChangeText={setInputValue}
-          returnKeyType="default"
-          blurOnSubmit={false} // Keeps the input focused after pressing return
-          onEndEditing={() => {
-            handleAddItem(); // Handles the action when return is pressed
+    <View style={{ flex: 1, paddingBottom: keyboardOffset }}>
+      <ScrollView
+        ref={scrollViewRef}
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled">
+        <Button
+          title="Delete all test mangis"
+          onPress={async () => {
+            await deleteTestMangis(dispatch, allMeals, user);
           }}
         />
-        <Text style={styles.text}>Send</Text>
-      </View>
-    </KeyboardAwareScrollView>
+        {items.map((i) => (
+          <MyListItem key={i} title={i} IconName={"edit"} />
+        ))}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            multiline={true}
+            ref={inputRef}
+            placeholder="Input"
+            placeholderTextColor={"white"}
+            value={inputValue}
+            onChangeText={setInputValue}
+            returnKeyType="default"
+            blurOnSubmit={false} // Keeps the input focused after pressing return
+            onEndEditing={() => {
+              handleAddItem(); // Handles the action when return is pressed
+            }}
+          />
+          <Text style={styles.text}>Send</Text>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
