@@ -1,16 +1,4 @@
 - For viewing mangis without login: Add counter for 5 meals
-- Neue Mangis/editieren
-** Am liebsten hätte ich das Input Field unten, aber mit Scrollview geht nur oben?
 - Bring API ansteuern: https://www.bit01.de/blog/bring-einkaufsapp-einkaufslisten-api/ -> könnte gehen!
 ** https://sites.google.com/getbring.com/bring-import-dev-guide/web-to-app-integration?authuser=0 <- scheint schlecht?
 - Einkaufswagen Feature
-- Settings Seite/Ort
-
-* Reactions
-- https://github.com/TheWidlarzGroup/rn-emoji-keyboard
-- RNGH for animation 
-- Nice search tool: https://reactnative.directory/?search=emoji
-
-* Push notifications
-- New Mangi added
-- Reaction given
