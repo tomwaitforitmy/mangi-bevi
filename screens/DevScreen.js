@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     color: "white",
     backgroundColor: "lightgrey",
     width: "80%",
-    minHeight: 30,
+    minHeight: 60,
     maxHeight: 60,
     marginVertical: 10, // Add some vertical margin for spacing
     fontSize: 20,
