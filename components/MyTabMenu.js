@@ -27,7 +27,7 @@ const MyTabMenu = memo(
       });
 
       const selectedButtonAnimatedStyle = useAnimatedStyle(() => {
-        console.log("🔄 Animation Triggered in MyTabMenu");
+        // console.log("🔄 Animation Triggered in MyTabMenu");
         return {
           position: "absolute",
           left: position.value,
