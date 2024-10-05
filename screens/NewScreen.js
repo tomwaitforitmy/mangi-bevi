@@ -242,7 +242,9 @@ function NewScreen({ route, navigation }) {
   }, [formState.stepIndex, formState.stepValue, inputStep]);
 
   const createMealHandler = useCallback(async () => {
-    Keyboard.dismiss();
+    if (Platform.OS === "ios") {
+      Keyboard.dismiss();
+    }
     finishIngredientInput();
     finishStepInput();
 
