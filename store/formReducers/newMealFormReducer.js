@@ -149,7 +149,8 @@ export default function newMealFormReducer(state, action) {
           ingredientIndex: null,
         };
       }
-      const editedIngredients = state.ingredients;
+      // Create a new array, avoid mutating the existing one
+      const editedIngredients = [...state.ingredients];
       editedIngredients[state.ingredientIndex] = action.value;
       return {
         ...state,
@@ -177,7 +178,8 @@ export default function newMealFormReducer(state, action) {
           stepIndex: null,
         };
       }
-      const editedSteps = state.steps;
+      // Create a new array, avoid mutating the existing one
+      const editedSteps = [...state.steps];
       editedSteps[state.stepIndex] = action.value;
       return {
         ...state,
