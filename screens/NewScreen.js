@@ -154,8 +154,6 @@ function NewScreen({ route, navigation }) {
   }, [formState, mealId, inputMeal, createMealHandler, navigation]);
 
   useEffect(() => {
-    getPermission();
-
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       backAction,
@@ -171,17 +169,22 @@ function NewScreen({ route, navigation }) {
     });
   }, [navigation, formState, backAction, createMealHandler]);
 
-  const getPermission = async () => {
-    if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert(
-          "Sorry, we need camera roll permissions to make this work!",
-        );
+  // Ask for permissions only when the component is mounted
+  // This interferes with keyboard input if called too often on Android
+  useEffect(() => {
+    const getPermission = async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          Alert.alert(
+            "Sorry, we need camera roll permissions to make this work!",
+          );
+        }
       }
-    }
-  };
+    };
+    getPermission();
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -242,9 +245,7 @@ function NewScreen({ route, navigation }) {
   }, [formState.stepIndex, formState.stepValue, inputStep]);
 
   const createMealHandler = useCallback(async () => {
-    if (Platform.OS === "ios") {
-      Keyboard.dismiss();
-    }
+    Keyboard.dismiss();
     finishIngredientInput();
     finishStepInput();
 
