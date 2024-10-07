@@ -73,8 +73,6 @@ function NewScreen({ route, navigation }) {
   const userStats = useSelector((state) => state.users.userStats);
   const userMealsData = useSelector((state) => state.users.userMealsData);
 
-  console.log("render NewScreen");
-
   let inputMeal = null;
   let initiallySelectedTab = TITLES.INFO;
   if (mealId) {
@@ -84,18 +82,6 @@ function NewScreen({ route, navigation }) {
 
   const initialState = GetInitialState(inputMeal, initiallySelectedTab);
 
-  //this callback is needed, because else MyTabMenu is re-rendered on every key stroke,
-  //because react native memo does a shallow comparison between the inputs of MyTabMenu.
-  //The newly created function "changePage" would cause a re-render, even though
-  //it is technically always the same function. This interferes with the keyboard
-  //on Android.
-  const handleTabPress = useCallback((inputTitle) => {
-    const changePage = (title) => {
-      formDispatch({ type: CHANGE_PAGE_TITLE, value: title });
-    };
-    changePage(inputTitle);
-  }, []);
-
   const windowWidth = useWindowDimensions().width;
 
   const [formState, formDispatch] = useReducer(
@@ -104,6 +90,10 @@ function NewScreen({ route, navigation }) {
   );
 
   const dispatch = useDispatch();
+
+  const changePage = (title) => {
+    formDispatch({ type: CHANGE_PAGE_TITLE, value: title });
+  };
 
   const backAction = useCallback(() => {
     let anyImageToUpload = false,
@@ -517,7 +507,7 @@ function NewScreen({ route, navigation }) {
         initialIndex={mealTabMenuTitleArray.indexOf(initiallySelectedTab)}
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
-        onTabPress={handleTabPress}
+        onTabPress={(title) => changePage(title)}
       />
       {showInfo && (
         <View style={styles.title}>
