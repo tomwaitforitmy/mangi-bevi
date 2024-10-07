@@ -82,6 +82,18 @@ function NewScreen({ route, navigation }) {
 
   const initialState = GetInitialState(inputMeal, initiallySelectedTab);
 
+  //this callback is needed, because else MyTabMenu is re-rendered on every key stroke,
+  //because react native memo does a shallow comparison between the inputs of MyTabMenu.
+  //The newly created function "changePage" would cause a re-render, even though
+  //it is technically always the same function. This interferes with the keyboard
+  //on Android.
+  const handleTabPress = useCallback((inputTitle) => {
+    const changePage = (title) => {
+      formDispatch({ type: CHANGE_PAGE_TITLE, value: title });
+    };
+    changePage(inputTitle);
+  }, []);
+
   const windowWidth = useWindowDimensions().width;
 
   const [formState, formDispatch] = useReducer(
@@ -507,7 +519,7 @@ function NewScreen({ route, navigation }) {
         initialIndex={mealTabMenuTitleArray.indexOf(initiallySelectedTab)}
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
-        onTabPress={(title) => changePage(title)}
+        onTabPress={handleTabPress}
       />
       {showInfo && (
         <View style={styles.title}>
