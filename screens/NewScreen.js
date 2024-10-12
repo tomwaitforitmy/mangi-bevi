@@ -61,6 +61,7 @@ import deleteImages from "../firebase/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";
+import { pickImage } from "../common_functions/PickImage";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -184,17 +185,8 @@ function NewScreen({ route, navigation }) {
     getPermission();
   }, []);
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      // aspect: [16, 9],
-      quality: 0.3,
-    });
-
-    if (!result.canceled) {
-      formDispatch({ type: ADD_IMAGE, value: result.assets[0].uri });
-    }
+  const handlePickImage = async () => {
+    await pickImage((uri) => formDispatch({ type: ADD_IMAGE, value: uri }));
   };
 
   const onConfirmDeleteImage = async (url) => {
@@ -430,7 +422,7 @@ function NewScreen({ route, navigation }) {
         )}
         {showInfo && (
           <View style={styles.addImageButton}>
-            <MyButton onPress={pickImage}>{"Add image"}</MyButton>
+            <MyButton onPress={handlePickImage}>{"Add image"}</MyButton>
           </View>
         )}
 
