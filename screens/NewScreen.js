@@ -61,7 +61,7 @@ import deleteImages from "../firebase/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";
-import { pickImage } from "../common_functions/PickImage";
+import { getPermission, pickImage } from "../common_functions/PickImage";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -171,17 +171,6 @@ function NewScreen({ route, navigation }) {
   // Ask for permissions only when the component is mounted
   // This interferes with keyboard input if called too often on Android
   useEffect(() => {
-    const getPermission = async () => {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          Alert.alert(
-            "Sorry, we need camera roll permissions to make this work!",
-          );
-        }
-      }
-    };
     getPermission();
   }, []);
 
