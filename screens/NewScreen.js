@@ -103,10 +103,6 @@ function NewScreen({ route, navigation }) {
 
   const dispatch = useDispatch();
 
-  const changePage = (title) => {
-    formDispatch({ type: CHANGE_PAGE_TITLE, value: title });
-  };
-
   const backAction = useCallback(() => {
     let anyImageToUpload = false,
       changesMade = false,
