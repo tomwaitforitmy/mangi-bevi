@@ -141,7 +141,7 @@ function NewScreen({ route, navigation }) {
         },
         {
           text: "Save changes",
-          onPress: createMealHandler,
+          onPress: saveMealHandler,
         },
       ]);
     } else {
@@ -149,7 +149,7 @@ function NewScreen({ route, navigation }) {
     }
 
     return true;
-  }, [formState, mealId, inputMeal, createMealHandler, navigation]);
+  }, [formState, mealId, inputMeal, saveMealHandler, navigation]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -163,9 +163,9 @@ function NewScreen({ route, navigation }) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => HeaderBackIcon(backAction),
-      headerRight: () => SaveIcon(createMealHandler),
+      headerRight: () => SaveIcon(saveMealHandler),
     });
-  }, [navigation, formState, backAction, createMealHandler]);
+  }, [navigation, formState, backAction, saveMealHandler]);
 
   // Ask for permissions only when the component is mounted
   // This interferes with keyboard input if called too often on Android
@@ -222,7 +222,7 @@ function NewScreen({ route, navigation }) {
     }
   }, [formState.stepIndex, formState.stepValue, inputStep]);
 
-  const createMealHandler = useCallback(async () => {
+  const saveMealHandler = useCallback(async () => {
     Keyboard.dismiss();
     finishIngredientInput();
     finishStepInput();
