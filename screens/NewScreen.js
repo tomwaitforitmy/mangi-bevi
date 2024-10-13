@@ -532,10 +532,6 @@ const styles = StyleSheet.create({
     color: "black",
     width: "100%",
   },
-  subtitle: {
-    fontSize: 18,
-    textAlign: "left",
-  },
   screenContainer: {
     flex: 1,
     justifyContent: "center",
