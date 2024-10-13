@@ -356,16 +356,19 @@ function NewScreen({ route, navigation }) {
     });
   };
 
-  const renderInputs = () => {
+  const renderInfoTab = () => {
     return (
-      <View style={styles.list}>
-        <LevelsViewModal
-          countIngredients={userStats.countIngredients}
-          countTags={userStats.countTags}
-          countMeals={userMealsData.length}
-          modalVisible={formState.showModal}
-          onRequestClose={onRequestCloseModal}
-        />
+      <>
+        <View style={styles.enterTitleInput}>
+          <Input
+            value={formState.title}
+            placeholder="Enter title"
+            labelStyle={styles.enterTitleInput}
+            onChangeText={(value) => {
+              formDispatch({ type: CHANGE_TITLE, value: value });
+            }}
+          />
+        </View>
         {showImageSwipe && (
           <ImageSwipe
             images={formState.imageUrls}
@@ -408,107 +411,120 @@ function NewScreen({ route, navigation }) {
             }}
           />
         )}
-        {showInfo && (
-          <View style={styles.addImageButton}>
-            <MyButton onPress={handlePickImage}>{"Add image"}</MyButton>
-          </View>
-        )}
+        <View style={styles.addImageButton}>
+          <MyButton onPress={handlePickImage}>{"Add image"}</MyButton>
+        </View>
+      </>
+    );
+  };
 
-        {showIngredientSort && (
-          <SortingListViewContainer
-            onPressDoneSorting={() =>
-              formDispatch({ type: INGREDIENT_SORT, value: false })
-            }
-            data={formState.ingredients}
-            onSortEnd={(sortedData) => {
-              formDispatch({
-                type: SET_FIELD,
-                value: sortedData,
-                field: "ingredients",
-              });
-            }}
-          />
-        )}
-        {showStepSort && (
-          <SortingListViewContainer
-            onPressDoneSorting={() =>
-              formDispatch({ type: STEP_SORT, value: false })
-            }
-            data={formState.steps}
-            onSortEnd={(sortedData) => {
-              formDispatch({
-                type: SET_FIELD,
-                value: sortedData,
-                field: "steps",
-              });
-            }}
-          />
-        )}
+  const renderIngredientsInput = () => {
+    return (
+      <InputListViewContainer
+        onLongPress={() => formDispatch({ type: INGREDIENT_SORT, value: true })}
+        placeholder={"Ingredients"}
+        data={formState.ingredients}
+        inputRef={inputIngredient}
+        onPressIcon={(ingredient) => {
+          formDispatch({
+            type: PREPARE_EDIT_INGREDIENT,
+            key: ingredient,
+            ref: inputIngredient,
+          });
+        }}
+        onChangeText={(value) => {
+          formDispatch({ type: SET_INGREDIENT_VALUE, value });
+        }}
+        onBlur={() => finishIngredientInput()}
+      />
+    );
+  };
 
-        {showIngredients && (
-          <InputListViewContainer
-            onLongPress={() =>
-              formDispatch({ type: INGREDIENT_SORT, value: true })
-            }
-            placeholder={"Ingredients"}
-            data={formState.ingredients}
-            inputRef={inputIngredient}
-            onPressIcon={(ingredient) => {
-              formDispatch({
-                type: PREPARE_EDIT_INGREDIENT,
-                key: ingredient,
-                ref: inputIngredient,
-              });
-            }}
-            onChangeText={(value) => {
-              formDispatch({ type: SET_INGREDIENT_VALUE, value });
-            }}
-            onBlur={() => finishIngredientInput()}
-          />
-        )}
-        {showSteps && (
-          <InputListViewContainer
-            placeholder={"Steps"}
-            data={formState.steps}
-            onLongPress={() => formDispatch({ type: STEP_SORT, value: true })}
-            inputRef={inputStep}
-            onPressIcon={(step) => {
-              formDispatch({
-                type: PREPARE_EDIT_STEP,
-                key: step,
-                ref: inputStep,
-              });
-            }}
-            onChangeText={(value) => {
-              formDispatch({ type: SET_STEP_VALUE, value });
-            }}
-            onBlur={() => finishStepInput()}
-          />
-        )}
+  const renderIngredientSort = () => {
+    return (
+      <SortingListViewContainer
+        onPressDoneSorting={() =>
+          formDispatch({ type: INGREDIENT_SORT, value: false })
+        }
+        data={formState.ingredients}
+        onSortEnd={(sortedData) => {
+          formDispatch({
+            type: SET_FIELD,
+            value: sortedData,
+            field: "ingredients",
+          });
+        }}
+      />
+    );
+  };
+
+  const renderStepsInput = () => {
+    return (
+      <InputListViewContainer
+        placeholder={"Steps"}
+        data={formState.steps}
+        onLongPress={() => formDispatch({ type: STEP_SORT, value: true })}
+        inputRef={inputStep}
+        onPressIcon={(step) => {
+          formDispatch({
+            type: PREPARE_EDIT_STEP,
+            key: step,
+            ref: inputStep,
+          });
+        }}
+        onChangeText={(value) => {
+          formDispatch({ type: SET_STEP_VALUE, value });
+        }}
+        onBlur={() => finishStepInput()}
+      />
+    );
+  };
+
+  const renderStepSort = () => {
+    return (
+      <SortingListViewContainer
+        onPressDoneSorting={() =>
+          formDispatch({ type: STEP_SORT, value: false })
+        }
+        data={formState.steps}
+        onSortEnd={(sortedData) => {
+          formDispatch({
+            type: SET_FIELD,
+            value: sortedData,
+            field: "steps",
+          });
+        }}
+      />
+    );
+  };
+
+  const renderInputs = () => {
+    return (
+      <View style={styles.list}>
+        {showInfo && renderInfoTab()}
+        {showIngredients && renderIngredientsInput()}
+        {showIngredientSort && renderIngredientSort()}
+        {showSteps && renderStepsInput()}
+        {showStepSort && renderStepSort()}
       </View>
     );
   };
 
   return (
     <View style={styles.screenContainer}>
+      <LevelsViewModal
+        countIngredients={userStats.countIngredients}
+        countTags={userStats.countTags}
+        countMeals={userMealsData.length}
+        modalVisible={formState.showModal}
+        onRequestClose={onRequestCloseModal}
+      />
       <MyTabMenu
         initialIndex={mealTabMenuTitleArray.indexOf(initiallySelectedTab)}
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
         onTabPress={handleTabPress}
       />
-      {showInfo && (
-        <View style={styles.title}>
-          <Input
-            value={formState.title}
-            placeholder="Enter title"
-            labelStyle={styles.title}
-            onChangeText={(value) => {
-              formDispatch({ type: CHANGE_TITLE, value: value });
-            }}
-          />
-        </View>
-      )}
       {Platform.OS === "android" ? (
         renderInputs()
       ) : (
@@ -527,9 +543,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
   },
-  title: {
-    fontSize: 22,
-    color: "black",
+  enterTitleInput: {
     width: "100%",
   },
   screenContainer: {
@@ -538,7 +552,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  addImageButton: { padding: 5 },
+  addImageButton: { padding: 5, width: "100%" },
 });
 
 export default NewScreen;
