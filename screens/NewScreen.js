@@ -184,43 +184,52 @@ function NewScreen({ route, navigation }) {
     });
   };
 
-  const finishIngredientInput = useCallback(() => {
-    if (formState.ingredientIndex !== null) {
-      formDispatch({
-        type: EDIT_INGREDIENT,
-        value: formState.ingredientValue,
-        ref: inputIngredient,
-      });
-    } else {
-      if (!formState.ingredientValue) {
-        return;
-      }
-      formDispatch({
-        type: ADD_INGREDIENT,
-        value: formState.ingredientValue,
-        ref: inputIngredient,
-      });
-    }
-  }, [formState.ingredientIndex, formState.ingredientValue, inputIngredient]);
-
   const finishStepInput = useCallback(() => {
-    if (formState.stepIndex !== null) {
-      formDispatch({
-        type: EDIT_STEP,
-        value: formState.stepValue,
-        ref: inputStep,
-      });
-    } else {
-      if (!formState.stepValue) {
-        return;
+    finishInput(
+      formState.stepIndex,
+      formState.stepValue,
+      inputStep,
+      EDIT_STEP,
+      ADD_STEP,
+    );
+  }, [finishInput, formState.stepIndex, formState.stepValue, inputStep]);
+
+  const finishIngredientInput = useCallback(() => {
+    finishInput(
+      formState.ingredientIndex,
+      formState.ingredientValue,
+      inputIngredient,
+      EDIT_INGREDIENT,
+      ADD_INGREDIENT,
+    );
+  }, [
+    finishInput,
+    formState.ingredientIndex,
+    formState.ingredientValue,
+    inputIngredient,
+  ]);
+
+  const finishInput = useCallback(
+    (index, value, refInput, editType, addType) => {
+      if (index !== null) {
+        formDispatch({
+          type: editType,
+          value: value,
+          ref: refInput,
+        });
+      } else {
+        if (!value) {
+          return;
+        }
+        formDispatch({
+          type: addType,
+          value: value,
+          ref: refInput,
+        });
       }
-      formDispatch({
-        type: ADD_STEP,
-        value: formState.stepValue,
-        ref: inputStep,
-      });
-    }
-  }, [formState.stepIndex, formState.stepValue, inputStep]);
+    },
+    [],
+  );
 
   const saveMealHandler = useCallback(async () => {
     const editMealHandler = async () => {
