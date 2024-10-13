@@ -223,6 +223,68 @@ function NewScreen({ route, navigation }) {
   }, [formState.stepIndex, formState.stepValue, inputStep]);
 
   const saveMealHandler = useCallback(async () => {
+    const editMealHandler = async () => {
+      await deleteImages(formState.imageUrlsToDelete);
+      const editedMeal = await UploadImagesAndEditMeal(
+        formState.imageUrls,
+        formState.primaryImageUrl,
+        formState.title,
+        mealId,
+        formState.ingredients,
+        formState.steps,
+        inputMeal.tags,
+        inputMeal.rating,
+        inputMeal.authorId,
+        inputMeal.creationDate,
+        user.id,
+        new Date().toISOString(),
+        inputMeal.links,
+        inputMeal.isTestMangi,
+        inputMeal.reactions,
+      );
+
+      await dispatch(mealsAction.editMeal(editedMeal));
+      formDispatch({ type: SUBMITTED });
+      navigation.navigate({
+        name: "Details",
+        params: {
+          mealId: mealId,
+          mealTitle: formState.title,
+          isAuthenticated: true,
+          selectedTabMealDetail: formState.selectedTab,
+          updateRenderCounter: updateRenderCounter + 1,
+        },
+      });
+    };
+
+    const createMealHandler = async () => {
+      const newMeal = await UploadImagesAndCreateMeal(
+        formState.imageUrls,
+        formState.title,
+        formState.ingredients,
+        formState.steps,
+        user,
+      );
+
+      //first we have to update the meals to get the new id
+      const id = await dispatch(mealsAction.createMeal(newMeal));
+
+      //afterward, we can update the user and stats
+      const editedUser = { ...user };
+      editedUser.meals = [...user.meals, id];
+
+      await dispatch(usersAction.editUser(editedUser));
+      try {
+        //Technically, we don't have to await here.
+        //Not sure if this works.
+        newMealCreated(users, newMeal.title, id, user);
+      } catch (error) {
+        console.error(error);
+      }
+      //now we can show the modal, with updated stats
+      formDispatch({ type: SHOW_MODAL, value: id });
+    };
+
     Keyboard.dismiss();
     finishIngredientInput();
     finishStepInput();
@@ -238,63 +300,9 @@ function NewScreen({ route, navigation }) {
       formDispatch({ type: LOADING });
 
       if (mealId) {
-        await deleteImages(formState.imageUrlsToDelete);
-        const editedMeal = await UploadImagesAndEditMeal(
-          formState.imageUrls,
-          formState.primaryImageUrl,
-          formState.title,
-          mealId,
-          formState.ingredients,
-          formState.steps,
-          inputMeal.tags,
-          inputMeal.rating,
-          inputMeal.authorId,
-          inputMeal.creationDate,
-          user.id,
-          new Date().toISOString(),
-          inputMeal.links,
-          inputMeal.isTestMangi,
-          inputMeal.reactions,
-        );
-
-        await dispatch(mealsAction.editMeal(editedMeal));
-        formDispatch({ type: SUBMITTED });
-        navigation.navigate({
-          name: "Details",
-          params: {
-            mealId: mealId,
-            mealTitle: formState.title,
-            isAuthenticated: true,
-            selectedTabMealDetail: formState.selectedTab,
-            updateRenderCounter: updateRenderCounter + 1,
-          },
-        });
+        await editMealHandler();
       } else {
-        const newMeal = await UploadImagesAndCreateMeal(
-          formState.imageUrls,
-          formState.title,
-          formState.ingredients,
-          formState.steps,
-          user,
-        );
-
-        //first we have to update the meals to get the new id
-        const id = await dispatch(mealsAction.createMeal(newMeal));
-
-        //afterward, we can update the user and stats
-        const editedUser = { ...user };
-        editedUser.meals = [...user.meals, id];
-
-        await dispatch(usersAction.editUser(editedUser));
-        try {
-          //Technically, we don't have to await here.
-          //Not sure if this works.
-          newMealCreated(users, newMeal.title, id, user);
-        } catch (error) {
-          console.error(error);
-        }
-        //now we can show the modal, with updated stats
-        formDispatch({ type: SHOW_MODAL, value: id });
+        await createMealHandler();
       }
     } catch (err) {
       console.error(err);
