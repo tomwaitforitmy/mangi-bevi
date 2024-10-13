@@ -20,7 +20,6 @@ import * as mealsAction from "../store/actions/mealsAction";
 import * as usersAction from "../store/actions/usersAction";
 import Meal from "../models/Meal";
 import { Input } from "react-native-elements";
-import * as ImagePicker from "expo-image-picker";
 import newMealFormReducer, {
   CHANGE_PAGE_TITLE,
   CHANGE_TITLE,
