@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   searchTerm: {
     backgroundColor: Colors.screenBackGround,
@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   icon: {
-    paddingHorizontal: 5,
+    //example how to style icon
+    // paddingHorizontal: 5,
   },
 });
 
