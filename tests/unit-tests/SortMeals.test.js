@@ -15,16 +15,16 @@ describe("Meal Sorting", () => {
     meals = TEN_MEALS;
 
     mealCookedByUsers = [
-      MealCookedByUser(1, "user1", "-O9dWdeSlKRenhA5moUD"),
-      MealCookedByUser(1, "user2", "-O9dWdeSlKRenhA5moUD"),
-      MealCookedByUser(3, "user2", "-O9dWdeSlKRenhA5moUD"),
-      MealCookedByUser(4, "user2", "-O9dWdeSlKRenhA5moUD"),
-      MealCookedByUser(5, "user2", "-O9dWdeSlKRenhA5moUD"),
-      MealCookedByUser(6, "user2", "-O9dWdeSlKRenhA5moUD"),
-      MealCookedByUser(7, "user2", "-O9dWdeSlKRenhA5moUD"),
-      MealCookedByUser(8, "user2", "-O95A6SLUx-q-bEChNmr"),
-      MealCookedByUser(9, "user2", "-O95A6SLUx-q-bEChNmr"),
-      MealCookedByUser(10, "user2", "-O96lVbmhYF56eQAsrBK"),
+      MealCookedByUser(1, "-O9dWdeSlKRenhA5moUD", "user1"),
+      MealCookedByUser(1, "-O9dWdeSlKRenhA5moUD", "user2"),
+      MealCookedByUser(3, "-O9dWdeSlKRenhA5moUD", "user2"),
+      MealCookedByUser(4, "-O9dWdeSlKRenhA5moUD", "user2"),
+      MealCookedByUser(5, "-O9dWdeSlKRenhA5moUD", "user2"),
+      MealCookedByUser(6, "-O9dWdeSlKRenhA5moUD", "user2"),
+      MealCookedByUser(7, "-O9dWdeSlKRenhA5moUD", "user2"),
+      MealCookedByUser(8, "-O95A6SLUx-q-bEChNmr", "user2"),
+      MealCookedByUser(9, "-O95A6SLUx-q-bEChNmr", "user2"),
+      MealCookedByUser(10, "-O96lVbmhYF56eQAsrBK", "user2"),
     ];
   });
 
@@ -38,7 +38,7 @@ describe("Meal Sorting", () => {
     expect(sortedMeals[4].id).toBe("-O8W4xIygoGTV7RiecjV"); // 1 reaction
   });
 
-  test.only("should sort meals by the most cooked (most cooked first)", () => {
+  test("should sort meals by the most cooked (most cooked first)", () => {
     const sortedMeals = SortMealsByMostCooked(meals, mealCookedByUsers);
 
     expect(sortedMeals[0].id).toBe("-O9dWdeSlKRenhA5moUD"); // cooked 7 times
@@ -54,7 +54,7 @@ describe("Meal Sorting", () => {
     expect(sortedMeals[1].authorId).toBe(authorId);
     expect(sortedMeals[2].authorId).toBe(authorId);
     //Created by someone else
-    expect(sortedMeals[3].authorId).toBe("-NZRfsbwxMKodyQA2ew6");
+    expect(sortedMeals[3].authorId).toBe("-NDU1MUoI8YPkF3pDyZj");
     expect(sortedMeals[4].authorId).toBe("-NZRfsbwxMKodyQA2ew6");
   });
 });
