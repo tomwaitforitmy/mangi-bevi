@@ -150,7 +150,8 @@ function MealsScreen({ navigation }) {
   filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
 
   const onSelectSort = (sort) => {
-    filteredMeals = SortMealsBy(filteredMeals, sort, undefined, user.id);
+    const localCopy = filteredMeals;
+    filteredMeals = SortMealsBy(localCopy, sort, undefined, user.id);
     setShowSortingModal(false);
   };
 
