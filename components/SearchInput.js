@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import Colors from "../constants/Colors";
+import { Icon } from "react-native-elements";
+import IconTypes from "../constants/IconTypes";
 
 const SearchInput = ({ style, onChangeText, numberOfLabels, label }) => {
   return (
@@ -18,10 +20,17 @@ const SearchInput = ({ style, onChangeText, numberOfLabels, label }) => {
           color: Colors.white,
           textAlign: "center",
           textAlignVertical: "center",
-          width: "30%",
+          width: "25%",
         }}>
         {numberOfLabels} {label}
       </Text>
+      <Icon
+        name={"sort"}
+        onPress={() => console.log("hi")}
+        type={IconTypes.materialCommunityIcons}
+        color={Colors.navigationIcon}
+        style={{ width: "10%" }}
+      />
     </View>
   );
 };
@@ -35,7 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     color: "black",
     minHeight: 30,
-    width: "70%",
+    width: "65%",
   },
   textContainer: {
     backgroundColor: Colors.primary,
