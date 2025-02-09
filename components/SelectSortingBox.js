@@ -6,7 +6,6 @@ const SelectSortingBox = ({ style, selectedItem, onItemChanged }) => {
   return (
     <View style={{ ...styles.container, ...style }}>
       {ALLOWED_SORTING_OPTIONS.map((r) => {
-        console.log(r);
         const selectedReaction = r === selectedItem;
         return (
           <TouchableOpacity key={r} onPress={() => onItemChanged(r)}>
