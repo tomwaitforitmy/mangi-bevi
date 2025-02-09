@@ -71,9 +71,6 @@
   },
   "jest": {
     "preset": "jest-expo",
-    "setupFilesAfterEnv": [
-      "./jest-setup-after-env.js"
-    ],
     "transform": {
       "\\firebase\\.[jt]s?$": "babel-jest"
     },
