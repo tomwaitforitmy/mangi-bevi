@@ -12,34 +12,25 @@ const SearchInput = ({
   showSortIcon,
   onSortPress,
 }) => {
-  const labelWidth = showSortIcon ? "25%" : "35%";
-
   return (
-    <View style={{ ...styles.textContainer, ...style }}>
+    <View style={[styles.textContainer, style]}>
       <TextInput
         placeholder="Enter text to search 🍕"
         placeholderTextColor={Colors.searchTextPlaceholder}
-        onChangeText={(value) => onChangeText(value)}
+        onChangeText={onChangeText}
         style={styles.searchTerm}
-        //auto correct makes it hard to search for uncommon words
         autoCorrect={false}
       />
-      <Text
-        style={{
-          color: Colors.white,
-          textAlign: "center",
-          textAlignVertical: "center",
-          width: labelWidth,
-        }}>
+      <Text style={styles.label}>
         {numberOfLabels} {label}
       </Text>
       {showSortIcon && (
         <Icon
-          name={"sort"}
-          onPress={() => onSortPress()}
+          name="sort"
+          onPress={onSortPress}
           type={IconTypes.materialCommunityIcons}
           color={Colors.navigationIcon}
-          style={{ width: "10%" }}
+          containerStyle={styles.icon}
         />
       )}
     </View>
@@ -47,6 +38,12 @@ const SearchInput = ({
 };
 
 const styles = StyleSheet.create({
+  textContainer: {
+    backgroundColor: Colors.primary,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
   searchTerm: {
     backgroundColor: Colors.screenBackGround,
     fontSize: 20,
@@ -55,12 +52,16 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     color: "black",
     minHeight: 30,
-    width: "65%",
+    flex: 1, // Takes the remaining space
   },
-  textContainer: {
-    backgroundColor: Colors.primary,
-    flexDirection: "row",
-    alignItems: "center",
+  label: {
+    color: Colors.white,
+    textAlign: "center",
+    textAlignVertical: "center",
+    marginHorizontal: 10,
+  },
+  icon: {
+    paddingHorizontal: 5,
   },
 });
 
