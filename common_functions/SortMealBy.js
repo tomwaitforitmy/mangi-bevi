@@ -19,9 +19,6 @@ export const SortMealsByMostCooked = (meals, mealCookedByUsers) => {
     return map; // Return the updated map after each iteration
   }, {});
 
-  // Log for debugging (mealIds and their cook count should be logged)
-  console.log("Cook count per meal:", JSON.stringify(cookCountMap, null, 2));
-
   // Sort meals by the cook count (most cooked first)
   return meals.sort(
     (a, b) => (cookCountMap[b.id] || 0) - (cookCountMap[a.id] || 0),
