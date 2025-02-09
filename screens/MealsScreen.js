@@ -11,7 +11,6 @@ import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import SearchInput from "../components/SearchInput";
 import * as searchAction from "../store/actions/searchAction";
 import { TagFilterMeals } from "../common_functions/TagFilterMeals";
-import { GetMealSummary } from "../common_functions/GetMealSummary";
 import { ContainsArray } from "../common_functions/ContainsArray";
 import { DEV_MODE } from "../data/Environment";
 import * as Notifications from "expo-notifications";
@@ -132,11 +131,28 @@ function MealsScreen({ navigation }) {
     };
   }, [navigation]);
 
+  const [filteredMeals, setFilteredMeals] = useState([]);
+
+  const onSelectSort = (sort) => {
+    const sortedMeals = SortMealsBy(
+      [...filteredMeals],
+      sort,
+      undefined,
+      user.id,
+    );
+    setFilteredMeals(sortedMeals);
+    setShowSortingModal(false);
+  };
+
+  useEffect(() => {
+    let meals = TagFilterMeals([...allMeals], tagIdsToFilter, filterOr);
+    meals = FastFilterMeals(meals, searchTerm);
+    setFilteredMeals(meals);
+  }, [allMeals, filterOr, filterTags, searchTerm, tagIdsToFilter]);
+
   if (isLoading) {
     return <LoadingIndicator />;
   }
-
-  let filteredMeals = [];
 
   const tagIdsToFilter = filterTags.map((t) => t.id);
 
@@ -145,15 +161,6 @@ function MealsScreen({ navigation }) {
   );
 
   const filterOr = filterAndSettingEnabled ? false : true;
-
-  filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterOr);
-  filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
-
-  const onSelectSort = (sort) => {
-    const localCopy = filteredMeals;
-    filteredMeals = SortMealsBy(localCopy, sort, undefined, user.id);
-    setShowSortingModal(false);
-  };
 
   //To find new corrupt data
   if (DEV_MODE) {
