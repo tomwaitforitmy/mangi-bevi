@@ -42,22 +42,22 @@ export const SortMealsByAuthor = (meals, authorId) => {
 
 const SortMealsByNewest = (meals) => {
   return meals.sort(
-    (a, b) => new Date(a.creationDate) - new Date(b.creationDate),
+    (a, b) => new Date(b.creationDate) - new Date(a.creationDate),
   );
 };
 
 const SortMealsByOldest = (meals) => {
   return meals.sort(
-    (a, b) => new Date(b.creationDate) - new Date(a.creationDate),
+    (a, b) => new Date(a.creationDate) - new Date(b.creationDate),
   );
 };
 
 const SortMealsByNewestEdit = (meals) => {
-  return meals.sort((a, b) => new Date(a.editDate) - new Date(b.editDate));
+  return meals.sort((a, b) => new Date(b.editDate) - new Date(a.editDate));
 };
 
 const SortMealsByOldestEdit = (meals) => {
-  return meals.sort((a, b) => new Date(b.editDate) - new Date(a.editDate));
+  return meals.sort((a, b) => new Date(a.editDate) - new Date(b.editDate));
 };
 
 export const SortMealsBy = (meals, sortingType, mealCookedByUsers, userId) => {

@@ -29,7 +29,6 @@ function MealsScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [showSortingModal, setShowSortingModal] = useState(false);
-  const [selectedSort, setSelectedSort] = useState(LAST_CREATED);
 
   const allMeals = useSelector((state) => state.meals.meals);
   const filterTags = useSelector((state) => state.tags.filterTags);
@@ -151,13 +150,7 @@ function MealsScreen({ navigation }) {
   filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
 
   const onSelectSort = (sort) => {
-    setSelectedSort(sort);
-    filteredMeals = SortMealsBy(
-      filteredMeals,
-      selectedSort,
-      undefined,
-      user.id,
-    );
+    filteredMeals = SortMealsBy(filteredMeals, sort, undefined, user.id);
     setShowSortingModal(false);
   };
 
@@ -182,7 +175,7 @@ function MealsScreen({ navigation }) {
         visible={showSortingModal}
         onClose={() => setShowSortingModal(false)}
         onSelectSort={(i) => onSelectSort(i)}
-        selectedItem={selectedSort}
+        selectedItem={LAST_CREATED}
       />
       <SearchInput
         onChangeText={onChangeText}
