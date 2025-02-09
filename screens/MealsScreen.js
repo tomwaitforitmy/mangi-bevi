@@ -19,12 +19,17 @@ import { registerForPushNotificationsAsync } from "../notifications/RegisterForP
 import * as usersAction from "../store/actions/usersAction";
 import { IsEmailValid } from "../common_functions/IsEmailValid";
 import { enableAndFilter } from "../data/AvailableSettings";
+import SelectSortingModal from "../components/SelectSortingModal";
+import { LAST_CREATED } from "../data/AllowedSortingOptions";
+import { SortMealsBy } from "../common_functions/SortMealBy";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [showSortingModal, setShowSortingModal] = useState(false);
+  const [selectedSort, setSelectedSort] = useState(LAST_CREATED);
 
   const allMeals = useSelector((state) => state.meals.meals);
   const filterTags = useSelector((state) => state.tags.filterTags);
@@ -145,33 +150,46 @@ function MealsScreen({ navigation }) {
   filteredMeals = TagFilterMeals(allMeals, tagIdsToFilter, filterOr);
   filteredMeals = FastFilterMeals(filteredMeals, searchTerm);
 
+  const onSelectSort = (sort) => {
+    setSelectedSort(sort);
+    filteredMeals = SortMealsBy(
+      filteredMeals,
+      selectedSort,
+      undefined,
+      user.id,
+    );
+    setShowSortingModal(false);
+  };
+
   //To find new corrupt data
   if (DEV_MODE) {
     //To find corrupt data
     filteredMeals.map((m) => {
       if (ContainsArray(m.ingredients)) {
         console.error("⚡⚡⚡ Found corrupt INGREDIENTS");
-        console.error(
-          GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
-        );
-        console.error(m);
+        console.error(m.title);
       }
       if (ContainsArray(m.steps)) {
         console.error("⚡⚡⚡ Found corrupt STEPS");
-        console.error(
-          GetMealSummary(m.title, m.ingredients, m.steps, m.authorId),
-        );
-        console.error(m);
+        console.error(m.title);
       }
     });
   }
 
   return (
     <View style={styles.container}>
+      <SelectSortingModal
+        visible={showSortingModal}
+        onClose={() => setShowSortingModal(false)}
+        onSelectSort={(i) => onSelectSort(i)}
+        selectedItem={selectedSort}
+      />
       <SearchInput
         onChangeText={onChangeText}
         numberOfLabels={filteredMeals.length}
         label={"Mangis"}
+        showSortIcon={true}
+        onSortPress={() => setShowSortingModal(true)}
       />
       <View style={styles.mealsScreen}>
         {filtersActive && (

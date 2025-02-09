@@ -4,7 +4,16 @@ import Colors from "../constants/Colors";
 import { Icon } from "react-native-elements";
 import IconTypes from "../constants/IconTypes";
 
-const SearchInput = ({ style, onChangeText, numberOfLabels, label }) => {
+const SearchInput = ({
+  style,
+  onChangeText,
+  numberOfLabels,
+  label,
+  showSortIcon,
+  onSortPress,
+}) => {
+  const labelWidth = showSortIcon ? "25%" : "35%";
+
   return (
     <View style={{ ...styles.textContainer, ...style }}>
       <TextInput
@@ -20,17 +29,19 @@ const SearchInput = ({ style, onChangeText, numberOfLabels, label }) => {
           color: Colors.white,
           textAlign: "center",
           textAlignVertical: "center",
-          width: "25%",
+          width: labelWidth,
         }}>
         {numberOfLabels} {label}
       </Text>
-      <Icon
-        name={"sort"}
-        onPress={() => console.log("hi")}
-        type={IconTypes.materialCommunityIcons}
-        color={Colors.navigationIcon}
-        style={{ width: "10%" }}
-      />
+      {showSortIcon && (
+        <Icon
+          name={"sort"}
+          onPress={() => onSortPress()}
+          type={IconTypes.materialCommunityIcons}
+          color={Colors.navigationIcon}
+          style={{ width: "10%" }}
+        />
+      )}
     </View>
   );
 };
