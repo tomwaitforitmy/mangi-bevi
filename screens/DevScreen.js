@@ -1,120 +1,72 @@
-import React, { useRef, useState, useEffect } from "react";
-import {
-  Text,
-  StyleSheet,
-  TextInput,
-  Dimensions,
-  View,
-  Button,
-  ScrollView,
-  Keyboard,
-  Platform,
-} from "react-native";
+import React, { memo, useRef, useState } from "react";
+import { StyleSheet, View, Button, ScrollView, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
-import MyListItem from "../components/MyListItem";
 import Colors from "../constants/Colors";
+import SortingListViewContainer from "../components/SortingListViewContainer";
+import ReorderableList, {
+  reorderItems,
+  useReorderableDrag,
+} from "react-native-reorderable-list";
+import MyListItem from "../components/MyListItem";
+import IconTypes from "../constants/IconTypes";
+
+const Card = memo(({ title }) => {
+  const drag = useReorderableDrag();
+
+  return (
+    <Pressable style={[styles.card]} onLongPress={drag}>
+      <MyListItem
+        title={title}
+        IconName={"swap-vertical"}
+        iconType={IconTypes.ionicon}
+      />
+    </Pressable>
+  );
+});
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
 
-  const [inputValue, setInputValue] = useState("");
-  const [items, setItems] = useState([]); // State to store the list of inputs
-  const inputRef = useRef(null); // Ref to access the TextInput
-  const scrollViewRef = useRef(null); // Ref to access the ScrollView
-  const [keyboardOffset, setKeyboardOffset] = useState(0); // To store keyboard offset
+  const handleReorder = ({ from, to }) => {
+    setItems((value) => reorderItems(value, from, to));
+  };
 
-  useEffect(() => {
-    const screenHeight = Dimensions.get("window").height;
+  const [items, setItems] = useState([
+    "test 1",
+    "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test",
+    "test 2",
+    "test 3",
+  ]); // State to store the list of inputs
 
-    const getExtraHeight = () => {
-      if (screenHeight >= 812) {
-        return 94; // Adjust based on device height
-      } else if (screenHeight >= 667 && screenHeight < 812) {
-        return 60;
-      } else {
-        return 35;
-      }
-    };
-
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      (event) => {
-        //Not needed on Android
-        if (Platform.OS === "ios") {
-          const offset = event.endCoordinates.height - getExtraHeight();
-          setKeyboardOffset(offset); // Set keyboard height
-        }
-        //We cannot directly call scroll to end, because the height
-        //of the content might not have changed, yet.
-        setTimeout(() => {
-          scrollViewRef.current?.scrollToEnd({ animated: true });
-        }, 10);
-      },
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.iosSmaller}>
+        <Card title={item} />
+      </View>
     );
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardOffset(0); // Reset keyboard height
-      },
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
-
-  const handleAddItem = () => {
-    if (inputValue.trim()) {
-      if (items.includes(inputValue) || inputValue === "") {
-        inputRef.current?.focus(); // Refocus on the TextInput
-        return;
-      }
-      setItems((prevItems) => [...prevItems, inputValue]); // Add the input value to the list
-      setInputValue(""); // Clear the input field
-      inputRef.current?.focus(); // Refocus on the TextInput
-    }
   };
 
   return (
-    <View style={{ flex: 1, paddingBottom: keyboardOffset }}>
-      <ScrollView
-        ref={scrollViewRef}
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled">
-        <Button
-          title="Delete all test mangis"
-          onPress={async () => {
-            await deleteTestMangis(dispatch, allMeals, user);
-          }}
-        />
-        {items.map((i) => (
-          <MyListItem key={i} title={i} IconName={"edit"} />
-        ))}
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            multiline={true}
-            ref={inputRef}
-            placeholder="Enter text"
-            placeholderTextColor={"lightgrey"}
-            selectionColor={"white"}
-            value={inputValue}
-            onChangeText={setInputValue}
-            returnKeyType="default"
-            blurOnSubmit={false} // Keeps the input focused after pressing return
-            onEndEditing={() => {
-              handleAddItem(); // Handles the action when return is pressed
-            }}
-          />
-          <View style={styles.sendButtonContainer}>
-            <Text style={styles.sendButtonText}>+</Text>
-          </View>
-        </View>
-      </ScrollView>
+    <View style={{ flex: 1 }}>
+      {/* <SortingListViewContainer onSortEnd={handleReorder} data={items} /> */}
+
+      <ReorderableList
+        data={items}
+        onReorder={handleReorder}
+        keyExtractor={(item, index) => index}
+        renderItem={renderItem}
+        shouldUpdateActiveItem
+      />
+
+      <Button
+        title="Delete all test mangis"
+        onPress={async () => {
+          await deleteTestMangis(dispatch, allMeals, user);
+        }}
+      />
     </View>
   );
 }
