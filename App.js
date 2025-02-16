@@ -1,7 +1,7 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { LogBox } from "react-native";
+import { LogBox, SafeAreaView } from "react-native";
 LogBox.ignoreLogs([
   "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45.",
   'A props object containing a "key" prop is being spread into JSX',
@@ -18,6 +18,7 @@ import usersReducer from "./store/reducers/usersReducer";
 import searchReducer from "./store/reducers/searchReducer";
 import mealCookedByUserReducer from "./store/reducers/mealCookedByUserReducer";
 import * as Notifications from "expo-notifications";
+import DevScreen from "./screens/DevScreen";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -63,7 +64,9 @@ function App() {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <MyNavigationContainer />
+        <SafeAreaView style={{ flex: 1 }}>
+          <DevScreen></DevScreen>
+        </SafeAreaView>
       </GestureHandlerRootView>
     </Provider>
   );
