@@ -1,44 +1,48 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
-import DraggableFlatList, {
-  ScaleDecorator,
-} from "react-native-draggable-flatlist";
+import React, { memo, useState } from "react";
+import { View, StyleSheet, Pressable } from "react-native";
 import MyListItem from "../components/MyListItem";
 import Colors from "../constants/Colors";
 import IconTypes from "../constants/IconTypes";
+import ReorderableList, {
+  reorderItems,
+  useReorderableDrag,
+} from "react-native-reorderable-list";
+
+const Card = memo(({ title }) => {
+  const drag = useReorderableDrag();
+
+  return (
+    <Pressable style={styles.card} onLongPress={drag}>
+      <MyListItem
+        title={title}
+        IconName={"swap-vertical"}
+        iconType={IconTypes.ionicon}
+      />
+    </Pressable>
+  );
+});
 
 function DraggableItemList(props) {
-  const renderItem = ({ item, drag, isActive }) => {
+  const [data, setData] = useState(props.data);
+
+  const handleReorder = ({ from, to }) => {
+    setData((value) => reorderItems(value, from, to));
+    props.onSortEnd(data);
+  };
+
+  const renderItem = ({ item }) => {
     return (
       <View style={styles.iosSmaller}>
-        <ScaleDecorator activeScale={1.05}>
-          <TouchableOpacity
-            onPressIn={drag}
-            disabled={isActive}
-            style={[
-              {
-                zIndex: isActive ? 1 : 0,
-                backgroundColor: Colors.screenBackGround,
-                width: "100%",
-              },
-            ]}>
-            <MyListItem
-              title={item}
-              IconName={"swap-vertical"}
-              iconType={IconTypes.ionicon}
-            />
-          </TouchableOpacity>
-        </ScaleDecorator>
+        <Card title={item} />
       </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <DraggableFlatList
-        canCancelContentTouches={true}
+      <ReorderableList
         data={props.data}
-        onDragEnd={({ data }) => props.onSortEnd(data)}
+        onReorder={handleReorder}
         keyExtractor={(item, index) => index}
         renderItem={renderItem}
       />
@@ -53,6 +57,10 @@ const styles = StyleSheet.create({
   iosSmaller: {
     //render the item smaller to allow scrolling
     width: "90%",
+  },
+  card: {
+    backgroundColor: Colors.screenBackGround,
+    width: "100%",
   },
 });
 
