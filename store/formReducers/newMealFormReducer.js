@@ -228,10 +228,10 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === PREPARE_EDIT_INGREDIENT) {
-    const element = state.ingredients.filter((e) => e === action.key);
+    const element = state.ingredients.find((e) => e === action.key) || "";
     const elementIndex = state.ingredients.findIndex((e) => e === action.key);
     action.ref.current.setNativeProps({
-      text: element.toString(),
+      text: element,
     });
     action.ref.current.focus();
 
@@ -243,10 +243,10 @@ export default function newMealFormReducer(state, action) {
   }
 
   if (action.type === PREPARE_EDIT_STEP) {
-    const element = state.steps.filter((e) => e === action.key);
+    const element = state.steps.find((e) => e === action.key) || "";
     const elementIndex = state.steps.findIndex((e) => e === action.key);
     action.ref.current.setNativeProps({
-      text: element.toString(),
+      text: element,
     });
     action.ref.current.focus();
 
