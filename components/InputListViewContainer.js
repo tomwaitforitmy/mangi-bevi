@@ -6,6 +6,7 @@ import {
   ScrollView,
   TextInput,
   Keyboard,
+  InteractionManager,
 } from "react-native";
 import MyListItem from "./MyListItem";
 import Colors from "../constants/Colors";
@@ -15,15 +16,19 @@ import IconTypes from "../constants/IconTypes";
 const InputListViewContainer = (props) => {
   const scrollViewRef = useRef(null);
 
+  //This whole useEffect is just for the first time when the "edit" icon is pressed.
+  //There, the keyboard appears, changing the layout.
+  //During that animation scrollToEnd does not work correctly, because
+  //the end coordinate is still changing.
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       (event) => {
         //We cannot directly call scroll to end, because the height
         //of the content might not have changed, yet.
-        setTimeout(() => {
+        InteractionManager.runAfterInteractions(() => {
           scrollViewRef.current?.scrollToEnd({ animated: true });
-        }, 10);
+        });
       },
     );
 
@@ -31,6 +36,15 @@ const InputListViewContainer = (props) => {
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  //Make sure to focus after the interaction is done
+  const onPressIconInternal = (e) => {
+    props.onPressIcon(e);
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+    InteractionManager.runAfterInteractions(() => {
+      props.inputRef.current?.focus();
+    });
+  };
 
   return (
     <View style={{ ...styles.container, ...props.style }}>
@@ -46,7 +60,7 @@ const InputListViewContainer = (props) => {
                 key={e}
                 title={e}
                 IconName={"edit"}
-                onPressIcon={() => props.onPressIcon(e)}
+                onPressIcon={() => onPressIconInternal(e)}
               />
             ))}
         </TouchableOpacity>
