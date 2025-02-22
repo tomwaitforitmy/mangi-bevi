@@ -23,27 +23,30 @@ const Card = memo(({ title }) => {
 });
 
 function DraggableItemList(props) {
-  const [data, setData] = useState(props.data);
+  const listWithIds = props.data.map((text, index) => ({
+    id: index,
+    text: text,
+  }));
+
+  const [data, setData] = useState(listWithIds);
 
   const handleReorder = ({ from, to }) => {
-    setData((value) => reorderItems(value, from, to));
-    props.onSortEnd(data);
+    const reorderedItems = reorderItems(data, from, to);
+    setData(reorderedItems);
+    const dataAsArray = reorderedItems.map((item) => item.text);
+    props.onSortEnd(dataAsArray);
   };
 
   const renderItem = ({ item }) => {
-    return (
-      <View style={styles.iosSmaller}>
-        <Card title={item} />
-      </View>
-    );
+    return <Card title={item.text} />;
   };
 
   return (
     <View style={styles.container}>
       <ReorderableList
-        data={props.data}
+        data={data}
         onReorder={handleReorder}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
       />
     </View>
@@ -53,10 +56,6 @@ function DraggableItemList(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  iosSmaller: {
-    //render the item smaller to allow scrolling
-    width: "90%",
   },
   card: {
     backgroundColor: Colors.screenBackGround,
