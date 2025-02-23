@@ -1,5 +1,5 @@
 import {
-  COOKED_BY_ME,
+  CREATED_BY_ME,
   FIRST_CREATED,
   FIRST_EDITED,
   LAST_CREATED,
@@ -74,7 +74,7 @@ export const SortMealsBy = (meals, sortingType, mealCookedByUsers, userId) => {
       return SortMealsByMostCooked(meals, mealCookedByUsers);
     case MOST_REACTIONS:
       return SortMealsByReactions(meals);
-    case COOKED_BY_ME:
+    case CREATED_BY_ME:
       return SortMealsByAuthor(meals, userId);
     default:
       break;
