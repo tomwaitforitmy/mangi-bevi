@@ -42,7 +42,7 @@ const InputListViewContainer = (props) => {
     props.onPressIcon(e);
     scrollViewRef.current?.scrollToEnd({ animated: true });
     InteractionManager.runAfterInteractions(() => {
-      props.inputRef.current?.focus();
+      props.inputRef?.current?.focus();
     });
   };
 
