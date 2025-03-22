@@ -145,22 +145,27 @@ function MealsScreen({ navigation }) {
   };
 
   useEffect(() => {
-    let meals = TagFilterMeals([...allMeals], tagIdsToFilter, filterOr);
+    // Calculate filterOr when user.settings changes
+    const filterAndSettingEnabled = user?.settings.find(
+      (s) => s.name === enableAndFilter,
+    );
+
+    // Filter meals based on updated settings and search term
+    let meals = TagFilterMeals(
+      [...allMeals],
+      tagIdsToFilter,
+      filterAndSettingEnabled ? false : true,
+    );
     meals = FastFilterMeals(meals, searchTerm);
+
     setFilteredMeals(meals);
-  }, [allMeals, filterOr, filterTags, searchTerm, tagIdsToFilter]);
+  }, [allMeals, filterTags, searchTerm, tagIdsToFilter, user?.settings]);
 
   if (isLoading) {
     return <LoadingIndicator />;
   }
 
   const tagIdsToFilter = filterTags.map((t) => t.id);
-
-  const filterAndSettingEnabled = user.settings.find(
-    (s) => s.name === enableAndFilter,
-  );
-
-  const filterOr = filterAndSettingEnabled ? false : true;
 
   //To find new corrupt data
   if (DEV_MODE) {
