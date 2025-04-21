@@ -15,7 +15,7 @@ import {
 
 export const getToken = async () => {
   try {
-    const token = await firebaseAuth.currentUser.getIdToken();
+    const token = await firebaseAuth.currentUser?.getIdToken();
     return token;
   } catch (error) {
     console.error(
