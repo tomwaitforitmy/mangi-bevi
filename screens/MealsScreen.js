@@ -146,7 +146,7 @@ function MealsScreen({ navigation }) {
 
   useEffect(() => {
     // Calculate filterOr when user.settings changes
-    const filterAndSettingEnabled = user?.settings.find(
+    const filterAndSettingEnabled = user?.settings?.find(
       (s) => s.name === enableAndFilter,
     );
 
