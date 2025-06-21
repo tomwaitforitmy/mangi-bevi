@@ -10,6 +10,7 @@ import mealSpeedDialReducer, {
 } from "../store/formReducers/mealSpeedDialReducer";
 import IconTypes from "../constants/IconTypes";
 import { GetAuthorNameByMealId } from "../common_functions/GetAuthorName";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 const MealSpeedDial = (props) => {
   const { mealId } = props;
@@ -57,23 +58,25 @@ const MealSpeedDial = (props) => {
 
   const navigateToAddTag = () => {
     formDispatch({ type: CLOSE });
-    props.navigation.navigate("AddTagScreen", {
-      mealId: mealId,
+    props.navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+      screen: NAVIGATION_TITLES.STACK_ADD_TAG,
+      params: { mealId: mealId },
     });
   };
 
   const navigateToEditLinks = () => {
     formDispatch({ type: CLOSE });
-    props.navigation.navigate("EditLinksScreen", {
-      mealId: mealId,
+    props.navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+      screen: NAVIGATION_TITLES.STACK_EDIT_LINKS,
+      params: { mealId: mealId },
     });
   };
 
   const navigateToReport = () => {
     formDispatch({ type: CLOSE });
-    props.navigation.navigate("SendReportScreen", {
-      mealId: mealId,
-      mealTitle: selectedMeal.title,
+    props.navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+      screen: NAVIGATION_TITLES.STACK_SEND_REPORT,
+      params: { mealId: mealId, mealTitle: selectedMeal.title },
     });
   };
 
