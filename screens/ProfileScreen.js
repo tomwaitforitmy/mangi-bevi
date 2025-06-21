@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import MyLevelViewContainer from "../components/MyLevelViewContainer";
 import Constants from "expo-constants";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function ProfileScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -22,7 +23,7 @@ function ProfileScreen({ navigation }) {
           />
           <MyButton
             onPress={() => {
-              navigation.navigate("UserMealsScreen");
+              navigation.navigate(NAVIGATION_TITLES.STACK_USER_MEALS);
             }}>
             {"View your Mangis"}
           </MyButton>
@@ -30,13 +31,22 @@ function ProfileScreen({ navigation }) {
           <Divider />
           <Text style={styles.bene}>Email: {user.email}</Text>
           <Divider />
-          <MyButton onPress={() => navigation.navigate("ManageAccountScreen")}>
+          <MyButton
+            onPress={() =>
+              navigation.navigate(NAVIGATION_TITLES.STACK_MANAGE_ACCOUNT)
+            }>
             {"Manage Account"}
           </MyButton>
-          <MyButton onPress={() => navigation.navigate("EditFriendsScreen")}>
+          <MyButton
+            onPress={() =>
+              navigation.navigate(NAVIGATION_TITLES.STACK_EDIT_FRIENDS)
+            }>
             {"Friends"}
           </MyButton>
-          <MyButton onPress={() => navigation.navigate("SettingsScreen")}>
+          <MyButton
+            onPress={() =>
+              navigation.navigate(NAVIGATION_TITLES.STACK_SETTINGS)
+            }>
             {"Settings"}
           </MyButton>
           <Text style={styles.bene}>
