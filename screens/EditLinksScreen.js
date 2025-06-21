@@ -7,6 +7,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import { PrepareSelectedLinks } from "../common_functions/PrepareSelectedLinks";
 import SearchInput from "../components/SearchInput";
 import { FastFilterMeals } from "../common_functions/FastFilterMeals";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function EditLinksScreen({ navigation, route }) {
   const { mealId } = route.params;
@@ -40,13 +41,10 @@ function EditLinksScreen({ navigation, route }) {
     await editLinks(dispatch, selectedMeal, mealsToLink, localAvailableMeals);
     setIsLoading(false);
 
-    navigation.navigate({
-      name: "Details",
-      params: {
-        mealId: selectedMeal.id,
-        mealTitle: selectedMeal.title,
-        isAuthenticated: true,
-      },
+    navigation.popTo(NAVIGATION_TITLES.STACK_MEAL_DETAILS, {
+      mealId: selectedMeal.id,
+      mealTitle: selectedMeal.title,
+      isAuthenticated: true,
     });
   };
 
