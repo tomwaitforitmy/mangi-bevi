@@ -9,6 +9,7 @@ import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import SearchInput from "../components/SearchInput";
 import * as searchAction from "../store/actions/searchAction";
 import MyButton from "../components/MyButton";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function MealsScreenNotAuthenticated({ navigation }) {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ function MealsScreenNotAuthenticated({ navigation }) {
         <MyButton
           style={styles.loginButton}
           onPress={() => {
-            navigation.navigate("LoginScreen");
+            navigation.navigate(NAVIGATION_TITLES.LOGIN);
           }}>
           {"Login or sign up"}
         </MyButton>
