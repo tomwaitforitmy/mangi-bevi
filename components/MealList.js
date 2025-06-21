@@ -10,23 +10,24 @@ const MealList = (props) => {
       <MealItem
         title={itemData.item.title}
         onSelectMeal={() => {
-          props.navigation.navigate(
-            //if logged out, we navigate to another instance of the screen
-            props.isAuthenticated
-              ? NAVIGATION_TITLES.TAB_MEALS
-              : NAVIGATION_TITLES.LOGGED_OUT_MEALS,
-            {
-              screen: props.isAuthenticated
-                ? NAVIGATION_TITLES.STACK_MEAL_DETAILS
-                : NAVIGATION_TITLES.LOGGED_OUT_DETAILS,
+          if (props.isAuthenticated) {
+            props.navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+              screen: NAVIGATION_TITLES.STACK_MEAL_DETAILS,
               params: {
                 mealId: itemData.item.id,
                 mealTitle: itemData.item.title,
                 isAuthenticated: props.isAuthenticated,
                 updateRenderCounter: 0,
               },
-            },
-          );
+            });
+          } else {
+            props.navigation.navigate(NAVIGATION_TITLES.LOGGED_OUT_DETAILS, {
+              mealId: itemData.item.id,
+              mealTitle: itemData.item.title,
+              isAuthenticated: props.isAuthenticated,
+              updateRenderCounter: 0,
+            });
+          }
         }}
         image={itemData.item.primaryImageUrl}
         searchTerm={props.searchTerm}

@@ -191,21 +191,21 @@ function MealDetailScreen({ route, navigation }) {
               }}
               style={styles.image}
               onPress={() => {
-                navigation.navigate(
-                  //We navigate to another instance if logged out
-                  isAuthenticated
-                    ? NAVIGATION_TITLES.TAB_MEALS
-                    : NAVIGATION_TITLES.LOGGED_OUT_MEALS,
-                  {
-                    screen: isAuthenticated
-                      ? NAVIGATION_TITLES.STACK_IMAGES
-                      : NAVIGATION_TITLES.LOGGED_OUT_IMAGES,
+                if (isAuthenticated) {
+                  navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+                    screen: NAVIGATION_TITLES.STACK_IMAGES,
                     params: {
                       mealId: selectedMeal.id,
                       mealTitle: selectedMeal.title,
                     },
-                  },
-                );
+                  });
+                } else {
+                  //We navigate to another instance if logged out
+                  navigation.navigate(NAVIGATION_TITLES.LOGGED_OUT_IMAGES, {
+                    mealId: selectedMeal.id,
+                    mealTitle: selectedMeal.title,
+                  });
+                }
               }}
             />
             <TagList tags={tagList} />
