@@ -21,6 +21,7 @@ import { enableAndFilter } from "../data/AvailableSettings";
 import SelectSortingModal from "../components/SelectSortingModal";
 import { LAST_CREATED } from "../data/AllowedSortingOptions";
 import { SortMealsBy } from "../common_functions/SortMealBy";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -36,7 +37,9 @@ function MealsScreen({ navigation }) {
   const filtersActive = filterTags.length > 0;
 
   const onPressTagsActiveHandler = () => {
-    navigation.navigate("Filters");
+    navigation.navigate(NAVIGATION_TITLES.TAB_FILTERS, {
+      screen: NAVIGATION_TITLES.STACK_FILTER,
+    });
   };
 
   const onChangeText = async (text) => {
@@ -118,7 +121,8 @@ function MealsScreen({ navigation }) {
         const title = response.notification.request.content.data.title;
         console.log("Push clicked on " + title);
 
-        navigation.navigate("Meals", {
+        //Todo: This can be tested again now with bottom-tabs and navigation 7
+        navigation.navigate(NAVIGATION_TITLES.STACK_MEALS, {
           // mealId: mangiId,
           // mealTitle: title,
           // isAuthenticated: true,
