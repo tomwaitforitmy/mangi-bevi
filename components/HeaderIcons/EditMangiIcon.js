@@ -2,6 +2,7 @@ import React from "react";
 import Colors from "../../constants/Colors";
 import { Icon } from "react-native-elements";
 import IconTypes from "../../constants/IconTypes";
+import { NAVIGATION_TITLES } from "../../constants/NavigationTitles";
 
 const onHeaderIconPress = (
   navigation,
@@ -9,8 +10,8 @@ const onHeaderIconPress = (
   selectedTabEdit,
   updateRenderCounter,
 ) => {
-  navigation.navigate("Mangi & Bevi", {
-    screen: "EditScreen",
+  navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+    screen: NAVIGATION_TITLES.STACK_EDIT_MEAL,
     params: {
       mealId: mealId,
       selectedTabEdit: selectedTabEdit,
