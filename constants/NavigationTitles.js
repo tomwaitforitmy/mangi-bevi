@@ -26,9 +26,9 @@ export const NAVIGATION_TITLES = {
   //New Stack
   STACK_NEW: "NewScreen",
   //Logged out
-  LOGGED_OUT_MEALS: "Meals",
-  LOGGED_OUT_DETAILS: "Details",
-  LOGGED_OUT_IMAGES: "ImagesScreen",
+  LOGGED_OUT_MEALS: "LoggedOutMeals",
+  LOGGED_OUT_DETAILS: "LoggedOutDetails",
+  LOGGED_OUT_IMAGES: "LoggedOutImagesScreen",
   LOGIN: "LoginScreen",
   SIGN_UP: "SignUpScreen",
   PASSWORD_RESET: "PasswordResetScreen",
