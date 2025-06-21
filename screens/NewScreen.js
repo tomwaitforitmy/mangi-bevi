@@ -61,6 +61,7 @@ import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";
 import { getPermission, pickImage } from "../common_functions/PickImage";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
@@ -254,8 +255,8 @@ function NewScreen({ route, navigation }) {
 
       await dispatch(mealsAction.editMeal(editedMeal));
       formDispatch({ type: SUBMITTED });
-      navigation.navigate({
-        name: "Details",
+      navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+        screen: NAVIGATION_TITLES.STACK_MEAL_DETAILS,
         params: {
           mealId: mealId,
           mealTitle: formState.title,
@@ -363,8 +364,8 @@ function NewScreen({ route, navigation }) {
   const onRequestCloseModal = () => {
     formDispatch({ type: SUBMITTED });
 
-    navigation.navigate({
-      name: "Details",
+    navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+      screen: NAVIGATION_TITLES.STACK_MEAL_DETAILS,
       params: {
         mealId: formState.newCreatedId,
         mealTitle: formState.title,
