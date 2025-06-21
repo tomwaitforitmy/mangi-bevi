@@ -7,6 +7,7 @@ import SearchInput from "../components/SearchInput";
 import MultiSelectUsersList from "../components/MultiSelectUsersList";
 import * as usersActions from "../store/actions/usersAction";
 import { FastFilterUsers } from "../common_functions/FastFilterUsers";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function EditFriendsScreen({ navigation, route }) {
   //This is called when users.users AND state.users.user change
@@ -40,9 +41,7 @@ function EditFriendsScreen({ navigation, route }) {
 
     setIsLoading(false);
 
-    navigation.navigate({
-      name: "UserProfileScreen",
-    });
+    navigation.popTo(NAVIGATION_TITLES.STACK_USER_PROFILE);
   };
 
   if (searchTerm) {
