@@ -9,7 +9,7 @@ import DevScreen from "../screens/DevScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import NewScreen from "../screens/NewScreen";
 import Colors from "../constants/Colors";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ImagesScreen from "../screens/ImagesScreen";
 import AddTagScreen from "../screens/AddTagScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -49,7 +49,7 @@ const defaultScreenOptions = {
   // headerTitleAlign: "center",
 };
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 function AuthenticatedTabNavigator() {
   return (
@@ -62,7 +62,12 @@ function AuthenticatedTabNavigator() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) =>
           TabBarIcon(focused, color, route.name),
-        tabBarColor: Colors.primary,
+        tabBarStyle: {
+          backgroundColor: Colors.primary,
+        },
+        tabBarActiveTintColor: Colors.navigationIcon,
+        tabBarInactiveTintColor: Colors.second,
+        headerShown: false, // Hide all headers in tab screens as they come from stack navigators
       })}>
       <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
       {DEV_MODE && <Tab.Screen name="Dev" component={DevStackContainer} />}
