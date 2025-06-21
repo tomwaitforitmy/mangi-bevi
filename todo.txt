@@ -7,3 +7,14 @@
   useEffect(() => {
     console.log("🚨 MyListItem" + props.title + " re-rendered");
   });
+
+
+- For future tommy:
+* Ich weiß nicht mehr genau was bei mealsAction noch nicht funktioniert. Es ging darum, dass Reactions sich nicht überschreiben, wenn Daten nicht geholt wurden. Irgendetwas fehlt wohl noch.
+- Blaze Plan:
+* https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#cap_disable_billing_to_stop_usage
+--> Habe ich beides ausprobiert. 
+Die CLI läuft mit komplett neuem leeren Project in debian font error
+Der Walk Through stoppt für mich bei Schritt 6, weil die Option "Create function" nicht finden kann.
+Alles was ähnlich war benötigt viel mehr Information, die ich nicht verstanden habe.
+Anfrage an den Support ist gestellt.
