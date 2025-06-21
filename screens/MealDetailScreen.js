@@ -26,6 +26,7 @@ import CookedByUserList from "../components/CookedByUserList";
 import { WasMarkedThisWeek } from "../common_functions/WasMarkedThisWeek";
 import MealCookedByUser from "../models/MealCookedByUser";
 import { markedAsCooked } from "../notifications/MarkedAsCooked";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function MealDetailScreen({ route, navigation }) {
   const {
@@ -190,10 +191,21 @@ function MealDetailScreen({ route, navigation }) {
               }}
               style={styles.image}
               onPress={() => {
-                navigation.navigate("ImagesScreen", {
-                  mealId: selectedMeal.id,
-                  mealTitle: selectedMeal.title,
-                });
+                navigation.navigate(
+                  //We navigate to another instance if logged out
+                  isAuthenticated
+                    ? NAVIGATION_TITLES.TAB_MEALS
+                    : NAVIGATION_TITLES.LOGGED_OUT_MEALS,
+                  {
+                    screen: isAuthenticated
+                      ? NAVIGATION_TITLES.STACK_IMAGES
+                      : NAVIGATION_TITLES.LOGGED_OUT_IMAGES,
+                    params: {
+                      mealId: selectedMeal.id,
+                      mealTitle: selectedMeal.title,
+                    },
+                  },
+                );
               }}
             />
             <TagList tags={tagList} />
@@ -253,7 +265,7 @@ function MealDetailScreen({ route, navigation }) {
         <MyButton
           style={styles.loginButton}
           onPress={() => {
-            navigation.navigate("LoginScreen");
+            navigation.navigate(NAVIGATION_TITLES.LOGIN);
           }}>
           {"Login or sign up"}
         </MyButton>
