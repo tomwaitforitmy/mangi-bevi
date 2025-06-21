@@ -9,10 +9,13 @@ const onHeaderIconPress = (
   selectedTabEdit,
   updateRenderCounter,
 ) => {
-  navigation.navigate("EditScreen", {
-    mealId: mealId,
-    selectedTabEdit: selectedTabEdit,
-    updateRenderCounter: updateRenderCounter,
+  navigation.navigate("Mangi & Bevi", {
+    screen: "EditScreen",
+    params: {
+      mealId: mealId,
+      selectedTabEdit: selectedTabEdit,
+      updateRenderCounter: updateRenderCounter,
+    },
   });
 };
 
