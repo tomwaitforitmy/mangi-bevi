@@ -57,13 +57,10 @@ function AddTagScreen({ route, navigation }) {
     };
 
     await saveTags(selectedMeal, addedTags);
-    navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
-      screen: NAVIGATION_TITLES.STACK_EDIT_MEAL,
-      params: {
-        mealId: selectedMeal.id,
-        mealTitle: selectedMeal.title,
-        isAuthenticated: true,
-      },
+    navigation.popTo(NAVIGATION_TITLES.STACK_MEAL_DETAILS, {
+      mealId: selectedMeal.id,
+      mealTitle: selectedMeal.title,
+      isAuthenticated: true,
     });
   }, [addedTags, dispatch, navigation, selectedMeal]);
 
