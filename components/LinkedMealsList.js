@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import TinyMealItem from "./TinyMealItem";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 const LinkedMealsList = (props) => {
   const navigateToMeal = (meal) => {
-    props.navigation.navigate({
-      name: "Details",
+    props.navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+      screen: NAVIGATION_TITLES.STACK_MEAL_DETAILS,
       params: {
         mealId: meal.id,
         mealTitle: meal.title,
