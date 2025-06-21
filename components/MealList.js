@@ -2,6 +2,7 @@ import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import MealItem from "./MealItem";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 const MealList = (props) => {
   const renderMealItem = (itemData) => {
@@ -9,15 +10,23 @@ const MealList = (props) => {
       <MealItem
         title={itemData.item.title}
         onSelectMeal={() => {
-          props.navigation.navigate({
-            name: "Details",
-            params: {
-              mealId: itemData.item.id,
-              mealTitle: itemData.item.title,
-              isAuthenticated: props.isAuthenticated,
-              updateRenderCounter: 0,
+          props.navigation.navigate(
+            //if logged out, we navigate to another instance of the screen
+            props.isAuthenticated
+              ? NAVIGATION_TITLES.TAB_MEALS
+              : NAVIGATION_TITLES.LOGGED_OUT_MEALS,
+            {
+              screen: props.isAuthenticated
+                ? NAVIGATION_TITLES.STACK_MEAL_DETAILS
+                : NAVIGATION_TITLES.LOGGED_OUT_DETAILS,
+              params: {
+                mealId: itemData.item.id,
+                mealTitle: itemData.item.title,
+                isAuthenticated: props.isAuthenticated,
+                updateRenderCounter: 0,
+              },
             },
-          });
+          );
         }}
         image={itemData.item.primaryImageUrl}
         searchTerm={props.searchTerm}
