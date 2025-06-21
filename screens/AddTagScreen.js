@@ -20,6 +20,7 @@ import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
 import SaveIcon from "../components/HeaderIcons/SaveIcon";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function AddTagScreen({ route, navigation }) {
   const { mealId } = route.params;
@@ -56,8 +57,8 @@ function AddTagScreen({ route, navigation }) {
     };
 
     await saveTags(selectedMeal, addedTags);
-    navigation.navigate({
-      name: "Details",
+    navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+      screen: NAVIGATION_TITLES.STACK_EDIT_MEAL,
       params: {
         mealId: selectedMeal.id,
         mealTitle: selectedMeal.title,
