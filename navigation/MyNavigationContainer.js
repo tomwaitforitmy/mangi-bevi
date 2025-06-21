@@ -36,6 +36,7 @@ import SendReportScreen from "../screens/SendReportScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../firebase/firebase";
+import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -69,11 +70,28 @@ function AuthenticatedTabNavigator() {
         tabBarInactiveTintColor: Colors.second,
         headerShown: false, // Hide all headers in tab screens as they come from stack navigators
       })}>
-      <Tab.Screen name="Mangi & Bevi" component={MealsStackContainer} />
-      {DEV_MODE && <Tab.Screen name="Dev" component={DevStackContainer} />}
-      <Tab.Screen name="Filters" component={FiltersStackContainer} />
-      <Tab.Screen name="Profile" component={ProfileStackContainer} />
-      <Tab.Screen name="New" component={NewMealStackContainer} />
+      <Tab.Screen
+        name={NAVIGATION_TITLES.TAB_MEALS}
+        component={MealsStackContainer}
+      />
+      {DEV_MODE && (
+        <Tab.Screen
+          name={NAVIGATION_TITLES.TAB_DEV}
+          component={DevStackContainer}
+        />
+      )}
+      <Tab.Screen
+        name={NAVIGATION_TITLES.TAB_FILTERS}
+        component={FiltersStackContainer}
+      />
+      <Tab.Screen
+        name={NAVIGATION_TITLES.TAB_USER_PROFILE}
+        component={ProfileStackContainer}
+      />
+      <Tab.Screen
+        name={NAVIGATION_TITLES.TAB_NEW_MEAL}
+        component={NewMealStackContainer}
+      />
     </Tab.Navigator>
   );
 }
@@ -111,14 +129,14 @@ function MealsStackContainer({ navigation }) {
   return (
     <MealsStack.Navigator screenOptions={defaultScreenOptions}>
       <MealsStack.Screen
-        name="Meals"
+        name={NAVIGATION_TITLES.STACK_MEALS}
         component={MealsScreen}
         options={{
           title: "Mangi & Bevi",
         }}
       />
       <MealsStack.Screen
-        name="Details"
+        name={NAVIGATION_TITLES.STACK_MEAL_DETAILS}
         component={MealDetailScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
@@ -134,7 +152,7 @@ function MealsStackContainer({ navigation }) {
         })}
       />
       <MealsStack.Screen
-        name="EditScreen"
+        name={NAVIGATION_TITLES.STACK_EDIT_MEAL}
         component={NewScreen}
         options={{
           title: "Edit Mangi / Bevi",
@@ -142,7 +160,7 @@ function MealsStackContainer({ navigation }) {
         }}
       />
       <MealsStack.Screen
-        name="ImagesScreen"
+        name={NAVIGATION_TITLES.STACK_IMAGES}
         component={ImagesScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
@@ -150,17 +168,17 @@ function MealsStackContainer({ navigation }) {
         })}
       />
       <MealsStack.Screen
-        name="AddTagScreen"
+        name={NAVIGATION_TITLES.STACK_ADD_TAG}
         component={AddTagScreen}
         options={{ title: "Add Tag" }}
       />
       <MealsStack.Screen
-        name="EditLinksScreen"
+        name={NAVIGATION_TITLES.STACK_EDIT_LINKS}
         component={EditLinksScreen}
         options={{ title: "Add Links" }}
       />
       <MealsStack.Screen
-        name="SendReportScreen"
+        name={NAVIGATION_TITLES.STACK_SEND_REPORT}
         component={SendReportScreen}
         options={{ title: "Report" }}
       />
@@ -174,93 +192,11 @@ function DevStackContainer() {
   return (
     <DevStack.Navigator screenOptions={defaultScreenOptions}>
       <DevStack.Screen
-        name="DevScreen"
+        name={NAVIGATION_TITLES.STACK_DEV}
         component={DevScreen}
         options={{ title: "Dev" }}
       />
     </DevStack.Navigator>
-  );
-}
-
-const LoginStack = createNativeStackNavigator();
-
-function LoginStackContainer() {
-  return (
-    <LoginStack.Navigator screenOptions={defaultScreenOptions}>
-      <LoginStack.Screen
-        name="Meals"
-        component={MealsScreenNotAuthenticated}
-        options={{
-          title: "Mangi & Bevi",
-        }}
-      />
-      <LoginStack.Screen
-        name="Details"
-        component={MealDetailScreen}
-        options={({ route }) => ({
-          title: route.params.mealTitle,
-        })}
-      />
-      <LoginStack.Screen
-        name="ImagesScreen"
-        component={ImagesScreen}
-        options={({ route }) => ({
-          title: route.params.mealTitle,
-        })}
-      />
-      <LoginStack.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-        options={{ title: "Login" }}
-      />
-      <LoginStack.Screen
-        name="SignUpScreen"
-        component={SignUpScreen}
-        options={{ title: "Sign Up" }}
-      />
-      <LoginStack.Screen
-        name="PasswordResetScreen"
-        component={PasswordResetScreen}
-        options={{ title: "Reset Password" }}
-      />
-    </LoginStack.Navigator>
-  );
-}
-
-const ProfileStack = createNativeStackNavigator();
-
-function ProfileStackContainer() {
-  return (
-    <ProfileStack.Navigator screenOptions={defaultScreenOptions}>
-      <ProfileStack.Screen
-        name="UserProfileScreen"
-        component={ProfileScreen}
-        options={{
-          title: "Your Data",
-          headerRight: () => LogoutIcon(),
-        }}
-      />
-      <ProfileStack.Screen
-        name="UserMealsScreen"
-        component={UserMealsScreen}
-        options={{ title: "Your Mangis" }}
-      />
-      <ProfileStack.Screen
-        name="ManageAccountScreen"
-        component={ManageAccountScreen}
-        options={{ title: "Your Account" }}
-      />
-      <ProfileStack.Screen
-        name="EditFriendsScreen"
-        component={EditFriendsScreen}
-        options={{ title: "Your Friends" }}
-      />
-      <ProfileStack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{ title: "Your Settings" }}
-      />
-    </ProfileStack.Navigator>
   );
 }
 
@@ -270,11 +206,48 @@ function FiltersStackContainer() {
   return (
     <FiltersStack.Navigator screenOptions={defaultScreenOptions}>
       <FiltersStack.Screen
-        name="FiltersScreen"
+        name={NAVIGATION_TITLES.STACK_FILTER}
         component={FiltersScreen}
         options={{ title: "Filters" }}
       />
     </FiltersStack.Navigator>
+  );
+}
+
+const ProfileStack = createNativeStackNavigator();
+
+function ProfileStackContainer() {
+  return (
+    <ProfileStack.Navigator screenOptions={defaultScreenOptions}>
+      <ProfileStack.Screen
+        name={NAVIGATION_TITLES.STACK_USER_PROFILE}
+        component={ProfileScreen}
+        options={{
+          title: "Your Data",
+          headerRight: () => LogoutIcon(),
+        }}
+      />
+      <ProfileStack.Screen
+        name={NAVIGATION_TITLES.STACK_USER_MEALS}
+        component={UserMealsScreen}
+        options={{ title: "Your Mangis" }}
+      />
+      <ProfileStack.Screen
+        name={NAVIGATION_TITLES.STACK_MANAGE_ACCOUNT}
+        component={ManageAccountScreen}
+        options={{ title: "Your Account" }}
+      />
+      <ProfileStack.Screen
+        name={NAVIGATION_TITLES.STACK_EDIT_FRIENDS}
+        component={EditFriendsScreen}
+        options={{ title: "Your Friends" }}
+      />
+      <ProfileStack.Screen
+        name={NAVIGATION_TITLES.STACK_SETTINGS}
+        component={SettingsScreen}
+        options={{ title: "Your Settings" }}
+      />
+    </ProfileStack.Navigator>
   );
 }
 
@@ -284,11 +257,56 @@ function NewMealStackContainer() {
   return (
     <NewMealStack.Navigator screenOptions={defaultScreenOptions}>
       <NewMealStack.Screen
-        name="NewScreen"
+        name={NAVIGATION_TITLES.STACK_NEW}
         component={NewScreen}
         options={{ title: "New Mangi / Bevi" }}
       />
     </NewMealStack.Navigator>
+  );
+}
+
+const LoginStack = createNativeStackNavigator();
+
+function LoginStackContainer() {
+  return (
+    <LoginStack.Navigator screenOptions={defaultScreenOptions}>
+      <LoginStack.Screen
+        name={NAVIGATION_TITLES.LOGGED_OUT_MEALS}
+        component={MealsScreenNotAuthenticated}
+        options={{
+          title: "Mangi & Bevi",
+        }}
+      />
+      <LoginStack.Screen
+        name={NAVIGATION_TITLES.LOGGED_OUT_DETAILS}
+        component={MealDetailScreen}
+        options={({ route }) => ({
+          title: route.params.mealTitle,
+        })}
+      />
+      <LoginStack.Screen
+        name={NAVIGATION_TITLES.LOGGED_OUT_IMAGES}
+        component={ImagesScreen}
+        options={({ route }) => ({
+          title: route.params.mealTitle,
+        })}
+      />
+      <LoginStack.Screen
+        name={NAVIGATION_TITLES.LOGIN}
+        component={LoginScreen}
+        options={{ title: "Login" }}
+      />
+      <LoginStack.Screen
+        name={NAVIGATION_TITLES.SIGN_UP}
+        component={SignUpScreen}
+        options={{ title: "Sign Up" }}
+      />
+      <LoginStack.Screen
+        name={NAVIGATION_TITLES.PASSWORD_RESET}
+        component={PasswordResetScreen}
+        options={{ title: "Reset Password" }}
+      />
+    </LoginStack.Navigator>
   );
 }
 
