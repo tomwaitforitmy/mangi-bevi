@@ -19,7 +19,7 @@ const AndOrTagFilterSwitch = () => {
   const [settingState, setSettingState] = useState(initialSetting);
 
   const onChangeValue = (v) => {
-    setSettingState(v);
+    setSettingState((prev) => !prev);
     //Create a deep copy to avoid state corruption
     const editedUser = { ...user };
     editedUser.settings = user.settings.map((s) => ({ ...s }));
