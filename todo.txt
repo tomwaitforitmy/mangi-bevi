@@ -18,3 +18,10 @@ Die CLI läuft mit komplett neuem leeren Project in debian font error
 Der Walk Through stoppt für mich bei Schritt 6, weil die Option "Create function" nicht finden kann.
 Alles was ähnlich war benötigt viel mehr Information, die ich nicht verstanden habe.
 Anfrage an den Support ist gestellt.
+
+*Nach update auf SDK 53 / React Navigation 7:
+ WARN  [Reanimated] Writing to `value` during component render. Please ensure that you don't access the `value` property nor use `set` method of a shared value while 
+React is rendering a component.
+Kommt bei jedem Switch! MySwitch enthält kein Reanimated?
+Vorschlag von Claude setSettingState((prev) => !prev); --> setSettingState(v);
+Komischerweise hilft der Vorschlag für den Anfang im Filter Switch. Sobald man zu einem Bool Setting Switch geht, ist der Filter Switch aber wieder buggy.
