@@ -255,15 +255,19 @@ function NewScreen({ route, navigation }) {
 
       await dispatch(mealsAction.editMeal(editedMeal));
       formDispatch({ type: SUBMITTED });
-      navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
-        screen: NAVIGATION_TITLES.STACK_MEAL_DETAILS,
-        params: {
-          mealId: mealId,
-          mealTitle: formState.title,
-          isAuthenticated: true,
-          selectedTabMealDetail: formState.selectedTab,
-          updateRenderCounter: updateRenderCounter + 1,
-        },
+
+      //First pop (delete) the current edit screen.
+      //Otherwise it would be the target for the next back button.
+      navigation.pop();
+
+      //Second go back to the edit screen with updated params.
+      //This is easily done with "replace".
+      navigation.replace(NAVIGATION_TITLES.STACK_MEAL_DETAILS, {
+        mealId: mealId,
+        mealTitle: formState.title,
+        isAuthenticated: true,
+        selectedTabMealDetail: formState.selectedTab,
+        updateRenderCounter: updateRenderCounter + 1,
       });
     };
 
