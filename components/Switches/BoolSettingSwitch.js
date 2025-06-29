@@ -32,6 +32,14 @@ const BoolSettingSwitch = ({
     } else {
       editedUser.settings.push(Setting(settingName, v));
     }
+    //This dispatch and setSettingState cause warning:
+    //      WARN  [Reanimated] Writing to `value` during component render. Please ensure that
+    //      you don't access the `value` property nor use `set` method of a shared value while
+    //      React is rendering a component.
+    //
+    //According to Chat GPT and Claude my approach with an extra state to keep UI updated,
+    //is best practice.
+
     dispatch(usersAction.editSettings(editedUser));
     if (onValueChanged) {
       onValueChanged(v);
