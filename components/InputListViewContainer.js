@@ -74,7 +74,6 @@ const InputListViewContainer = (props) => {
             selectionColor={Colors.white}
             onChangeText={(value) => props.onChangeText(value)}
             returnKeyType="default"
-            blurOnSubmit={false} // Keeps the input focused after pressing return
             onEndEditing={() => {
               props.onBlur(); // Handles the action when return is pressed
             }}
