@@ -201,7 +201,7 @@ export const deleteMeal = (meal, user, allMeals) => {
   return async (dispatch) => {
     console.log("begin delete meal");
 
-    if (meal.authorId !== user.id) {
+    if (!DEV_MODE && meal.authorId !== user.id) {
       console.error(
         `Attempting to delete ${meal.title} where ${user.name} is not the author`,
       );
@@ -239,7 +239,7 @@ export const deleteMeal = (meal, user, allMeals) => {
     //todo:
     //Remove reactions
     //Remove mark as cooked entries
-
     console.log("end delete meal");
+    return editedUser;
   };
 };
