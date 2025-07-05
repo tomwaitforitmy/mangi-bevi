@@ -216,7 +216,7 @@ export const editReactions = (meal, userId, newReaction) => {
 
       dispatch({
         type: EDIT_REACTIONS,
-        meal: { ...meal, updatedReactions },
+        meal: { ...meal, reactions: updatedReactions },
       });
 
       console.log("end of edit reactions");
