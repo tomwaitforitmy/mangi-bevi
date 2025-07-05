@@ -8,9 +8,7 @@
     console.log("🚨 MyListItem" + props.title + " re-rendered");
   });
 
-
 - For future tommy:
-* Ich weiß nicht mehr genau was bei mealsAction noch nicht funktioniert. Es ging darum, dass Reactions sich nicht überschreiben, wenn Daten nicht geholt wurden. Irgendetwas fehlt wohl noch.
 - Blaze Plan:
 * https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#cap_disable_billing_to_stop_usage
 --> Habe ich beides ausprobiert. 
