@@ -178,15 +178,12 @@ export const editReactions = (meal, userId, newReaction) => {
     const token = await authAction.getToken();
     const url = `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`;
 
-    console.log("newReaction input", newReaction);
-
     try {
       // Start transaction to prevent overwrites
       const response = await fetch(url);
       await HandleResponseError(response);
 
       const currentReactions = (await response.json()).reactions || [];
-      console.log("currentReactions firebase", currentReactions);
 
       // Update or add the user's reaction
       const updatedReactions = currentReactions.filter(
@@ -196,11 +193,9 @@ export const editReactions = (meal, userId, newReaction) => {
         updatedReactions.push(newReaction);
       }
 
-      console.log("updatedReactions local", updatedReactions);
-
       // Save the merged reactions back to Firebase
       const updateResponse = await fetch(url, {
-        method: "PATCH", // Overwrite the reactions with the merged array
+        method: "PATCH",
         header: {
           "Content-type": "application/json",
         },
