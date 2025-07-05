@@ -192,7 +192,7 @@ export const editReactions = (meal, userId, newReaction) => {
       const updatedReactions = currentReactions.filter(
         (r) => r.authorId !== userId,
       );
-      if (newReaction) {
+      if (newReaction.emoji !== "") {
         updatedReactions.push(newReaction);
       }
 
