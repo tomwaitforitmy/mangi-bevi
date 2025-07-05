@@ -56,7 +56,7 @@ const SelectReactionModal = ({
     const editedMeal = { ...selectedMeal };
     editedMeal.reactions = newReactions;
 
-    await dispatch(mealsAction.editReactions(editedMeal));
+    await dispatch(mealsAction.editReactions(editedMeal, user.id, newReaction));
     await reactionGiven(
       newReaction,
       editedMeal.title,
