@@ -33,6 +33,9 @@ function MealsScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const filterTags = useSelector((state) => state.tags.filterTags);
   const searchTerm = useSelector((state) => state.search.searchTerm);
+  const mealsCookedByUser = useSelector(
+    (state) => state.mealsCookedByUser.mealsCookedByUser,
+  );
 
   const filtersActive = filterTags.length > 0;
 
@@ -141,7 +144,7 @@ function MealsScreen({ navigation }) {
     const sortedMeals = SortMealsBy(
       [...filteredMeals],
       sort,
-      undefined,
+      mealsCookedByUser,
       user.id,
     );
     setFilteredMeals(sortedMeals);

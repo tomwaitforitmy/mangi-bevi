@@ -11,8 +11,7 @@ export const ALLOWED_SORTING_OPTIONS = [
   FIRST_CREATED,
   LAST_EDITED,
   // FIRST_EDITED, I think nobody would ever use this
-  // Not implemented, yet:
-  // MOST_COOKED,
+  MOST_COOKED,
   MOST_REACTIONS,
   CREATED_BY_ME,
 ];
