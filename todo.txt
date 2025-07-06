@@ -16,3 +16,5 @@ Die CLI läuft mit komplett neuem leeren Project in debian font error
 Der Walk Through stoppt für mich bei Schritt 6, weil die Option "Create function" nicht finden kann.
 Alles was ähnlich war benötigt viel mehr Information, die ich nicht verstanden habe.
 Anfrage an den Support ist gestellt.
+- Prüfen von:
+        //Todo: This can be tested again now with bottom-tabs and navigation 7
