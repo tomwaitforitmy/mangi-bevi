@@ -98,8 +98,10 @@ export const fetchMealsCookedByUsers = () => {
   return async (dispatch) => {
     console.log("Begin fetchMealsCookedByUsers");
     try {
+      const token = await authAction.getToken();
+
       const response = await fetch(
-        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json",
+        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?auth=${token}`,
       );
 
       await HandleResponseError(response);

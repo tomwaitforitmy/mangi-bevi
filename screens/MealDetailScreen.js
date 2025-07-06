@@ -60,12 +60,9 @@ function MealDetailScreen({ route, navigation }) {
     }
   });
 
-  const enableMarkCooked = !WasMarkedThisWeek(
-    mealCookedByUser,
-    mealId,
-    user.id,
-    Date.now(),
-  );
+  const enableMarkCooked =
+    isAuthenticated &&
+    !WasMarkedThisWeek(mealCookedByUser, mealId, user.id, Date.now());
 
   const onPressMarkCooked = async () => {
     const MarkCooked = async () => {
@@ -145,12 +142,15 @@ function MealDetailScreen({ route, navigation }) {
   }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
     try {
       dispatch(mealCookedByUserActions.fetchCookedByUsers(mealId));
     } catch (error) {
       console.error(error);
     }
-  }, [dispatch, mealId]);
+  }, [dispatch, mealId, isAuthenticated]);
 
   const windowWidth = useWindowDimensions().width;
 
@@ -165,12 +165,15 @@ function MealDetailScreen({ route, navigation }) {
           TrySelectLeftTab();
         }
       }}>
-      <SelectReactionModal
-        onReactionSelected={onReactionSelected}
-        onRequestClose={onRequestCloseModal}
-        modalVisible={showSelectReactionModal}
-        selectedMeal={selectedMeal}
-      />
+      {isAuthenticated && (
+        <SelectReactionModal
+          onReactionSelected={onReactionSelected}
+          onRequestClose={onRequestCloseModal}
+          modalVisible={showSelectReactionModal}
+          selectedMeal={selectedMeal}
+        />
+      )}
+
       <MyTabMenu
         ref={childRef}
         initialIndex={initialIndex}
@@ -209,16 +212,22 @@ function MealDetailScreen({ route, navigation }) {
               }}
             />
             <TagList tags={tagList} />
-            <CookedByUserList
-              //todo: is the filter needed here?
-              cookedByUser={mealCookedByUser.filter((e) => e.mealId === mealId)}
-              users={users}
-            />
-            <ReactionsList
-              style={styles.reactions}
-              reactions={selectedMeal.reactions}
-              users={users}
-            />
+            {isAuthenticated && (
+              <>
+                <CookedByUserList
+                  //todo: is the filter needed here?
+                  cookedByUser={mealCookedByUser.filter(
+                    (e) => e.mealId === mealId,
+                  )}
+                  users={users}
+                />
+                <ReactionsList
+                  style={styles.reactions}
+                  reactions={selectedMeal.reactions}
+                  users={users}
+                />
+              </>
+            )}
           </View>
         )}
 
@@ -234,13 +243,15 @@ function MealDetailScreen({ route, navigation }) {
           selectedMeal.steps.map((step) => (
             <MyListItem key={step} title={step} searchTerm={searchTerm} />
           ))}
-        {linkedMeals.length > 0 && selectedTab === TITLES.INFO && (
-          <LinkedMealsList
-            meals={linkedMeals}
-            navigation={navigation}
-            isAuthenticated={isAuthenticated}
-          />
-        )}
+        {isAuthenticated &&
+          linkedMeals.length > 0 &&
+          selectedTab === TITLES.INFO && (
+            <LinkedMealsList
+              meals={linkedMeals}
+              navigation={navigation}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
 
         {isAuthenticated && selectedTab === TITLES.INFO && (
           <AuthorBox

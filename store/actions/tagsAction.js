@@ -51,8 +51,9 @@ export const fetchTags = () => {
   return async (dispatch) => {
     console.log("Begin fetchTags");
     try {
+      const token = await authAction.getToken();
       const response = await fetch(
-        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags.json",
+        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags.json?auth=${token}`,
       );
 
       await HandleResponseError(response);

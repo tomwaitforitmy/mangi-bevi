@@ -7,3 +7,7 @@ export const fetchAll = async (dispatch) => {
   await dispatch(tagActions.fetchTags());
   return await dispatch(mealsActions.fetchMeals());
 };
+
+export const fetchAllUnauthenticated = async (dispatch) => {
+  return await dispatch(mealsActions.fetchMeals());
+};
