@@ -29,7 +29,10 @@ function MealsScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [showSortingModal, setShowSortingModal] = useState(false);
+  const [selectedSortingType, setSelectedSortingType] = useState(LAST_CREATED);
+  const [filteredMeals, setFilteredMeals] = useState([]);
 
+  const user = useSelector((state) => state.users.user);
   const allMeals = useSelector((state) => state.meals.meals);
   const filterTags = useSelector((state) => state.tags.filterTags);
   const searchTerm = useSelector((state) => state.search.searchTerm);
@@ -49,11 +52,6 @@ function MealsScreen({ navigation }) {
     await dispatch(searchAction.setSearchTerm(text));
   };
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    fetchAll(dispatch).then(() => setRefreshing(false));
-  }, [dispatch]);
-
   //Todo: Could this be placed somewhere else without useEffect?
   //Somehow I need this for the first refresh. onRefresh doesn't trigger
   useEffect(() => {
@@ -61,7 +59,30 @@ function MealsScreen({ navigation }) {
     fetchAll(dispatch).then(() => setIsLoading(false));
   }, [dispatch]);
 
-  const user = useSelector((state) => state.users.user);
+  const onRefresh = React.useCallback(() => {
+    if (!user.id) {
+      console.log("User data not loaded. Stop refreshing");
+      return;
+    }
+
+    setRefreshing(true);
+    fetchAll(dispatch).then(() => {
+      const sortedMeals = SortMealsBy(
+        [...filteredMeals],
+        selectedSortingType,
+        mealsCookedByUser,
+        user.id,
+      );
+      setFilteredMeals(sortedMeals);
+      setRefreshing(false);
+    });
+  }, [
+    dispatch,
+    filteredMeals,
+    mealsCookedByUser,
+    selectedSortingType,
+    user?.id, //not always loaded
+  ]);
 
   useEffect(() => {
     if (!user) {
@@ -138,8 +159,6 @@ function MealsScreen({ navigation }) {
     };
   }, [navigation]);
 
-  const [filteredMeals, setFilteredMeals] = useState([]);
-
   const onSelectSort = (sort) => {
     const sortedMeals = SortMealsBy(
       [...filteredMeals],
@@ -147,6 +166,7 @@ function MealsScreen({ navigation }) {
       mealsCookedByUser,
       user.id,
     );
+    setSelectedSortingType(sort);
     setFilteredMeals(sortedMeals);
     setShowSortingModal(false);
   };
