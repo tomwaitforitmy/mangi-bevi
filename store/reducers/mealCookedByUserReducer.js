@@ -2,10 +2,12 @@ import { RemoveDuplicates } from "../../common_functions/RemoveDuplicates";
 import {
   SET_MEALS_COOKED_BY_USER,
   ADD_MEAL_COOKED_BY_USER,
+  SET_MEAL_COOKED_BY_USER,
 } from "../actions/mealCookedByUserAction";
 
 const initialState = {
-  mealsCookedByUser: [],
+  mealCookedByUser: [], //this for a single MealDetailScreen. Is loaded via fetchCookedByUsers
+  mealsCookedByUser: [], //this is for all meals in MealsScreen/SelectSortingModal. Is loaded via fetchMealsCookedByUsers
 };
 
 const mealCookedByUserReducer = (state = initialState, action) => {
@@ -13,25 +15,31 @@ const mealCookedByUserReducer = (state = initialState, action) => {
     switch (action.type) {
       case ADD_MEAL_COOKED_BY_USER:
         const addedMealCookedByUser = [
-          ...state.mealsCookedByUser,
+          ...state.mealCookedByUser,
           action.mealCookedByUser,
         ];
 
         return {
           ...state,
-          mealsCookedByUser: addedMealCookedByUser,
+          mealCookedByUser: addedMealCookedByUser,
         };
-      case SET_MEALS_COOKED_BY_USER: {
+      case SET_MEAL_COOKED_BY_USER: {
         const arrayWithDuplicates = [
-          ...state.mealsCookedByUser,
+          ...state.mealCookedByUser,
           ...action.mealCookedByUser,
         ];
 
-        const newMealsCookedByUser = RemoveDuplicates(arrayWithDuplicates);
+        const newMealCookedByUser = RemoveDuplicates(arrayWithDuplicates);
 
         return {
           ...state,
-          mealsCookedByUser: newMealsCookedByUser,
+          mealCookedByUser: newMealCookedByUser,
+        };
+      }
+      case SET_MEALS_COOKED_BY_USER: {
+        return {
+          ...state,
+          mealsCookedByUser: action.mealsCookedByUser,
         };
       }
       default:

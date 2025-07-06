@@ -4,6 +4,7 @@ import * as authAction from "./authAction";
 
 export const ADD_MEAL_COOKED_BY_USER = "ADD_MEAL_COOKED_BY_USER";
 export const SET_MEALS_COOKED_BY_USER = "SET_MEALS_COOKED_BY_USER";
+export const SET_MEAL_COOKED_BY_USER = "SET_MEAL_COOKED_BY_USER";
 
 const replacer = (key, value) => {
   if (key === "id") {
@@ -83,11 +84,49 @@ export const fetchCookedByUsers = (mealId) => {
       console.log("End fetchCookedByUsers");
 
       dispatch({
-        type: SET_MEALS_COOKED_BY_USER,
+        type: SET_MEAL_COOKED_BY_USER,
         mealCookedByUser: loadedCookedByUsers,
       });
     } catch (error) {
       console.error(error);
+      throw error;
+    }
+  };
+};
+
+export const fetchMealsCookedByUsers = () => {
+  return async (dispatch) => {
+    console.log("Begin fetchMealsCookedByUsers");
+    try {
+      const response = await fetch(
+        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json",
+      );
+
+      await HandleResponseError(response);
+
+      const responseData = await response.json();
+      const loadedMealsCookedByUsers = [];
+
+      for (const key in responseData) {
+        loadedMealsCookedByUsers.push(
+          MealCookedByUser(
+            key,
+            responseData[key].mealId,
+            responseData[key].userId,
+            responseData[key].date
+              ? new Date(responseData[key].date).toISOString()
+              : "error",
+          ),
+        );
+      }
+
+      console.log("End fetchMealsCookedByUsers");
+
+      dispatch({
+        type: SET_MEALS_COOKED_BY_USER,
+        mealsCookedByUser: loadedMealsCookedByUsers,
+      });
+    } catch (error) {
       throw error;
     }
   };

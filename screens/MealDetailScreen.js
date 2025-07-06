@@ -37,8 +37,8 @@ function MealDetailScreen({ route, navigation }) {
   } = route.params;
   const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
-  const mealsCookedByUser = useSelector(
-    (state) => state.mealsCookedByUser.mealsCookedByUser,
+  const mealCookedByUser = useSelector(
+    (state) => state.mealsCookedByUser.mealCookedByUser,
   );
 
   const availableMeals = useSelector((state) => state.meals.meals);
@@ -61,7 +61,7 @@ function MealDetailScreen({ route, navigation }) {
   });
 
   const enableMarkCooked = !WasMarkedThisWeek(
-    mealsCookedByUser,
+    mealCookedByUser,
     mealId,
     user.id,
     Date.now(),
@@ -69,9 +69,9 @@ function MealDetailScreen({ route, navigation }) {
 
   const onPressMarkCooked = async () => {
     const MarkCooked = async () => {
-      const newMealsCookedByUser = MealCookedByUser("error", mealId, user.id);
+      const newMealCookedByUser = MealCookedByUser("error", mealId, user.id);
       await dispatch(
-        mealCookedByUserActions.addMealCookedByUser(newMealsCookedByUser),
+        mealCookedByUserActions.addMealCookedByUser(newMealCookedByUser),
       );
       await markedAsCooked(selectedMeal.title, mealId, user, users);
     };
@@ -210,9 +210,8 @@ function MealDetailScreen({ route, navigation }) {
             />
             <TagList tags={tagList} />
             <CookedByUserList
-              cookedByUser={mealsCookedByUser.filter(
-                (e) => e.mealId === mealId,
-              )}
+              //todo: is the filter needed here?
+              cookedByUser={mealCookedByUser.filter((e) => e.mealId === mealId)}
               users={users}
             />
             <ReactionsList

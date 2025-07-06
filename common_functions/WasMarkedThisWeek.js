@@ -1,9 +1,9 @@
-export const WasMarkedThisWeek = (mealsCookedByUser, mealId, userId, today) => {
+export const WasMarkedThisWeek = (mealCookedByUser, mealId, userId, today) => {
   //meal was never marked
-  if (!Array.isArray(mealsCookedByUser) || !mealsCookedByUser.length) {
+  if (!Array.isArray(mealCookedByUser) || !mealCookedByUser.length) {
     return false;
   }
-  let marksByUser = mealsCookedByUser.filter(
+  let marksByUser = mealCookedByUser.filter(
     (m) => m.mealId === mealId && m.userId === userId,
   );
   //user never marked this meal
