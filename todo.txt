@@ -18,3 +18,5 @@ Alles was ähnlich war benötigt viel mehr Information, die ich nicht verstanden
 Anfrage an den Support ist gestellt.
 - Prüfen von:
         //Todo: This can be tested again now with bottom-tabs and navigation 7
+- Trennung von MealDetailScreen und MealDetailScreenNotAuthenticated
+- Alle URLs von firebase zentral sammeln und nur den subpath in die jeweilige method legen.
