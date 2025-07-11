@@ -1,5 +1,6 @@
-export const BASE =
-  "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/";
+import { firebaseConfig } from "./firebase";
+
+export const BASE = firebaseConfig.databaseURL + "/";
 
 export const getUserUrl = (id, token) => {
   return BASE + `users/${id}.json?auth=${token}`;
