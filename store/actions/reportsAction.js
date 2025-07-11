@@ -1,4 +1,5 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
+import { getReportsUrl } from "../../firebase/urls";
 import Report from "../../models/Report";
 import * as authAction from "./authAction";
 
@@ -11,9 +12,7 @@ export const fetchReports = () => {
     try {
       const token = await authAction.getToken();
 
-      const response = await fetch(
-        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/reports.json?auth=${token}`,
-      );
+      const response = await fetch(getReportsUrl(token));
 
       await HandleResponseError(response);
 
@@ -58,16 +57,13 @@ export const createReport = (report) => {
     console.log("Begin create Report");
     const token = await authAction.getToken();
 
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/reports.json?auth=${token}`,
-      {
-        method: "POST",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(report, replacer),
+    const response = await fetch(getReportsUrl(token), {
+      method: "POST",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify(report, replacer),
+    });
 
     await HandleResponseError(response);
 

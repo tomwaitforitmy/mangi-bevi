@@ -1,4 +1,8 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
+import {
+  getMealCookedByUserUrl,
+  getMealsCookedByUserUrl,
+} from "../../firebase/urls";
 import MealCookedByUser from "../../models/MealCookedByUser";
 import * as authAction from "./authAction";
 
@@ -22,16 +26,13 @@ export const addMealCookedByUser = (mealCookedByUser) => {
       if (!token) {
         console.log("No token found! Request will fail! Reload App tommy");
       }
-      const response = await fetch(
-        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?auth=${token}`,
-        {
-          method: "POST",
-          header: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(mealCookedByUser, replacer),
+      const response = await fetch(getMealsCookedByUserUrl(token), {
+        method: "POST",
+        header: {
+          "Content-type": "application/json",
         },
-      );
+        body: JSON.stringify(mealCookedByUser, replacer),
+      });
 
       await HandleResponseError(response);
 
@@ -58,9 +59,7 @@ export const fetchCookedByUsers = (mealId) => {
     try {
       const token = await authAction.getToken();
 
-      const response = await fetch(
-        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?mealId=${mealId}&auth=${token}`,
-      );
+      const response = await fetch(getMealCookedByUserUrl(mealId, token));
 
       await HandleResponseError(response);
 
@@ -100,9 +99,7 @@ export const fetchMealsCookedByUsers = () => {
     try {
       const token = await authAction.getToken();
 
-      const response = await fetch(
-        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/mealCookedByUser.json?auth=${token}`,
-      );
+      const response = await fetch(getMealsCookedByUserUrl(token));
 
       await HandleResponseError(response);
 

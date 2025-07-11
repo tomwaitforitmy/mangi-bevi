@@ -5,6 +5,11 @@ import * as usersAction from "./usersAction";
 import * as authAction from "./authAction";
 import { DEV_MODE } from "../../data/Environment";
 import { UnlinkMeals } from "../../common_functions/UnlinkMeals";
+import {
+  getMealsUrl,
+  getMealUrl,
+  getPublicMealsUrl,
+} from "../../firebase/urls";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -23,9 +28,7 @@ export const fetchMeals = () => {
   return async (dispatch) => {
     console.log("Begin fetchMeals");
     try {
-      const response = await fetch(
-        "https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals.json",
-      );
+      const response = await fetch(getPublicMealsUrl());
 
       await HandleResponseError(response);
 
@@ -99,16 +102,13 @@ export const createMeal = (meal) => {
       meal.isTestMangi = true;
     }
 
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals.json?auth=${token}`,
-      {
-        method: "POST",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(meal, replacer),
+    const response = await fetch(getMealsUrl(token), {
+      method: "POST",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify(meal, replacer),
+    });
 
     await HandleResponseError(response);
 
@@ -128,16 +128,13 @@ export const editMeal = (meal) => {
   return async (dispatch) => {
     console.log("begin edit meal");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(meal, replacer),
+    const response = await fetch(getMealUrl(meal.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify(meal, replacer),
+    });
 
     await HandleResponseError(response);
 
@@ -151,18 +148,15 @@ export const editLinks = (meal) => {
   return async (dispatch) => {
     console.log("begin edit links");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          links: meal.links,
-        }),
+    const response = await fetch(getMealUrl(meal.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        links: meal.links,
+      }),
+    });
 
     await HandleResponseError(response);
 
@@ -176,7 +170,7 @@ export const editReactions = (meal, userId, newReaction) => {
   return async (dispatch) => {
     console.log("begin edit reactions");
     const token = await authAction.getToken();
-    const url = `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`;
+    const url = getMealUrl(meal.id, token);
 
     try {
       // Start transaction to prevent overwrites
@@ -243,12 +237,9 @@ export const deleteMeal = (meal, user, allMeals) => {
     );
 
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/meals/${meal.id}.json?auth=${token}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetch(getMealUrl(meal.id, token), {
+      method: "DELETE",
+    });
     await HandleResponseError(response);
     if (response.ok) {
       console.log("Successfully deleted meal");

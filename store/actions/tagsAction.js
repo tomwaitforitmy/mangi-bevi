@@ -1,4 +1,5 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
+import { getTagsUrl, getTagUrl } from "../../firebase/urls";
 import Tag from "../../models/Tag";
 import * as authAction from "./authAction";
 
@@ -52,9 +53,7 @@ export const fetchTags = () => {
     console.log("Begin fetchTags");
     try {
       const token = await authAction.getToken();
-      const response = await fetch(
-        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags.json?auth=${token}`,
-      );
+      const response = await fetch(getTagsUrl(token));
 
       await HandleResponseError(response);
 
@@ -90,16 +89,13 @@ export const createTag = (tag) => {
   return async (dispatch) => {
     console.log("Begin createTag");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags.json?auth=${token}`,
-      {
-        method: "POST",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(tag, replacer),
+    const response = await fetch(getTagsUrl(token), {
+      method: "POST",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify(tag, replacer),
+    });
 
     await HandleResponseError(response);
 
@@ -117,16 +113,13 @@ export const editTag = (tag) => {
   return async (dispatch) => {
     console.log("begin edit tag");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags/${tag.id}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(tag, replacer),
+    const response = await fetch(getTagUrl(tag.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify(tag, replacer),
+    });
 
     await HandleResponseError(response);
 
@@ -139,12 +132,9 @@ export const editTag = (tag) => {
 export const deleteTag = (id) => {
   return async (dispatch) => {
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/tags/${id}.json?auth=${token}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetch(getTagUrl(id, token), {
+      method: "DELETE",
+    });
 
     await HandleResponseError(response);
 

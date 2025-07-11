@@ -1,5 +1,6 @@
 import { HandleResponseError } from "../../common_functions/HandleResponseError";
 import { firebaseAuth } from "../../firebase/firebase";
+import { getUsersUrl, getUserUrl } from "../../firebase/urls";
 import User from "../../models/User";
 import * as authAction from "./authAction";
 
@@ -21,9 +22,7 @@ export const fetchUsers = () => {
     console.log("Begin fetch Users");
     try {
       const token = await authAction.getToken();
-      const response = await fetch(
-        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
-      );
+      const response = await fetch(getUsersUrl(token));
 
       await HandleResponseError(response);
 
@@ -88,16 +87,13 @@ export const createUser = (user) => {
   return async (dispatch) => {
     console.log("Begin create User");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
-      {
-        method: "POST",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(user, replacer),
+    const response = await fetch(getUsersUrl(token), {
+      method: "POST",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify(user, replacer),
+    });
 
     await HandleResponseError(response);
 
@@ -117,16 +113,13 @@ export const editUser = (user) => {
   return async (dispatch, getState) => {
     console.log("begin edit user");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(user, replacer),
+    const response = await fetch(getUserUrl(user.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify(user, replacer),
+    });
 
     await HandleResponseError(response);
     if (response.ok) {
@@ -145,18 +138,15 @@ export const editFriends = (user) => {
   return async (dispatch) => {
     console.log("begin edit friends");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          friends: user.friends,
-        }),
+    const response = await fetch(getUserUrl(user.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        friends: user.friends,
+      }),
+    });
 
     await HandleResponseError(response);
 
@@ -170,18 +160,15 @@ export const editExpoPushToken = (user) => {
   return async (dispatch) => {
     console.log("begin edit expoPushToken");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          expoPushToken: user.expoPushToken,
-        }),
+    const response = await fetch(getUserUrl(user.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        expoPushToken: user.expoPushToken,
+      }),
+    });
 
     await HandleResponseError(response);
 
@@ -195,18 +182,15 @@ export const editSettings = (user) => {
   return async (dispatch) => {
     console.log("begin edit settings");
     const token = await authAction.getToken();
-    const response = await fetch(
-      `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          settings: user.settings,
-        }),
+    const response = await fetch(getUserUrl(user.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        settings: user.settings,
+      }),
+    });
 
     await HandleResponseError(response);
 
@@ -223,12 +207,9 @@ export const deleteUser = (user) => {
       console.error("Stop deleting yourself tommy!");
     } else {
       const token = await authAction.getToken();
-      const response = await fetch(
-        `https://testshop-39aae-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json?auth=${token}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const response = await fetch(getUserUrl(user.id, token), {
+        method: "DELETE",
+      });
       await HandleResponseError(response);
       if (response.ok) {
         console.log("Successfully delete user " + user);
