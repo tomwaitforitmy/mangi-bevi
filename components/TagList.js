@@ -41,7 +41,8 @@ const TagList = (props) => {
           type={IconTypes.fontAwesome}
           size={20}
           color={Colors.navigationIcon}
-          onPress={() => onIconPressHandler(tag)}></Icon>
+          onPress={() => onIconPressHandler(tag)}
+        />
       );
     }
   };

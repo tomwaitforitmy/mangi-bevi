@@ -15,7 +15,6 @@ import TagList from "../components/TagList";
 import { GetAuthorName } from "../common_functions/GetAuthorName";
 import LinkedMealsList from "../components/LinkedMealsList";
 import { GetLinkedMeals } from "../common_functions/GetLinkedMeals";
-import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import AuthorBox from "../components/AuthorBox";
@@ -29,12 +28,7 @@ import { markedAsCooked } from "../notifications/MarkedAsCooked";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function MealDetailScreen({ route, navigation }) {
-  const {
-    mealId,
-    isAuthenticated,
-    selectedTabMealDetail,
-    updateRenderCounter,
-  } = route.params;
+  const { mealId, selectedTabMealDetail, updateRenderCounter } = route.params;
   const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
   const mealCookedByUser = useSelector(
@@ -60,9 +54,12 @@ function MealDetailScreen({ route, navigation }) {
     }
   });
 
-  const enableMarkCooked =
-    isAuthenticated &&
-    !WasMarkedThisWeek(mealCookedByUser, mealId, user.id, Date.now());
+  const enableMarkCooked = !WasMarkedThisWeek(
+    mealCookedByUser,
+    mealId,
+    user.id,
+    Date.now(),
+  );
 
   const onPressMarkCooked = async () => {
     const MarkCooked = async () => {
@@ -142,15 +139,12 @@ function MealDetailScreen({ route, navigation }) {
   }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
     try {
       dispatch(mealCookedByUserActions.fetchCookedByUsers(mealId));
     } catch (error) {
       console.error(error);
     }
-  }, [dispatch, mealId, isAuthenticated]);
+  }, [dispatch, mealId]);
 
   const windowWidth = useWindowDimensions().width;
 
@@ -165,14 +159,12 @@ function MealDetailScreen({ route, navigation }) {
           TrySelectLeftTab();
         }
       }}>
-      {isAuthenticated && (
-        <SelectReactionModal
-          onReactionSelected={onReactionSelected}
-          onRequestClose={onRequestCloseModal}
-          modalVisible={showSelectReactionModal}
-          selectedMeal={selectedMeal}
-        />
-      )}
+      <SelectReactionModal
+        onReactionSelected={onReactionSelected}
+        onRequestClose={onRequestCloseModal}
+        modalVisible={showSelectReactionModal}
+        selectedMeal={selectedMeal}
+      />
 
       <MyTabMenu
         ref={childRef}
@@ -194,40 +186,26 @@ function MealDetailScreen({ route, navigation }) {
               }}
               style={styles.image}
               onPress={() => {
-                if (isAuthenticated) {
-                  navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
-                    screen: NAVIGATION_TITLES.STACK_IMAGES,
-                    params: {
-                      mealId: selectedMeal.id,
-                      mealTitle: selectedMeal.title,
-                    },
-                  });
-                } else {
-                  //We navigate to another instance if logged out
-                  navigation.navigate(NAVIGATION_TITLES.LOGGED_OUT_IMAGES, {
+                navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
+                  screen: NAVIGATION_TITLES.STACK_IMAGES,
+                  params: {
                     mealId: selectedMeal.id,
                     mealTitle: selectedMeal.title,
-                  });
-                }
+                  },
+                });
               }}
             />
             <TagList tags={tagList} />
-            {isAuthenticated && (
-              <>
-                <CookedByUserList
-                  //todo: is the filter needed here?
-                  cookedByUser={mealCookedByUser.filter(
-                    (e) => e.mealId === mealId,
-                  )}
-                  users={users}
-                />
-                <ReactionsList
-                  style={styles.reactions}
-                  reactions={selectedMeal.reactions}
-                  users={users}
-                />
-              </>
-            )}
+            <CookedByUserList
+              //todo: is the filter needed here?
+              cookedByUser={mealCookedByUser.filter((e) => e.mealId === mealId)}
+              users={users}
+            />
+            <ReactionsList
+              style={styles.reactions}
+              reactions={selectedMeal.reactions}
+              users={users}
+            />
           </View>
         )}
 
@@ -243,17 +221,15 @@ function MealDetailScreen({ route, navigation }) {
           selectedMeal.steps.map((step) => (
             <MyListItem key={step} title={step} searchTerm={searchTerm} />
           ))}
-        {isAuthenticated &&
-          linkedMeals.length > 0 &&
-          selectedTab === TITLES.INFO && (
-            <LinkedMealsList
-              meals={linkedMeals}
-              navigation={navigation}
-              isAuthenticated={isAuthenticated}
-            />
-          )}
+        {linkedMeals.length > 0 && selectedTab === TITLES.INFO && (
+          <LinkedMealsList
+            meals={linkedMeals}
+            navigation={navigation}
+            isAuthenticated={true}
+          />
+        )}
 
-        {isAuthenticated && selectedTab === TITLES.INFO && (
+        {selectedTab === TITLES.INFO && (
           <AuthorBox
             authorName={authorName}
             editorName={editorName}
@@ -262,24 +238,13 @@ function MealDetailScreen({ route, navigation }) {
           />
         )}
       </ScrollView>
-      {isAuthenticated && (
-        <MealSpeedDial
-          mealId={selectedMeal.id}
-          navigation={navigation}
-          onPressReact={() => setShowSelectReactionModal(true)}
-          onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
-          enableMarkCooked={enableMarkCooked}
-        />
-      )}
-      {!isAuthenticated && (
-        <MyButton
-          style={styles.loginButton}
-          onPress={() => {
-            navigation.navigate(NAVIGATION_TITLES.LOGIN);
-          }}>
-          {"Login or sign up"}
-        </MyButton>
-      )}
+      <MealSpeedDial
+        mealId={selectedMeal.id}
+        navigation={navigation}
+        onPressReact={() => setShowSelectReactionModal(true)}
+        onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
+        enableMarkCooked={enableMarkCooked}
+      />
     </View>
   );
 }

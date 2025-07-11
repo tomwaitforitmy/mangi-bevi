@@ -37,6 +37,7 @@ import SettingsScreen from "../screens/SettingsScreen";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../firebase/firebase";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import MealDetailScreenNotAuthenticated from "../screens/MealDetailScreenNotAuthenticated";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -279,7 +280,7 @@ function LoginStackContainer() {
       />
       <LoginStack.Screen
         name={NAVIGATION_TITLES.LOGGED_OUT_DETAILS}
-        component={MealDetailScreen}
+        component={MealDetailScreenNotAuthenticated}
         options={({ route }) => ({
           title: route.params.mealTitle,
         })}
