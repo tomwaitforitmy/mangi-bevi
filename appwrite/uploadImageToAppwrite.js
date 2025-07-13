@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import imageCompress from "../firebase/imageCompress";
 import { Image } from "react-native";
 import Constants from "expo-constants";
+import { GetImageSize } from "../common_functions/GetImageSize";
 
 export async function uploadImageToAppwrite(uri) {
   let width = 0,
@@ -19,13 +20,12 @@ export async function uploadImageToAppwrite(uri) {
   const compressedUri = await imageCompress(uri, { width, height });
 
   const fileId = v4(); //unique name
-  const responseForBlob = await fetch(compressedUri);
-  const blob = await responseForBlob.blob();
+  const compressedSize = await GetImageSize(compressedUri);
 
   const fileObj = {
     name: `${fileId}.jpg`,
     type: "image/jpeg",
-    size: blob.size,
+    size: compressedSize,
     uri: compressedUri,
   };
 
