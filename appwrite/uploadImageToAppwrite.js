@@ -41,7 +41,9 @@ export async function uploadImageToAppwrite(uri) {
       throw new Error("Image upload failed: No response or file ID returned");
     }
 
-    return `${storage.client.config.endpoint}/storage/buckets/${Constants.expoConfig.extra.appwriteBucketId}/files/${response.$id}/view?project=${Constants.expoConfig.extra.appwriteProjectId}`;
+    //I tried using getFileView, but it returned an empty array
+    const url = `${storage.client.config.endpoint}/storage/buckets/${Constants.expoConfig.extra.appwriteBucketId}/files/${response.$id}/view?project=${Constants.expoConfig.extra.appwriteProjectId}`;
+    return url;
   } catch (error) {
     console.error("upload failed:", error);
     throw error;
