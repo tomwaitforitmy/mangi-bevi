@@ -22,6 +22,10 @@ export const getPublicMealsUrl = () => {
   return BASE + "meals.json";
 };
 
+export const getPublicFeaturesUrl = () => {
+  return BASE + "features.json";
+};
+
 export const getTagsUrl = (token) => {
   return BASE + `tags.json?auth=${token}`;
 };
