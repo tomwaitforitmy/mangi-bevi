@@ -7,8 +7,9 @@ export async function UploadImagesAndCreateMeal(
   ingredients,
   steps,
   author,
+  imageUploadTarget,
 ) {
-  let uploadedImages = await uploadImages(urls);
+  let uploadedImages = await uploadImages(urls, imageUploadTarget);
   const now = new Date().toISOString();
   return Meal(
     title,

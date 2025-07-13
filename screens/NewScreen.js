@@ -73,6 +73,9 @@ function NewScreen({ route, navigation }) {
   const meals = useSelector((state) => state.meals.meals);
   const userStats = useSelector((state) => state.users.userStats);
   const userMealsData = useSelector((state) => state.users.userMealsData);
+  const imageUploadTarget = useSelector(
+    (state) => state.features.features.imageUpload,
+  );
 
   let inputMeal = null;
   let initiallySelectedTab = TITLES.INFO;
@@ -251,6 +254,7 @@ function NewScreen({ route, navigation }) {
         inputMeal.links,
         inputMeal.isTestMangi,
         inputMeal.reactions,
+        imageUploadTarget,
       );
 
       await dispatch(mealsAction.editMeal(editedMeal));
@@ -278,6 +282,7 @@ function NewScreen({ route, navigation }) {
         formState.ingredients,
         formState.steps,
         user,
+        imageUploadTarget,
       );
 
       //first we have to update the meals to get the new id
@@ -338,6 +343,7 @@ function NewScreen({ route, navigation }) {
     finishStepInput,
     updateRenderCounter,
     users,
+    imageUploadTarget,
   ]);
 
   if (formState.isLoading) {

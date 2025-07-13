@@ -41,8 +41,6 @@ export async function uploadImageToAppwrite(uri) {
       throw new Error("Image upload failed: No response or file ID returned");
     }
 
-    console.log("image uploaded successfully");
-
     return `${storage.client.config.endpoint}/storage/buckets/${Constants.expoConfig.extra.appwriteBucketId}/files/${response.$id}/view?project=${Constants.expoConfig.extra.appwriteProjectId}`;
   } catch (error) {
     console.error("upload failed:", error);

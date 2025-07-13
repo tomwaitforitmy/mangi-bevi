@@ -21,6 +21,7 @@ export async function UploadImagesAndEditMeal(
   links,
   isTestMangi,
   reactions,
+  imageUploadTarget,
 ) {
   //Upload only the images we haven't uploaded, yet.
   const imagesToUpload = GetImagesToUpload(imageUrls);
@@ -29,7 +30,7 @@ export async function UploadImagesAndEditMeal(
   //Check if we upload the primary image
   let primaryImageIndex = imagesToUpload.indexOf(primaryImageUrl);
 
-  let uploadedImages = await uploadImages(imagesToUpload);
+  let uploadedImages = await uploadImages(imagesToUpload, imageUploadTarget);
 
   const editedMeal = Meal(
     title,
