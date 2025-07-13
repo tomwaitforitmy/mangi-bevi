@@ -10,6 +10,7 @@ import {
   getMealUrl,
   getPublicMealsUrl,
 } from "../../firebase/urls";
+import deleteImages from "../../firebase/deleteImages";
 
 export const DELETE_MEAL = "DELETE_MEAL";
 export const CREATE_MEAL = "CREATE_MEAL";
@@ -235,6 +236,8 @@ export const deleteMeal = (meal, user, allMeals) => {
         await dispatch(editLinks(item));
       }),
     );
+
+    await deleteImages(meal.imageUrls);
 
     const token = await authAction.getToken();
     const response = await fetch(getMealUrl(meal.id, token), {
