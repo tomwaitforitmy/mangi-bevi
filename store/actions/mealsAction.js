@@ -218,7 +218,7 @@ export const editReactions = (meal, userId, newReaction) => {
 };
 
 export const deleteMeal = (meal, user, allMeals) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     console.log("begin delete meal");
 
     if (!DEV_MODE && meal.authorId !== user.id) {
@@ -237,7 +237,8 @@ export const deleteMeal = (meal, user, allMeals) => {
       }),
     );
 
-    await deleteImages(meal.imageUrls);
+    const imageUploadTarget = getState().features.features.imageUpload;
+    await deleteImages(meal.imageUrls, imageUploadTarget);
 
     const token = await authAction.getToken();
     const response = await fetch(getMealUrl(meal.id, token), {

@@ -237,7 +237,7 @@ function NewScreen({ route, navigation }) {
 
   const saveMealHandler = useCallback(async () => {
     const editMealHandler = async () => {
-      await deleteImages(formState.imageUrlsToDelete);
+      await deleteImages(formState.imageUrlsToDelete, imageUploadTarget);
       const editedMeal = await UploadImagesAndEditMeal(
         formState.imageUrls,
         formState.primaryImageUrl,
