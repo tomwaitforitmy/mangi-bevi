@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
 import Colors from "../constants/Colors";
 import { getPermission, pickImage } from "../common_functions/PickImage";
-import { uploadImageToSupabase } from "../supabase/uploadImage";
+import { uploadImageToSupabase } from "../supabase/uploadImageToSupabase";
 import { uploadImageToAppwrite } from "../appwrite/uploadImageToAppwrite";
 
 function DevScreen({ navigation }) {
@@ -26,7 +26,10 @@ function DevScreen({ navigation }) {
   };
 
   const handlePickImageSupabase = async () => {
-    await pickImage((uri) => uploadImageToSupabase(uri));
+    await pickImage(async (uri) => {
+      const url = await uploadImageToSupabase(uri);
+      setImageUploaded(url);
+    });
   };
 
   return (

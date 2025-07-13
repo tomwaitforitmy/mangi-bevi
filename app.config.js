@@ -21,6 +21,9 @@ module.exports = ({ config }) => {
       appwriteBucketId:
         process.env.EXPO_BUILD_APPWRITE_BUCKET_ID ??
         process.env.EXPO_APPWRITE_BUCKET_ID,
+      supabaseAnonApiKey:
+        process.env.EXPO_BUILD_SUPABASE_ANON_API_KEY ??
+        process.env.EXPO_SUPABASE_ANON_API_KEY,
     },
   };
 
