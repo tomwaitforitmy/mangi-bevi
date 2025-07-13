@@ -253,7 +253,7 @@ export const deleteMeal = (meal, user, allMeals) => {
     await dispatch(usersAction.editUser(editedUser));
 
     //todo:
-    //Remove reactions
+    //delete images
     //Remove mark as cooked entries
     console.log("end delete meal");
     return editedUser;
