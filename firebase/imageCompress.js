@@ -1,4 +1,5 @@
-import * as ImageManipulator from "expo-image-manipulator";
+import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
+import { GetImageSize } from "../common_functions/GetImageSize";
 
 const imageCompress = async (image, { width, height }) => {
   const compressSizer = (size) => {
@@ -16,26 +17,30 @@ const imageCompress = async (image, { width, height }) => {
   };
 
   const imageManipulator = async (image, { width, height }) => {
-    const response = await fetch(image);
-    const blob = await response.blob();
-
-    const compress = compressSizer(blob.size);
+    const size = await GetImageSize(image);
+    console.log("size before compress", size);
+    const compress = compressSizer(size);
 
     let resize;
     if (height === width) resize = { height: 480, width: 480 };
     else if (height > width) resize = { height: 480 };
     else resize = { width: 720 };
 
-    const compressedPhoto = await ImageManipulator.manipulateAsync(
-      image,
-      [{ resize }],
-      {
-        compress,
-        format: ImageManipulator.SaveFormat.JPEG,
-      },
-    );
+    const context = ImageManipulator.manipulate(image);
+    context.resize(resize);
+    // Render the image with transformations
+    const processedImage = await context.renderAsync();
 
-    return compressedPhoto.uri;
+    // Save the image with compression and format
+    const result = await processedImage.saveAsync({
+      compress,
+      format: SaveFormat.JPEG,
+    });
+
+    const sizeCompressed = await GetImageSize(result.uri);
+    console.log("size after compress", sizeCompressed);
+
+    return result.uri;
   };
 
   try {
