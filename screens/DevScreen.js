@@ -1,119 +1,61 @@
-import React, { useRef, useState, useEffect } from "react";
-import {
-  Text,
-  StyleSheet,
-  TextInput,
-  Dimensions,
-  View,
-  Button,
-  ScrollView,
-  Keyboard,
-  Platform,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Button, ScrollView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
-import MyListItem from "../components/MyListItem";
 import Colors from "../constants/Colors";
+import { getPermission, pickImage } from "../common_functions/PickImage";
+import { uploadImageToSupabase } from "../supabase/uploadImage";
+import { uploadImageToAppwrite } from "../appwrite/uploadImageToAppwrite";
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
-
-  const [inputValue, setInputValue] = useState("");
-  const [items, setItems] = useState([]); // State to store the list of inputs
-  const inputRef = useRef(null); // Ref to access the TextInput
-  const scrollViewRef = useRef(null); // Ref to access the ScrollView
-  const [keyboardOffset, setKeyboardOffset] = useState(0); // To store keyboard offset
+  const [imageUploaded, setImageUploaded] = useState();
 
   useEffect(() => {
-    const screenHeight = Dimensions.get("window").height;
-
-    const getExtraHeight = () => {
-      if (screenHeight >= 812) {
-        return 94; // Adjust based on device height
-      } else if (screenHeight >= 667 && screenHeight < 812) {
-        return 60;
-      } else {
-        return 35;
-      }
-    };
-
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      (event) => {
-        //Not needed on Android
-        if (Platform.OS === "ios") {
-          const offset = event.endCoordinates.height - getExtraHeight();
-          setKeyboardOffset(offset); // Set keyboard height
-        }
-        //We cannot directly call scroll to end, because the height
-        //of the content might not have changed, yet.
-        setTimeout(() => {
-          scrollViewRef.current?.scrollToEnd({ animated: true });
-        }, 10);
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardOffset(0); // Reset keyboard height
-      },
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
+    getPermission();
   }, []);
 
-  const handleAddItem = () => {
-    if (inputValue.trim()) {
-      if (items.includes(inputValue) || inputValue === "") {
-        inputRef.current?.focus(); // Refocus on the TextInput
-        return;
-      }
-      setItems((prevItems) => [...prevItems, inputValue]); // Add the input value to the list
-      setInputValue(""); // Clear the input field
-      inputRef.current?.focus(); // Refocus on the TextInput
-    }
+  const handlePickImageAppwrite = async () => {
+    await pickImage(async (uri) => {
+      const url = await uploadImageToAppwrite(uri);
+      console.log(url);
+      setImageUploaded(url);
+    });
+  };
+
+  const handlePickImageSupabase = async () => {
+    await pickImage((uri) => uploadImageToSupabase(uri));
   };
 
   return (
-    <View style={{ flex: 1, paddingBottom: keyboardOffset }}>
-      <ScrollView
-        ref={scrollViewRef}
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled">
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Button
           title="Delete all test mangis"
           onPress={async () => {
             await deleteTestMangis(dispatch, allMeals, user);
           }}
         />
-        {items.map((i) => (
-          <MyListItem key={i} title={i} IconName={"edit"} />
-        ))}
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            multiline={true}
-            ref={inputRef}
-            placeholder="Enter text"
-            placeholderTextColor={"lightgrey"}
-            selectionColor={"white"}
-            value={inputValue}
-            onChangeText={setInputValue}
-            returnKeyType="default"
-            blurOnSubmit={false} // Keeps the input focused after pressing return
-            onEndEditing={() => {
-              handleAddItem(); // Handles the action when return is pressed
-            }}
-          />
-          <View style={styles.sendButtonContainer}>
-            <Text style={styles.sendButtonText}>+</Text>
-          </View>
-        </View>
+        <Button
+          title="supabase"
+          onPress={async () => {
+            await handlePickImageSupabase();
+          }}
+        />
+        <Button
+          title="appwrite"
+          onPress={async () => {
+            await handlePickImageAppwrite();
+          }}
+        />
+        <Image
+          style={styles.image}
+          source={{
+            uri: imageUploaded,
+          }}
+        />
       </ScrollView>
     </View>
   );
@@ -124,6 +66,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center", // Aligns input and send button vertically
+  },
+  image: {
+    width: "100%",
+    height: 200,
   },
   container: {
     flexGrow: 1,

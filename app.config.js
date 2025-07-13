@@ -15,6 +15,12 @@ module.exports = ({ config }) => {
       emailKey: process.env.EXPO_BUILD_EMAIL_KEY ?? process.env.EXPO_EMAIL_KEY,
       passKey:
         process.env.EXPO_BUILD_PASSWORD_KEY ?? process.env.EXPO_PASSWORD_KEY,
+      appwriteProjectId:
+        process.env.EXPO_BUILD_APPWRITE_PROJECT_ID ??
+        process.env.EXPO_APPWRITE_PROJECT_ID,
+      appwriteBucketId:
+        process.env.EXPO_BUILD_APPWRITE_BUCKET_ID ??
+        process.env.EXPO_APPWRITE_BUCKET_ID,
     },
   };
 
