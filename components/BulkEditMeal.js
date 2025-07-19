@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import uploadImages from "../firebase/uploadImages";
+import uploadImages from "../image_processing/uploadImages";
 import * as mealActions from "../store/actions/mealsAction";
 import Meal from "../models/Meal";
 import {

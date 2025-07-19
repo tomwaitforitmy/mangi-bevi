@@ -1,7 +1,7 @@
 import {
   GetImagesToUpload,
   GetImagesAlreadyUploaded,
-} from "../../common_functions/GetImagesToUpload";
+} from "../../image_processing/GetImagesToUpload";
 
 describe("GetImagesToUpload: Given list with no firebase url", () => {
   it("returns same list", () => {

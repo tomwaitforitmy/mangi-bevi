@@ -1,7 +1,7 @@
 import { supabase } from "./supabase";
 import "react-native-get-random-values";
 import { v4 } from "uuid";
-import imageCompress from "../firebase/imageCompress";
+import imageCompress from "../image_processing/imageCompress";
 import { Image } from "react-native";
 
 const bucketName = "mangi-bevi-images";

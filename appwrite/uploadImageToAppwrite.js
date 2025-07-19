@@ -1,10 +1,10 @@
 import { storage } from "./appwriteClient";
 import "react-native-get-random-values";
 import { v4 } from "uuid";
-import imageCompress from "../firebase/imageCompress";
+import imageCompress from "../image_processing/imageCompress";
 import { Image } from "react-native";
 import Constants from "expo-constants";
-import { GetImageSize } from "../common_functions/GetImageSize";
+import { GetImageSize } from "../image_processing/GetImageSize";
 
 export async function uploadImageToAppwrite(uri) {
   let width = 0,

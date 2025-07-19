@@ -1,5 +1,5 @@
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
-import { GetImageSize } from "../common_functions/GetImageSize";
+import { GetImageSize, LogSize } from "./GetImageSize";
 
 const imageCompress = async (image, { width, height }) => {
   const compressSizer = (size) => {
@@ -18,7 +18,8 @@ const imageCompress = async (image, { width, height }) => {
 
   const imageManipulator = async (image, { width, height }) => {
     const size = await GetImageSize(image);
-    console.log("size before compress", size);
+    LogSize(size, "input image (MB)");
+
     const compress = compressSizer(size);
 
     let resize;
@@ -38,7 +39,7 @@ const imageCompress = async (image, { width, height }) => {
     });
 
     const sizeCompressed = await GetImageSize(result.uri);
-    console.log("size after compress (MB)", sizeCompressed / 1048576);
+    LogSize(sizeCompressed, "compressed image (MB)");
 
     return result.uri;
   };

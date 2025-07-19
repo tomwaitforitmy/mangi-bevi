@@ -47,7 +47,7 @@ import ImageSwipe from "../components/ImageSwipe";
 import MyButton from "../components/MyButton";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import { MealEquals } from "../common_functions/MealEquals";
-import { GetImagesToUpload } from "../common_functions/GetImagesToUpload";
+import { GetImagesToUpload } from "../image_processing/GetImagesToUpload";
 import SortingListViewContainer from "../components/SortingListViewContainer";
 import InputListViewContainer from "../components/InputListViewContainer";
 import SaveIcon from "../components/HeaderIcons/SaveIcon";
@@ -56,7 +56,7 @@ import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadI
 import { IsFormInvalid } from "../common_functions/IsMealInvalid";
 import HeaderBackIcon from "../components/HeaderIcons/HeaderBackIcon";
 import LevelsViewModal from "../components/LevelsViewModal";
-import deleteImages from "../firebase/deleteImages";
+import deleteImages from "../image_processing/deleteImages";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";

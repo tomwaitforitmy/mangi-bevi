@@ -6,7 +6,7 @@ import Colors from "../constants/Colors";
 import { getPermission, pickImage } from "../common_functions/PickImage";
 import { uploadImageToSupabase } from "../supabase/uploadImageToSupabase";
 import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadImagesAndEditMeal";
-import { GetImagesToUpload } from "../common_functions/GetImagesToUpload";
+import { GetImagesToUpload } from "../image_processing/GetImagesToUpload";
 import * as mealsAction from "../store/actions/mealsAction";
 
 function DevScreen({ navigation }) {

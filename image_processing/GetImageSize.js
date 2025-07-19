@@ -3,3 +3,7 @@ export const GetImageSize = async (imageUri) => {
   const blob = await response.blob();
   return blob.size;
 };
+
+export const LogSize = (size, message) => {
+  console.log(message, size / 1048576);
+};

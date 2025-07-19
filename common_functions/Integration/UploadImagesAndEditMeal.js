@@ -1,9 +1,9 @@
-import uploadImages from "../../firebase/uploadImages";
+import uploadImages from "../../image_processing/uploadImages";
 import Meal from "../../models/Meal";
 import {
   GetImagesAlreadyUploaded,
   GetImagesToUpload,
-} from "../GetImagesToUpload";
+} from "../../image_processing/GetImagesToUpload";
 
 export async function UploadImagesAndEditMeal(
   imageUrls,

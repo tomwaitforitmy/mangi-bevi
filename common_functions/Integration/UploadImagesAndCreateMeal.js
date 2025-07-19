@@ -1,4 +1,4 @@
-import uploadImages from "../../firebase/uploadImages";
+import uploadImages from "../../image_processing/uploadImages";
 import Meal from "../../models/Meal";
 
 export async function UploadImagesAndCreateMeal(
