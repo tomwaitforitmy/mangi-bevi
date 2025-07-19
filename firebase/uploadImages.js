@@ -1,20 +1,6 @@
 import { uploadImageToAppwrite } from "../appwrite/uploadImageToAppwrite";
-import uploadImageToBucket from "./uploadImageToBucket";
 
 export async function uploadImages(urls, imageUploadTarget) {
-  const uploadToFirebase = async (item) =>
-    await uploadImageToBucket(item)
-      .then((uploadedUrl) => {
-        console.log("image uploaded successfully to firebase:" + uploadedUrl);
-        uploadedImages = uploadedImages.concat(uploadedUrl);
-      })
-      .catch((err) => {
-        console.log(
-          "error uploading image to firebase: " + item + " error: " + err,
-        );
-        uploadedImages = uploadedImages.concat(item);
-      });
-
   const uploadToAppwrite = async (item) =>
     await uploadImageToAppwrite(item)
       .then((uploadedUrl) => {
@@ -34,7 +20,7 @@ export async function uploadImages(urls, imageUploadTarget) {
       if (imageUploadTarget === "appwrite") {
         await uploadToAppwrite(item);
       } else {
-        await uploadToFirebase(item);
+        console.error("Invalid image upload target " + imageUploadTarget);
       }
     }),
   );

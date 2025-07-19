@@ -1,21 +1,9 @@
 import { deleteImageFromAppwrite } from "../appwrite/deleteImageFromAppwrite";
-import deleteImage from "./deleteImage";
 
 export async function deleteImages(urls, imageUploadTarget) {
   if (urls.length < 1) {
     return;
   }
-  const deleteImageFromFirebase = async (item) => {
-    await deleteImage(item)
-      .then(() => {
-        console.log("firebase image deleted successfully " + item);
-      })
-      .catch((err) => {
-        console.log(
-          "firebase error deleting image: " + item + " error: " + err,
-        );
-      });
-  };
 
   const deleteFromAppwrite = async (item) => {
     await deleteImageFromAppwrite(item)
@@ -35,7 +23,9 @@ export async function deleteImages(urls, imageUploadTarget) {
         if (imageUploadTarget === "appwrite") {
           await deleteFromAppwrite(item);
         } else {
-          await deleteImageFromFirebase(item);
+          console.error(
+            "Invalid image upload target (delete) " + imageUploadTarget,
+          );
         }
       }),
     );
