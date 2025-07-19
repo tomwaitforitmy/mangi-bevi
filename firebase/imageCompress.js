@@ -38,7 +38,7 @@ const imageCompress = async (image, { width, height }) => {
     });
 
     const sizeCompressed = await GetImageSize(result.uri);
-    console.log("size after compress", sizeCompressed);
+    console.log("size after compress (MB)", sizeCompressed / 1048576);
 
     return result.uri;
   };
