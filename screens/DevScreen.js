@@ -5,7 +5,9 @@ import { deleteTestMangis } from "../firebase/deleteTestMangis";
 import Colors from "../constants/Colors";
 import { getPermission, pickImage } from "../common_functions/PickImage";
 import { uploadImageToSupabase } from "../supabase/uploadImageToSupabase";
-import { uploadImageToAppwrite } from "../appwrite/uploadImageToAppwrite";
+import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadImagesAndEditMeal";
+import { GetImagesToUpload } from "../common_functions/GetImagesToUpload";
+import * as mealsAction from "../store/actions/mealsAction";
 
 function DevScreen({ navigation }) {
   const allMeals = useSelector((state) => state.meals.meals);
@@ -17,12 +19,43 @@ function DevScreen({ navigation }) {
     getPermission();
   }, []);
 
-  const handlePickImageAppwrite = async () => {
-    await pickImage(async (uri) => {
-      const url = await uploadImageToAppwrite(uri);
-      console.log(url);
-      setImageUploaded(url);
-    });
+  const handleMigrateImagesToAppwrite = async () => {
+    let counter = 1;
+    for (const meal of allMeals) {
+      console.log("---> " + counter + " / " + allMeals.length);
+      console.log("START " + meal.title);
+      const imagesToUpload = GetImagesToUpload(meal.imageUrls);
+
+      if (imagesToUpload.length === 0) {
+        console.log("nothing to migrate for " + meal.title);
+        counter++;
+        continue;
+      }
+
+      const editedMeal = await UploadImagesAndEditMeal(
+        meal.imageUrls,
+        meal.primaryImageUrl,
+        meal.title,
+        meal.id,
+        meal.ingredients,
+        meal.steps,
+        meal.tags,
+        meal.rating,
+        meal.authorId,
+        meal.creationDate,
+        user.id,
+        new Date().toISOString(),
+        meal.links,
+        meal.isTestMangi,
+        meal.reactions,
+        "appwrite",
+      );
+
+      await dispatch(mealsAction.editMeal(editedMeal));
+
+      console.log("MIGRATION COMPLETE for " + meal.title);
+      counter++;
+    }
   };
 
   const handlePickImageSupabase = async () => {
@@ -48,9 +81,9 @@ function DevScreen({ navigation }) {
           }}
         />
         <Button
-          title="appwrite"
+          title="migrate to appwrite"
           onPress={async () => {
-            await handlePickImageAppwrite();
+            await handleMigrateImagesToAppwrite();
           }}
         />
         <Image
