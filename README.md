@@ -7,14 +7,18 @@ Food lover app for everyone
 `git clone`
 `sudo pacman -Syu code`
 `paru -S android-studio`
-open in vs code
+`npm i`
+`export ANDROID_HOME=/home/tommy/Android/Sdk`
+`npx expo login` (follow the auth)
 
 ## To start debugging
 Start a device in android studio
 
-`npx expo start --tunnel`
+`sudo npx expo start --tunnel`
+(to be able to install ngrok extension for the first time)
+press a to debug in android emulator
+Happy debugging ☺️
 
-if you receive `ngrok tunnel took too long` try `npx expo start --tunnel --reset-cache`
 
 ## Recommended vs code extensions
 code --install-extension dbaeumer.vscode-eslint
