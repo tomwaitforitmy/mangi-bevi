@@ -15,8 +15,15 @@ Food lover app for everyone
 Start a device in android studio
 
 `sudo npx expo start --tunnel`
+
 (to be able to install ngrok extension for the first time)
-press a to debug in android emulator
+
+⚠️ next start must be without sudo or the env is not forwarded properly:
+
+`npx expo start --tunnel`
+
+
+press `a` to debug in android emulator
 Happy debugging ☺️
 
 
