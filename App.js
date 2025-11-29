@@ -6,6 +6,8 @@ LogBox.ignoreLogs([
   "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45.",
   // eslint-disable-next-line quotes
   'A props object containing a "key" prop is being spread into JSX',
+  "expo-notifications: Android Push notifications",
+  "`expo-notifications` functionality is not fully supported in Expo Go",
 ]); //Ignore a warning from my third parties
 
 import MyNavigationContainer from "./navigation/MyNavigationContainer";
