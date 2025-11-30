@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Modal, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
 import MyButton from "./MyButton";
 import MyLevelViewContainer from "./MyLevelViewContainer";

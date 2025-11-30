@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
   Modal,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
 import MyButton from "./MyButton";
 import SelectReactionBox from "./SelectReactionBox";
