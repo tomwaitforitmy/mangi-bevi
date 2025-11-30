@@ -9,6 +9,7 @@ import {
   ERROR_NO_USER_LOGGED_IN,
   EDIT_EXPO_PUSH_TOKEN,
   EDIT_SETTINGS,
+  EDIT_FAVORITES,
 } from "../actions/usersAction";
 
 const initialState = {
@@ -38,6 +39,7 @@ const usersReducer = (state = initialState, action) => {
     }
     case EDIT_EXPO_PUSH_TOKEN:
     case EDIT_SETTINGS:
+    case EDIT_FAVORITES:
     case EDIT_FRIENDS: {
       //create a new user object, to make sure state is updated
       const editedUser = { ...action.user };

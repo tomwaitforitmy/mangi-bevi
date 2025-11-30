@@ -7,6 +7,7 @@ const User = (
   friends,
   expoPushToken,
   settings,
+  favorites,
 ) => ({
   id,
   name,
@@ -17,6 +18,7 @@ const User = (
   isSelected: false,
   expoPushToken,
   settings: settings ? settings : [],
+  favorites: favorites ? favorites : [],
 });
 
 export default User;

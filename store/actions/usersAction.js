@@ -11,6 +11,7 @@ import * as authAction from "./authAction";
 export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const EDIT_FRIENDS = "EDIT_FRIENDS";
+export const EDIT_FAVORITES = "EDIT_FAVORITES";
 export const EDIT_EXPO_PUSH_TOKEN = "EDIT_EXPO_PUSH_TOKEN";
 export const EDIT_SETTINGS = "EDIT_SETTINGS";
 export const SET_USERS = "SET_USERS";
@@ -42,6 +43,7 @@ export const fetchUsers = () => {
               ? responseData[key].expoPushToken
               : "no token",
             responseData[key].settings ? responseData[key].settings : [],
+            responseData[key].favorites ? responseData[key].favorites : {},
           ),
         );
       }
@@ -153,6 +155,28 @@ export const editFriends = (user) => {
     console.log("end edit friends");
 
     dispatch({ type: EDIT_FRIENDS, user: user });
+  };
+};
+
+export const editFavorites = (user) => {
+  return async (dispatch) => {
+    console.log("begin edit favorites");
+    const token = await authAction.getToken();
+    const response = await fetch(getUserUrl(user.id, token), {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        favorites: user.favorites,
+      }),
+    });
+
+    await HandleResponseError(response);
+
+    console.log("end edit favorites");
+
+    dispatch({ type: EDIT_FAVORITES, user: user });
   };
 };
 
