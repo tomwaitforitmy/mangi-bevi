@@ -66,14 +66,16 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
 
   const windowWidth = useWindowDimensions().width;
 
+  const touchX = useRef(0);
+
   return (
     <View
       style={styles.container}
-      onTouchStart={(e) => (this.touchX = e.nativeEvent.pageX)}
+      onTouchStart={(e) => (touchX.current = e.nativeEvent.pageX)}
       onTouchEnd={(e) => {
-        if (this.touchX - e.nativeEvent.pageX > 100) {
+        if (touchX.current - e.nativeEvent.pageX > 100) {
           TrySelectRightTab();
-        } else if (e.nativeEvent.pageX - this.touchX > 100) {
+        } else if (e.nativeEvent.pageX - touchX.current > 100) {
           TrySelectLeftTab();
         }
       }}>
