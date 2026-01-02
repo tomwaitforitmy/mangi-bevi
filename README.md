@@ -3,12 +3,25 @@
 Food lover app for everyone
 
 # How to build/develop this app?
-## Install everything in cachyOS
+
 `git clone`
+
+## Install everything in cachyOS
 `sudo pacman -Syu code`
 `paru -S android-studio`
+
+## Install everything in Mint
+`sudo apt get code`
+`flatpak install flathub com.google.AndroidStudio`
+
+# For all OS
 `npm i`
-`export ANDROID_HOME=/home/tommy/Android/Sdk`
+
+Add android home permanently:
+`echo 'export ANDROID_HOME=/home/tommy/Android/Sdk' >> ~/.bashrc`
+`source ~/.bashrc`
+
+Auth expo
 `npx expo login` (follow the auth)
 
 ## To start debugging
