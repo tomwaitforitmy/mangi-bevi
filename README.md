@@ -16,6 +16,8 @@ Food lover app for everyone
 
 # For all OS
 `npm i`
+(somehow last time it was not enough, because of dependency conflicts. This helped)
+`npm install --legacy-peer-deps`
 
 Add android home permanently:
 `echo 'export ANDROID_HOME=/home/tommy/Android/Sdk' >> ~/.bashrc`
