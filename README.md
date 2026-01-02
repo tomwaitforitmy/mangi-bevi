@@ -34,7 +34,6 @@ code --install-extension esbenp.prettier-vscode
 code --install-extension expo.vscode-expo-tools
 code --install-extension hbenl.vscode-test-explorer
 code --install-extension jbockle.jbockle-format-files
-code --install-extension kavod-io.vscode-jest-test-adapter
 code --install-extension ms-vscode.powershell
 code --install-extension ms-vscode.test-adapter-converter
 code --install-extension msjsdiag.vscode-react-native
