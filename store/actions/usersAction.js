@@ -43,7 +43,7 @@ export const fetchUsers = () => {
               ? responseData[key].expoPushToken
               : "no token",
             responseData[key].settings ? responseData[key].settings : [],
-            responseData[key].favorites ? responseData[key].favorites : {},
+            responseData[key].favorites ? responseData[key].favorites : [],
           ),
         );
       }

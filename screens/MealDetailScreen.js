@@ -26,6 +26,7 @@ import { WasMarkedThisWeek } from "../common_functions/WasMarkedThisWeek";
 import MealCookedByUser from "../models/MealCookedByUser";
 import { markedAsCooked } from "../notifications/MarkedAsCooked";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import * as usersActions from "../store/actions/usersAction";
 
 function MealDetailScreen({ route, navigation }) {
   const { mealId, selectedTabMealDetail, updateRenderCounter } = route.params;
@@ -60,6 +61,20 @@ function MealDetailScreen({ route, navigation }) {
     user.id,
     Date.now(),
   );
+
+  const isFavorite = user.favorites.includes(selectedMeal.id);
+  console.log(isFavorite ? "is favorite" : "is not favorite");
+
+  const onToggleFavorite = async () => {
+    if (isFavorite) {
+      user.favorites = user.favorites.filter((id) => id !== selectedMeal.id);
+      console.log("added " + selectedMeal.id + " to favorites");
+    } else {
+      user.favorites.push(selectedMeal.id);
+      console.log("remove " + selectedMeal.id + " from favorites");
+    }
+    await dispatch(usersActions.editFavorites(user));
+  };
 
   const onPressMarkCooked = async () => {
     const MarkCooked = async () => {
@@ -243,6 +258,8 @@ function MealDetailScreen({ route, navigation }) {
       <MealSpeedDial
         mealId={selectedMeal.id}
         navigation={navigation}
+        isFavorite={isFavorite}
+        onPressFavorite={() => onToggleFavorite()}
         onPressReact={() => setShowSelectReactionModal(true)}
         onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
         enableMarkCooked={enableMarkCooked}
