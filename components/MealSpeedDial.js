@@ -85,12 +85,17 @@ const MealSpeedDial = (props) => {
     props.onPressReact();
   };
 
+  const onPressFavorite = () => {
+    formDispatch({ type: CLOSE });
+    props.onPressReact();
+  };
+
   const onPressMarkCooked = () => {
     formDispatch({ type: CLOSE });
     props.onPressMarkCooked();
   };
 
-  const iconType = IconTypes.ionicon;
+  const defaultIconType = IconTypes.ionicon;
 
   return (
     <SpeedDial
@@ -99,20 +104,44 @@ const MealSpeedDial = (props) => {
       icon={{
         name: "add",
         color: Colors.speedDialIcon,
-        type: iconType,
+        type: defaultIconType,
       }}
       openIcon={{
         name: "close",
         color: Colors.speedDialIcon,
-        type: iconType,
+        type: defaultIconType,
       }}
       onOpen={() => formDispatch({ type: OPEN })}
       onClose={() => formDispatch({ type: CLOSE })}>
+      {props.isFavorite && (
+        <SpeedDial.Action
+          icon={{
+            name: "star-off",
+            color: Colors.speedDialIcon,
+            type: IconTypes.materialCommunityIcons,
+          }}
+          title="Favorite"
+          color={Colors.primary}
+          onPress={onPressFavorite}
+        />
+      )}
+      {!props.isFavorite && (
+        <SpeedDial.Action
+          icon={{
+            name: "star",
+            color: Colors.speedDialIcon,
+            type: IconTypes.materialCommunityIcons,
+          }}
+          title="Favorite"
+          color={Colors.primary}
+          onPress={onPressFavorite}
+        />
+      )}
       <SpeedDial.Action
         icon={{
           name: "pricetags",
           color: Colors.speedDialIcon,
-          type: iconType,
+          type: defaultIconType,
         }}
         title="Tags"
         color={Colors.primary}
@@ -122,7 +151,7 @@ const MealSpeedDial = (props) => {
         icon={{
           name: "share-social",
           color: Colors.speedDialIcon,
-          type: iconType,
+          type: defaultIconType,
         }}
         title="Share"
         color={Colors.primary}
