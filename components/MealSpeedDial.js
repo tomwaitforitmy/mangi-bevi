@@ -87,7 +87,7 @@ const MealSpeedDial = (props) => {
 
   const onPressFavorite = () => {
     formDispatch({ type: CLOSE });
-    props.onPressReact();
+    props.onPressFavorite();
   };
 
   const onPressMarkCooked = () => {
