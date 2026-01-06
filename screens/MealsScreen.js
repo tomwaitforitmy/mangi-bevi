@@ -50,6 +50,8 @@ function MealsScreen({ navigation }) {
   };
 
   const onToggleFavorites = () => {
+    //todo: filter concatenation with tags, sort and search
+    //refactor code and simplify
     setShowFavorites((prev) => !prev);
     let mealsToShow = [];
     if (showFavorites) {
