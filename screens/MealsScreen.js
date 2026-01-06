@@ -27,6 +27,7 @@ function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [showFavorites, setShowFavorites] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [showSortingModal, setShowSortingModal] = useState(false);
   const [selectedSortingType, setSelectedSortingType] = useState(LAST_CREATED);
@@ -46,6 +47,17 @@ function MealsScreen({ navigation }) {
     navigation.navigate(NAVIGATION_TITLES.TAB_FILTERS, {
       screen: NAVIGATION_TITLES.STACK_FILTER,
     });
+  };
+
+  const onToggleFavorites = () => {
+    setShowFavorites((prev) => !prev);
+    let mealsToShow = [];
+    if (showFavorites) {
+      mealsToShow = TagFilterMeals([...allMeals], tagIdsToFilter, false);
+    } else {
+      mealsToShow = allMeals.filter((m) => user.favorites.includes(m.id));
+    }
+    setFilteredMeals(mealsToShow);
   };
 
   const onChangeText = async (text) => {
@@ -225,8 +237,32 @@ function MealsScreen({ navigation }) {
         onSortPress={() => setShowSortingModal(true)}
       />
       <View style={styles.mealsScreen}>
-        {filtersActive && (
-          <View style={styles.overlay}>
+        <View style={styles.overlay}>
+          {showFavorites && (
+            <Chip
+              title={""}
+              icon={{
+                name: "star-off",
+                color: Colors.navigationIcon,
+                type: IconTypes.materialCommunityIcons,
+              }}
+              onPress={() => onToggleFavorites()}
+              buttonStyle={{ backgroundColor: Colors.primary }}
+            />
+          )}
+          {!showFavorites && (
+            <Chip
+              title={""}
+              icon={{
+                name: "star",
+                color: Colors.navigationIcon,
+                type: IconTypes.materialCommunityIcons,
+              }}
+              onPress={() => onToggleFavorites()}
+              buttonStyle={{ backgroundColor: Colors.primary }}
+            />
+          )}
+          {filtersActive && (
             <Chip
               title={"Active filters"}
               icon={{
@@ -238,8 +274,8 @@ function MealsScreen({ navigation }) {
               onPress={() => onPressTagsActiveHandler()}
               buttonStyle={{ backgroundColor: Colors.second }}
             />
-          </View>
-        )}
+          )}
+        </View>
         <MealList
           refreshControl={
             <RefreshControl
@@ -275,6 +311,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     zIndex: 1,
     opacity: 0.95,
+    flexDirection: "row",
   },
 });
 
