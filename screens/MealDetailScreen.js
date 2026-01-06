@@ -63,17 +63,27 @@ function MealDetailScreen({ route, navigation }) {
   );
 
   const isFavorite = user.favorites.includes(selectedMeal.id);
-  console.log(isFavorite ? "is favorite" : "is not favorite");
 
   const onToggleFavorite = async () => {
+    const updateFavorites = async () => {
+      await dispatch(usersActions.editFavorites(newUser));
+    };
+
+    let favorites = [...user.favorites];
+
     if (isFavorite) {
-      user.favorites = user.favorites.filter((id) => id !== selectedMeal.id);
-      console.log("added " + selectedMeal.id + " to favorites");
+      favorites = favorites.filter((m) => m !== selectedMeal.id);
     } else {
-      user.favorites.push(selectedMeal.id);
-      console.log("remove " + selectedMeal.id + " from favorites");
+      favorites.push(selectedMeal.id);
     }
-    await dispatch(usersActions.editFavorites(user));
+
+    const newUser = { ...user, favorites };
+
+    try {
+      updateFavorites();
+    } catch (error) {
+      console.error("Error updating favorites: ", error);
+    }
   };
 
   const onPressMarkCooked = async () => {
