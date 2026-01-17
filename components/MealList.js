@@ -32,6 +32,7 @@ const MealList = (props) => {
         image={itemData.item.primaryImageUrl}
         searchTerm={props.searchTerm}
         reactions={itemData.item.reactions}
+        isFavorite={props.userFavorites?.includes(itemData.item.id)}
       />
     );
   };

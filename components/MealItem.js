@@ -1,8 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { Icon } from "react-native-elements";
 import HighlightedText from "./HighlightedText";
 import Colors from "../constants/Colors";
 import ReactionsBox from "./ReactionsBox";
+import IconTypes from "../constants/IconTypes";
 
 const MealItem = (props) => {
   return (
@@ -18,6 +20,16 @@ const MealItem = (props) => {
             }}
             style={styles.backgroundImage}
           />
+          {props.isFavorite && (
+            <View style={styles.starBackground}>
+              <Icon
+                name="star"
+                type={IconTypes.materialCommunityIcons}
+                color="#FFD700"
+                size={22}
+              />
+            </View>
+          )}
         </View>
         <View style={styles.titleContainer}>
           {/* ellipsizeMode="tail" -> "..." on android */}
@@ -35,6 +47,23 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     position: "absolute",
     zIndex: 1,
+  },
+  favoriteIcon: {
+    position: "absolute",
+    bottom: 5,
+    right: 5,
+    zIndex: 2,
+  },
+  starBackground: {
+    position: "absolute",
+    bottom: 5,
+    right: 5,
+    zIndex: 2,
+    backgroundColor: "rgba(5, 113, 255, 0.7)",
+    borderRadius: 20,
+    padding: 4,
+    justifyContent: "center",
+    alignItems: "center",
   },
   mealItem: {
     flex: 1,

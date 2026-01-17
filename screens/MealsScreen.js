@@ -302,6 +302,7 @@ function MealsScreen({ navigation }) {
           navigation={navigation}
           searchTerm={searchTerm}
           isAuthenticated={true}
+          userFavorites={user?.favorites}
         />
       </View>
     </View>
