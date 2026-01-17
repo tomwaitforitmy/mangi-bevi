@@ -50,16 +50,7 @@ function MealsScreen({ navigation }) {
   };
 
   const onToggleFavorites = () => {
-    //todo: filter concatenation with tags, sort and search
-    //refactor code and simplify
     setShowFavorites((prev) => !prev);
-    let mealsToShow = [];
-    if (showFavorites) {
-      mealsToShow = TagFilterMeals([...allMeals], tagIdsToFilter, false);
-    } else {
-      mealsToShow = allMeals.filter((m) => user.favorites.includes(m.id));
-    }
-    setFilteredMeals(mealsToShow);
   };
 
   const onChangeText = async (text) => {
@@ -191,16 +182,34 @@ function MealsScreen({ navigation }) {
       (s) => s.name === enableAndFilter,
     );
 
-    // Filter meals based on updated settings and search term
-    let meals = TagFilterMeals(
-      [...allMeals],
+    // Start with all meals
+    let meals = [...allMeals];
+
+    // Apply favorites filter first (cheap operation to reduce dataset)
+    if (showFavorites) {
+      meals = meals.filter((m) => user.favorites.includes(m.id));
+    }
+
+    // Apply tag filter
+    meals = TagFilterMeals(
+      meals,
       tagIdsToFilter,
       filterAndSettingEnabled ? false : true,
     );
+
+    // Apply search filter (operates on smaller dataset)
     meals = FastFilterMeals(meals, searchTerm);
 
     setFilteredMeals(meals);
-  }, [allMeals, filterTags, searchTerm, tagIdsToFilter, user?.settings]);
+  }, [
+    allMeals,
+    filterTags,
+    searchTerm,
+    tagIdsToFilter,
+    user?.settings,
+    showFavorites,
+    user?.favorites,
+  ]);
 
   if (isLoading) {
     return <LoadingIndicator />;
