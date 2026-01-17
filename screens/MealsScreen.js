@@ -257,7 +257,7 @@ function MealsScreen({ navigation }) {
             <Chip
               title={""}
               icon={{
-                name: "star-off",
+                name: "star",
                 color: Colors.navigationIcon,
                 type: IconTypes.materialCommunityIcons,
               }}
@@ -269,7 +269,7 @@ function MealsScreen({ navigation }) {
             <Chip
               title={""}
               icon={{
-                name: "star",
+                name: "star-outline",
                 color: Colors.navigationIcon,
                 type: IconTypes.materialCommunityIcons,
               }}
