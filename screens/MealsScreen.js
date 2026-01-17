@@ -165,18 +165,18 @@ function MealsScreen({ navigation }) {
   }, [navigation]);
 
   const onSelectSort = (sort) => {
-    const sortedMeals = SortMealsBy(
-      [...filteredMeals],
-      sort,
-      mealsCookedByUser,
-      user.id,
-    );
     setSelectedSortingType(sort);
-    setFilteredMeals(sortedMeals);
     setShowSortingModal(false);
   };
 
+  //main useEffect to toggle favorites, filter, search and sort meals
   useEffect(() => {
+    //during first render user may not be loaded yet,
+    //because fetchAll is not finished.
+    if (!user) {
+      return;
+    }
+
     // Calculate filterOr when user.settings changes
     const filterAndSettingEnabled = user?.settings?.find(
       (s) => s.name === enableAndFilter,
@@ -200,15 +200,19 @@ function MealsScreen({ navigation }) {
     // Apply search filter (operates on smaller dataset)
     meals = FastFilterMeals(meals, searchTerm);
 
+    // Apply sorting after filtering (maintains sort persistence)
+    meals = SortMealsBy(meals, selectedSortingType, mealsCookedByUser, user.id);
+
     setFilteredMeals(meals);
   }, [
     allMeals,
     filterTags,
     searchTerm,
     tagIdsToFilter,
-    user?.settings,
+    user,
     showFavorites,
-    user?.favorites,
+    selectedSortingType,
+    mealsCookedByUser,
   ]);
 
   if (isLoading) {
