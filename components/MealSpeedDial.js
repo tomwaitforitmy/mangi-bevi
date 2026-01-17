@@ -120,7 +120,7 @@ const MealSpeedDial = (props) => {
             color: Colors.speedDialIcon,
             type: IconTypes.materialCommunityIcons,
           }}
-          title="Favorite"
+          title="Remove Favorite"
           color={Colors.primary}
           onPress={onPressFavorite}
         />
