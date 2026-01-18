@@ -30,11 +30,11 @@ export async function uploadImageToAppwrite(uri) {
   };
 
   try {
-    const response = await storage.createFile(
-      Constants.expoConfig.extra.appwriteBucketId,
+    const response = await storage.createFile({
+      bucketId: Constants.expoConfig.extra.appwriteBucketId,
       fileId,
-      fileObj,
-    );
+      file: fileObj,
+    });
 
     // Make sure response exists before accessing $id
     if (!response || !response.$id) {
