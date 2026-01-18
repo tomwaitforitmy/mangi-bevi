@@ -80,8 +80,8 @@ const InputListViewContainer = (props) => {
           />
           <View style={styles.sendIconContainer}>
             <Icon
-              name={"arrowup"}
-              type={IconTypes.antdesign}
+              name={"arrow-up"}
+              type={IconTypes.ionicon}
               color={Colors.white}
             />
           </View>
