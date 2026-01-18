@@ -1,8 +1,8 @@
 import React from "react";
 import Colors from "../../constants/Colors";
-import { Icon } from "react-native-elements";
-import IconTypes from "../../constants/IconTypes";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { NAVIGATION_TITLES } from "../../constants/NavigationTitles";
+import { Pressable } from "react-native";
 
 const onHeaderIconPress = (
   navigation,
@@ -27,19 +27,29 @@ const EditMangiIcon = (
   updateRenderCounter,
 ) => {
   return (
-    <Icon
-      name={"create-outline"}
-      onPress={() =>
-        onHeaderIconPress(
-          navigation,
-          mealId,
-          selectedTabEdit,
-          updateRenderCounter,
-        )
-      }
-      type={IconTypes.ionicon}
-      color={Colors.navigationIcon}
-    />
+    <Pressable
+      hitSlop={20}
+      style={{
+        //somehow this size works nice for centering
+        width: 36,
+        height: 36,
+        alignItems: "center",
+        justifyContent: "center",
+      }}>
+      <Ionicons
+        name="create-outline"
+        size={25}
+        onPress={() =>
+          onHeaderIconPress(
+            navigation,
+            mealId,
+            selectedTabEdit,
+            updateRenderCounter,
+          )
+        }
+        color={Colors.navigationIcon}
+      />
+    </Pressable>
   );
 };
 
