@@ -23,7 +23,7 @@
     "ajv": "^6.12.6",
     "eslint": "^8.22.0",
     "eslint-plugin-testing-library": "^5.9.1",
-    "expo": "~54.0.31",
+    "expo": "~54.0.32",
     "expo-application": "~7.0.8",
     "expo-blur": "~15.0.8",
     "expo-constants": "~18.0.10",
