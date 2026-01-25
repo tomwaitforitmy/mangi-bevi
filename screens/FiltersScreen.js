@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
-import { Divider } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import TagList from "../components/TagList";
 import * as tagActions from "../store/actions/tagsAction";
@@ -32,11 +31,9 @@ function FiltersScreen({ navigation }) {
     <View style={styles.screen}>
       <ScrollView style={styles.tagLists}>
         <Text style={styles.subtitle}>Active Tag Filters</Text>
-        <Divider />
         <TagList tags={filterTags} onPressTag={removeTagHandler} />
         <AndOrTagFilterSwitch />
         <Text style={styles.subtitle}>Available Tags</Text>
-        <Divider />
         <TagList tags={availableFilterTags} onPressTag={addTagHandler} />
       </ScrollView>
     </View>
