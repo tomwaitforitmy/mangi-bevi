@@ -1,6 +1,5 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Divider } from "react-native-elements";
 import { useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import MyLevelViewContainer from "../components/MyLevelViewContainer";
@@ -28,9 +27,7 @@ function ProfileScreen({ navigation }) {
             {"View your Mangis"}
           </MyButton>
           <Text style={styles.bene}>Name: {user.name} </Text>
-          <Divider />
           <Text style={styles.bene}>Email: {user.email}</Text>
-          <Divider />
           <MyButton
             onPress={() =>
               navigation.navigate(NAVIGATION_TITLES.STACK_MANAGE_ACCOUNT)
