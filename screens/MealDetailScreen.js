@@ -6,10 +6,11 @@ import {
   View,
   useWindowDimensions,
   Alert,
+  Image,
+  Pressable,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
-import { Image } from "react-native-elements";
 import MealSpeedDial from "../components/MealSpeedDial";
 import TagList from "../components/TagList";
 import { GetAuthorName } from "../common_functions/GetAuthorName";
@@ -205,13 +206,7 @@ function MealDetailScreen({ route, navigation }) {
         {selectedTab === TITLES.INFO && (
           <View>
             <Text style={styles.subtitle}>{selectedMeal.title}</Text>
-            <Image
-              source={{
-                uri: selectedMeal.primaryImageUrl
-                  ? selectedMeal.primaryImageUrl
-                  : "https://dummyimage.com/300x200&text=No+image+yet",
-              }}
-              style={styles.image}
+            <Pressable
               onPress={() => {
                 navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
                   screen: NAVIGATION_TITLES.STACK_IMAGES,
@@ -220,8 +215,16 @@ function MealDetailScreen({ route, navigation }) {
                     mealTitle: selectedMeal.title,
                   },
                 });
-              }}
-            />
+              }}>
+              <Image
+                source={{
+                  uri: selectedMeal.primaryImageUrl
+                    ? selectedMeal.primaryImageUrl
+                    : "https://dummyimage.com/300x200&text=No+image+yet",
+                }}
+                style={styles.image}
+              />
+            </Pressable>
             <TagList tags={tagList} />
             <CookedByUserList
               //todo: is the filter needed here?
