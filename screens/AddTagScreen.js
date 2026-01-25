@@ -15,7 +15,7 @@ import tagFormReducer, {
   SUBMITTED,
   EDIT_TAG_TITLE,
 } from "../store/formReducers/tagFormReducer";
-import { Divider, Input } from "react-native-elements";
+import { Input } from "react-native-elements";
 import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
@@ -155,14 +155,12 @@ function AddTagScreen({ route, navigation }) {
       <View style={styles.container}>
         <ScrollView style={styles.tagLists}>
           <Text style={styles.subtitle}>Added Tags</Text>
-          <Divider />
           <TagList
             tags={addedTags}
             onPressTag={removeTagHandler}
             onLongPressTag={deleteTagHandler}
           />
           <Text style={styles.subtitle}>Available Tags</Text>
-          <Divider />
           <TagList
             tags={availableTags}
             onPressTag={addTagHandler}
@@ -170,7 +168,6 @@ function AddTagScreen({ route, navigation }) {
           />
         </ScrollView>
         <View>
-          <Divider />
           <Input
             errorMessage={formState.errorMessage}
             placeholder="Enter tag"
