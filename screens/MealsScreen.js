@@ -26,8 +26,8 @@ import SelectSortingModal from "../components/SelectSortingModal";
 import { LAST_CREATED } from "../data/AllowedSortingOptions";
 import { SortMealsBy } from "../common_functions/SortMealBy";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -266,7 +266,7 @@ function MealsScreen({ navigation }) {
                 pressed && styles.chipPressed,
               ]}
               onPress={() => onToggleFavorites()}>
-              <MaterialCommunityIcons
+              <MaterialDesignIcons
                 name="star"
                 color={Colors.navigationIcon}
                 size={20}
@@ -280,7 +280,7 @@ function MealsScreen({ navigation }) {
                 pressed && styles.chipPressed,
               ]}
               onPress={() => onToggleFavorites()}>
-              <MaterialCommunityIcons
+              <MaterialDesignIcons
                 name="star-outline"
                 color={Colors.navigationIcon}
                 size={20}
