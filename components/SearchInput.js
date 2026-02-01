@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
 import Colors from "../constants/Colors";
-import { Icon } from "react-native-elements";
-import IconTypes from "../constants/IconTypes";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const SearchInput = ({
   style,
@@ -25,13 +24,13 @@ const SearchInput = ({
         {numberOfLabels} {label}
       </Text>
       {showSortIcon && (
-        <Icon
-          name="sort"
-          onPress={onSortPress}
-          type={IconTypes.materialCommunityIcons}
-          color={Colors.navigationIcon}
-          containerStyle={styles.icon}
-        />
+        <Pressable onPress={onSortPress} style={styles.icon}>
+          <MaterialCommunityIcons
+            name="sort"
+            color={Colors.navigationIcon}
+            size={24}
+          />
+        </Pressable>
       )}
     </View>
   );
