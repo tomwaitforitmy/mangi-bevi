@@ -1,33 +1,28 @@
 import React from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
-import { Icon } from "react-native-elements";
-import IconTypes from "../constants/IconTypes";
+import { ImageBackground, StyleSheet, View, Pressable } from "react-native";
+import FeatherIcon from "react-native-vector-icons/Feather";
 
 const SwipeableImage = (props) => {
   return (
     <ImageBackground {...props} style={styles.image}>
       <View style={styles.iconMenuView}>
         {props.onTrashCallback && (
-          <Icon
-            color="#ccc"
-            reverse
-            reverseColor="black"
-            size={14}
-            type={IconTypes.feather}
-            name="trash"
-            onPress={() => props.onTrashCallback(props.source.uri)}
-          />
+          <Pressable
+            style={styles.iconButton}
+            onPress={() => props.onTrashCallback(props.source.uri)}>
+            <View style={styles.iconCircle}>
+              <FeatherIcon name="trash" size={14} color="black" />
+            </View>
+          </Pressable>
         )}
         {props.onCheckCallback && (
-          <Icon
-            color="#ccc"
-            reverse
-            reverseColor="black"
-            size={14}
-            type={IconTypes.feather}
-            name="check-circle"
-            onPress={() => props.onCheckCallback(props.source.uri)}
-          />
+          <Pressable
+            style={styles.iconButton}
+            onPress={() => props.onCheckCallback(props.source.uri)}>
+            <View style={styles.iconCircle}>
+              <FeatherIcon name="check-circle" size={14} color="black" />
+            </View>
+          </Pressable>
         )}
       </View>
     </ImageBackground>
@@ -50,6 +45,16 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-end",
     justifyContent: "space-evenly",
+  },
+  iconButton: {
+    marginRight: 10,
+  },
+  iconCircle: {
+    backgroundColor: "#ccc",
+    borderRadius: 12,
+    padding: 6,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
