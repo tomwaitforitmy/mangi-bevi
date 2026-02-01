@@ -28,6 +28,7 @@ import loginFormReducer, {
 } from "../store/formReducers/accountFormReducer";
 import { ResetSecureStorage } from "../common_functions/CredentialStorage";
 import Colors from "../constants/Colors";
+import { textInputStyles } from "../constants/TextInputStyles";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -164,7 +165,10 @@ function ManageAccountScreen({ navigation }) {
         <View>
           <Text style={styles.label}>Name</Text>
           <TextInput
-            style={[styles.input, formState.userError && styles.inputError]}
+            style={[
+              textInputStyles.input,
+              formState.userError && textInputStyles.inputError,
+            ]}
             placeholder="Name"
             placeholderTextColor={Colors.textInputPlaceholderColor}
             onChangeText={(value) =>
@@ -173,11 +177,14 @@ function ManageAccountScreen({ navigation }) {
             value={formState.user}
           />
           {formState.userError ? (
-            <Text style={styles.errorText}>{formState.userError}</Text>
+            <Text style={textInputStyles.errorText}>{formState.userError}</Text>
           ) : null}
           <Text style={styles.label}>Email</Text>
           <TextInput
-            style={[styles.input, formState.emailError && styles.inputError]}
+            style={[
+              textInputStyles.input,
+              formState.emailError && textInputStyles.inputError,
+            ]}
             placeholder="Email"
             placeholderTextColor={Colors.textInputPlaceholderColor}
             onChangeText={(value) =>
@@ -186,7 +193,7 @@ function ManageAccountScreen({ navigation }) {
             value={formState.email}
           />
           {formState.emailError ? (
-            <Text style={styles.errorText}>{formState.emailError}</Text>
+            <Text style={textInputStyles.errorText}>{formState.emailError}</Text>
           ) : null}
           <MyButton onPress={() => saveChanges()}>{"Save"}</MyButton>
           <MyButton
@@ -210,26 +217,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     lineHeight: 30,
-  },
-  input: {
-    color: Colors.black,
-    backgroundColor: Colors.white,
-    width: "100%",
-    minHeight: 40,
-    fontSize: 20,
-    borderRadius: 10,
-    paddingHorizontal: 6, //to align text with rounded corners
-    borderWidth: 1,
-    borderColor: Colors.gray,
-  },
-  inputError: {
-    borderColor: "red",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    marginHorizontal: 5,
-    marginBottom: 5,
   },
 });
 

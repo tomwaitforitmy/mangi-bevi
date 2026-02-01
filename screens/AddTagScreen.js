@@ -23,6 +23,7 @@ import tagFormReducer, {
   EDIT_TAG_TITLE,
 } from "../store/formReducers/tagFormReducer";
 import Colors from "../constants/Colors";
+import { textInputStyles } from "../constants/TextInputStyles";
 import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
@@ -176,7 +177,7 @@ function AddTagScreen({ route, navigation }) {
         </ScrollView>
         <View>
           <TextInput
-            style={styles.input}
+            style={textInputStyles.input}
             placeholderTextColor={Colors.textInputPlaceholderColor}
             placeholder="Enter tag"
             onChangeText={(value) =>
@@ -203,17 +204,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "center",
     color: "grey",
-  },
-  input: {
-    color: Colors.black,
-    backgroundColor: Colors.white,
-    width: "100%",
-    minHeight: 40,
-    fontSize: 20,
-    borderRadius: 10,
-    paddingHorizontal: 6,
-    borderWidth: 1,
-    borderColor: Colors.gray,
   },
 });
 
