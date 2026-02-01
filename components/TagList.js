@@ -1,8 +1,30 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Chip, Icon } from "react-native-elements";
+import { View, StyleSheet, Pressable, Text } from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Colors from "../constants/Colors";
-import IconTypes from "../constants/IconTypes";
+
+const CustomChip = ({ tag, onPress, onLongPress, onIconPress, useIcon }) => {
+  const handleIconPress = (e) => {
+    e.stopPropagation?.();
+    if (onIconPress) {
+      onIconPress(tag);
+    }
+  };
+
+  return (
+    <Pressable
+      style={({ pressed }) => [styles.chip, pressed && styles.chipPressed]}
+      onPress={() => onPress(tag)}
+      onLongPress={() => onLongPress(tag)}>
+      <Text style={styles.chipText}>{tag.title}</Text>
+      {useIcon && (
+        <Pressable onPress={handleIconPress} style={styles.chipIcon}>
+          <FontAwesome name="close" size={14} color={Colors.navigationIcon} />
+        </Pressable>
+      )}
+    </Pressable>
+  );
+};
 
 const TagList = (props) => {
   let useIcon = false;
@@ -33,31 +55,16 @@ const TagList = (props) => {
     }
   };
 
-  const closeIcon = (tag) => {
-    if (useIcon) {
-      return (
-        <Icon
-          name="close"
-          type={IconTypes.fontAwesome}
-          size={20}
-          color={Colors.navigationIcon}
-          onPress={() => onIconPressHandler(tag)}
-        />
-      );
-    }
-  };
-
   return (
     <View style={styles.tagsContainer}>
       {props.tags.map((tag, index) => (
         <View key={index} style={styles.tag}>
-          <Chip
-            title={tag.title}
-            icon={closeIcon(tag)}
-            iconRight
-            onPress={() => onPressTagHandler(tag)}
-            onLongPress={() => onLongPressTagHandler(tag)}
-            buttonStyle={{ backgroundColor: Colors.primary }}
+          <CustomChip
+            tag={tag}
+            onPress={onPressTagHandler}
+            onLongPress={onLongPressTagHandler}
+            onIconPress={onIconPressHandler}
+            useIcon={useIcon}
           />
         </View>
       ))}
@@ -76,6 +83,26 @@ const styles = StyleSheet.create({
   },
   tag: {
     margin: 1,
+  },
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.primary,
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    gap: 8,
+  },
+  chipPressed: {
+    opacity: 0.7,
+  },
+  chipText: {
+    color: Colors.navigationIcon,
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  chipIcon: {
+    padding: 4,
   },
 });
 
