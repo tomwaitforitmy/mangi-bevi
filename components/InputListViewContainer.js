@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import MyListItem from "./MyListItem";
 import Colors from "../constants/Colors";
-import { Icon } from "react-native-elements";
-import IconTypes from "../constants/IconTypes";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const InputListViewContainer = (props) => {
   const scrollViewRef = useRef(null);
@@ -79,11 +78,7 @@ const InputListViewContainer = (props) => {
             }}
           />
           <View style={styles.sendIconContainer}>
-            <Icon
-              name={"arrow-up"}
-              type={IconTypes.ionicon}
-              color={Colors.white}
-            />
+            <Ionicons name="arrow-up" color={Colors.white} size={38} />
           </View>
         </View>
       </ScrollView>
@@ -112,8 +107,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6, //to align text with rounded corners
   },
   sendIconContainer: {
-    width: 40, // Set width and height to the same value for a circle
-    height: 40,
     backgroundColor: Colors.primary,
     justifyContent: "center",
     borderRadius: 20,
