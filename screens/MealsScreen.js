@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import MealList from "../components/MealList";
-import { View, StyleSheet, RefreshControl } from "react-native";
+import {
+  View,
+  StyleSheet,
+  RefreshControl,
+  Pressable,
+  Text,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { Chip } from "react-native-elements";
 import Colors from "../constants/Colors";
 import { fetchAll } from "../firebase/fetchAll";
-import IconTypes from "../constants/IconTypes";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import SearchInput from "../components/SearchInput";
@@ -22,6 +26,8 @@ import SelectSortingModal from "../components/SelectSortingModal";
 import { LAST_CREATED } from "../data/AllowedSortingOptions";
 import { SortMealsBy } from "../common_functions/SortMealBy";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -254,41 +260,43 @@ function MealsScreen({ navigation }) {
       <View style={styles.mealsScreen}>
         <View style={styles.overlay}>
           {showFavorites && (
-            <Chip
-              title={""}
-              icon={{
-                name: "star",
-                color: Colors.navigationIcon,
-                type: IconTypes.materialCommunityIcons,
-              }}
-              onPress={() => onToggleFavorites()}
-              buttonStyle={{ backgroundColor: Colors.primary }}
-            />
+            <Pressable
+              style={({ pressed }) => [
+                styles.chip,
+                pressed && styles.chipPressed,
+              ]}
+              onPress={() => onToggleFavorites()}>
+              <MaterialCommunityIcons
+                name="star"
+                color={Colors.navigationIcon}
+                size={20}
+              />
+            </Pressable>
           )}
           {!showFavorites && (
-            <Chip
-              title={""}
-              icon={{
-                name: "star-outline",
-                color: Colors.navigationIcon,
-                type: IconTypes.materialCommunityIcons,
-              }}
-              onPress={() => onToggleFavorites()}
-              buttonStyle={{ backgroundColor: Colors.primary }}
-            />
+            <Pressable
+              style={({ pressed }) => [
+                styles.chip,
+                pressed && styles.chipPressed,
+              ]}
+              onPress={() => onToggleFavorites()}>
+              <MaterialCommunityIcons
+                name="star-outline"
+                color={Colors.navigationIcon}
+                size={20}
+              />
+            </Pressable>
           )}
           {filtersActive && (
-            <Chip
-              title={"Active filters"}
-              icon={{
-                name: "filter",
-                type: IconTypes.ionicon,
-                size: 20,
-                color: Colors.navigationIcon,
-              }}
-              onPress={() => onPressTagsActiveHandler()}
-              buttonStyle={{ backgroundColor: Colors.second }}
-            />
+            <Pressable
+              style={({ pressed }) => [
+                styles.filterChip,
+                pressed && styles.chipPressed,
+              ]}
+              onPress={() => onPressTagsActiveHandler()}>
+              <Ionicons name="filter" size={20} color={Colors.navigationIcon} />
+              <Text style={styles.chipText}>Active filters</Text>
+            </Pressable>
           )}
         </View>
         <MealList
@@ -328,6 +336,30 @@ const styles = StyleSheet.create({
     zIndex: 1,
     opacity: 0.95,
     flexDirection: "row",
+  },
+  chip: {
+    backgroundColor: Colors.primary,
+    borderRadius: 20,
+    padding: 8,
+    marginRight: 4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  filterChip: {
+    backgroundColor: Colors.second,
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  chipPressed: {
+    opacity: 0.7,
+  },
+  chipText: {
+    color: Colors.navigationIcon,
+    fontSize: 14,
   },
 });
 
