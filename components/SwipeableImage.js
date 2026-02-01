@@ -1,6 +1,6 @@
 import React from "react";
 import { ImageBackground, StyleSheet, View, Pressable } from "react-native";
-import FeatherIcon from "react-native-vector-icons/Feather";
+import { Feather } from "@react-native-vector-icons/feather";
 
 const SwipeableImage = (props) => {
   return (
@@ -11,7 +11,7 @@ const SwipeableImage = (props) => {
             style={styles.iconButton}
             onPress={() => props.onTrashCallback(props.source.uri)}>
             <View style={styles.iconCircle}>
-              <FeatherIcon name="trash" size={14} color="black" />
+              <Feather name="trash" size={14} color="black" />
             </View>
           </Pressable>
         )}
@@ -20,7 +20,7 @@ const SwipeableImage = (props) => {
             style={styles.iconButton}
             onPress={() => props.onCheckCallback(props.source.uri)}>
             <View style={styles.iconCircle}>
-              <FeatherIcon name="check-circle" size={14} color="black" />
+              <Feather name="check-circle" size={14} color="black" />
             </View>
           </Pressable>
         )}
