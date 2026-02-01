@@ -4,8 +4,7 @@ import LevelView from "../components/LevelView";
 import { RECIPE_REWARDS } from "../data/RecipeRewards";
 import { TAG_REWARDS } from "../data/TagRewards";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Icon } from "react-native-elements";
-import IconTypes from "../constants/IconTypes";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { INGREDIENT_REWARDS } from "../data/IngredientRewards";
 import Colors from "../constants/Colors";
@@ -20,14 +19,7 @@ const MyLevelViewContainer = (props) => {
   };
 
   const myTagIcon = () => {
-    return (
-      <Icon
-        name="pricetags"
-        color={Colors.primary}
-        type={IconTypes.ionicon}
-        size={iconSize}
-      />
-    );
+    return <Ionicons name="pricetags" size={iconSize} color={Colors.primary} />;
   };
 
   const myCarrotIcon = () => {
