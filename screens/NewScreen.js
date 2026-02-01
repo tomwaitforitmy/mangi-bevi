@@ -14,12 +14,14 @@ import {
   BackHandler,
   useWindowDimensions,
   Keyboard,
+  TextInput,
 } from "react-native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
 import * as usersAction from "../store/actions/usersAction";
 import Meal from "../models/Meal";
-import { Input } from "react-native-elements";
+import Colors from "../constants/Colors";
+import { textInputStyles } from "../constants/TextInputStyles";
 import newMealFormReducer, {
   CHANGE_PAGE_TITLE,
   CHANGE_TITLE,
@@ -388,10 +390,11 @@ function NewScreen({ route, navigation }) {
     return (
       <>
         <View style={styles.enterTitleInput}>
-          <Input
+          <TextInput
+            style={textInputStyles.input}
+            placeholderTextColor={Colors.textInputPlaceholderColor}
             value={formState.title}
             placeholder="Enter title"
-            labelStyle={styles.enterTitleInput}
             onChangeText={(value) => {
               formDispatch({ type: CHANGE_TITLE, value: value });
             }}
