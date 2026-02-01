@@ -5,10 +5,11 @@ import {
   Text,
   View,
   useWindowDimensions,
+  Pressable,
+  Image,
 } from "react-native";
 import { useSelector } from "react-redux";
 import MyListItem from "../components/MyListItem";
-import { Image } from "react-native-elements";
 import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
@@ -91,21 +92,23 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
         {selectedTab === TITLES.INFO && (
           <View>
             <Text style={styles.subtitle}>{selectedMeal.title}</Text>
-            <Image
-              source={{
-                uri: selectedMeal.primaryImageUrl
-                  ? selectedMeal.primaryImageUrl
-                  : "https://dummyimage.com/300x200&text=No+image+yet",
-              }}
-              style={styles.image}
+            <Pressable
               onPress={() => {
                 //We navigate to another instance if logged out
                 navigation.navigate(NAVIGATION_TITLES.LOGGED_OUT_IMAGES, {
                   mealId: selectedMeal.id,
                   mealTitle: selectedMeal.title,
                 });
-              }}
-            />
+              }}>
+              <Image
+                source={{
+                  uri: selectedMeal.primaryImageUrl
+                    ? selectedMeal.primaryImageUrl
+                    : "https://dummyimage.com/300x200&text=No+image+yet",
+                }}
+                style={styles.image}
+              />
+            </Pressable>
           </View>
         )}
 
