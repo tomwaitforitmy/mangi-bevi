@@ -576,6 +576,7 @@ const styles = StyleSheet.create({
   },
   enterTitleInput: {
     width: "100%",
+    padding: 5,
   },
   screenContainer: {
     flex: 1,
