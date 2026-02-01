@@ -1,6 +1,12 @@
 import React, { useReducer } from "react";
-import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
-import { Input } from "react-native-elements";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  TextInput,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import * as usersAction from "../store/actions/usersAction";
@@ -21,6 +27,7 @@ import loginFormReducer, {
   SUBMITTED,
 } from "../store/formReducers/accountFormReducer";
 import { ResetSecureStorage } from "../common_functions/CredentialStorage";
+import Colors from "../constants/Colors";
 
 function ManageAccountScreen({ navigation }) {
   const user = useSelector((state) => state.users.user);
@@ -40,9 +47,6 @@ function ManageAccountScreen({ navigation }) {
     isLoading: false,
   };
 
-  const userInput = React.createRef();
-  const emailInput = React.createRef();
-
   const [formState, formDispatch] = useReducer(loginFormReducer, initialState);
 
   const isFormValid = () => {
@@ -57,7 +61,6 @@ function ManageAccountScreen({ navigation }) {
         field: "user",
         error: INVALID_USER_ERROR,
       });
-      userInput.current.shake();
     }
 
     const emailValid = IsEmailValid(formState.email);
@@ -68,7 +71,6 @@ function ManageAccountScreen({ navigation }) {
         field: "email",
         error: INVALID_EMAIL_ERROR,
       });
-      emailInput.current.shake();
     }
 
     return userValid && emailValid;
@@ -159,29 +161,33 @@ function ManageAccountScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.bene}>
-          <Text style={styles.bene}>Name</Text>
-          <Input
+        <View>
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            style={[styles.input, formState.userError && styles.inputError]}
             placeholder="Name"
+            placeholderTextColor={Colors.textInputPlaceholderColor}
             onChangeText={(value) =>
               formDispatch({ type: EDIT_FIELD, value: value, field: "user" })
             }
-            errorStyle={{ color: "red" }}
-            errorMessage={formState.userError}
             value={formState.user}
-            ref={userInput}
           />
-          <Text style={styles.bene}>Email</Text>
-          <Input
+          {formState.userError ? (
+            <Text style={styles.errorText}>{formState.userError}</Text>
+          ) : null}
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={[styles.input, formState.emailError && styles.inputError]}
             placeholder="Email"
+            placeholderTextColor={Colors.textInputPlaceholderColor}
             onChangeText={(value) =>
               formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
             }
-            errorStyle={{ color: "red" }}
-            errorMessage={formState.emailError}
             value={formState.email}
-            ref={emailInput}
           />
+          {formState.emailError ? (
+            <Text style={styles.errorText}>{formState.emailError}</Text>
+          ) : null}
           <MyButton onPress={() => saveChanges()}>{"Save"}</MyButton>
           <MyButton
             style={{ backgroundColor: "red" }}
@@ -199,16 +205,31 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "stretch",
-  },
-  bene: {
-    fontSize: 14,
-    lineHeight: 30,
     margin: 5,
   },
-  beneCenter: {
-    textAlign: "center",
-    fontSize: 14,
+  label: {
+    fontSize: 16,
     lineHeight: 30,
+  },
+  input: {
+    color: Colors.black,
+    backgroundColor: Colors.white,
+    width: "100%",
+    minHeight: 40,
+    fontSize: 20,
+    borderRadius: 10,
+    paddingHorizontal: 6, //to align text with rounded corners
+    borderWidth: 1,
+    borderColor: Colors.gray,
+  },
+  inputError: {
+    borderColor: "red",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 12,
+    marginHorizontal: 5,
+    marginBottom: 5,
   },
 });
 
