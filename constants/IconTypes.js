@@ -5,6 +5,6 @@ export default {
   feather: "feather",
   fontAwesome: "font-awesome",
   fontAwesome5: "font-awesome-5",
-  material: "MaterialIcons",
-  materialCommunityIcons: "material-community",
+  material: "material",
+  materialDesign: "material-design",
 };

@@ -192,7 +192,7 @@ const MealSpeedDial = (props) => {
           icon={{
             name: "chef-hat",
             color: Colors.speedDialIcon,
-            type: IconTypes.materialCommunityIcons,
+            type: IconTypes.materialDesign,
           }}
           title="Mark as cooked"
           color={Colors.primary}
