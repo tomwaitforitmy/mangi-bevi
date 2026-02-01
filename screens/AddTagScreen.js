@@ -4,7 +4,14 @@ import React, {
   useLayoutEffect,
   useReducer,
 } from "react";
-import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealActions from "../store/actions/mealsAction";
 import * as tagActions from "../store/actions/tagsAction";
@@ -15,7 +22,7 @@ import tagFormReducer, {
   SUBMITTED,
   EDIT_TAG_TITLE,
 } from "../store/formReducers/tagFormReducer";
-import { Input } from "react-native-elements";
+import Colors from "../constants/Colors";
 import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
@@ -151,7 +158,7 @@ function AddTagScreen({ route, navigation }) {
   }
 
   return (
-    <MyKeyboardAvoidingView extraOffset={64} style={{ width: "100%" }}>
+    <MyKeyboardAvoidingView extraOffset={0} style={{ width: "100%" }}>
       <View style={styles.container}>
         <ScrollView style={styles.tagLists}>
           <Text style={styles.subtitle}>Added Tags</Text>
@@ -168,8 +175,9 @@ function AddTagScreen({ route, navigation }) {
           />
         </ScrollView>
         <View>
-          <Input
-            errorMessage={formState.errorMessage}
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={Colors.textInputPlaceholderColor}
             placeholder="Enter tag"
             onChangeText={(value) =>
               formDispatch({ type: EDIT_TAG_TITLE, value })
@@ -195,6 +203,17 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "center",
     color: "grey",
+  },
+  input: {
+    color: Colors.black,
+    backgroundColor: Colors.white,
+    width: "100%",
+    minHeight: 40,
+    fontSize: 20,
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    borderWidth: 1,
+    borderColor: Colors.gray,
   },
 });
 
