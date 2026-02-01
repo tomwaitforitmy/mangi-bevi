@@ -47,7 +47,7 @@ const EditMangiIcon = (
             updateRenderCounter,
           )
         }
-        color={Colors.navigationIcon}
+        color={Colors.primary}
       />
     </Pressable>
   );

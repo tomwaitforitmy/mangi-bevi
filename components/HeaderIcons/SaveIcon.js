@@ -18,7 +18,7 @@ const SaveIcon = (onPress) => {
         name="save"
         size={25}
         onPress={onPress}
-        color={Colors.navigationIcon}
+        color={Colors.primary}
       />
     </Pressable>
   );
