@@ -1,7 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useReducer } from "react";
-import { View, StyleSheet, Alert } from "react-native";
-import { Input } from "react-native-elements";
+import { View, StyleSheet, Alert, TextInput, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
@@ -48,9 +47,6 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
   const existingUserNames = users.map((u) => u.name);
 
   const dispatch = useDispatch();
-  const emailInput = React.createRef();
-  const passwordInput = React.createRef();
-  const userInput = React.createRef();
 
   function isFormValid() {
     const validEmail = IsEmailValid(formState.email);
@@ -60,7 +56,6 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
         field: "email",
         error: INVALID_EMAIL_ERROR,
       });
-      emailInput.current.shake();
     }
     if (passwordReset) {
       return validEmail;
@@ -73,7 +68,6 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
         field: "password",
         error: "Please use at least 6 characters.",
       });
-      passwordInput.current.shake();
     }
 
     if (login) {
@@ -103,7 +97,6 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
         field: "user",
         error: INVALID_USER_ERROR,
       });
-      userInput.current.shake();
     }
 
     return (
@@ -170,61 +163,76 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
         colors={[Colors.second, Colors.primary]}
         style={styles.gradient}>
         <View style={styles.innerContainer}>
-          <Input
+          <TextInput
             placeholderTextColor="white"
             placeholder="Email"
-            inputStyle={{ color: "white" }}
-            inputContainerStyle={styles.inputContainerStyle}
+            style={[styles.input, formState.emailError && styles.inputError]}
             onChangeText={(value) =>
               formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
             }
-            errorMessage={formState.emailError}
-            errorStyle={{ color: "red" }}
             value={formState.email}
-            ref={emailInput}
           />
+          {formState.emailError ? (
+            <Text style={styles.errorText}>{formState.emailError}</Text>
+          ) : null}
           {newAccount && (
-            <Input
-              placeholderTextColor="white"
-              placeholder="Confirm Email"
-              inputStyle={{ color: "white" }}
-              inputContainerStyle={styles.inputContainerStyle}
-              onChangeText={(value) =>
-                formDispatch({
-                  type: EDIT_FIELD,
-                  value: value,
-                  field: "confirmEmail",
-                })
-              }
-              errorMessage={formState.confirmEmailError}
-            />
+            <>
+              <TextInput
+                placeholderTextColor="white"
+                placeholder="Confirm Email"
+                style={[
+                  styles.input,
+                  formState.confirmEmailError && styles.inputError,
+                ]}
+                onChangeText={(value) =>
+                  formDispatch({
+                    type: EDIT_FIELD,
+                    value: value,
+                    field: "confirmEmail",
+                  })
+                }
+                value={formState.confirmEmail}
+              />
+              {formState.confirmEmailError ? (
+                <Text style={styles.errorText}>
+                  {formState.confirmEmailError}
+                </Text>
+              ) : null}
+            </>
           )}
           {!passwordReset && (
-            <Input
-              inputStyle={{ color: "white" }}
-              placeholderTextColor="white"
-              placeholder="Password"
-              inputContainerStyle={styles.inputContainerStyle}
-              onChangeText={(value) =>
-                formDispatch({
-                  type: EDIT_FIELD,
-                  value: value,
-                  field: "password",
-                })
-              }
-              errorMessage={formState.passwordError}
-              secureTextEntry={true}
-              value={formState.password}
-              ref={passwordInput}
-            />
+            <>
+              <TextInput
+                placeholderTextColor="white"
+                placeholder="Password"
+                style={[
+                  styles.input,
+                  formState.passwordError && styles.inputError,
+                ]}
+                onChangeText={(value) =>
+                  formDispatch({
+                    type: EDIT_FIELD,
+                    value: value,
+                    field: "password",
+                  })
+                }
+                secureTextEntry={true}
+                value={formState.password}
+              />
+              {formState.passwordError ? (
+                <Text style={styles.errorText}>{formState.passwordError}</Text>
+              ) : null}
+            </>
           )}
           {newAccount && (
-            <View>
-              <Input
+            <>
+              <TextInput
                 placeholderTextColor="white"
                 placeholder="Confirm Password"
-                inputStyle={{ color: "white" }}
-                inputContainerStyle={styles.inputContainerStyle}
+                style={[
+                  styles.input,
+                  formState.confirmPasswordError && styles.inputError,
+                ]}
                 onChangeText={(value) =>
                   formDispatch({
                     type: EDIT_FIELD,
@@ -232,14 +240,18 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
                     field: "confirmPassword",
                   })
                 }
-                errorMessage={formState.confirmPasswordError}
                 secureTextEntry={true}
+                value={formState.confirmPassword}
               />
-              <Input
+              {formState.confirmPasswordError ? (
+                <Text style={styles.errorText}>
+                  {formState.confirmPasswordError}
+                </Text>
+              ) : null}
+              <TextInput
                 placeholderTextColor="white"
                 placeholder="User Name"
-                inputStyle={{ color: "white" }}
-                inputContainerStyle={styles.inputContainerStyle}
+                style={[styles.input, formState.userError && styles.inputError]}
                 onChangeText={(value) =>
                   formDispatch({
                     type: EDIT_FIELD,
@@ -247,10 +259,12 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
                     field: "user",
                   })
                 }
-                errorMessage={formState.userError}
-                ref={userInput}
+                value={formState.user}
               />
-            </View>
+              {formState.userError ? (
+                <Text style={styles.errorText}>{formState.userError}</Text>
+              ) : null}
+            </>
           )}
           <MyButton onPress={authHandler}>
             {login ? "Login" : passwordReset ? "Reset password" : "Sign up"}
@@ -283,8 +297,23 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
 }
 
 const styles = StyleSheet.create({
-  inputContainerStyle: {
+  input: {
+    color: "white",
     borderBottomColor: "white",
+    borderBottomWidth: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    marginBottom: 4,
+    fontSize: 16,
+  },
+  inputError: {
+    borderBottomColor: "red",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 12,
+    marginHorizontal: 4,
+    marginBottom: 10,
   },
   switchButton: {
     marginTop: 5,
