@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HighlightedText from "./HighlightedText";
 import Colors from "../constants/Colors";
 import ReactionsBox from "./ReactionsBox";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 const MealItem = (props) => {
   return (
@@ -21,7 +21,7 @@ const MealItem = (props) => {
           />
           {props.isFavorite && (
             <View style={styles.starBackground}>
-              <MaterialCommunityIcons name="star" color="#FFD700" size={22} />
+              <MaterialDesignIcons name="star" color="#FFD700" size={22} />
             </View>
           )}
         </View>
