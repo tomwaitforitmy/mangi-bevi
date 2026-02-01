@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import { Share } from "react-native";
 import Colors from "../constants/Colors";
-import { SpeedDial } from "react-native-elements";
+import { SpeedDial } from "@rneui/themed";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
 import { useSelector } from "react-redux";
 import mealSpeedDialReducer, {
