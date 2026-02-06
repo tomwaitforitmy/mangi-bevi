@@ -18,7 +18,7 @@
 8. eas submit
 * In der Google Play Console
 ** Erst mal warten bis alles da ist!
-** "interner test" bei "Releases" -> "Release hochstufen" -> geschlossener Test -> Beta Test
+** "interner test" bei "Releases" -> "Release hochstufen" -> geschlossener Test -> Beta Test / Production
 ** "geschlossener Test" bei "Releases" -> Release bearbeiten
 ** Runter scrollen zu "Releasedetails" -> Versionshinweise eintragen - Speichern
 ** Jetzt auf dem Dashboard warten, bis das .aab file Fertig ist
