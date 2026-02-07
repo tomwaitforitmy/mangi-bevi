@@ -28,11 +28,13 @@ import MealCookedByUser from "../models/MealCookedByUser";
 import { markedAsCooked } from "../notifications/MarkedAsCooked";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 import * as usersActions from "../store/actions/usersAction";
+import { setSelectedTab } from "../store/slices/uiSlice";
 
 function MealDetailScreen({ route, navigation }) {
-  const { mealId, selectedTabMealDetail, updateRenderCounter } = route.params;
-  const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
-  const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
+  const { mealId, updateRenderCounter } = route.params;
+  const selectedTab = useSelector((state) => state.ui.selectedTab);
+  const initialIndex = Object.values(TITLES).indexOf(selectedTab);
+
   const mealCookedByUser = useSelector(
     (state) => state.mealsCookedByUser.mealCookedByUser,
   );
@@ -114,10 +116,10 @@ function MealDetailScreen({ route, navigation }) {
 
   const ChangeSelectedTab = useCallback(
     (title) => {
-      navigation.setParams({ selectedTabEdit: title });
-      setSelectedTab(title);
+      console.log("handleTabChange called with:", title);
+      dispatch(setSelectedTab(title));
     },
-    [navigation],
+    [dispatch],
   );
 
   const TrySelectRightTab = () => {
@@ -148,7 +150,6 @@ function MealDetailScreen({ route, navigation }) {
 
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
-  const [selectedTab, setSelectedTab] = useState(initiallySelectedTab);
   const [showSelectReactionModal, setShowSelectReactionModal] = useState(false);
 
   const onRequestCloseModal = () => {
@@ -158,11 +159,6 @@ function MealDetailScreen({ route, navigation }) {
   const onReactionSelected = (r) => {
     setShowSelectReactionModal(false);
   };
-
-  //update the view if the initial position changes
-  useEffect(() => {
-    ChangeSelectedTab(initiallySelectedTab);
-  }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
 
   useEffect(() => {
     try {

@@ -22,6 +22,7 @@ import searchReducer from "./store/reducers/searchReducer";
 import mealCookedByUserReducer from "./store/reducers/mealCookedByUserReducer";
 import * as Notifications from "expo-notifications";
 import featuresReducer from "./store/reducers/featuresReducer";
+import uiReducer from "./store/slices/uiSlice";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -41,6 +42,7 @@ const store = configureStore({
     search: searchReducer,
     mealsCookedByUser: mealCookedByUserReducer,
     features: featuresReducer,
+    ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

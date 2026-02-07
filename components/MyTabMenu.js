@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useMemo,
   useImperativeHandle,
+  useRef,
 } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
@@ -28,6 +29,16 @@ const MyTabMenu = memo(
       }, [windowWidth, paddingLeftRight, numberOfTabs]);
       let initialPosition = 1 + tabWith * initialIndex;
       const position = useSharedValue(initialPosition);
+      const lastUserPressedIndexRef = useRef(initialIndex);
+
+      useEffect(() => {
+        // Only animate if this is an external change (not from handlePress)
+        if (initialIndex !== lastUserPressedIndexRef.current) {
+          position.value = withSpring(1 + tabWith * initialIndex);
+        }
+        // After syncing, update the ref for next comparison
+        lastUserPressedIndexRef.current = initialIndex;
+      }, [initialIndex, tabWith]);
 
       useEffect(() => {
         console.log("🚨 MyTabMenu re-rendered");
@@ -52,15 +63,15 @@ const MyTabMenu = memo(
       });
 
       const handlePress = (index, text) => {
+        lastUserPressedIndexRef.current = index; // Track user press
         position.value = withSpring(1 + tabWith * index);
         onTabPress(text);
         console.log(`📍 MyTabMenu - Tab Pressed: ${text}, Index: ${index}`);
       };
 
-      //update the view if the initial position changes
-      useEffect(() => {
-        position.value = initialPosition;
-      }, [initialPosition, initialIndex, position, updateRenderCounter]);
+      // Animation is handled in handlePress only
+      // Redux initialIndex just syncs the visual state across re-renders
+      // without re-triggering animation
 
       return (
         <View
