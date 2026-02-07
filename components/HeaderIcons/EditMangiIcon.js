@@ -1,5 +1,4 @@
 import React from "react";
-import Colors from "../../constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { NAVIGATION_TITLES } from "../../constants/NavigationTitles";
 import { Pressable } from "react-native";
@@ -47,7 +46,6 @@ const EditMangiIcon = (
             updateRenderCounter,
           )
         }
-        color={Colors.primary}
       />
     </Pressable>
   );
