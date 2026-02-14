@@ -60,7 +60,7 @@ const MyTabMenu = memo(
       //update the view if the initial position changes
       useEffect(() => {
         position.value = initialPosition;
-      }, [initialPosition, initialIndex, position, updateRenderCounter]);
+      }, [initialPosition, initialIndex, position]);
 
       return (
         <View

@@ -67,9 +67,6 @@ import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function NewScreen({ route, navigation }) {
   const mealId = route.params?.mealId;
-  //I was not able to use route.params.updateRenderCounter directly as dependency for
-  //useCallback of createMealHandler. Therefore, this variable.
-  let updateRenderCounter = route.params?.updateRenderCounter;
   const user = useSelector((state) => state.users.user);
   const users = useSelector((state) => state.users.users);
   const meals = useSelector((state) => state.meals.meals);
@@ -99,7 +96,7 @@ function NewScreen({ route, navigation }) {
     };
     changePage(inputTitle);
   }, []);
-
+  const childRef = React.createRef();
   const windowWidth = useWindowDimensions().width;
 
   const [formState, formDispatch] = useReducer(
@@ -273,7 +270,6 @@ function NewScreen({ route, navigation }) {
         mealTitle: formState.title,
         isAuthenticated: true,
         selectedTabMealDetail: formState.selectedTab,
-        updateRenderCounter: updateRenderCounter + 1,
       });
     };
 
@@ -343,7 +339,7 @@ function NewScreen({ route, navigation }) {
     inputMeal,
     finishIngredientInput,
     finishStepInput,
-    updateRenderCounter,
+
     users,
     imageUploadTarget,
   ]);
@@ -551,6 +547,7 @@ function NewScreen({ route, navigation }) {
         onRequestClose={onRequestCloseModal}
       />
       <MyTabMenu
+        ref={childRef}
         initialIndex={mealTabMenuTitleArray.indexOf(initiallySelectedTab)}
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}

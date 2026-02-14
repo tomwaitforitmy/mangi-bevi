@@ -165,7 +165,12 @@ function MealsStackContainer({ navigation }) {
         component={ImagesScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
-          headerRight: () => EditMangiIcon(navigation, route.params.mealId),
+          headerRight: () =>
+            EditMangiIcon(
+              navigation,
+              route.params.mealId,
+              route.params?.selectedTabMealDetail,
+            ),
         })}
       />
       <MealsStack.Screen

@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   StyleSheet,
   ScrollView,
@@ -16,7 +17,7 @@ import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 function MealDetailScreenNotAuthenticated({ route, navigation }) {
-  const { mealId, selectedTabMealDetail, updateRenderCounter } = route.params;
+  const { mealId, selectedTabMealDetail } = route.params;
   const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
 
@@ -60,10 +61,12 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
 
   const [selectedTab, setSelectedTab] = useState(initiallySelectedTab);
 
-  //update the view if the initial position changes
-  useEffect(() => {
-    ChangeSelectedTab(initiallySelectedTab);
-  }, [ChangeSelectedTab, initiallySelectedTab, updateRenderCounter]);
+  //update the view when the screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      ChangeSelectedTab(initiallySelectedTab);
+    }, [ChangeSelectedTab, initiallySelectedTab]),
+  );
 
   const windowWidth = useWindowDimensions().width;
 
@@ -86,7 +89,6 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
         onTabPress={(title) => ChangeSelectedTab(title)}
-        updateRenderCounter={updateRenderCounter} //to update if the initial position changes
       />
       <ScrollView style={styles.container}>
         {selectedTab === TITLES.INFO && (
