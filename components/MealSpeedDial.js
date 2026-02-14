@@ -118,7 +118,7 @@ const MealSpeedDial = (props) => {
           icon={{
             name: "star-off",
             color: Colors.speedDialIcon,
-            type: IconTypes.materialCommunityIcons,
+            type: IconTypes.materialDesign,
           }}
           title="Remove Favorite"
           color={Colors.primary}
@@ -130,7 +130,7 @@ const MealSpeedDial = (props) => {
           icon={{
             name: "star",
             color: Colors.speedDialIcon,
-            type: IconTypes.materialCommunityIcons,
+            type: IconTypes.materialDesign,
           }}
           title="Favorite"
           color={Colors.primary}
