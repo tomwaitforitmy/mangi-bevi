@@ -14,80 +14,75 @@ import Animated, {
 import Colors from "../constants/Colors";
 
 const MyTabMenu = memo(
-  forwardRef(
-    (
-      { titles, windowWidth, onTabPress, initialIndex, updateRenderCounter },
-      ref,
-    ) => {
-      const paddingLeftRight = 5;
-      const numberOfTabs = titles.length;
-      //we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
-      //memo saves this computation
-      const tabWith = useMemo(() => {
-        return (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
-      }, [windowWidth, paddingLeftRight, numberOfTabs]);
-      let initialPosition = 1 + tabWith * initialIndex;
-      const position = useSharedValue(initialPosition);
+  forwardRef(({ titles, windowWidth, onTabPress, initialIndex }, ref) => {
+    const paddingLeftRight = 5;
+    const numberOfTabs = titles.length;
+    //we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
+    //memo saves this computation
+    const tabWith = useMemo(() => {
+      return (windowWidth - 2 - paddingLeftRight * 2) / numberOfTabs;
+    }, [windowWidth, paddingLeftRight, numberOfTabs]);
+    let initialPosition = 1 + tabWith * initialIndex;
+    const position = useSharedValue(initialPosition);
 
-      useEffect(() => {
-        console.log("🚨 MyTabMenu re-rendered");
-      });
+    useEffect(() => {
+      console.log("🚨 MyTabMenu re-rendered");
+    });
 
-      //this is for the swipe gesture triggered from NewScreen
-      useImperativeHandle(ref, () => ({
-        swipe: (index, text) => {
-          handlePress(index, text);
-        },
-      }));
+    //this is for the swipe gesture triggered from NewScreen
+    useImperativeHandle(ref, () => ({
+      swipe: (index, text) => {
+        handlePress(index, text);
+      },
+    }));
 
-      const selectedButtonAnimatedStyle = useAnimatedStyle(() => {
-        // console.log("🔄 Animation Triggered in MyTabMenu");
-        return {
-          position: "absolute",
-          left: position.value,
-          right: 1,
-          top: 1,
-          width: tabWith,
-        };
-      });
-
-      const handlePress = (index, text) => {
-        position.value = withSpring(1 + tabWith * index);
-        onTabPress(text);
-        console.log(`📍 MyTabMenu - Tab Pressed: ${text}, Index: ${index}`);
+    const selectedButtonAnimatedStyle = useAnimatedStyle(() => {
+      // console.log("🔄 Animation Triggered in MyTabMenu");
+      return {
+        position: "absolute",
+        left: position.value,
+        right: 1,
+        top: 1,
+        width: tabWith,
       };
+    });
 
-      //update the view if the initial position changes
-      useEffect(() => {
-        position.value = initialPosition;
-      }, [initialPosition, initialIndex, position]);
+    const handlePress = (index, text) => {
+      position.value = withSpring(1 + tabWith * index);
+      onTabPress(text);
+      console.log(`📍 MyTabMenu - Tab Pressed: ${text}, Index: ${index}`);
+    };
 
-      return (
-        <View
-          style={{
-            ...styles.container,
-            ...{
-              paddingLeft: paddingLeftRight,
-              paddingRight: paddingLeftRight,
-            },
-          }}>
-          <View style={styles.buttonGroup}>
-            <Animated.View
-              style={[styles.selectedButton, selectedButtonAnimatedStyle]}
-            />
-            {titles.map((text, index) => (
-              <Pressable
-                key={index}
-                style={{ ...styles.menuButton, ...{ width: tabWith } }}
-                onPress={() => handlePress(index, text)}>
-                <Text style={styles.text}>{text}</Text>
-              </Pressable>
-            ))}
-          </View>
+    //update the view if the initial position changes
+    useEffect(() => {
+      position.value = initialPosition;
+    }, [initialPosition, initialIndex, position]);
+
+    return (
+      <View
+        style={{
+          ...styles.container,
+          ...{
+            paddingLeft: paddingLeftRight,
+            paddingRight: paddingLeftRight,
+          },
+        }}>
+        <View style={styles.buttonGroup}>
+          <Animated.View
+            style={[styles.selectedButton, selectedButtonAnimatedStyle]}
+          />
+          {titles.map((text, index) => (
+            <Pressable
+              key={index}
+              style={{ ...styles.menuButton, ...{ width: tabWith } }}
+              onPress={() => handlePress(index, text)}>
+              <Text style={styles.text}>{text}</Text>
+            </Pressable>
+          ))}
         </View>
-      );
-    },
-  ),
+      </View>
+    );
+  }),
 );
 
 const styles = StyleSheet.create({

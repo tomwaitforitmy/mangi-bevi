@@ -161,7 +161,6 @@ function MealsScreen({ navigation }) {
           // mealId: mangiId,
           // mealTitle: title,
           // isAuthenticated: true,
-          // updateRenderCounter: 0,
         });
       });
 
