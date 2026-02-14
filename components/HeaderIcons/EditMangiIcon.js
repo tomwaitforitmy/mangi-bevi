@@ -2,6 +2,7 @@ import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { NAVIGATION_TITLES } from "../../constants/NavigationTitles";
 import { Pressable } from "react-native";
+import Colors from "../../constants/Colors";
 
 const onHeaderIconPress = (navigation, mealId, selectedTabEdit) => {
   navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
@@ -27,6 +28,7 @@ const EditMangiIcon = (navigation, mealId, selectedTabEdit) => {
       <Ionicons
         name="create-outline"
         size={25}
+        color={Colors.headerIconColor}
         onPress={() => onHeaderIconPress(navigation, mealId, selectedTabEdit)}
       />
     </Pressable>

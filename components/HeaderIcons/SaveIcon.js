@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Colors from "../../constants/Colors";
 
 const SaveIcon = (onPress) => {
   return (
@@ -13,7 +14,12 @@ const SaveIcon = (onPress) => {
         alignItems: "center",
         justifyContent: "center",
       }}>
-      <Ionicons name="save" size={25} onPress={onPress} />
+      <Ionicons
+        name="save"
+        size={25}
+        color={Colors.headerIconColor}
+        onPress={onPress}
+      />
     </Pressable>
   );
 };

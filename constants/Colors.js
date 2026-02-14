@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 export default {
   primary: "#0571ff",
   second: "#12b8ff",
@@ -22,4 +24,6 @@ export default {
   //TextInput
   textInputBackground: "#0571ff",
   textInputPlaceholderColor: "lightgrey",
+  //OS-specific header icon colors
+  headerIconColor: Platform.OS === "ios" ? "#0571ff" : "white",
 };

@@ -35,7 +35,11 @@ const LogoutIcon = () => {
         alignItems: "center",
         justifyContent: "center",
       }}>
-      <Ionicons name={"exit-outline"} size={25} />
+      <Ionicons
+        name={"exit-outline"}
+        size={25}
+        color={Colors.headerIconColor}
+      />
     </Pressable>
   );
 };
