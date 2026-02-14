@@ -3,7 +3,7 @@
     "name": "Mangi & Bevi",
     "description": "An app for foodies to store your favorite recipes",
     "slug": "mangi-bevi",
-    "version": "1.60.1",
+    "version": "1.60.2",
     "orientation": "portrait",
     "icon": "./assets/noodles.png",
     "splash": {
