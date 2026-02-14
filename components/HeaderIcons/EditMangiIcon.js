@@ -3,18 +3,23 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { NAVIGATION_TITLES } from "../../constants/NavigationTitles";
 import { Pressable } from "react-native";
 import Colors from "../../constants/Colors";
+import { useDispatch } from "react-redux";
+import { setCurrentTabViewed } from "../../store/actions/uiAction";
 
-const onHeaderIconPress = (navigation, mealId, selectedTabEdit) => {
+const onHeaderIconPress = (navigation, mealId, currentTab, dispatch) => {
+  // Dispatch to Redux when transitioning to edit mode (only then)
+  dispatch(setCurrentTabViewed(currentTab));
   navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
     screen: NAVIGATION_TITLES.STACK_EDIT_MEAL,
     params: {
       mealId: mealId,
-      selectedTabEdit: selectedTabEdit,
     },
   });
 };
 
-const EditMangiIcon = (navigation, mealId, selectedTabEdit) => {
+const EditMangiIcon = (navigation, mealId, currentTab) => {
+  const dispatch = useDispatch();
+
   return (
     <Pressable
       hitSlop={20}
@@ -29,7 +34,9 @@ const EditMangiIcon = (navigation, mealId, selectedTabEdit) => {
         name="create-outline"
         size={25}
         color={Colors.headerIconColor}
-        onPress={() => onHeaderIconPress(navigation, mealId, selectedTabEdit)}
+        onPress={() =>
+          onHeaderIconPress(navigation, mealId, currentTab, dispatch)
+        }
       />
     </Pressable>
   );

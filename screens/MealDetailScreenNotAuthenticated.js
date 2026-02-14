@@ -27,10 +27,16 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
 
   const ChangeSelectedTab = useCallback(
     (title) => {
-      navigation.setParams({ selectedTabEdit: title });
+      // Update route.params for header access only
+      navigation.setParams({ currentTabViewed: title });
       setSelectedTab(title);
     },
     [navigation],
+  );
+
+  const onTabPressCallback = useCallback(
+    (title) => ChangeSelectedTab(title),
+    [ChangeSelectedTab],
   );
 
   const TrySelectRightTab = () => {
@@ -88,7 +94,7 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
         initialIndex={initialIndex}
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
-        onTabPress={(title) => ChangeSelectedTab(title)}
+        onTabPress={onTabPressCallback}
       />
       <ScrollView style={styles.container}>
         {selectedTab === TITLES.INFO && (

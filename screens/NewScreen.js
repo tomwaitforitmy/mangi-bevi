@@ -75,12 +75,13 @@ function NewScreen({ route, navigation }) {
   const imageUploadTarget = useSelector(
     (state) => state.features.features.imageUpload,
   );
+  const currentTabViewed = useSelector((state) => state.ui.currentTabViewed);
 
   let inputMeal = null;
   let initiallySelectedTab = TITLES.INFO;
   if (mealId) {
     inputMeal = meals.find((m) => m.id === mealId);
-    initiallySelectedTab = route.params.selectedTabEdit ?? TITLES.INFO;
+    initiallySelectedTab = currentTabViewed ?? TITLES.INFO;
   }
 
   const initialState = GetInitialState(inputMeal, initiallySelectedTab);

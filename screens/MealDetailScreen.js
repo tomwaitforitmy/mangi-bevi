@@ -115,12 +115,16 @@ function MealDetailScreen({ route, navigation }) {
 
   const ChangeSelectedTab = useCallback(
     (title) => {
-      navigation.setParams({ selectedTabEdit: title });
+      // Update route.params for header access, but don't dispatch to Redux on every tab press
+      navigation.setParams({ currentTabViewed: title });
       setSelectedTab(title);
     },
     [navigation],
   );
-
+  const onTabPressCallback = useCallback(
+    (title) => ChangeSelectedTab(title),
+    [ChangeSelectedTab],
+  );
   const TrySelectRightTab = () => {
     //We are at the right
     if (selectedTab === TITLES.STEPS) {
@@ -202,7 +206,7 @@ function MealDetailScreen({ route, navigation }) {
         initialIndex={initialIndex}
         titles={mealTabMenuTitleArray}
         windowWidth={windowWidth}
-        onTabPress={(title) => ChangeSelectedTab(title)}
+        onTabPress={onTabPressCallback}
       />
       <ScrollView style={styles.container}>
         {selectedTab === TITLES.INFO && (
