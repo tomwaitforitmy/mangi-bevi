@@ -16,8 +16,6 @@ Food lover app for everyone
 
 # For all OS
 `npm i`
-(somehow last time it was not enough, because of dependency conflicts. This helped)
-`npm install --legacy-peer-deps`
 
 Add android home permanently:
 `echo 'export ANDROID_HOME=/home/tommy/Android/Sdk' >> ~/.bashrc`
@@ -34,23 +32,53 @@ Start a device in android studio
 Install the tool
 `npm install @expo/ngrok@^4.1.0 --save-dev`
 
-start must be without sudo or the env is not forwarded properly:
-`npx expo start --tunnel`
+start
+
+`npm start`
 
 press `a` to debug in android emulator
 Happy debugging ☺️
 
+### How to fix "TypeError: Error loading Metro config at: /home/tommy/repos/mangi-bevi/metro.config.js configs.toReversed is not a function"
+1. Install nvm
+
+    > curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+1. Reload bashrc with 
+    > source ~/.bashrc
+1. Install nodejs 20 (LTS)
+
+    >nvm install 20
+
+    >nvm use 20
+
+    >nvm alias default 20
+1. Restart vs code and re-try
+
+    > npm start
+
 
 ## Recommended vs code extensions
 code --install-extension dbaeumer.vscode-eslint
+
 code --install-extension equimper.react-native-react-redux
+
 code --install-extension esbenp.prettier-vscode
+
 code --install-extension expo.vscode-expo-tools
+
 code --install-extension hbenl.vscode-test-explorer
+
 code --install-extension jbockle.jbockle-format-files
+
 code --install-extension ms-vscode.test-adapter-converter
+
 code --install-extension msjsdiag.vscode-react-native
+
 code --install-extension orta.vscode-jest
+
 code --install-extension pkief.material-icon-theme
+
 code --install-extension redhat.vscode-yaml
+
 code --install-extension streetsidesoftware.code-spell-checker
+
