@@ -8,18 +8,36 @@ Food lover app for everyone
 
 ## Install everything in cachyOS
 `sudo pacman -Syu code`
+
 `paru -S android-studio`
 
+Add android home permanently:
+
+`kate ~/.config/fish/config.fish`
+
+Add this line at the end:
+
+`set -gx ANDROID_HOME /home/tommy/Android/Sdk`
+
+Reload fish config
+
+`source ~/.config/fish/config.fish`
+
+
 ## Install everything in Mint
-`sudo apt get code`
+`sudo apt get code` (requires that you add the official MS repository before)
+
 `flatpak install flathub com.google.AndroidStudio`
+
+Add android home permanently:
+
+`echo 'export ANDROID_HOME=/home/tommy/Android/Sdk' >> ~/.bashrc`
+
+
+`source ~/.bashrc`
 
 # For all OS
 `npm i`
-
-Add android home permanently:
-`echo 'export ANDROID_HOME=/home/tommy/Android/Sdk' >> ~/.bashrc`
-`source ~/.bashrc`
 
 Auth expo
 `npx expo login` (follow the auth)
