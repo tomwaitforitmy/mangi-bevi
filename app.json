@@ -13,9 +13,9 @@
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/113294ee-33ec-4908-8f4b-8e830e6f5bc6"
+      "url": "https://u.expo.dev/113294ee-33ec-4908-8f4b-8e830e6f5bc6",
+      "enableBsdiffPatchSupport": true
     },
-    "newArchEnabled": true,
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
