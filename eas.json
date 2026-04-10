@@ -9,7 +9,10 @@
         "buildType": "apk"
       },
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_VARIANT": "development"
+      }
     },
     "preview": {
       "android": {
@@ -18,7 +21,10 @@
       "ios": {
         "simulator": false
       },
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_VARIANT": "preview"
+      }
     },
     "production": {
       "autoIncrement": true,
