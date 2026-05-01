@@ -26,9 +26,10 @@ import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
 import EditMangiIcon from "../components/HeaderIcons/EditMangiIcon";
 import TabBarIcon from "../components/HeaderIcons/TabBarIcon";
 import EditLinksScreen from "../screens/EditLinksScreen";
-import { DEV_MODE } from "../data/Environment";
+import { DEV_MODE, DEBUG_MODE } from "../data/Environment";
 import ManageAccountScreen from "../screens/ManageAccountScreen";
 import EditFriendsScreen from "../screens/EditFriendsScreen";
+import DebugScreen from "../screens/DebugScreen";
 import { GetAuthorByMealId } from "../common_functions/GetAuthorName";
 import { HasEditPermission } from "../common_functions/HasEditPermission";
 import { GetFriends } from "../common_functions/GetFriends";
@@ -352,6 +353,10 @@ const MyNavigationContainer = () => {
 
   if (!appIsReady) {
     return null;
+  }
+
+  if (DEBUG_MODE) {
+    return <DebugScreen />;
   }
 
   return (
