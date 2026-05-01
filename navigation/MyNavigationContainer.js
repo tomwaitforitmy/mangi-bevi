@@ -19,7 +19,8 @@ import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../store/actions/authAction";
 import { LoadCredentials } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
-import { Platform } from "react-native";
+import { Platform, Pressable } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
 import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
@@ -259,6 +260,38 @@ function NewMealStackContainer() {
   );
 }
 
+const DebugHeaderIcon = () => (
+  <Pressable
+    onPress={() => console.log("Debug icon pressed")}
+    hitSlop={20}
+    android_ripple={null}
+    style={{
+      width: 30,
+      height: 30,
+      alignItems: "center",
+      justifyContent: "center",
+    }}>
+    <Ionicons name="bug-outline" size={25} color={Colors.headerIconColor} />
+  </Pressable>
+);
+
+const DebugStack = createNativeStackNavigator();
+
+function DebugStackContainer() {
+  return (
+    <DebugStack.Navigator screenOptions={defaultScreenOptions}>
+      <DebugStack.Screen
+        name="Debug"
+        component={DebugScreen}
+        options={{
+          title: "Debug screen",
+          headerRight: DebugHeaderIcon,
+        }}
+      />
+    </DebugStack.Navigator>
+  );
+}
+
 const LoginStack = createNativeStackNavigator();
 
 function LoginStackContainer() {
@@ -356,7 +389,11 @@ const MyNavigationContainer = () => {
   }
 
   if (DEBUG_MODE) {
-    return <DebugScreen />;
+    return (
+      <NavigationContainer>
+        <DebugStackContainer />
+      </NavigationContainer>
+    );
   }
 
   return (
