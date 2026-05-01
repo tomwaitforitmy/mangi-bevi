@@ -31,13 +31,12 @@ const LogoutIcon = () => {
         //somehow this size works nice for centering
         width: 30,
         height: 30,
-        paddingLeft: 8,
         alignItems: "center",
         justifyContent: "center",
       }}>
       <Ionicons
         name={"exit-outline"}
-        size={25}
+        size={30}
         color={Colors.headerIconColor}
       />
     </Pressable>

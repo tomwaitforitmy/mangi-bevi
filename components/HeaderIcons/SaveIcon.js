@@ -9,14 +9,14 @@ const SaveIcon = (onPress) => {
       hitSlop={20}
       style={{
         //somehow this size works nice for centering
-        width: 36,
-        height: 36,
+        width: 30,
+        height: 30,
         alignItems: "center",
         justifyContent: "center",
       }}>
       <Ionicons
         name="save"
-        size={25}
+        size={30}
         color={Colors.headerIconColor}
         onPress={onPress}
       />
