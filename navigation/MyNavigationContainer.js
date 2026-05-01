@@ -261,18 +261,20 @@ function NewMealStackContainer() {
 }
 
 const DebugHeaderIcon = () => (
-  <Pressable
-    onPress={() => console.log("Debug icon pressed")}
-    hitSlop={20}
-    android_ripple={null}
-    style={{
-      width: 30,
-      height: 30,
-      alignItems: "center",
-      justifyContent: "center",
-    }}>
-    <Ionicons name="bug-outline" size={25} color={Colors.headerIconColor} />
-  </Pressable>
+  <EditMangiIcon></EditMangiIcon>
+
+  // <Pressable
+  //   onPress={() => console.log("Debug icon pressed")}
+  //   hitSlop={20}
+  //   android_ripple={null}
+  //   style={{
+  //     width: 30,
+  //     height: 30,
+  //     alignItems: "flex-start",
+  //     justifyContent: "flex-start",
+  //   }}>
+  //   <Ionicons name="bug-outline" size={30} color={Colors.headerIconColor} />
+  // </Pressable>
 );
 
 const DebugStack = createNativeStackNavigator();
