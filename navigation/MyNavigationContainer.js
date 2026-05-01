@@ -70,7 +70,6 @@ const defaultScreenOptions = {
   headerTitleStyle: {
     fontWeight: "bold",
   },
-  headerLeft: () => <GlobalBackButton />,
   //This centers on Android, but makes the text overflow the header-buttons somehow
   // headerTitleAlign: "center",
 };
@@ -161,6 +160,7 @@ function MealsStackContainer({ navigation }) {
               navigation,
               route.params.currentTabViewed,
             ),
+          headerLeft: () => <GlobalBackButton />,
         })}
       />
       <MealsStack.Screen
@@ -169,6 +169,7 @@ function MealsStackContainer({ navigation }) {
         options={{
           title: "Edit Mangi / Bevi",
           gestureEnabled: false,
+          headerLeft: () => <GlobalBackButton />,
         }}
       />
       <MealsStack.Screen
@@ -182,22 +183,32 @@ function MealsStackContainer({ navigation }) {
               route.params.mealId,
               route.params?.currentTabViewed,
             ),
+          headerLeft: () => <GlobalBackButton />,
         })}
       />
       <MealsStack.Screen
         name={NAVIGATION_TITLES.STACK_ADD_TAG}
         component={AddTagScreen}
-        options={{ title: "Add Tag" }}
+        options={{
+          title: "Add Tag",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
       <MealsStack.Screen
         name={NAVIGATION_TITLES.STACK_EDIT_LINKS}
         component={EditLinksScreen}
-        options={{ title: "Add Links" }}
+        options={{
+          title: "Add Links",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
       <MealsStack.Screen
         name={NAVIGATION_TITLES.STACK_SEND_REPORT}
         component={SendReportScreen}
-        options={{ title: "Report" }}
+        options={{
+          title: "Report",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
     </MealsStack.Navigator>
   );
@@ -247,22 +258,34 @@ function ProfileStackContainer() {
       <ProfileStack.Screen
         name={NAVIGATION_TITLES.STACK_USER_MEALS}
         component={UserMealsScreen}
-        options={{ title: "Your Mangis" }}
+        options={{
+          title: "Your Mangis",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
       <ProfileStack.Screen
         name={NAVIGATION_TITLES.STACK_MANAGE_ACCOUNT}
         component={ManageAccountScreen}
-        options={{ title: "Your Account" }}
+        options={{
+          title: "Your Account",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
       <ProfileStack.Screen
         name={NAVIGATION_TITLES.STACK_EDIT_FRIENDS}
         component={EditFriendsScreen}
-        options={{ title: "Your Friends" }}
+        options={{
+          title: "Your Friends",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
       <ProfileStack.Screen
         name={NAVIGATION_TITLES.STACK_SETTINGS}
         component={SettingsScreen}
-        options={{ title: "Your Settings" }}
+        options={{
+          title: "Your Settings",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
     </ProfileStack.Navigator>
   );
@@ -282,22 +305,7 @@ function NewMealStackContainer() {
   );
 }
 
-const DebugHeaderIcon = () => (
-  <EditMangiIcon></EditMangiIcon>
-
-  // <Pressable
-  //   onPress={() => console.log("Debug icon pressed")}
-  //   hitSlop={20}
-  //   android_ripple={null}
-  //   style={{
-  //     width: 30,
-  //     height: 30,
-  //     alignItems: "flex-start",
-  //     justifyContent: "flex-start",
-  //   }}>
-  //   <Ionicons name="bug-outline" size={30} color={Colors.headerIconColor} />
-  // </Pressable>
-);
+const DebugHeaderIcon = () => <EditMangiIcon />;
 
 const DebugStack = createNativeStackNavigator();
 
@@ -333,6 +341,7 @@ function LoginStackContainer() {
         component={MealDetailScreenNotAuthenticated}
         options={({ route }) => ({
           title: route.params.mealTitle,
+          headerLeft: () => <GlobalBackButton />,
         })}
       />
       <LoginStack.Screen
@@ -340,22 +349,32 @@ function LoginStackContainer() {
         component={ImagesScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
+          headerLeft: () => <GlobalBackButton />,
         })}
       />
       <LoginStack.Screen
         name={NAVIGATION_TITLES.LOGIN}
         component={LoginScreen}
-        options={{ title: "Login" }}
+        options={{
+          title: "Login",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
       <LoginStack.Screen
         name={NAVIGATION_TITLES.SIGN_UP}
         component={SignUpScreen}
-        options={{ title: "Sign Up" }}
+        options={{
+          title: "Sign Up",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
       <LoginStack.Screen
         name={NAVIGATION_TITLES.PASSWORD_RESET}
         component={PasswordResetScreen}
-        options={{ title: "Reset Password" }}
+        options={{
+          title: "Reset Password",
+          headerLeft: () => <GlobalBackButton />,
+        }}
       />
     </LoginStack.Navigator>
   );
