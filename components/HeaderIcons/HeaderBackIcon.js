@@ -4,7 +4,7 @@ import Colors from "../../constants/Colors";
 
 const HeaderBackIcon = (backAction) => {
   return (
-    <HeaderBackButton onPress={backAction} color={Colors.headerIconColor} />
+    <HeaderBackButton onPress={backAction} tintColor={Colors.headerIconColor} />
   );
 };
 

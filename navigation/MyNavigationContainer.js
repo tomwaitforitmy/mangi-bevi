@@ -19,7 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../store/actions/authAction";
 import { LoadCredentials } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
-import { Platform, Pressable } from "react-native";
+import { HeaderBackButton } from "@react-navigation/elements";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
@@ -37,9 +37,30 @@ import { GetFriends } from "../common_functions/GetFriends";
 import SendReportScreen from "../screens/SendReportScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import { onAuthStateChanged } from "firebase/auth";
+import { useNavigation } from "@react-navigation/native";
 import { firebaseAuth } from "../firebase/firebase";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 import MealDetailScreenNotAuthenticated from "../screens/MealDetailScreenNotAuthenticated";
+import { Platform, Pressable } from "react-native";
+
+const GlobalBackButton = () => {
+  const navigation = useNavigation();
+  if (!navigation.canGoBack()) {
+    return null;
+  }
+  return (
+    <Pressable
+      onPress={() => navigation.goBack()}
+      style={{
+        width: 30,
+        height: 30,
+        alignItems: "center",
+        justifyContent: "center",
+      }}>
+      <Ionicons name="chevron-back" size={30} color={Colors.headerIconColor} />
+    </Pressable>
+  );
+};
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -49,6 +70,7 @@ const defaultScreenOptions = {
   headerTitleStyle: {
     fontWeight: "bold",
   },
+  headerLeft: () => <GlobalBackButton />,
   //This centers on Android, but makes the text overflow the header-buttons somehow
   // headerTitleAlign: "center",
 };
