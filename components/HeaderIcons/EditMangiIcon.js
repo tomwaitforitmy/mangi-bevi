@@ -22,6 +22,9 @@ const EditMangiIcon = (navigation, mealId, currentTab) => {
 
   return (
     <Pressable
+      onPress={() =>
+        onHeaderIconPress(navigation, mealId, currentTab, dispatch)
+      }
       hitSlop={20}
       style={{
         //somehow this size works nice for centering
@@ -34,9 +37,6 @@ const EditMangiIcon = (navigation, mealId, currentTab) => {
         name="create-outline"
         size={30}
         color={Colors.headerIconColor}
-        onPress={() =>
-          onHeaderIconPress(navigation, mealId, currentTab, dispatch)
-        }
       />
     </Pressable>
   );

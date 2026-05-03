@@ -6,6 +6,7 @@ import Colors from "../../constants/Colors";
 const SaveIcon = (onPress) => {
   return (
     <Pressable
+      onPress={onPress}
       hitSlop={20}
       style={{
         //somehow this size works nice for centering
@@ -14,12 +15,7 @@ const SaveIcon = (onPress) => {
         alignItems: "center",
         justifyContent: "center",
       }}>
-      <Ionicons
-        name="save"
-        size={30}
-        color={Colors.headerIconColor}
-        onPress={onPress}
-      />
+      <Ionicons name="save" size={30} color={Colors.headerIconColor} />
     </Pressable>
   );
 };
