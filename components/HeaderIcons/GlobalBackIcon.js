@@ -12,15 +12,13 @@ import {
 const GlobalBackIcon = () => {
   const navigation = useNavigation();
 
-  const handlePress = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  };
-
-  if (!handlePress) {
+  if (!navigation.canGoBack()) {
     return null;
   }
+
+  const handlePress = () => {
+    navigation.goBack();
+  };
 
   return (
     <Pressable
