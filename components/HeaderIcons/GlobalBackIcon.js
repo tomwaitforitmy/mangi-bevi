@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable } from "react-native";
 
-const GlobalBackIcon = (backAction) => {
+const GlobalBackIcon = ({ backAction }) => {
   const navigation = useNavigation();
 
   const handlePress =
@@ -17,6 +17,7 @@ const GlobalBackIcon = (backAction) => {
 
   return (
     <Pressable
+      onPress={handlePress}
       hitSlop={20}
       style={{
         width: 30,
@@ -28,7 +29,6 @@ const GlobalBackIcon = (backAction) => {
         name="chevron-back"
         size={30}
         style={{ color: Colors.headerIconColor }}
-        onPress={handlePress}
       />
     </Pressable>
   );

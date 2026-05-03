@@ -139,7 +139,7 @@ function MealsStackContainer({ navigation }) {
               navigation,
               route.params.currentTabViewed,
             ),
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         })}
       />
       <MealsStack.Screen
@@ -148,7 +148,7 @@ function MealsStackContainer({ navigation }) {
         options={{
           title: "Edit Mangi / Bevi",
           gestureEnabled: false,
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <MealsStack.Screen
@@ -162,7 +162,7 @@ function MealsStackContainer({ navigation }) {
               route.params.mealId,
               route.params?.currentTabViewed,
             ),
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         })}
       />
       <MealsStack.Screen
@@ -170,7 +170,7 @@ function MealsStackContainer({ navigation }) {
         component={AddTagScreen}
         options={{
           title: "Add Tag",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <MealsStack.Screen
@@ -178,7 +178,7 @@ function MealsStackContainer({ navigation }) {
         component={EditLinksScreen}
         options={{
           title: "Add Links",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <MealsStack.Screen
@@ -186,7 +186,7 @@ function MealsStackContainer({ navigation }) {
         component={SendReportScreen}
         options={{
           title: "Report",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
     </MealsStack.Navigator>
@@ -239,7 +239,7 @@ function ProfileStackContainer() {
         component={UserMealsScreen}
         options={{
           title: "Your Mangis",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <ProfileStack.Screen
@@ -247,7 +247,7 @@ function ProfileStackContainer() {
         component={ManageAccountScreen}
         options={{
           title: "Your Account",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <ProfileStack.Screen
@@ -255,7 +255,7 @@ function ProfileStackContainer() {
         component={EditFriendsScreen}
         options={{
           title: "Your Friends",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <ProfileStack.Screen
@@ -263,7 +263,7 @@ function ProfileStackContainer() {
         component={SettingsScreen}
         options={{
           title: "Your Settings",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
     </ProfileStack.Navigator>
@@ -320,7 +320,7 @@ function LoginStackContainer() {
         component={MealDetailScreenNotAuthenticated}
         options={({ route }) => ({
           title: route.params.mealTitle,
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         })}
       />
       <LoginStack.Screen
@@ -328,7 +328,7 @@ function LoginStackContainer() {
         component={ImagesScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         })}
       />
       <LoginStack.Screen
@@ -336,7 +336,7 @@ function LoginStackContainer() {
         component={LoginScreen}
         options={{
           title: "Login",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <LoginStack.Screen
@@ -344,7 +344,7 @@ function LoginStackContainer() {
         component={SignUpScreen}
         options={{
           title: "Sign Up",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
       <LoginStack.Screen
@@ -352,7 +352,7 @@ function LoginStackContainer() {
         component={PasswordResetScreen}
         options={{
           title: "Reset Password",
-          headerLeft: () => GlobalBackIcon(),
+          headerLeft: () => <GlobalBackIcon />,
         }}
       />
     </LoginStack.Navigator>
