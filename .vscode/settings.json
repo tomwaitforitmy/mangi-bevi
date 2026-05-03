@@ -7,7 +7,7 @@
     "Mangis",
     "Pressable"
   ],
-  "cSpell.ignoreWords": [
-    "reduxjs"
-  ]
+  "cSpell.ignoreWords": ["reduxjs"],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
