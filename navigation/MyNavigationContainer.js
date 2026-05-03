@@ -112,7 +112,7 @@ const showEditIcon = (mealId, user, users, navigation, currentTab) => {
   if (show) {
     return EditMangiIcon(navigation, mealId, currentTab);
   } else {
-    return <></>;
+    return null;
   }
 };
 

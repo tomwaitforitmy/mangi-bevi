@@ -4,16 +4,18 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable } from "react-native";
 
-const GlobalBackIcon = ({ backAction }) => {
+const GlobalBackIcon = () => {
   const navigation = useNavigation();
 
-  const handlePress =
-    backAction ||
-    (() => {
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      }
-    });
+  const handlePress = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  };
+
+  if (!handlePress) {
+    return null;
+  }
 
   return (
     <Pressable

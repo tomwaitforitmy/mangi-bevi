@@ -1,10 +1,25 @@
 import React from "react";
-import { HeaderBackButton } from "@react-navigation/elements";
 import Colors from "../../constants/Colors";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Pressable } from "react-native";
 
-const HeaderBackIcon = (backAction) => {
+const HeaderBackIcon = ({ backAction }) => {
   return (
-    <HeaderBackButton onPress={backAction} tintColor={Colors.headerIconColor} />
+    <Pressable
+      onPress={backAction}
+      hitSlop={20}
+      style={{
+        width: 30,
+        height: 30,
+        alignItems: "center",
+        justifyContent: "center",
+      }}>
+      <Ionicons
+        name="chevron-back"
+        size={30}
+        style={{ color: Colors.headerIconColor }}
+      />
+    </Pressable>
   );
 };
 
