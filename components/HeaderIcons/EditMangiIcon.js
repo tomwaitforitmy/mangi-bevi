@@ -5,6 +5,11 @@ import { Pressable } from "react-native";
 import Colors from "../../constants/Colors";
 import { useDispatch } from "react-redux";
 import { setCurrentTabViewed } from "../../store/actions/uiAction";
+import {
+  HEADER_ICON_CONTAINER_STYLE,
+  HEADER_ICON_HIT_SLOP,
+  HEADER_ICON_SIZE,
+} from "./HeaderIconConfig";
 
 const onHeaderIconPress = (navigation, mealId, currentTab, dispatch) => {
   // Dispatch to Redux when transitioning to edit mode (only then)
@@ -25,17 +30,11 @@ const EditMangiIcon = (navigation, mealId, currentTab) => {
       onPress={() =>
         onHeaderIconPress(navigation, mealId, currentTab, dispatch)
       }
-      hitSlop={20}
-      style={{
-        //somehow this size works nice for centering
-        width: 30,
-        height: 30,
-        alignItems: "center",
-        justifyContent: "center",
-      }}>
+      hitSlop={HEADER_ICON_HIT_SLOP}
+      style={HEADER_ICON_CONTAINER_STYLE}>
       <Ionicons
         name="create-outline"
-        size={30}
+        size={HEADER_ICON_SIZE}
         color={Colors.headerIconColor}
       />
     </Pressable>

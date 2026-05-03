@@ -4,6 +4,11 @@ import * as authActions from "../../store/actions/authAction";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, Pressable } from "react-native";
 import { ResetSecureStorage } from "../../common_functions/CredentialStorage";
+import {
+  HEADER_ICON_CONTAINER_STYLE,
+  HEADER_ICON_HIT_SLOP,
+  HEADER_ICON_SIZE,
+} from "./HeaderIconConfig";
 
 const onHeaderIconPress = () => {
   Alert.alert("Logout", "Do you really want to logout?", [
@@ -25,18 +30,12 @@ const LogoutIcon = () => {
   return (
     <Pressable
       onPress={() => onHeaderIconPress()}
-      hitSlop={20}
+      hitSlop={HEADER_ICON_HIT_SLOP}
       android_ripple={null}
-      style={{
-        //somehow this size works nice for centering
-        width: 30,
-        height: 30,
-        alignItems: "center",
-        justifyContent: "center",
-      }}>
+      style={HEADER_ICON_CONTAINER_STYLE}>
       <Ionicons
         name={"exit-outline"}
-        size={30}
+        size={HEADER_ICON_SIZE}
         color={Colors.headerIconColor}
       />
     </Pressable>
