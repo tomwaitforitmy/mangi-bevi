@@ -19,8 +19,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../store/actions/authAction";
 import { LoadCredentials } from "../common_functions/CredentialStorage";
 import * as SplashScreen from "expo-splash-screen";
-import { HeaderBackButton } from "@react-navigation/elements";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import ProfileScreen from "../screens/ProfileScreen";
 import UserMealsScreen from "../screens/UserMealsScreen";
 import LogoutIcon from "../components/HeaderIcons/LogoutIcon";
@@ -37,30 +35,11 @@ import { GetFriends } from "../common_functions/GetFriends";
 import SendReportScreen from "../screens/SendReportScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import { onAuthStateChanged } from "firebase/auth";
-import { useNavigation } from "@react-navigation/native";
 import { firebaseAuth } from "../firebase/firebase";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 import MealDetailScreenNotAuthenticated from "../screens/MealDetailScreenNotAuthenticated";
-import { Platform, Pressable } from "react-native";
-
-const GlobalBackButton = () => {
-  const navigation = useNavigation();
-  if (!navigation.canGoBack()) {
-    return null;
-  }
-  return (
-    <Pressable
-      onPress={() => navigation.goBack()}
-      style={{
-        width: 30,
-        height: 30,
-        alignItems: "center",
-        justifyContent: "center",
-      }}>
-      <Ionicons name="chevron-back" size={30} color={Colors.headerIconColor} />
-    </Pressable>
-  );
-};
+import { Platform } from "react-native";
+import GlobalBackIcon from "../components/HeaderIcons/GlobalBackIcon";
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -160,7 +139,7 @@ function MealsStackContainer({ navigation }) {
               navigation,
               route.params.currentTabViewed,
             ),
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         })}
       />
       <MealsStack.Screen
@@ -169,7 +148,7 @@ function MealsStackContainer({ navigation }) {
         options={{
           title: "Edit Mangi / Bevi",
           gestureEnabled: false,
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <MealsStack.Screen
@@ -183,7 +162,7 @@ function MealsStackContainer({ navigation }) {
               route.params.mealId,
               route.params?.currentTabViewed,
             ),
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         })}
       />
       <MealsStack.Screen
@@ -191,7 +170,7 @@ function MealsStackContainer({ navigation }) {
         component={AddTagScreen}
         options={{
           title: "Add Tag",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <MealsStack.Screen
@@ -199,7 +178,7 @@ function MealsStackContainer({ navigation }) {
         component={EditLinksScreen}
         options={{
           title: "Add Links",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <MealsStack.Screen
@@ -207,7 +186,7 @@ function MealsStackContainer({ navigation }) {
         component={SendReportScreen}
         options={{
           title: "Report",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
     </MealsStack.Navigator>
@@ -260,7 +239,7 @@ function ProfileStackContainer() {
         component={UserMealsScreen}
         options={{
           title: "Your Mangis",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <ProfileStack.Screen
@@ -268,7 +247,7 @@ function ProfileStackContainer() {
         component={ManageAccountScreen}
         options={{
           title: "Your Account",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <ProfileStack.Screen
@@ -276,7 +255,7 @@ function ProfileStackContainer() {
         component={EditFriendsScreen}
         options={{
           title: "Your Friends",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <ProfileStack.Screen
@@ -284,7 +263,7 @@ function ProfileStackContainer() {
         component={SettingsScreen}
         options={{
           title: "Your Settings",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
     </ProfileStack.Navigator>
@@ -341,7 +320,7 @@ function LoginStackContainer() {
         component={MealDetailScreenNotAuthenticated}
         options={({ route }) => ({
           title: route.params.mealTitle,
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         })}
       />
       <LoginStack.Screen
@@ -349,7 +328,7 @@ function LoginStackContainer() {
         component={ImagesScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         })}
       />
       <LoginStack.Screen
@@ -357,7 +336,7 @@ function LoginStackContainer() {
         component={LoginScreen}
         options={{
           title: "Login",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <LoginStack.Screen
@@ -365,7 +344,7 @@ function LoginStackContainer() {
         component={SignUpScreen}
         options={{
           title: "Sign Up",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
       <LoginStack.Screen
@@ -373,7 +352,7 @@ function LoginStackContainer() {
         component={PasswordResetScreen}
         options={{
           title: "Reset Password",
-          headerLeft: () => <GlobalBackButton />,
+          headerLeft: () => GlobalBackIcon(),
         }}
       />
     </LoginStack.Navigator>
