@@ -9,5 +9,8 @@
   ],
   "cSpell.ignoreWords": ["reduxjs"],
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "chat.tools.terminal.autoApprove": {
+    "printf": true
+  }
 }
