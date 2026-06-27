@@ -47,7 +47,20 @@ const mealsReducer = (state = initialState, action) => {
     case EDIT_MEAL: {
       const mealIndex = state.meals.findIndex((m) => m.id === action.meal.id);
       const updatedMeals = [...state.meals];
-      updatedMeals[mealIndex] = action.meal;
+
+      const normalizeArray = (v) => (Array.isArray(v) ? v : v ? v : []);
+
+      const normalizedMeal = {
+        ...action.meal,
+        links: normalizeArray(action.meal.links),
+        reactions: normalizeArray(action.meal.reactions),
+        imageUrls: normalizeArray(action.meal.imageUrls),
+        tags: normalizeArray(action.meal.tags),
+        ingredients: normalizeArray(action.meal.ingredients),
+        steps: normalizeArray(action.meal.steps),
+      };
+
+      updatedMeals[mealIndex] = normalizedMeal;
 
       return {
         ...state,
