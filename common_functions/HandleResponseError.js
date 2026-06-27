@@ -18,12 +18,18 @@ export const HandleResponseError = async (response) => {
     } else if (responseData && responseData.message) {
       console.log(`### Error occurred: \n ${responseData.message}`);
     } else {
-      console.log("### Error occurred: \n", responseData || response.statusText || response.status);
+      console.log(
+        "### Error occurred: \n",
+        responseData || response.statusText || response.status,
+      );
     }
 
     console.log(responseData);
     throw new Error(
-      responseData?.error?.message || responseData?.error || responseData?.message || `HTTP ${response.status}`,
+      responseData?.error?.message ||
+        responseData?.error ||
+        responseData?.message ||
+        `HTTP ${response.status}`,
     );
   }
 };

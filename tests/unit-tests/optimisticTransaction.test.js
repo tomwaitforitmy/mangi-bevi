@@ -65,7 +65,9 @@ describe("runFirebaseTransaction", () => {
       resourceUrl,
       expect.objectContaining({
         method: "PATCH",
-        headers: expect.objectContaining({ "Content-Type": "application/json" }),
+        headers: expect.objectContaining({
+          "Content-Type": "application/json",
+        }),
       }),
     );
   });
