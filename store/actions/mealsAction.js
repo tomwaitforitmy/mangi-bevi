@@ -105,15 +105,17 @@ export const mergeArrays = (current = [], next = []) => {
   return Array.from(new Set([...current, ...next]));
 };
 
-export const buildMealUpdatePayload = (current, meal) => {
+export const buildMealUpdatePayload = (currentMeal, nextMealEdit) => {
   const payload = {
-    ...current,
-    ...meal,
-    links: mergeArrays(current.links, meal.links),
-    reactions: current.reactions || meal.reactions || [],
+    ...currentMeal,
+    ...nextMealEdit,
+    ingredients: mergeArrays(currentMeal.ingredients, nextMealEdit.ingredients),
+    steps: mergeArrays(currentMeal.steps, nextMealEdit.steps),
+    imageUrls: mergeArrays(currentMeal.imageUrls, nextMealEdit.imageUrls),
+    tags: mergeArrays(currentMeal.tags, nextMealEdit.tags),
+    links: mergeArrays(currentMeal.links, nextMealEdit.links),
+    reactions: mergeArrays(currentMeal.reactions, nextMealEdit.reactions),
   };
-  delete payload.id;
-  delete payload.isSelected;
   return payload;
 };
 

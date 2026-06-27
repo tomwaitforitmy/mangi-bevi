@@ -118,7 +118,6 @@ export const editTag = (tag) => {
 
     const updated = await runOptimisticTransaction(resourceUrl, (current) => {
       const payload = { ...current, ...tag };
-      delete payload.id;
       return payload;
     });
 
