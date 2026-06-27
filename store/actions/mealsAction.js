@@ -10,6 +10,7 @@ import {
   getMealUrl,
   getPublicMealsUrl,
 } from "../../firebase/urls";
+import { runFirebaseTransaction } from "../../firebase/optimisticTransaction";
 import deleteImages from "../../image_processing/deleteImages";
 
 export const DELETE_MEAL = "DELETE_MEAL";
@@ -94,6 +95,28 @@ const replacer = (key, value) => {
   }
 };
 
+export const mergeArrays = (current = [], next = []) => {
+  if (!Array.isArray(current)) {
+    current = [];
+  }
+  if (!Array.isArray(next)) {
+    next = [];
+  }
+  return Array.from(new Set([...current, ...next]));
+};
+
+export const buildMealUpdatePayload = (current, meal) => {
+  const payload = {
+    ...current,
+    ...meal,
+    links: mergeArrays(current.links, meal.links),
+    reactions: current.reactions || meal.reactions || [],
+  };
+  delete payload.id;
+  delete payload.isSelected;
+  return payload;
+};
+
 export const createMeal = (meal) => {
   return async (dispatch) => {
     console.log("Begin createMeal");
@@ -105,7 +128,7 @@ export const createMeal = (meal) => {
 
     const response = await fetch(getMealsUrl(token), {
       method: "POST",
-      header: {
+      headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(meal, replacer),
@@ -129,19 +152,18 @@ export const editMeal = (meal) => {
   return async (dispatch) => {
     console.log("begin edit meal");
     const token = await authAction.getToken();
-    const response = await fetch(getMealUrl(meal.id, token), {
-      method: "PATCH",
-      header: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(meal, replacer),
-    });
+    const resourceUrl = getMealUrl(meal.id, token);
 
-    await HandleResponseError(response);
+    const updatedMeal = await runFirebaseTransaction(resourceUrl, (current) =>
+      buildMealUpdatePayload(current || {}, meal),
+    );
 
     console.log("end edit meal");
 
-    dispatch({ type: EDIT_MEAL, meal: meal });
+    dispatch({
+      type: EDIT_MEAL,
+      meal: { ...meal, ...updatedMeal, id: meal.id },
+    });
   };
 };
 
@@ -149,21 +171,22 @@ export const editLinks = (meal) => {
   return async (dispatch) => {
     console.log("begin edit links");
     const token = await authAction.getToken();
-    const response = await fetch(getMealUrl(meal.id, token), {
-      method: "PATCH",
-      header: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        links: meal.links,
-      }),
-    });
+    const resourceUrl = getMealUrl(meal.id, token);
 
-    await HandleResponseError(response);
+    const updatedMeal = await runFirebaseTransaction(resourceUrl, (current) => {
+      const currentLinks = current?.links || [];
+      return {
+        ...current,
+        links: mergeArrays(currentLinks, meal.links),
+      };
+    });
 
     console.log("end edit links");
 
-    dispatch({ type: EDIT_LINKS, meal: meal });
+    dispatch({
+      type: EDIT_LINKS,
+      meal: { ...updatedMeal, id: meal.id },
+    });
   };
 };
 
@@ -171,42 +194,32 @@ export const editReactions = (meal, userId, newReaction) => {
   return async (dispatch) => {
     console.log("begin edit reactions");
     const token = await authAction.getToken();
-    const url = getMealUrl(meal.id, token);
+    const resourceUrl = getMealUrl(meal.id, token);
 
     try {
-      // Start transaction to prevent overwrites
-      const response = await fetch(url);
-      await HandleResponseError(response);
+      const updatedMeal = await runFirebaseTransaction(
+        resourceUrl,
+        (current) => {
+          const currentReactions = current?.reactions || [];
+          const updatedReactions = currentReactions.filter(
+            (r) => r.authorId !== userId,
+          );
+          if (newReaction.emoji !== "") {
+            updatedReactions.push(newReaction);
+          }
 
-      const currentReactions = (await response.json()).reactions || [];
-
-      // Update or add the user's reaction
-      const updatedReactions = currentReactions.filter(
-        (r) => r.authorId !== userId,
-      );
-      if (newReaction.emoji !== "") {
-        updatedReactions.push(newReaction);
-      }
-
-      // Save the merged reactions back to Firebase
-      const updateResponse = await fetch(url, {
-        method: "PATCH",
-        header: {
-          "Content-type": "application/json",
+          return {
+            ...current,
+            reactions: updatedReactions,
+          };
         },
-        body: JSON.stringify({
-          reactions: updatedReactions,
-        }),
-      });
+      );
 
-      await HandleResponseError(updateResponse);
-      if (updateResponse.ok) {
-        console.log("updated reaction successfully");
-      }
+      console.log("updated reaction successfully");
 
       dispatch({
         type: EDIT_REACTIONS,
-        meal: { ...meal, reactions: updatedReactions },
+        meal: { ...updatedMeal, id: meal.id },
       });
 
       console.log("end of edit reactions");

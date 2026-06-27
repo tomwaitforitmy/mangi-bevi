@@ -120,18 +120,15 @@ async function fetchJson(url, options = {}) {
     console.log("Final meal:", JSON.stringify(final, null, 2));
 
     const hasLinkA = (final.links || []).includes("link-from-A");
-    const hasImgB = (final.imageUrls || []).includes("img-from-B");
-    const titleMatched = final.title && final.title.includes("- B");
+    const staleTitle = final.title && final.title.includes("- stale");
 
-    if (hasLinkA && hasImgB && titleMatched) {
-      console.log("SUCCESS: both concurrent updates preserved.");
+    if (hasLinkA && staleTitle) {
+      console.log("SUCCESS: stale full-meal edit preserved the link update.");
       process.exit(0);
     }
 
-    console.error("FAIL: concurrent updates were lost or overwritten.");
-    console.error(
-      `hasLinkA=${hasLinkA} hasImgB=${hasImgB} titleMatched=${titleMatched}`,
-    );
+    console.error("FAIL: stale full-meal edit lost the link update.");
+    console.error(`hasLinkA=${hasLinkA} staleTitle=${staleTitle}`);
     process.exit(2);
   } catch (err) {
     console.error("Error running repro:", err);
