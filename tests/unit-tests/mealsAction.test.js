@@ -63,6 +63,29 @@ describe("mealsAction merge helpers", () => {
     expect(payload.id).toBe("meal1");
   });
 
+  it("buildMealUpdatePayload preserves current reactions when meal.reactions are same", () => {
+    const { buildMealUpdatePayload } = loadHelpers();
+    const current = {
+      title: "Current title",
+      links: ["link-from-A"],
+      reactions: [{ authorId: "user2", emoji: "👍" }],
+      id: "meal1",
+    };
+    const staleMeal = {
+      title: "Updated title",
+      links: ["link-from-A"],
+      reactions: [{ authorId: "user2", emoji: "👍" }],
+      id: "meal1",
+    };
+
+    const payload = buildMealUpdatePayload(current, staleMeal);
+
+    expect(payload.title).toBe("Updated title");
+    expect(payload.links).toEqual(["link-from-A"]);
+    expect(payload.reactions).toEqual([{ authorId: "user2", emoji: "👍" }]);
+    expect(payload.id).toBe("meal1");
+  });
+
   it("buildMealUpdatePayload uses meal.links when current.links is undefined", () => {
     const { buildMealUpdatePayload } = loadHelpers();
     const current = {

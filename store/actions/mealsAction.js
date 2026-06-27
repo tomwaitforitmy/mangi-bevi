@@ -102,7 +102,63 @@ export const mergeArrays = (current = [], next = []) => {
   if (!Array.isArray(next)) {
     next = [];
   }
-  return Array.from(new Set([...current, ...next]));
+
+  // If arrays contain primitives, use simple Set-based dedupe preserving order
+  const isPrimitive = (v) =>
+    v === null || (typeof v !== "object" && typeof v !== "function");
+  if (current.length === 0 && next.length === 0) {
+    return [];
+  }
+  if (
+    (current.every(isPrimitive) || current.length === 0) &&
+    next.every(isPrimitive)
+  ) {
+    return Array.from(new Set([...current, ...next]));
+  }
+
+  // For arrays of objects, dedupe by a stable key (id, authorId) when available,
+  // otherwise fall back to JSON stringification. Preserve existing `current` items
+  // and append only new items from `next`.
+  const keyFor = (item) => {
+    if (item == null) {
+      return "__null__";
+    }
+    if (isPrimitive(item)) {
+      return `prim:${String(item)}`;
+    }
+    if (item.id !== undefined) {
+      return `id:${item.id}`;
+    }
+    if (item.authorId !== undefined) {
+      return `author:${item.authorId}`;
+    }
+    try {
+      return `json:${JSON.stringify(item)}`;
+    } catch (e) {
+      return `obj:${String(item)}`;
+    }
+  };
+
+  const seen = new Set();
+  const out = [];
+
+  for (const it of current) {
+    const k = keyFor(it);
+    if (!seen.has(k)) {
+      seen.add(k);
+      out.push(it);
+    }
+  }
+
+  for (const it of next) {
+    const k = keyFor(it);
+    if (!seen.has(k)) {
+      seen.add(k);
+      out.push(it);
+    }
+  }
+
+  return out;
 };
 
 export const buildMealUpdatePayload = (currentMeal, nextMealEdit) => {
