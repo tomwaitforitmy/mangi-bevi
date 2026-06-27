@@ -10,7 +10,7 @@ import {
   getMealUrl,
   getPublicMealsUrl,
 } from "../../firebase/urls";
-import { runFirebaseTransaction } from "../../firebase/optimisticTransaction";
+import { runOptimisticTransaction } from "../../firebase/optimisticTransaction";
 import deleteImages from "../../image_processing/deleteImages";
 
 export const DELETE_MEAL = "DELETE_MEAL";
@@ -154,7 +154,7 @@ export const editMeal = (meal) => {
     const token = await authAction.getToken();
     const resourceUrl = getMealUrl(meal.id, token);
 
-    const updatedMeal = await runFirebaseTransaction(resourceUrl, (current) =>
+    const updatedMeal = await runOptimisticTransaction(resourceUrl, (current) =>
       buildMealUpdatePayload(current || {}, meal),
     );
 
@@ -173,13 +173,16 @@ export const editLinks = (meal) => {
     const token = await authAction.getToken();
     const resourceUrl = getMealUrl(meal.id, token);
 
-    const updatedMeal = await runFirebaseTransaction(resourceUrl, (current) => {
-      const currentLinks = current?.links || [];
-      return {
-        ...current,
-        links: mergeArrays(currentLinks, meal.links),
-      };
-    });
+    const updatedMeal = await runOptimisticTransaction(
+      resourceUrl,
+      (current) => {
+        const currentLinks = current?.links || [];
+        return {
+          ...current,
+          links: mergeArrays(currentLinks, meal.links),
+        };
+      },
+    );
 
     console.log("end edit links");
 
@@ -197,7 +200,7 @@ export const editReactions = (meal, userId, newReaction) => {
     const resourceUrl = getMealUrl(meal.id, token);
 
     try {
-      const updatedMeal = await runFirebaseTransaction(
+      const updatedMeal = await runOptimisticTransaction(
         resourceUrl,
         (current) => {
           const currentReactions = current?.reactions || [];

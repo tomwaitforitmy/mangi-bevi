@@ -7,7 +7,7 @@ const defaultOptions = {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const runFirebaseTransaction = async (
+export const runOptimisticTransaction = async (
   resourceUrl,
   mergeFn,
   options = {},
@@ -24,7 +24,9 @@ export const runFirebaseTransaction = async (
     const newPayload = mergeFn(currentData || {});
 
     if (newPayload === undefined || newPayload === null) {
-      throw new Error("runFirebaseTransaction: mergeFn must return a payload");
+      throw new Error(
+        "runOptimisticTransaction: mergeFn must return a payload",
+      );
     }
 
     const requestOptions = {
@@ -54,6 +56,6 @@ export const runFirebaseTransaction = async (
   }
 
   throw new Error(
-    `runFirebaseTransaction: failed after ${config.maxRetries} attempts`,
+    `runOptimisticTransaction: failed after ${config.maxRetries} attempts`,
   );
 };
