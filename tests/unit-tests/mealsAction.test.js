@@ -5,19 +5,29 @@ describe("mealsAction merge helpers", () => {
       HandleResponseError: jest.fn(async () => true),
     }));
     jest.doMock("../../models/Meal", () => () => ({}));
-    jest.doMock("../../store/actions/usersAction", () => ({ UPDATE_USER_STATS: "UPDATE_USER_STATS" }));
-    jest.doMock("../../store/actions/authAction", () => ({ getToken: jest.fn(async () => "token") }));
+    jest.doMock("../../store/actions/usersAction", () => ({
+      UPDATE_USER_STATS: "UPDATE_USER_STATS",
+    }));
+    jest.doMock("../../store/actions/authAction", () => ({
+      getToken: jest.fn(async () => "token"),
+    }));
     jest.doMock("../../data/Environment", () => ({ DEV_MODE: false }));
-    jest.doMock("../../common_functions/UnlinkMeals", () => ({ UnlinkMeals: jest.fn() }));
+    jest.doMock("../../common_functions/UnlinkMeals", () => ({
+      UnlinkMeals: jest.fn(),
+    }));
     jest.doMock("../../firebase/urls", () => ({
       getMealsUrl: jest.fn(() => "https://example.com/meals.json?auth=token"),
-      getMealUrl: jest.fn((id) => `https://example.com/meals/${id}.json?auth=token`),
+      getMealUrl: jest.fn(
+        (id) => `https://example.com/meals/${id}.json?auth=token`,
+      ),
       getPublicMealsUrl: jest.fn(() => "https://example.com/meals.json"),
     }));
     jest.doMock("../../firebase/optimisticTransaction", () => ({
       runFirebaseTransaction: jest.fn(async (_url, mergeFn) => mergeFn({})),
     }));
-    jest.doMock("../../image_processing/deleteImages", () => jest.fn(async () => true));
+    jest.doMock("../../image_processing/deleteImages", () =>
+      jest.fn(async () => true),
+    );
   });
 
   const loadHelpers = () => require("../../store/actions/mealsAction");
