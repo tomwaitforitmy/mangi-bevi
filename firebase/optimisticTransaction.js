@@ -8,7 +8,11 @@ const defaultOptions = {
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getETag = (response) => {
-  if (!response || !response.headers || typeof response.headers.get !== "function") {
+  if (
+    !response ||
+    !response.headers ||
+    typeof response.headers.get !== "function"
+  ) {
     return null;
   }
   return response.headers.get("ETag") || response.headers.get("etag") || null;
@@ -65,5 +69,7 @@ export const runFirebaseTransaction = async (
     await HandleResponseError(writeResponse);
   }
 
-  throw new Error(`runFirebaseTransaction: failed after ${config.maxRetries} attempts`);
+  throw new Error(
+    `runFirebaseTransaction: failed after ${config.maxRetries} attempts`,
+  );
 };
