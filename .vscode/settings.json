@@ -11,6 +11,10 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "chat.tools.terminal.autoApprove": {
-    "printf": true
+    "printf": true,
+    "/^node tests/concurrent-edit-repro\\.js$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
   }
 }
