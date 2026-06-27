@@ -58,7 +58,6 @@ describe("runFirebaseTransaction", () => {
       resourceUrl,
       expect.objectContaining({
         method: "GET",
-        headers: expect.objectContaining({ "X-Firebase-ETag": "true" }),
       }),
     );
     expect(global.fetch).toHaveBeenNthCalledWith(
@@ -66,7 +65,7 @@ describe("runFirebaseTransaction", () => {
       resourceUrl,
       expect.objectContaining({
         method: "PATCH",
-        headers: expect.objectContaining({ "If-Match": etag }),
+        headers: expect.objectContaining({ "Content-Type": "application/json" }),
       }),
     );
   });

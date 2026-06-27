@@ -7,17 +7,6 @@ const defaultOptions = {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const getETag = (response) => {
-  if (
-    !response ||
-    !response.headers ||
-    typeof response.headers.get !== "function"
-  ) {
-    return null;
-  }
-  return response.headers.get("ETag") || response.headers.get("etag") || null;
-};
-
 export const runFirebaseTransaction = async (
   resourceUrl,
   mergeFn,
@@ -28,14 +17,10 @@ export const runFirebaseTransaction = async (
   for (let attempt = 1; attempt <= config.maxRetries; attempt += 1) {
     const readResponse = await fetch(resourceUrl, {
       method: "GET",
-      headers: {
-        "X-Firebase-ETag": "true",
-      },
     });
     await HandleResponseError(readResponse);
 
     const currentData = await readResponse.json();
-    const etag = getETag(readResponse);
     const newPayload = mergeFn(currentData || {});
 
     if (newPayload === undefined || newPayload === null) {
@@ -46,7 +31,6 @@ export const runFirebaseTransaction = async (
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        ...(etag ? { "If-Match": etag } : {}),
       },
       body: JSON.stringify(newPayload),
     };
