@@ -23,7 +23,7 @@ describe("mealsAction merge helpers", () => {
       getPublicMealsUrl: jest.fn(() => "https://example.com/meals.json"),
     }));
     jest.doMock("../../firebase/optimisticTransaction", () => ({
-      runFirebaseTransaction: jest.fn(async (_url, mergeFn) => mergeFn({})),
+      runOptimisticTransaction: jest.fn(async (_url, mergeFn) => mergeFn({})),
     }));
     jest.doMock("../../image_processing/deleteImages", () =>
       jest.fn(async () => true),

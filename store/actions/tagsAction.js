@@ -2,6 +2,7 @@ import { HandleResponseError } from "../../common_functions/HandleResponseError"
 import { getTagsUrl, getTagUrl } from "../../firebase/urls";
 import Tag from "../../models/Tag";
 import * as authAction from "./authAction";
+import { runOptimisticTransaction } from "../../firebase/optimisticTransaction";
 
 export const DELETE_TAG = "DELETE_TAG";
 export const CREATE_TAG = "CREATE_TAG";
@@ -113,19 +114,17 @@ export const editTag = (tag) => {
   return async (dispatch) => {
     console.log("begin edit tag");
     const token = await authAction.getToken();
-    const response = await fetch(getTagUrl(tag.id, token), {
-      method: "PATCH",
-      header: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(tag, replacer),
-    });
+    const resourceUrl = getTagUrl(tag.id, token);
 
-    await HandleResponseError(response);
+    const updated = await runOptimisticTransaction(resourceUrl, (current) => {
+      const payload = { ...current, ...tag };
+      delete payload.id;
+      return payload;
+    });
 
     console.log("end edit tag");
 
-    dispatch({ type: EDIT_TAG, tag: tag });
+    dispatch({ type: EDIT_TAG, tag: { ...tag, ...updated, id: tag.id } });
   };
 };
 

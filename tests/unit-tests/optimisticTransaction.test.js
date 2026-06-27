@@ -1,6 +1,6 @@
-import { runFirebaseTransaction } from "../../firebase/optimisticTransaction";
+import { runOptimisticTransaction } from "../../firebase/optimisticTransaction";
 
-describe("runFirebaseTransaction", () => {
+describe("runOptimisticTransaction", () => {
   beforeEach(() => {
     global.fetch = jest.fn();
   });
@@ -42,7 +42,7 @@ describe("runFirebaseTransaction", () => {
         headers: makeHeaders(etag),
       });
 
-    const result = await runFirebaseTransaction(
+    const result = await runOptimisticTransaction(
       resourceUrl,
       (current) => ({
         ...current,
