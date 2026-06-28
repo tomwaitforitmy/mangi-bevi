@@ -13,7 +13,7 @@ import {
   TextInput,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import * as mealsActions from "../store/actions/mealsAction";
+import * as mealsAction from "../store/actions/mealsAction";
 import * as tagActions from "../store/actions/tagsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import TagList from "../components/TagList";
@@ -56,7 +56,7 @@ function AddTagScreen({ route, navigation }) {
       const editedMeal = { ...meal };
       editedMeal.tags = tags.map((t) => t.id);
       try {
-        await dispatch(mealsActions.editMeal(editedMeal));
+        await dispatch(mealsAction.editMeal(editedMeal));
       } catch (error) {
         console.log(error.message);
       } finally {
@@ -122,7 +122,7 @@ function AddTagScreen({ route, navigation }) {
       await Promise.all(
         mealsWithTag.map(async (meal) => {
           meal.tags = meal.tags.filter((e) => e !== tag.id);
-          await dispatch(mealsActions.editMeal(meal));
+          await dispatch(mealsAction.editMeal(meal));
         }),
       );
     } catch (error) {
