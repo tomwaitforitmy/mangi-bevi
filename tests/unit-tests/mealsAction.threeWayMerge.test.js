@@ -1,5 +1,4 @@
-// tests/unit-tests/mealsAction.threeStateMerge.test.js
-describe("mealsAction three-state merge (original, edited, server)", () => {
+describe("mealsAction three-way merge (original, edited, server)", () => {
   beforeEach(() => {
     jest.resetModules();
     jest.doMock("../../common_functions/HandleResponseError", () => ({
