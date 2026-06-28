@@ -56,7 +56,7 @@ function AddTagScreen({ route, navigation }) {
       const editedMeal = { ...meal };
       editedMeal.tags = tags.map((t) => t.id);
       try {
-        await dispatch(mealsAction.editMeal(editedMeal));
+        await dispatch(mealsAction.editMeal(editedMeal, meal));
       } catch (error) {
         console.log(error.message);
       } finally {
@@ -121,8 +121,10 @@ function AddTagScreen({ route, navigation }) {
 
       await Promise.all(
         mealsWithTag.map(async (meal) => {
-          meal.tags = meal.tags.filter((e) => e !== tag.id);
-          await dispatch(mealsAction.editMeal(meal));
+          //Create a copy to avoid state corruption
+          const editedMeal = { ...meal };
+          editedMeal.tags = editedMeal.tags.filter((e) => e !== tag.id);
+          await dispatch(mealsAction.editMeal(editedMeal, meal));
         }),
       );
     } catch (error) {
