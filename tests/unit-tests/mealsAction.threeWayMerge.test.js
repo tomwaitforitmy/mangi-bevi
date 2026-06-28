@@ -278,8 +278,8 @@ describe("mealsAction three-way merge (original, edited, server)", () => {
     expect(merged.links).toEqual(["link-A"]);
     expect(merged.reactions).toEqual([{ authorId: "u2", emoji: "👍" }]);
     expect(merged.steps).toEqual([
-      "Prepare the ingredients: Start with garlic and onions",
       "Prepare the ingredients: Take the garlic and onions",
+      "Prepare the ingredients: Start with garlic and onions",
     ]); // both users edited the same step, so both edits are taken
     expect(merged.ingredients).toEqual(["ingredient1"]);
     expect(merged.tags).toEqual(["tag1"]);
