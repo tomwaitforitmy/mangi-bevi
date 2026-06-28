@@ -534,6 +534,52 @@ export const buildMealUpdatePayload = (currentMeal, nextMealEdit) => {
   return payload;
 };
 
+export const buildMealUpdatePayloadThreeWay = (
+  originalMeal,
+  editedMeal,
+  currentMeal,
+) => {
+  const baseOriginal = originalMeal || {};
+  const baseEdited = editedMeal || {};
+  const baseCurrent = currentMeal || {};
+
+  const payload = {
+    ...baseCurrent,
+    ...baseEdited,
+    ingredients: mergeThreeWayArrays(
+      baseOriginal.ingredients,
+      baseEdited.ingredients,
+      baseCurrent.ingredients,
+    ),
+    steps: mergeThreeWayArrays(
+      baseOriginal.steps,
+      baseEdited.steps,
+      baseCurrent.steps,
+    ),
+    imageUrls: mergeThreeWayArrays(
+      baseOriginal.imageUrls,
+      baseEdited.imageUrls,
+      baseCurrent.imageUrls,
+    ),
+    tags: mergeThreeWayArrays(
+      baseOriginal.tags,
+      baseEdited.tags,
+      baseCurrent.tags,
+    ),
+    links: mergeThreeWayArrays(
+      baseOriginal.links,
+      baseEdited.links,
+      baseCurrent.links,
+    ),
+    reactions: mergeThreeWayArrays(
+      baseOriginal.reactions,
+      baseEdited.reactions,
+      baseCurrent.reactions,
+    ),
+  };
+  return payload;
+};
+
 export const createMeal = (meal) => {
   return async (dispatch) => {
     console.log("Begin createMeal");
@@ -565,14 +611,18 @@ export const createMeal = (meal) => {
   };
 };
 
-export const editMeal = (meal) => {
+export const editMeal = (meal, originalLocalState) => {
   return async (dispatch) => {
     console.log("begin edit meal");
     const token = await authAction.getToken();
     const resourceUrl = getMealUrl(meal.id, token);
 
     const updatedMeal = await runOptimisticTransaction(resourceUrl, (current) =>
-      buildMealUpdatePayload(current || {}, meal),
+      buildMealUpdatePayloadThreeWay(
+        originalLocalState || {},
+        meal,
+        current || {},
+      ),
     );
 
     console.log("end edit meal");
