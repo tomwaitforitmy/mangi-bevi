@@ -257,7 +257,7 @@ function NewScreen({ route, navigation }) {
         imageUploadTarget,
       );
 
-      await dispatch(mealsAction.editMeal(editedMeal));
+      await dispatch(mealsAction.editMeal(editedMeal, inputMeal));
       formDispatch({ type: SUBMITTED });
 
       //First pop (delete) the current edit screen.

@@ -51,7 +51,7 @@ function DevScreen({ navigation }) {
         "appwrite",
       );
 
-      await dispatch(mealsAction.editMeal(editedMeal));
+      await dispatch(mealsAction.editMeal(editedMeal, meal));
 
       console.log("MIGRATION COMPLETE for " + meal.title);
       counter++;
