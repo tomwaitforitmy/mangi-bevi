@@ -339,8 +339,12 @@ const mergeThreeWayPrimitiveArray = (baseOriginal, baseEdited, baseServer) => {
   const reconciledKept = new Array(len).fill(null);
 
   for (let i = 0; i < len; i += 1) {
-    if (editedAlign.matchForOriginalIndex[i] !== -1) continue;
-    if (serverAlign.matchForOriginalIndex[i] !== -1) continue;
+    if (editedAlign.matchForOriginalIndex[i] !== -1) {
+      continue;
+    }
+    if (serverAlign.matchForOriginalIndex[i] !== -1) {
+      continue;
+    }
 
     const editedGap = editedAlign.gapsBeforeOriginalIndex[i + 1];
     const serverGap = serverAlign.gapsBeforeOriginalIndex[i + 1];
