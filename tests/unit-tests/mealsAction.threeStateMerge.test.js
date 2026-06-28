@@ -286,7 +286,7 @@ describe("mealsAction three-state merge (original, edited, server)", () => {
     expect(merged.tags).toEqual(["tag1"]);
   });
 
-  it("Both add a reaction", () => {
+  it("Both user 1 adds a reaction, user 2 edits his", () => {
     const localState = {
       id: "meal1",
       title: "Original",
@@ -311,7 +311,10 @@ describe("mealsAction three-state merge (original, edited, server)", () => {
       id: "meal1",
       title: "Original",
       links: ["link-A"],
-      reactions: [{ authorId: "u1", emoji: "👍" }],
+      reactions: [
+        { authorId: "u2", emoji: "👍" },
+        { authorId: "u1", emoji: "👍" },
+      ],
       steps: ["step1"],
       ingredients: ["ingredient1"],
       tags: ["tag1"],
