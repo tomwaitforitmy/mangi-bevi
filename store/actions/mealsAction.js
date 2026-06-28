@@ -103,27 +103,24 @@ export const mergeArrays = (current = [], next = []) => {
     next = [];
   }
 
-  // If arrays contain primitives, use simple Set-based dedupe preserving order
-  const isPrimitive = (v) =>
+  const isPrimitiveValue = (v) =>
     v === null || (typeof v !== "object" && typeof v !== "function");
+
   if (current.length === 0 && next.length === 0) {
     return [];
   }
   if (
-    (current.every(isPrimitive) || current.length === 0) &&
-    next.every(isPrimitive)
+    (current.every(isPrimitiveValue) || current.length === 0) &&
+    next.every(isPrimitiveValue)
   ) {
     return Array.from(new Set([...current, ...next]));
   }
 
-  // For arrays of objects, dedupe by a stable key (id, authorId) when available,
-  // otherwise fall back to JSON stringification. Preserve existing `current` items
-  // and append only new items from `next`.
   const keyFor = (item) => {
     if (item == null) {
       return "__null__";
     }
-    if (isPrimitive(item)) {
+    if (isPrimitiveValue(item)) {
       return `prim:${String(item)}`;
     }
     if (item.id !== undefined) {
@@ -159,6 +156,205 @@ export const mergeArrays = (current = [], next = []) => {
   }
 
   return out;
+};
+
+const isPrimitiveValue = (v) =>
+  v === null || (typeof v !== "object" && typeof v !== "function");
+
+const itemKey = (item) => {
+  if (item == null) {
+    return "__null__";
+  }
+  if (typeof item !== "object") {
+    return `prim:${String(item)}`;
+  }
+  if (item.id !== undefined) {
+    return `id:${item.id}`;
+  }
+  if (item.authorId !== undefined) {
+    return `author:${item.authorId}`;
+  }
+  try {
+    return `json:${JSON.stringify(item)}`;
+  } catch (e) {
+    return `obj:${String(item)}`;
+  }
+};
+
+const itemEquals = (a, b) => {
+  if (a === b) {
+    return true;
+  }
+  if (typeof a !== typeof b) {
+    return false;
+  }
+  try {
+    return JSON.stringify(a) === JSON.stringify(b);
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * Three-way merge for arrays (steps, ingredients, tags, links, reactions, imageUrls).
+ *
+ * - original: state as it was before either side touched it
+ * - edited:   local user's version (may have additions/removals/edits)
+ * - server:   latest remote version (may have additions/removals/edits)
+ *
+ * For every item that existed in `original`:
+ *  - If both sides removed it, it's gone.
+ *  - If only one side removed it and the other left it unchanged, it's gone
+ *    (a real removal wins over a no-op).
+ *  - If only one side removed it but the other side actually edited it,
+ *    the edit survives (an edit elsewhere shouldn't be silently lost to a
+ *    stale removal).
+ *  - If neither side removed it: unchanged on both -> keep original;
+ *    changed on one side only -> keep that side's version; changed on both
+ *    sides identically -> keep one copy; changed on both sides differently
+ *    -> keep both versions (edited's version first, then server's).
+ *
+ * Items that are brand new (not present in `original`) are appended after
+ * all resolved original-derived items, with locally-added items first and
+ * then server-added items.
+ */
+const mergeThreeWayArrays = (original = [], edited = [], server = []) => {
+  const baseOriginal = Array.isArray(original) ? original : [];
+  const baseEdited = Array.isArray(edited) ? edited : [];
+  const baseServer = Array.isArray(server) ? server : [];
+
+  if (baseOriginal.length === 0) {
+    return mergeArrays(baseServer, baseEdited);
+  }
+
+  const originalByKey = new Map(
+    baseOriginal.map((item) => [itemKey(item), item]),
+  );
+  const editedByKey = new Map(baseEdited.map((item) => [itemKey(item), item]));
+  const serverByKey = new Map(baseServer.map((item) => [itemKey(item), item]));
+
+  const result = [];
+  const seen = new Set();
+  const addResultItem = (item) => {
+    const key = itemKey(item);
+    if (!seen.has(key)) {
+      seen.add(key);
+      result.push(item);
+    }
+  };
+
+  // 1. Resolve every item that existed in `original`.
+  for (const originalItem of baseOriginal) {
+    const key = itemKey(originalItem);
+    const editedItem = editedByKey.get(key);
+    const serverItem = serverByKey.get(key);
+
+    const editedPresent = editedByKey.has(key);
+    const serverPresent = serverByKey.has(key);
+
+    const editedChanged =
+      editedPresent && !itemEquals(editedItem, originalItem);
+    const serverChanged =
+      serverPresent && !itemEquals(serverItem, originalItem);
+
+    if (!editedPresent && !serverPresent) {
+      // Both removed it.
+      continue;
+    }
+    if (!editedPresent) {
+      // Local removed it; keep only if server actually changed it.
+      if (serverChanged) {
+        addResultItem(serverItem);
+      }
+      continue;
+    }
+    if (!serverPresent) {
+      // Server removed it; keep only if local actually changed it.
+      if (editedChanged) {
+        addResultItem(editedItem);
+      }
+      continue;
+    }
+    // Present on both sides.
+    if (!editedChanged && !serverChanged) {
+      addResultItem(originalItem);
+    } else if (editedChanged && !serverChanged) {
+      addResultItem(editedItem);
+    } else if (!editedChanged && serverChanged) {
+      addResultItem(serverItem);
+    } else if (itemEquals(editedItem, serverItem)) {
+      addResultItem(editedItem);
+    } else {
+      // Both changed it differently: keep both edits.
+      addResultItem(editedItem);
+      addResultItem(serverItem);
+    }
+  }
+
+  // 2. Add brand-new items (not present in original) — edited first, then server.
+  for (const item of baseEdited) {
+    if (!originalByKey.has(itemKey(item))) {
+      addResultItem(item);
+    }
+  }
+  for (const item of baseServer) {
+    if (!originalByKey.has(itemKey(item))) {
+      addResultItem(item);
+    }
+  }
+
+  return result;
+};
+
+export const threeWayMerge = (
+  originalMeal = {},
+  editedMeal = {},
+  serverMeal = {},
+) => {
+  const baseOriginal = originalMeal || {};
+  const baseEdited = editedMeal || {};
+  const baseServer = serverMeal || {};
+
+  const result = {
+    ...baseServer,
+    ...baseEdited,
+    title:
+      baseEdited.title !== undefined && baseEdited.title !== baseOriginal.title
+        ? baseEdited.title
+        : baseServer.title,
+    ingredients: mergeThreeWayArrays(
+      baseOriginal.ingredients,
+      baseEdited.ingredients,
+      baseServer.ingredients,
+    ),
+    steps: mergeThreeWayArrays(
+      baseOriginal.steps,
+      baseEdited.steps,
+      baseServer.steps,
+    ),
+    imageUrls: mergeThreeWayArrays(
+      baseOriginal.imageUrls,
+      baseEdited.imageUrls,
+      baseServer.imageUrls,
+    ),
+    tags: mergeThreeWayArrays(
+      baseOriginal.tags,
+      baseEdited.tags,
+      baseServer.tags,
+    ),
+    links: mergeThreeWayArrays(
+      baseOriginal.links,
+      baseEdited.links,
+      baseServer.links,
+    ),
+    reactions: mergeThreeWayArrays(
+      baseOriginal.reactions,
+      baseEdited.reactions,
+      baseServer.reactions,
+    ),
+  };
+
+  return result;
 };
 
 export const buildMealUpdatePayload = (currentMeal, nextMealEdit) => {

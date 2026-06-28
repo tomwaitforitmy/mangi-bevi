@@ -17,6 +17,12 @@ describe("mealsAction three-state merge (original, edited, server)", () => {
       ),
       getPublicMealsUrl: jest.fn(() => "https://example.com/meals.json"),
     }));
+    jest.doMock("../../firebase/firebase", () => ({
+      firebaseAuth: { currentUser: null },
+    }));
+    jest.doMock("../../image_processing/deleteImages", () =>
+      jest.fn(async () => true),
+    );
   });
 
   const loadHelpers = () => require("../../store/actions/mealsAction");
@@ -107,7 +113,7 @@ describe("mealsAction three-state merge (original, edited, server)", () => {
     const merged = threeWayMerge(localState, editedLocal, serverFetched);
     expect(merged.title).toEqual("Edited by remote");
     expect(merged.links).toEqual(["link-A"]);
-    expect(merged.reactions).toEqual([]); // user 2 removed their reaction, so it should be gone]);
+    expect(merged.reactions).toEqual([]); // user 2 removed their reaction, so it should be gone
     expect(merged.steps).toEqual(["step1", "step2"]);
     expect(merged.ingredients).toEqual(["ingredient1"]);
     expect(merged.tags).toEqual(["tag1"]);
@@ -148,7 +154,7 @@ describe("mealsAction three-state merge (original, edited, server)", () => {
     const merged = threeWayMerge(localState, editedLocal, serverFetched);
     expect(merged.title).toEqual("Edited title");
     expect(merged.links).toEqual(["link-A"]);
-    expect(merged.reactions).toEqual([{ authorId: "u2", emoji: "👍" }]); // user 2 removed their reaction, so it should be gone]);
+    expect(merged.reactions).toEqual([{ authorId: "u2", emoji: "👍" }]);
     expect(merged.steps).toEqual(["step1", "step2"]);
     expect(merged.ingredients).toEqual(["ingredient1", "ingredient2"]);
     expect(merged.tags).toEqual(["tag1"]);
@@ -316,8 +322,8 @@ describe("mealsAction three-state merge (original, edited, server)", () => {
     expect(merged.title).toEqual("Original");
     expect(merged.links).toEqual(["link-A"]);
     expect(merged.reactions).toEqual([
-      { authorId: "u1", emoji: "👍" },
       { authorId: "u2", emoji: "😍" },
+      { authorId: "u1", emoji: "👍" },
     ]);
     expect(merged.steps).toEqual(["step1"]);
     expect(merged.ingredients).toEqual(["ingredient1"]);
@@ -380,7 +386,7 @@ describe("mealsAction three-state merge (original, edited, server)", () => {
       id: "meal1",
       title: "Edited by user 2",
       links: ["link-A"],
-      reactions: [{ authorId: "u2", emoji: "😍" }],
+      reactions: [{ authorId: "u2", emoji: "👍" }],
       steps: ["step1"],
       ingredients: ["ingredient1"],
       tags: ["tag1"],
