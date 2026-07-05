@@ -70,30 +70,23 @@ function MealsScreen({ navigation }) {
     fetchAll(dispatch).then(() => setIsLoading(false));
   }, [dispatch]);
 
-  const onRefresh = React.useCallback(() => {
-    if (!user.id) {
+  const onRefresh = React.useCallback(async () => {
+    if (!user?.id) {
       console.log("User data not loaded. Stop refreshing");
       return;
     }
 
     setRefreshing(true);
-    fetchAll(dispatch).then(() => {
-      const sortedMeals = SortMealsBy(
-        [...filteredMeals],
-        selectedSortingType,
-        mealsCookedByUser,
-        user.id,
-      );
-      setFilteredMeals(sortedMeals);
+    try {
+      // Wait for fetchAll to update the Redux store, then
+      // let the main effect recompute `filteredMeals` from `allMeals`.
+      await fetchAll(dispatch);
+    } catch (err) {
+      console.error("Refresh failed", err);
+    } finally {
       setRefreshing(false);
-    });
-  }, [
-    dispatch,
-    filteredMeals,
-    mealsCookedByUser,
-    selectedSortingType,
-    user?.id, //not always loaded
-  ]);
+    }
+  }, [dispatch, user?.id]);
 
   useEffect(() => {
     if (!user) {
