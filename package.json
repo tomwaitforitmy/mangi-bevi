@@ -74,6 +74,10 @@
     "react-test-renderer": "19.2.0",
     "uuid": "^9.0.1"
   },
+  "overrides": {
+    "expo-file-system": "~55.0.23",
+    "expo-font": "~55.0.8"
+  },
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@expo/ngrok": "^4.1.3",
