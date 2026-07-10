@@ -20,12 +20,21 @@ Add android home permanently:
 Add these lines at the end:
 
 `set -gx ANDROID_HOME /home/tommy/Android/Sdk`
+`set -gx PATH $ANDROID_HOME/platform-tools $ANDROID_HOME/emulator $PATH`
 `set -gx JAVA_HOME /usr/lib/jvm/java-17-openjdk`
 `set -gx PATH $JAVA_HOME/bin $PATH`
+`set -gx PATH ~/.npm-global/bin $PATH`
 
 Reload fish config
 
 `source ~/.config/fish/config.fish`
+
+### global npm config
+
+To solves issues where npm install doesn't have enough rights:
+
+mkdir -p ~/.npm-global
+npm config set prefix ~/.npm-global
 
 ## Install everything in Mint
 
