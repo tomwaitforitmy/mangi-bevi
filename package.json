@@ -3,8 +3,8 @@
   "scripts": {
     "start": "expo start --tunnel",
     "dev": "APP_VARIANT=development npx expo start --tunnel",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "eslint .",
     "eject": "expo eject",
@@ -93,5 +93,7 @@
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|@react-native-async-storage/.*|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|react-native-elements|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ]
   },
-  "private": true
+  "private": true,
+  "name": "mangi-bevi",
+  "version": "1.0.0"
 }
