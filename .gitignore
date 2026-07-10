@@ -13,3 +13,4 @@ web-build/
 .DS_Store
 dist/
 google-services.json
+android/
