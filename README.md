@@ -7,24 +7,28 @@ Food lover app for everyone
 `git clone`
 
 ## Install everything in cachyOS
+
 `sudo pacman -Syu code`
 
 `paru -S android-studio`
+`sudo pacman -S jdk17-openjdk` (for building dev-client locally)
 
 Add android home permanently:
 
 `kate ~/.config/fish/config.fish`
 
-Add this line at the end:
+Add these lines at the end:
 
 `set -gx ANDROID_HOME /home/tommy/Android/Sdk`
+`set -gx JAVA_HOME /usr/lib/jvm/java-17-openjdk`
+`set -gx PATH $JAVA_HOME/bin $PATH`
 
 Reload fish config
 
 `source ~/.config/fish/config.fish`
 
-
 ## Install everything in Mint
+
 `sudo apt get code` (requires that you add the official MS repository before)
 
 `flatpak install flathub com.google.AndroidStudio`
@@ -33,16 +37,17 @@ Add android home permanently:
 
 `echo 'export ANDROID_HOME=/home/tommy/Android/Sdk' >> ~/.bashrc`
 
-
 `source ~/.bashrc`
 
 # For all OS
+
 `npm i`
 
 Auth expo
 `npx expo login` (follow the auth)
 
 ## To start debugging
+
 Start a device in android studio
 
 (Not sure if I need this)
@@ -58,24 +63,27 @@ press `a` to debug in android emulator
 Happy debugging ☺️
 
 ### How to fix "TypeError: Error loading Metro config at: /home/tommy/repos/mangi-bevi/metro.config.js configs.toReversed is not a function"
+
 1. Install nvm
 
-    > curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-1. Reload bashrc with 
-    > source ~/.bashrc
+   > curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+1. Reload bashrc with
+   > source ~/.bashrc
 1. Install nodejs 20 (LTS)
 
-    >nvm install 20
+   > nvm install 20
 
-    >nvm use 20
+   > nvm use 20
 
-    >nvm alias default 20
+   > nvm alias default 20
+
 1. Restart vs code and re-try
 
-    > npm start
-
+   > npm start
 
 ## Recommended vs code extensions
+
 code --install-extension dbaeumer.vscode-eslint
 
 code --install-extension equimper.react-native-react-redux
@@ -99,4 +107,3 @@ code --install-extension pkief.material-icon-theme
 code --install-extension redhat.vscode-yaml
 
 code --install-extension streetsidesoftware.code-spell-checker
-
