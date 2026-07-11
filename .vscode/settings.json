@@ -19,6 +19,9 @@
     "/^cd /home/tommy/mangi-bevi && node - <<'NODE'\nrequire\\('dotenv'\\)\\.config\\(\\);\nconst API_KEY = process\\.env\\.EXPO_FIREBASE_API_KEY;\nconst EMAIL = process\\.env\\.FIREBASE_AUTH_EMAIL;\nconst PASSWORD = process\\.env\\.FIREBASE_AUTH_PASSWORD;\nconst DATABASE_URL = \\(process\\.env\\.FIREBASE_BASE \\|\\| 'https://testshop-39aae-default-rtdb\\.europe-west1\\.firebasedatabase\\.app'\\)\\.replace\\(/\\\\/\\+\\$/g, ''\\);\nif \\(!API_KEY \\|\\| !EMAIL \\|\\| !PASSWORD\\) \\{ console\\.error\\('Missing env'\\); process\\.exit\\(1\\); \\}\nconst fetch = global\\.fetch \\|\\| require\\('node-fetch'\\);\nasync function signIn\\(\\) \\{\n  const resp = await fetch\\(`https://identitytoolkit\\.googleapis\\.com/v1/accounts:signInWithPassword\\?key=\\$\\{API_KEY\\}`, \\{\n    method:'POST', headers:\\{'Content-Type':'application/json'\\},\n    body: JSON\\.stringify\\(\\{ email: EMAIL, password: PASSWORD, returnSecureToken: true \\}\\),\n  \\}\\);\n  const data = await resp\\.json\\(\\);\n  console\\.log\\('signin', resp\\.status, data && data\\.idToken \\? 'ok' : JSON\\.stringify\\(data\\)\\);\n  return data\\.idToken;\n\\}\n\\(async \\(\\) => \\{\n  const token = await signIn\\(\\);\n  const url = `\\$\\{DATABASE_URL\\}/\\.json\\?auth=\\$\\{encodeURIComponent\\(token\\)\\}`;\n  const resp = await fetch\\(url\\);\n  console\\.log\\('status', resp\\.status\\);\n  console\\.log\\('etag', resp\\.headers\\.get\\('etag'\\)\\);\n  console\\.log\\('ETag', resp\\.headers\\.get\\('ETag'\\)\\);\n  console\\.log\\('content-type', resp\\.headers\\.get\\('content-type'\\)\\);\n  const text = await resp\\.text\\(\\);\n  console\\.log\\('body chars', text\\.length\\);\n\\}\\)\\(\\);\nNODE$/": {
       "approve": true,
       "matchCommandLine": true
-    }
+    },
+    "true": true,
+    "npx expo": true,
+    "npm install": true
   }
 }
