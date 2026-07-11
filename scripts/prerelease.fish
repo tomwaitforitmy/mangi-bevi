@@ -6,6 +6,12 @@
 # ./scripts/prerelease.fish minor
 # ./scripts/prerelease.fish            # prompts interactively
 # ./scripts/prerelease.fish patch --check-deps   # opt-in dependency check
+#Or via npm:
+# npm run prerelease -- patch
+# npm run prerelease -- minor
+# npm run prerelease            # prompts interactively
+# npm run prerelease -- patch --check-deps
+
 
 set -l bump_type $argv[1]
 set -l check_deps false
