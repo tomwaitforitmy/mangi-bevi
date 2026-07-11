@@ -17,9 +17,9 @@ jobs:
     needs: [build_ios]
     type: submit
     params:
-      build_id: ${{ jobs.build_ios.outputs.build_id }}
+      build_id: ${{ needs.build_ios.outputs.build_id }}
   submit_android:
     needs: [build_android]
     type: submit
     params:
-      build_id: ${{ jobs.build_android.outputs.build_id }}
+      build_id: ${{ needs.build_android.outputs.build_id }}
