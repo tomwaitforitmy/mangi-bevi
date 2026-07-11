@@ -94,4 +94,8 @@ git add -A
 git commit -m "chore: bump version to $new_version"
 git push
 
-echo "✓ Prerelease steps complete. Version: $new_version"
+git tag "v$new_version"
+
+echo "✓ Prerelease steps complete."
+echo "  git Tag 'v$new_version' created locally."
+echo "  Run 'git push origin v$new_version' when you're ready to trigger the release workflow."
