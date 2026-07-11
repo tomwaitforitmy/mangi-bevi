@@ -1,12 +1,11 @@
 import React from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const TabBarIcon = (focused, color, routeName) => {
   let iconName;
 
   if (routeName === "Mangi & Bevi") {
-    return <MaterialDesignIcons name={"noodles"} size={25} color={color} />;
+    return <MaterialCommunityIcons name="noodles" size={25} color={color} />;
   } else if (routeName === "Filters") {
     iconName = focused ? "filter" : "filter-outline";
   } else if (routeName === "New") {

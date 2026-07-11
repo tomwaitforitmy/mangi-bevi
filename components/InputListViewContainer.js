@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import MyListItem from "./MyListItem";
 import Colors from "../constants/Colors";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 
 const InputListViewContainer = (props) => {
   const scrollViewRef = useRef(null);

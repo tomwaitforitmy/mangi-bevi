@@ -5,8 +5,11 @@ import Colors from "../constants/Colors";
 import HighlightedText from "./HighlightedText";
 import { PreTestSplit } from "../common_functions/SplitTextToHighlight";
 import IconTypes from "../constants/IconTypes";
-import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import {
+  MaterialIcons,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 const MyListItem = (props) => {
   const testIconId = props.title + "-icon";
@@ -35,7 +38,7 @@ const MyListItem = (props) => {
     if (props.IconName === "edit") {
       return <MaterialIcons {...iconProps} color={"black"} />;
     }
-    return <MaterialDesignIcons {...iconProps} color={"black"} />;
+    return <MaterialCommunityIcons {...iconProps} color={"black"} />;
   };
 
   return (

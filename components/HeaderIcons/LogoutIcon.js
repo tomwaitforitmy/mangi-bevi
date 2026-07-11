@@ -1,7 +1,7 @@
 import React from "react";
 import Colors from "../../constants/Colors";
 import * as authActions from "../../store/actions/authAction";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 import { Alert, Pressable } from "react-native";
 import { ResetSecureStorage } from "../../common_functions/CredentialStorage";
 import {

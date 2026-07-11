@@ -1,5 +1,5 @@
 import React from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 import { NAVIGATION_TITLES } from "../../constants/NavigationTitles";
 import { Pressable } from "react-native";
 import Colors from "../../constants/Colors";

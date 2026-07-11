@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
 import Colors from "../constants/Colors";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const SearchInput = ({
   style,
@@ -25,7 +25,7 @@ const SearchInput = ({
       </Text>
       {showSortIcon && (
         <Pressable onPress={onSortPress} style={styles.icon}>
-          <MaterialDesignIcons
+          <MaterialCommunityIcons
             name="sort"
             color={Colors.navigationIcon}
             size={24}
