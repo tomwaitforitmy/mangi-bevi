@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/eslint-config": "^3.1.0",
     "@react-native-vector-icons/feather": "^12.4.0",
@@ -95,5 +96,5 @@
   },
   "private": true,
   "name": "mangi-bevi",
-  "version": "1.0.0"
+  "version": "1.81.0"
 }
