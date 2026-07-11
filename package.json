@@ -2,7 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "npx expo start",
-    "dev": "APP_VARIANT=development npx expo start",
+    "dev": "APP_VARIANT=development npx expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
@@ -10,7 +10,9 @@
     "eject": "expo eject",
     "test": "jest",
     "prerelease": "fish scripts/prerelease.fish",
-    "dev-client": "eas workflow:run .eas/workflows/dev-client.yml"
+    "dev-client": "eas workflow:run .eas/workflows/dev-client.yml",
+    "install-android": "adb -s emulator-5554 shell pm uninstall com.tomwaitforitmy.mangibevi.dev; eas build:run --platform android",
+    "open-android-dev": "adb -s emulator-5554 shell am start -a android.intent.action.VIEW -d \"exp+mangi-bevi://expo-development-client/?url=http%3A%2F%2F192.168.178.144%3A8081\" com.tomwaitforitmy.mangibevi.dev"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",
