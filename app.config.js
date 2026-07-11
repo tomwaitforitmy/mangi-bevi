@@ -41,6 +41,15 @@ export default ({ config }) => ({
     ...config.ios,
     bundleIdentifier: getUniqueIdentifier(),
   },
+  plugins: [
+    ...(config.plugins ?? []),
+    "expo-asset",
+    "expo-status-bar",
+  ],
+  experiments: {
+    ...(config.experiments ?? {}),
+    reactCompiler: true,
+  },
   extra: {
     ...config.extra,
     firebaseApiKey:

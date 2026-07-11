@@ -1,4 +1,4 @@
-const User = (
+function User(
   id,
   name,
   email,
@@ -8,17 +8,19 @@ const User = (
   expoPushToken,
   settings,
   favorites,
-) => ({
-  id,
-  name,
-  email,
-  meals: meals ? meals : [],
-  firebaseId,
-  friends: friends ? friends : [],
-  isSelected: false,
-  expoPushToken,
-  settings: settings ? settings : [],
-  favorites: favorites ? favorites : [],
-});
+) {
+  return {
+    id,
+    name,
+    email,
+    meals: meals ? meals : [],
+    firebaseId,
+    friends: friends ? friends : [],
+    isSelected: false,
+    expoPushToken,
+    settings: settings ? settings : [],
+    favorites: favorites ? favorites : [],
+  };
+}
 
 export default User;

@@ -6,11 +6,6 @@
     "version": "1.80.4",
     "orientation": "portrait",
     "icon": "./assets/noodles.png",
-    "splash": {
-      "image": "./assets/splash-noodles.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/113294ee-33ec-4908-8f4b-8e830e6f5bc6",
@@ -54,12 +49,23 @@
         {
           "faceIDPermission": "Allow Mangi & Bevi to access your Face ID biometric data."
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-noodles.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
       ]
     ],
     "extra": {
       "eas": {
         "projectId": "113294ee-33ec-4908-8f4b-8e830e6f5bc6"
       }
+    },
+    "experiments": {
+      "reactCompiler": true
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
