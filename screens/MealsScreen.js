@@ -26,7 +26,8 @@ import SelectSortingModal from "../components/SelectSortingModal";
 import { LAST_CREATED } from "../data/AllowedSortingOptions";
 import { SortMealsBy } from "../common_functions/SortMealBy";
 import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@react-native-vector-icons/ionicons";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 function MealsScreen({ navigation }) {
   const dispatch = useDispatch();

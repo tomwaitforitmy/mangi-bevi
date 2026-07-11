@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@react-native-vector-icons/ionicons";
 import Colors from "../../constants/Colors";
 import {
   HEADER_ICON_CONTAINER_STYLE,

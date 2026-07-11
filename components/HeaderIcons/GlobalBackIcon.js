@@ -1,6 +1,6 @@
 import React from "react";
 import Colors from "../../constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@react-native-vector-icons/ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable } from "react-native";
 import {

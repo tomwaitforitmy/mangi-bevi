@@ -1,6 +1,6 @@
 import React from "react";
 import { ImageBackground, StyleSheet, View, Pressable } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import Feather from "@react-native-vector-icons/feather";
 
 const SwipeableImage = (props) => {
   return (

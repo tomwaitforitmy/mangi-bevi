@@ -3,11 +3,9 @@ import { View, StyleSheet } from "react-native";
 import LevelView from "../components/LevelView";
 import { RECIPE_REWARDS } from "../data/RecipeRewards";
 import { TAG_REWARDS } from "../data/TagRewards";
-import {
-  MaterialCommunityIcons,
-  FontAwesome5,
-  Ionicons,
-} from "@expo/vector-icons";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import FontAwesome5 from "@react-native-vector-icons/fontawesome5";
+import Ionicons from "@react-native-vector-icons/ionicons";
 import { INGREDIENT_REWARDS } from "../data/IngredientRewards";
 import Colors from "../constants/Colors";
 
@@ -16,7 +14,7 @@ const MyLevelViewContainer = (props) => {
 
   const myChefIcon = () => {
     return (
-      <MaterialCommunityIcons name="chef-hat" size={iconSize} color="black" />
+      <MaterialDesignIcons name="chef-hat" size={iconSize} color="black" />
     );
   };
 
