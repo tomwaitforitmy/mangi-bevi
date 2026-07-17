@@ -23,7 +23,14 @@ const MyLevelViewContainer = (props) => {
   };
 
   const myCarrotIcon = () => {
-    return <FontAwesome5 name="carrot" size={iconSize} color="orange" />;
+    return (
+      <FontAwesome5
+        name="carrot"
+        iconStyle="solid" //carrot only exists in solid style
+        size={iconSize}
+        color="orange"
+      />
+    );
   };
 
   return (
