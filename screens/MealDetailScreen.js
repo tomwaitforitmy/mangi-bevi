@@ -151,10 +151,6 @@ function MealDetailScreen({ route, navigation }) {
 
   const childRef = useRef();
 
-  // Debug helpers: set to true to hide the tab menu for isolation testing
-  const DEBUG_HIDE_TAB = false;
-  // Debug helper: set to true to hide the speed dial for isolation testing
-  const DEBUG_HIDE_SPEED = true;
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
   const [selectedTab, setSelectedTab] = useState(initiallySelectedTab);
@@ -205,15 +201,13 @@ function MealDetailScreen({ route, navigation }) {
         selectedMeal={selectedMeal}
       />
 
-      {!DEBUG_HIDE_TAB && (
-        <MyTabMenu
-          ref={childRef}
-          initialIndex={initialIndex}
-          titles={mealTabMenuTitleArray}
-          windowWidth={windowWidth}
-          onTabPress={onTabPressCallback}
-        />
-      )}
+      <MyTabMenu
+        ref={childRef}
+        initialIndex={initialIndex}
+        titles={mealTabMenuTitleArray}
+        windowWidth={windowWidth}
+        onTabPress={onTabPressCallback}
+      />
       <ScrollView
         style={[styles.container, { flex: 1, width: "100%" }]}
         contentContainerStyle={{ flexGrow: 1 }}>
@@ -282,9 +276,7 @@ function MealDetailScreen({ route, navigation }) {
           />
         )}
       </ScrollView>
-      {/* Debug: hide speed dial to test layout */}
-      {/* Toggle DEBUG_HIDE_SPEED to true to hide this component during experiments */}
-      {typeof DEBUG_HIDE_SPEED === "undefined" || DEBUG_HIDE_SPEED === false ? (
+      <View style={styles.speedDialWrapper} pointerEvents="box-none">
         <MealSpeedDial
           mealId={selectedMeal.id}
           navigation={navigation}
@@ -294,7 +286,7 @@ function MealDetailScreen({ route, navigation }) {
           onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
           enableMarkCooked={enableMarkCooked}
         />
-      ) : null}
+      </View>
     </View>
   );
 }
@@ -319,6 +311,16 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  speedDialWrapper: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0,
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    pointerEvents: "box-none",
   },
 });
 

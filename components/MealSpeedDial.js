@@ -99,6 +99,7 @@ const MealSpeedDial = (props) => {
 
   return (
     <SpeedDial
+      placement="right"
       color={Colors.primary}
       isOpen={formState.isOpen}
       icon={{
