@@ -151,6 +151,10 @@ function MealDetailScreen({ route, navigation }) {
 
   const childRef = useRef();
 
+  // Debug helpers: set to true to hide the tab menu for isolation testing
+  const DEBUG_HIDE_TAB = false;
+  // Debug helper: set to true to hide the speed dial for isolation testing
+  const DEBUG_HIDE_SPEED = true;
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
   const [selectedTab, setSelectedTab] = useState(initiallySelectedTab);
@@ -185,7 +189,7 @@ function MealDetailScreen({ route, navigation }) {
 
   return (
     <View
-      style={styles.container}
+      style={[styles.container, { width: "100%" }]}
       onTouchStart={(e) => (touchX.current = e.nativeEvent.pageX)}
       onTouchEnd={(e) => {
         if (touchX.current - e.nativeEvent.pageX > 100) {
@@ -201,14 +205,18 @@ function MealDetailScreen({ route, navigation }) {
         selectedMeal={selectedMeal}
       />
 
-      <MyTabMenu
-        ref={childRef}
-        initialIndex={initialIndex}
-        titles={mealTabMenuTitleArray}
-        windowWidth={windowWidth}
-        onTabPress={onTabPressCallback}
-      />
-      <ScrollView style={styles.container}>
+      {!DEBUG_HIDE_TAB && (
+        <MyTabMenu
+          ref={childRef}
+          initialIndex={initialIndex}
+          titles={mealTabMenuTitleArray}
+          windowWidth={windowWidth}
+          onTabPress={onTabPressCallback}
+        />
+      )}
+      <ScrollView
+        style={[styles.container, { flex: 1, width: "100%" }]}
+        contentContainerStyle={{ flexGrow: 1 }}>
         {selectedTab === TITLES.INFO && (
           <View>
             <Text style={styles.subtitle}>{selectedMeal.title}</Text>
@@ -274,15 +282,19 @@ function MealDetailScreen({ route, navigation }) {
           />
         )}
       </ScrollView>
-      <MealSpeedDial
-        mealId={selectedMeal.id}
-        navigation={navigation}
-        isFavorite={isFavorite}
-        onPressFavorite={() => onToggleFavorite()}
-        onPressReact={() => setShowSelectReactionModal(true)}
-        onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
-        enableMarkCooked={enableMarkCooked}
-      />
+      {/* Debug: hide speed dial to test layout */}
+      {/* Toggle DEBUG_HIDE_SPEED to true to hide this component during experiments */}
+      {typeof DEBUG_HIDE_SPEED === "undefined" || DEBUG_HIDE_SPEED === false ? (
+        <MealSpeedDial
+          mealId={selectedMeal.id}
+          navigation={navigation}
+          isFavorite={isFavorite}
+          onPressFavorite={() => onToggleFavorite()}
+          onPressReact={() => setShowSelectReactionModal(true)}
+          onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
+          enableMarkCooked={enableMarkCooked}
+        />
+      ) : null}
     </View>
   );
 }
