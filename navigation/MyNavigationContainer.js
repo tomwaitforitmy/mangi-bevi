@@ -105,15 +105,25 @@ const MealsStack = createNativeStackNavigator();
 const GlobalBackButtonComponent = () => <GlobalBackIcon />;
 
 const showEditIcon = (mealId, user, users, navigation, currentTab) => {
-  const authorId = GetAuthorByMealId(mealId, users).id;
-  const authorFriends = GetFriends(authorId, users);
-  let show = HasEditPermission(user, authorId, authorFriends);
-
-  if (show) {
-    return EditMangiIcon(navigation, mealId, currentTab);
-  } else {
+  const author = GetAuthorByMealId(mealId, users);
+  if (!author) {
     return null;
   }
+
+  const authorFriends = GetFriends(author.id, users);
+  const show = HasEditPermission(user, author.id, authorFriends);
+
+  if (!show) {
+    return null;
+  }
+
+  return (
+    <EditMangiIcon
+      navigation={navigation}
+      mealId={mealId}
+      currentTab={currentTab}
+    />
+  );
 };
 
 function MealsStackContainer({ navigation }) {
