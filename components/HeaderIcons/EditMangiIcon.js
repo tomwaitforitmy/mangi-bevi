@@ -22,7 +22,8 @@ const onHeaderIconPress = (navigation, mealId, currentTab, dispatch) => {
   });
 };
 
-const EditMangiIcon = (navigation, mealId, currentTab) => {
+// Now a proper component: props in, JSX out
+const EditMangiIcon = ({ navigation, mealId, currentTab }) => {
   const dispatch = useDispatch();
 
   return (

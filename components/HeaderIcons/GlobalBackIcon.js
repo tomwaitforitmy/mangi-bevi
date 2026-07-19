@@ -12,12 +12,13 @@ import {
 const GlobalBackIcon = () => {
   const navigation = useNavigation();
 
-  if (!navigation.canGoBack()) {
-    return null;
-  }
-
+  //Android gestures somehow need this to
+  //prevent error messages where sometimes
+  //navigation can't go back, yet.
   const handlePress = () => {
-    navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
   };
 
   return (
