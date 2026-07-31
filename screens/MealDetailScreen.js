@@ -276,17 +276,15 @@ function MealDetailScreen({ route, navigation }) {
           />
         )}
       </ScrollView>
-      <View style={styles.speedDialWrapper} pointerEvents="box-none">
-        <MealSpeedDial
-          mealId={selectedMeal.id}
-          navigation={navigation}
-          isFavorite={isFavorite}
-          onPressFavorite={() => onToggleFavorite()}
-          onPressReact={() => setShowSelectReactionModal(true)}
-          onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
-          enableMarkCooked={enableMarkCooked}
-        />
-      </View>
+      <MealSpeedDial
+        mealId={selectedMeal.id}
+        navigation={navigation}
+        isFavorite={isFavorite}
+        onPressFavorite={() => onToggleFavorite()}
+        onPressReact={() => setShowSelectReactionModal(true)}
+        onPressMarkCooked={() => onPressMarkCooked(mealId, user.id)}
+        enableMarkCooked={enableMarkCooked}
+      />
     </View>
   );
 }
@@ -311,16 +309,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  },
-  speedDialWrapper: {
-    position: "absolute",
-    right: 0,
-    bottom: 0,
-    top: 0,
-    left: 0,
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-    pointerEvents: "box-none",
   },
 });
 
