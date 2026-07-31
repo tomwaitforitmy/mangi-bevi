@@ -20,7 +20,7 @@ const ImageSwipe = (props) => {
       style={{ ...styles.container, ...props.style }}
       imageUrls={images}
       useNativeDriver={true}
-      loadingRender={() => LoadingIndicator(props)}
+      loadingRender={() => <LoadingIndicator style={props.style} />}
       //I thought of renaming props here to solve the warning, but decided against it.
       renderImage={(props) => (
         <SwipeableImage

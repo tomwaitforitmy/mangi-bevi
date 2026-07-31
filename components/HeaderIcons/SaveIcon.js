@@ -8,7 +8,7 @@ import {
   HEADER_ICON_SIZE,
 } from "./HeaderIconConfig";
 
-const SaveIcon = (onPress) => {
+const SaveIcon = ({ onPress }) => {
   return (
     <Pressable
       onPress={onPress}

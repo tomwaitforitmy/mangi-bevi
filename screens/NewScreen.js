@@ -166,8 +166,8 @@ function NewScreen({ route, navigation }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => HeaderBackIcon({ backAction }),
-      headerRight: () => SaveIcon(saveMealHandler),
+      headerLeft: () => <HeaderBackIcon backAction={backAction} />,
+      headerRight: () => <SaveIcon onPress={saveMealHandler} />,
     });
   }, [navigation, formState, backAction, saveMealHandler]);
 
