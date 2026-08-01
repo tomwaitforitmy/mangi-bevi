@@ -57,17 +57,22 @@ const styles = StyleSheet.create({
   chip: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.tagBackground,
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 12,
     margin: 1,
+    borderWidth: 1,
+    borderColor: Colors.tagBorderColor,
+  },
+  chipSelected: {
+    backgroundColor: Colors.primary,
   },
   chipPressed: {
     opacity: 0.7,
   },
   chipText: {
-    color: Colors.navigationIcon,
+    color: Colors.tagText,
     fontSize: 14,
   },
 });

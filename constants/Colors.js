@@ -26,4 +26,8 @@ export default {
   textInputPlaceholderColor: "lightgrey",
   //OS-specific header icon colors
   headerIconColor: Platform.OS === "ios" ? "#0571ff" : "white",
+  //Tags:
+  tagBackground: "white",
+  tagText: "black",
+  tagBorderColor: "rgba(0,0,0,0.1)",
 };
