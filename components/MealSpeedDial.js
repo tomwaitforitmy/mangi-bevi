@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { Share } from "react-native";
+import { Share, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import { SpeedDial } from "@rneui/themed";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
@@ -100,7 +100,7 @@ const MealSpeedDial = (props) => {
   return (
     <SpeedDial
       placement="right"
-      color={Colors.primary}
+      color={Colors.speedDialBackground}
       isOpen={formState.isOpen}
       icon={{
         name: "add",
@@ -122,7 +122,8 @@ const MealSpeedDial = (props) => {
             type: IconTypes.materialDesign,
           }}
           title="Remove Favorite"
-          color={Colors.primary}
+          titleStyle={styles.actionTitle}
+          color={Colors.speedDialBackground}
           onPress={onPressFavorite}
         />
       )}
@@ -134,7 +135,8 @@ const MealSpeedDial = (props) => {
             type: IconTypes.materialDesign,
           }}
           title="Favorite"
-          color={Colors.primary}
+          titleStyle={styles.actionTitle}
+          color={Colors.speedDialBackground}
           onPress={onPressFavorite}
         />
       )}
@@ -145,7 +147,8 @@ const MealSpeedDial = (props) => {
           type: defaultIconType,
         }}
         title="Tags"
-        color={Colors.primary}
+        titleStyle={styles.actionTitle}
+        color={Colors.speedDialBackground}
         onPress={navigateToAddTag}
       />
       <SpeedDial.Action
@@ -155,7 +158,8 @@ const MealSpeedDial = (props) => {
           type: defaultIconType,
         }}
         title="Share"
-        color={Colors.primary}
+        titleStyle={styles.actionTitle}
+        color={Colors.speedDialBackground}
         onPress={shareMeal}
       />
       <SpeedDial.Action
@@ -165,7 +169,8 @@ const MealSpeedDial = (props) => {
           type: IconTypes.feather,
         }}
         title="Links"
-        color={Colors.primary}
+        titleStyle={styles.actionTitle}
+        color={Colors.speedDialBackground}
         onPress={navigateToEditLinks}
       />
       <SpeedDial.Action
@@ -175,7 +180,8 @@ const MealSpeedDial = (props) => {
           type: IconTypes.material,
         }}
         title="Report"
-        color={Colors.primary}
+        titleStyle={styles.actionTitle}
+        color={Colors.speedDialBackground}
         onPress={navigateToReport}
       />
       <SpeedDial.Action
@@ -185,7 +191,8 @@ const MealSpeedDial = (props) => {
           type: IconTypes.fontAwesome,
         }}
         title="React"
-        color={Colors.primary}
+        titleStyle={styles.actionTitle}
+        color={Colors.speedDialBackground}
         onPress={onPressReact}
       />
       {props.enableMarkCooked && (
@@ -196,12 +203,21 @@ const MealSpeedDial = (props) => {
             type: IconTypes.materialDesign,
           }}
           title="Mark as cooked"
-          color={Colors.primary}
+          titleStyle={styles.actionTitle}
+          color={Colors.speedDialBackground}
           onPress={onPressMarkCooked}
         />
       )}
     </SpeedDial>
   );
 };
+
+const styles = StyleSheet.create({
+  actionTitle: {
+    color: Colors.speedDialActionText,
+    fontWeight: "600",
+    backgroundColor: Colors.speedDialActionBackground,
+  },
+});
 
 export default MealSpeedDial;
