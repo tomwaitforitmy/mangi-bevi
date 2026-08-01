@@ -1,24 +1,18 @@
 import { useHeaderHeight } from "@react-navigation/elements";
 import React from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 const MyKeyboardAvoidingView = ({ children, extraOffset, style }) => {
   const headerHeight = useHeaderHeight();
 
-  if (Platform.OS === "ios") {
-    return (
-      <KeyboardAvoidingView
-        style={{ ...styles.container, ...style }}
-        behavior={"padding"}
-        //as suggested in many places online the magic 64 seems "ok"
-        keyboardVerticalOffset={headerHeight + extraOffset}>
-        {children}
-      </KeyboardAvoidingView>
-    );
-  }
-
-  //everything works fine in Android. Do not use the KeyboardAvoidingView
-  return <View style={{ ...styles.container, ...style }}>{children}</View>;
+  return (
+    <KeyboardAvoidingView
+      style={{ ...styles.container, ...style }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={headerHeight + extraOffset}>
+      {children}
+    </KeyboardAvoidingView>
+  );
 };
 
 const styles = StyleSheet.create({

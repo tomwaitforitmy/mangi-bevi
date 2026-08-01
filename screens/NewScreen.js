@@ -554,15 +554,11 @@ function NewScreen({ route, navigation }) {
         windowWidth={windowWidth}
         onTabPress={handleTabPress}
       />
-      {Platform.OS === "android" ? (
-        renderInputs()
-      ) : (
-        <MyKeyboardAvoidingView
-          extraOffset={StatusBar.currentHeight}
-          style={{ width: "100%" }}>
-          {renderInputs()}
-        </MyKeyboardAvoidingView>
-      )}
+      <MyKeyboardAvoidingView
+        extraOffset={StatusBar.currentHeight}
+        style={{ width: "100%" }}>
+        {renderInputs()}
+      </MyKeyboardAvoidingView>
     </View>
   );
 }
@@ -578,7 +574,10 @@ const styles = StyleSheet.create({
   },
   screenContainer: {
     flex: 1,
-    justifyContent: "center",
+    //this only applies to Android, because on iOS the keyboard is automatically pushed up
+    //on Android KeyboardAvoidingView with behavior="height" shrinks the height of the component.
+    //There we need "flex-start" to make sure the content is still at the top of the screen.
+    justifyContent: "flex-start",
     alignItems: "center",
     width: "100%",
   },
