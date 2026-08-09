@@ -33,9 +33,9 @@ Be extremely concise. Sacrifice grammar for the sake of concision.
 
 Use constructors from `models/` directory:
 
-- **Meal**: title, id, primaryImageUrl, ingredients, steps, imageUrls, tags, rating, authorId, creationDate, reactions, links
-- **User**: username, id, email, friends, level, stats
-- **Tag**: id, title, color
+- **Meal**: title, id, primaryImageUrl, ingredients, steps, imageUrls, tags, rating, authorId, creationDate, editorId, editDate, reactions, links, isTestMangi
+- **User**: id, name, email, meals, firebaseId, friends, expoPushToken, settings, favorites (level/stats derived separately via `UserStats`, not stored on User)
+- **Tag**: title, id (no per-tag color; tag chip colors are fixed values in `constants/Colors.js`)
 - **Reaction**: type (from AllowedReactions), userId, mealId
 - **Reward**: points earned for ingredients, recipes, steps, tags
 
@@ -87,7 +87,8 @@ Helper functions use pure, functional style with clear naming:
 ### Authentication & Permissions
 
 - **Credential storage**: Use `CredentialStorage.js` for secure token storage (AsyncStorage or Secure Store)
-- **Edit permissions**: `HasEditPermission(meal, currentUserId)` checks if user is author or editor
+- **Edit permissions**: `HasEditPermission(user, authorId, authorFriends)` — true if author or listed in author's `friends`
+- **Friends are one-directional**: adding a friend grants *them* edit rights on *your* meals, not mutual by default; both sides adding each other makes it effectively mutual
 - **Auth flow**: LoginScreen → Redux auth action → MyNavigationContainer redirects based on `useSelector(state => state.features.isAuthenticated)`
 
 ### Component Conventions
@@ -102,6 +103,13 @@ Helper functions use pure, functional style with clear naming:
 - **Response errors**: `HandleResponseError.js` centralizes error parsing from backend
 - **Validation**: Use Is\* functions before form submission (IsEmailValid, IsUserNameValid, IsMealInvalid)
 - **Logging**: App.js ignores expected warnings (see LogBox.ignoreLogs array)
+
+### Concurrency-safe meal writes
+
+- Meal writes are NOT blind PATCH. `firebase/optimisticTransaction.js` (`runOptimisticTransaction`) does conditional read-merge-write with retry/backoff.
+- `mealsAction.js` does a three-way merge (`threeWayMerge`/`buildMealUpdatePayloadThreeWay`) for array fields (ingredients, steps, imageUrls, tags, links, reactions) to avoid lost updates from concurrent edits.
+- `editMeal`, `editLinks`, `editReactions`, `deleteMeal` all go through `runOptimisticTransaction`. New meal-write code must too — never reintroduce a full-object PATCH.
+- Design doc: `docs/optimistic-transaction-design.md`.
 
 ## External Dependencies & Integrations
 
