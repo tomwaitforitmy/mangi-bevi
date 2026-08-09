@@ -4,7 +4,6 @@ import { v4 } from "uuid";
 import imageCompress from "../image_processing/imageCompress";
 import { Image } from "react-native";
 import Constants from "expo-constants";
-import { GetImageSize } from "../image_processing/GetImageSize";
 
 export async function uploadImageToAppwrite(uri) {
   let width = 0,
@@ -20,20 +19,24 @@ export async function uploadImageToAppwrite(uri) {
   const compressedUri = await imageCompress(uri, { width, height });
 
   const fileId = v4(); //unique name
-  const compressedSize = await GetImageSize(compressedUri);
 
-  const fileObj = {
-    name: `${fileId}.jpg`,
-    type: "image/jpeg",
-    size: compressedSize,
-    uri: compressedUri,
-  };
+  // Appwrite's SDK appends `file` straight into FormData. Expo's global
+  // fetch/FormData patch (expo/src/winter/FormData.ts normalizeArgs) only
+  // recognizes strings and real Blob instances - a plain {uri,name,type}
+  // object passes through unconverted and later fails multipart
+  // serialization with "Unsupported FormDataPart implementation". So build
+  // a real Blob instead. Don't use `File`: its `.name` is a getter-only
+  // prototype accessor and Expo's patch tries to reassign `.name`, which
+  // throws for File but not for a plain Blob with an own `.name` property.
+  const rawBlob = await (await fetch(compressedUri)).blob();
+  const file = new Blob([rawBlob], { type: "image/jpeg" });
+  file.name = `${fileId}.jpg`;
 
   try {
     const response = await storage.createFile({
       bucketId: Constants.expoConfig.extra.appwriteBucketId,
       fileId,
-      file: fileObj,
+      file,
     });
 
     // Make sure response exists before accessing $id
