@@ -21,10 +21,9 @@ export async function uploadImages(urls, imageUploadTarget) {
       // Don't silently keep the local uri as a fallback - a meal saved with
       // it looks fine on this device (still in the local cache) but is
       // broken everywhere else. Surface the failure instead so the caller
-      // can tell the user to retry.
-      throw new Error(
-        "Image upload failed. Please try again in a few minutes.",
-      );
+      // can tell the user to retry. Keep this message short - the caller's
+      // alert already adds its own "please try again" framing.
+      throw new Error("Image upload failed.");
     }
   };
 

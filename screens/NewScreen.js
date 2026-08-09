@@ -327,7 +327,7 @@ function NewScreen({ route, navigation }) {
       Alert.alert(
         "Could not save your data.",
         "Maybe you don't have internet connection. Please try again in a few minutes. Error: " +
-          err,
+          err.message,
       );
       formDispatch({ type: ABORT_LOADING });
     }
