@@ -79,7 +79,7 @@ function AddTagScreen({ route, navigation }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => SaveIcon(saveTagsHandler),
+      headerRight: () => <SaveIcon onPress={saveTagsHandler} />,
     });
   }, [navigation, formState, dispatch, addedTags, saveTagsHandler]);
 
