@@ -101,4 +101,23 @@ describe("mealsAction merge helpers", () => {
     const payload = buildMealUpdatePayload(current, meal);
     expect(payload.links).toEqual(["link-from-A"]);
   });
+
+  // Regression test: editLinks used to merge links via mergeArrays (a pure
+  // union), so a locally removed link got silently re-added from whatever
+  // the server still had - removing a link in EditLinksScreen never stuck.
+  it("editLinks actually removes a link the user deselected", async () => {
+    jest.doMock("../../firebase/optimisticTransaction", () => ({
+      runOptimisticTransaction: jest.fn(async (_url, mergeFn) =>
+        mergeFn({ id: "A", links: ["B", "C"] }),
+      ),
+    }));
+    const { editLinks } = loadHelpers();
+    const dispatch = jest.fn();
+
+    //user deselected "B", kept "C"
+    await editLinks({ id: "A", links: ["C"] }, ["B", "C"])(dispatch);
+
+    const dispatchedMeal = dispatch.mock.calls[0][0].meal;
+    expect(dispatchedMeal.links).toEqual(["C"]);
+  });
 });

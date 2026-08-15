@@ -634,7 +634,11 @@ export const editMeal = (meal, originalLocalState) => {
   };
 };
 
-export const editLinks = (meal) => {
+//originalLinks is meal.links as it was before the local edit (i.e. before a
+//link was added/removed here), needed to tell "removed by this edit" apart
+//from "never linked, some other client added it concurrently" - mergeArrays
+//is a pure union and can't represent a removal at all.
+export const editLinks = (meal, originalLinks) => {
   return async (dispatch) => {
     console.log("begin edit links");
     const token = await authAction.getToken();
@@ -646,7 +650,11 @@ export const editLinks = (meal) => {
         const currentLinks = current?.links || [];
         return {
           ...current,
-          links: mergeArrays(currentLinks, meal.links),
+          links: mergeThreeWayArrays(
+            originalLinks || [],
+            meal.links,
+            currentLinks,
+          ),
         };
       },
     );
@@ -716,7 +724,7 @@ export const deleteMeal = (meal, user, allMeals) => {
     console.log("mealsToRemoveLinks", mealsToRemoveLinks);
     await Promise.all(
       mealsToRemoveLinks.map(async (item) => {
-        await dispatch(editLinks(item));
+        await dispatch(editLinks(item, item.originalLinks));
       }),
     );
 

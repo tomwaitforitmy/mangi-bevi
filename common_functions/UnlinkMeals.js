@@ -14,10 +14,11 @@ export const UnlinkMeals = (selectedMeal, newLinks, candidates) => {
   //actually delete the links from list of candidates
   linksToRemove.map((deleteLink) => {
     const mealWithLinkToRemove = candidates.find((m) => m.id === deleteLink);
-    const updatedLinks = mealWithLinkToRemove.links.filter(
-      (l) => l !== selectedMeal.id,
-    );
+    const originalLinks = mealWithLinkToRemove.links;
+    const updatedLinks = originalLinks.filter((l) => l !== selectedMeal.id);
     mealWithLinkToRemove.links = updatedLinks;
+    //callers need this to tell the server "these were removed", not just "here's the new list"
+    mealWithLinkToRemove.originalLinks = originalLinks;
     mealsToRemoveLinks.push(mealWithLinkToRemove);
   });
 
