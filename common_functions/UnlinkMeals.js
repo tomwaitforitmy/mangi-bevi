@@ -12,14 +12,18 @@ export const UnlinkMeals = (selectedMeal, newLinks, candidates) => {
   });
 
   //actually delete the links from list of candidates
+  //candidates may be live Redux state (e.g. deleteMeal passes state.meals.meals
+  //directly), so build new objects here instead of mutating them in place.
   linksToRemove.map((deleteLink) => {
     const mealWithLinkToRemove = candidates.find((m) => m.id === deleteLink);
     const originalLinks = mealWithLinkToRemove.links;
     const updatedLinks = originalLinks.filter((l) => l !== selectedMeal.id);
-    mealWithLinkToRemove.links = updatedLinks;
-    //callers need this to tell the server "these were removed", not just "here's the new list"
-    mealWithLinkToRemove.originalLinks = originalLinks;
-    mealsToRemoveLinks.push(mealWithLinkToRemove);
+    mealsToRemoveLinks.push({
+      ...mealWithLinkToRemove,
+      links: updatedLinks,
+      //callers need this to tell the server "these were removed", not just "here's the new list"
+      originalLinks,
+    });
   });
 
   return mealsToRemoveLinks;

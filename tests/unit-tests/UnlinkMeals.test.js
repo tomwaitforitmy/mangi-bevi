@@ -98,4 +98,24 @@ describe("UnlinkMeals", () => {
     expect(changedMeals.find((m) => m.id === "m3").links).toStrictEqual(["mx"]);
     expect(changedMeals.find((m) => m.id === "m4")).toBeFalsy();
   });
+
+  // Regression test: candidates can be live Redux state (deleteMeal passes
+  // state.meals.meals directly), so UnlinkMeals must never mutate them in
+  // place - doing so previously tripped Redux's "state mutation detected
+  // between dispatches" invariant check when deleting a linked meal.
+  it("does not mutate the candidate objects it was given", () => {
+    const m1 = Meal("Tomato Sauce", "m1");
+    m1.links = ["m2"];
+    const m2 = Meal("Another Sauce", "m2");
+    m2.links = ["m1"];
+    const candidates = [m2];
+
+    const mealsToRemoveLinks = UnlinkMeals(m1, [], candidates);
+
+    expect(m2.links).toStrictEqual(["m1"]);
+    expect(mealsToRemoveLinks.find((m) => m.id === "m2").links).toStrictEqual(
+      [],
+    );
+    expect(mealsToRemoveLinks[0]).not.toBe(m2);
+  });
 });
