@@ -23,6 +23,7 @@ const ImageSwipe = (props) => {
       // added (or removed) image renders as a blank view forever. Forcing
       // a remount here is the simplest way to make it pick the change up.
       key={props.images.join("|")}
+      index={props.index}
       style={{ ...styles.container, ...props.style }}
       imageUrls={images}
       useNativeDriver={true}

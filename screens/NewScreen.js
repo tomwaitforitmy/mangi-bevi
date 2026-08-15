@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useReducer,
+  useState,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -107,6 +108,8 @@ function NewScreen({ route, navigation }) {
 
   const dispatch = useDispatch();
 
+  const [imageSwipeIndex, setImageSwipeIndex] = useState(0);
+
   const backAction = useCallback(() => {
     let anyImageToUpload = false,
       changesMade = false,
@@ -178,7 +181,11 @@ function NewScreen({ route, navigation }) {
   }, []);
 
   const handlePickImage = async () => {
-    await pickImage((uri) => formDispatch({ type: ADD_IMAGE, value: uri }));
+    await pickImage((uri) => {
+      //new image gets appended, so its index is the current length
+      setImageSwipeIndex(formState.imageUrls.length);
+      formDispatch({ type: ADD_IMAGE, value: uri });
+    });
   };
 
   const onConfirmDeleteImage = async (url) => {
@@ -400,6 +407,7 @@ function NewScreen({ route, navigation }) {
         {showImageSwipe && (
           <ImageSwipe
             images={formState.imageUrls}
+            index={Math.min(imageSwipeIndex, formState.imageUrls.length - 1)}
             onCheckCallback={(url) => {
               Alert.alert(
                 "Make preview image?",
