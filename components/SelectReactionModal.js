@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
 import MyButton from "./MyButton";
 import SelectReactionBox from "./SelectReactionBox";
@@ -84,22 +84,24 @@ const SelectReactionModal = ({
       animationType="slide"
       visible={modalVisible}
       onRequestClose={onRequestCloseInternal}>
-      <SafeAreaView style={styles.safeAreaView}>
-        {isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          <TouchableWithoutFeedback onPress={onRequestCloseInternal}>
-            <View style={styles.modelView}>
-              <Text style={styles.modalText}>Select your reaction</Text>
-              <SelectReactionBox
-                selectedReaction={selectedReaction}
-                onReactionSelected={(r) => onReactionSelectedInternal(r)}
-              />
-              <MyButton onPress={onRequestCloseInternal}>{"Cancel"}</MyButton>
-            </View>
-          </TouchableWithoutFeedback>
-        )}
-      </SafeAreaView>
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.safeAreaView}>
+          {isLoading ? (
+            <LoadingIndicator />
+          ) : (
+            <TouchableWithoutFeedback onPress={onRequestCloseInternal}>
+              <View style={styles.modelView}>
+                <Text style={styles.modalText}>Select your reaction</Text>
+                <SelectReactionBox
+                  selectedReaction={selectedReaction}
+                  onReactionSelected={(r) => onReactionSelectedInternal(r)}
+                />
+                <MyButton onPress={onRequestCloseInternal}>{"Cancel"}</MyButton>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        </SafeAreaView>
+      </SafeAreaProvider>
     </Modal>
   );
 };
