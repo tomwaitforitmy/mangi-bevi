@@ -59,6 +59,8 @@ describe("uploadImageToAppwrite", () => {
   });
 
   it("throws if Appwrite returns no file ID", async () => {
+    // uploadImageToAppwrite logs this error before rethrowing it - expected, silence it.
+    jest.spyOn(console, "error").mockImplementation(() => {});
     storage.createFile.mockResolvedValue({});
 
     await expect(uploadImageToAppwrite("file://original.jpg")).rejects.toThrow();
