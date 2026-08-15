@@ -60,6 +60,14 @@ if test $status -ne 0
 end
 echo "✓ Tests passed."
 
+echo "→ Running Appwrite upload/delete integration test..."
+node tests/integration/uploadAndDeleteImage.js
+if test $status -ne 0
+    echo "✗ Appwrite integration test failed. Aborting release."
+    exit 1
+end
+echo "✓ Appwrite integration test passed."
+
 if test "$check_deps" = true
     echo "→ Checking Expo dependency versions..."
     npx expo install --check
