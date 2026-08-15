@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
 import MyButton from "./MyButton";
 import MyLevelViewContainer from "./MyLevelViewContainer";
@@ -17,17 +17,19 @@ const LevelsViewModal = ({
       animationType="slide"
       visible={modalVisible}
       onRequestClose={onRequestClose}>
-      <SafeAreaView style={styles.safeAreaView}>
-        <View style={styles.modelView}>
-          <Text style={styles.modalText}>Yummy lecker! 😋</Text>
-          <MyLevelViewContainer
-            numberOfRecipes={countMeals}
-            numberOfTags={countTags}
-            numberOfIngredients={countIngredients}
-          />
-          <MyButton onPress={onRequestClose}> {"Ok"}</MyButton>
-        </View>
-      </SafeAreaView>
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.safeAreaView}>
+          <View style={styles.modelView}>
+            <Text style={styles.modalText}>Yummy lecker! 😋</Text>
+            <MyLevelViewContainer
+              numberOfRecipes={countMeals}
+              numberOfTags={countTags}
+              numberOfIngredients={countIngredients}
+            />
+            <MyButton onPress={onRequestClose}> {"Ok"}</MyButton>
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </Modal>
   );
 };
