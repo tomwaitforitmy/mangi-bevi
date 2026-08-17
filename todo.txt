@@ -1,6 +1,5 @@
 - For viewing mangis without login: Add counter for 5 meals
-- Bring API ansteuern: https://www.bit01.de/blog/bring-einkaufsapp-einkaufslisten-api/ -> könnte gehen!
-** https://sites.google.com/getbring.com/bring-import-dev-guide/web-to-app-integration?authuser=0 <- scheint schlecht?
+- Bring API ansteuern: https://sites.google.com/getbring.com/bring-import-dev-guide/app-to-app-integration
 - Einkaufswagen Feature
 
 - Test for re-rendering of components:
@@ -11,3 +10,6 @@
 - For future tommy:
 - Prüfen von:
         //Todo: This can be tested again now with bottom-tabs and navigation 7
+- Swipe Gesture isn't working with myMenu anymore
+- Update von Expo
+- Heartbeat for Appwrite kontrollieren
