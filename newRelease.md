@@ -11,5 +11,6 @@
 5. Google Play Console:
 
 - Testen und veröffentlichen --> Test --> Interner Test --> Release hochstufen --> Produktion
+  (falls ausgegraut hängt in Produktion ein Draft release fest, der rest vorworfen werden muss!)
 - Versionshinweise hinzufügen --> Weiter
 - Veröffentlichungen – Übersicht --> Änderungen zum Review senden
