@@ -245,7 +245,7 @@ function ProfileStackContainer() {
         component={ProfileScreen}
         options={{
           title: "Your Data",
-          headerRight: () => LogoutIcon(),
+          headerRight: () => <LogoutIcon />,
         }}
       />
       <ProfileStack.Screen
@@ -298,8 +298,6 @@ function NewMealStackContainer() {
   );
 }
 
-const DebugHeaderIcon = () => <EditMangiIcon />;
-
 const DebugStack = createNativeStackNavigator();
 
 function DebugStackContainer() {
@@ -310,7 +308,6 @@ function DebugStackContainer() {
         component={DebugScreen}
         options={{
           title: "Debug screen",
-          headerRight: DebugHeaderIcon,
         }}
       />
     </DebugStack.Navigator>
