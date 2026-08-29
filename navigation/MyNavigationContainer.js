@@ -169,12 +169,13 @@ function MealsStackContainer({ navigation }) {
         component={ImagesScreen}
         options={({ route }) => ({
           title: route.params.mealTitle,
-          headerRight: () =>
-            EditMangiIcon(
-              navigation,
-              route.params.mealId,
-              route.params?.currentTabViewed,
-            ),
+          headerRight: () => (
+            <EditMangiIcon
+              navigation={navigation}
+              mealId={route.params.mealId}
+              currentTab={route.params?.currentTabViewed}
+            />
+          ),
           headerLeft: GlobalBackButtonComponent,
         })}
       />
