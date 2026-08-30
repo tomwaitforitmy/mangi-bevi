@@ -121,6 +121,27 @@ props (Expo Router never passes those). Anything from `@react-navigation/*` must
 imports in application code. See `specs/001-expo-router-migration/` for the full route table and
 the reasoning behind the auth-split design.
 
+`app/(app)/_layout.js` is a **`NativeTabs`** (`expo-router/unstable-native-tabs`), a real native
+tab bar (UITabBarController on iOS — picks up iOS 26 Liquid Glass automatically; BottomNavigationView
+on Android), not a JS-drawn one. A native tab controller has no per-tab header of its own, so every
+one of the 5 tabs is its own folder with a single-screen `Stack` (`_layout.js` + `index.js`),
+mirroring what `meals/`/`profile/` already needed — headers are exclusively a `Stack` concern here.
+Tab icons use `NativeTabs.Trigger.Icon` + `NativeTabs.Trigger.VectorIcon`
+(`family={Ionicons|MaterialDesignIcons}`, not the old `tabBarIcon` render-prop), with separate
+`default`/`selected` icon names where the old code had outline/filled variants.
+`hidden={!DEV_MODE}` replaces the old `href: DEV_MODE ? undefined : null` trick for hiding the Dev
+tab in production. Don't set an iOS `backgroundColor` on `NativeTabs` — Apple's HIG says not to
+paint over the native Liquid Glass material; Android has no glass material and keeps an explicit
+brand background.
+
+Native-stack headers (all `Stack.Screen`-based headers, not just tabs) have a known open upstream
+bug on iOS 26 in `react-native-screens`: a `headerRight`/`headerLeft` element can visually persist
+after the JS logic that rendered it has already re-rendered it away (confirmed via device logs —
+not an app bug). Tracked at software-mansion/react-native-screens#2990, #3226, discussion #4021.
+No app-code fix is known; where a stale header icon would be misleading (e.g. an edit action a
+user shouldn't have), prefer always rendering *something* in that slot (see
+`components/HeaderIcons/EditMangiIconDisabled.js`) over toggling between an element and `null`.
+
 ### Image pipeline
 
 `image_processing/` (compress, resize, get-images-to-upload, delete) feeds into

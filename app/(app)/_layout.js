@@ -1,72 +1,113 @@
 import { Platform } from "react-native";
-import { Tabs } from "expo-router";
+import { NativeTabs } from "expo-router/unstable-native-tabs";
+import Ionicons from "@react-native-vector-icons/ionicons";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import Colors from "../../constants/Colors";
-import TabBarIcon from "../../components/HeaderIcons/TabBarIcon";
 import { NAVIGATION_TITLES } from "../../constants/NavigationTitles";
 import { DEV_MODE } from "../../data/Environment";
-import { defaultScreenOptions } from "../../constants/DefaultScreenOptions";
 
 export default function AuthenticatedTabsLayout() {
   return (
-    <Tabs
-      activeColor={Colors.navigationIcon}
-      inactiveColor={Colors.second}
-      //it was mentioned on github, that this should be false on iOS
-      //and true on android to make keyboardAvoidingView work with material-bottom-tabs
-      keyboardHidesNavigationBar={Platform.OS === "ios" ? false : true}
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: Colors.primary,
-        },
-        tabBarActiveTintColor: Colors.navigationIcon,
-        tabBarInactiveTintColor: Colors.second,
-      }}>
-      <Tabs.Screen
-        name="meals"
-        options={{
-          title: NAVIGATION_TITLES.TAB_MEALS,
-          headerShown: false, // this tab owns its own nested Stack with a real header
-          tabBarIcon: ({ focused, color }) =>
-            TabBarIcon(focused, color, NAVIGATION_TITLES.TAB_MEALS),
-        }}
-      />
-      <Tabs.Screen
-        name="dev"
-        options={{
-          ...defaultScreenOptions,
-          title: NAVIGATION_TITLES.TAB_DEV,
-          tabBarIcon: ({ focused, color }) =>
-            TabBarIcon(focused, color, NAVIGATION_TITLES.TAB_DEV),
-          href: DEV_MODE ? undefined : null,
-        }}
-      />
-      <Tabs.Screen
-        name="filters"
-        options={{
-          ...defaultScreenOptions,
-          title: NAVIGATION_TITLES.TAB_FILTERS,
-          tabBarIcon: ({ focused, color }) =>
-            TabBarIcon(focused, color, NAVIGATION_TITLES.TAB_FILTERS),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: NAVIGATION_TITLES.TAB_USER_PROFILE,
-          headerShown: false, // this tab owns its own nested Stack with a real header
-          tabBarIcon: ({ focused, color }) =>
-            TabBarIcon(focused, color, NAVIGATION_TITLES.TAB_USER_PROFILE),
-        }}
-      />
-      <Tabs.Screen
-        name="new"
-        options={{
-          ...defaultScreenOptions,
-          title: NAVIGATION_TITLES.TAB_NEW_MEAL,
-          tabBarIcon: ({ focused, color }) =>
-            TabBarIcon(focused, color, NAVIGATION_TITLES.TAB_NEW_MEAL),
-        }}
-      />
-    </Tabs>
+    <NativeTabs
+      iconColor={{ default: Colors.second, selected: Colors.navigationIcon }}
+      // iOS 26's Liquid Glass is the native tab bar's own material — Apple's
+      // HIG says not to paint over it with a custom background. Android has
+      // no glass material, so it keeps the brand color there.
+      backgroundColor={Platform.OS === "android" ? Colors.primary : undefined}>
+      <NativeTabs.Trigger name="meals">
+        <NativeTabs.Trigger.Label>
+          {NAVIGATION_TITLES.TAB_MEALS}
+        </NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={
+            <NativeTabs.Trigger.VectorIcon
+              family={MaterialDesignIcons}
+              name="noodles"
+            />
+          }
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="dev" hidden={!DEV_MODE}>
+        <NativeTabs.Trigger.Label>
+          {NAVIGATION_TITLES.TAB_DEV}
+        </NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={{
+            default: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name="cafe-outline"
+              />
+            ),
+            selected: (
+              <NativeTabs.Trigger.VectorIcon family={Ionicons} name="cafe" />
+            ),
+          }}
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="filters">
+        <NativeTabs.Trigger.Label>
+          {NAVIGATION_TITLES.TAB_FILTERS}
+        </NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={{
+            default: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name="filter-outline"
+              />
+            ),
+            selected: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name="filter"
+              />
+            ),
+          }}
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="profile">
+        <NativeTabs.Trigger.Label>
+          {NAVIGATION_TITLES.TAB_USER_PROFILE}
+        </NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={{
+            default: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name="person-outline"
+              />
+            ),
+            selected: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name="person"
+              />
+            ),
+          }}
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="new">
+        <NativeTabs.Trigger.Label>
+          {NAVIGATION_TITLES.TAB_NEW_MEAL}
+        </NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={{
+            default: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name="create-outline"
+              />
+            ),
+            selected: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name="create"
+              />
+            ),
+          }}
+        />
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 }
