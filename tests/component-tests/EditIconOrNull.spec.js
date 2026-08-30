@@ -39,10 +39,16 @@ function renderWithUser(user, { mealId = ZATARMEALS[0].id, friendsOfAuthor } = {
   return { ...utils, store };
 }
 
-// The bug this guards against: a permission check that hides the icon's
-// glyph (create-outline) but still renders an empty, tappable Pressable —
-// looks blank, bumps on press, does nothing. Every "no permission" case
-// below must assert zero Pressables, not just zero glyphs.
+// Two related bugs this guards against:
+// 1. A permission check that hides the icon's glyph (create-outline) but
+//    still renders an empty, tappable Pressable — looks blank, bumps on
+//    press, does nothing. Every "no permission" case must assert zero
+//    edit-meal-icon Pressables, not just zero glyphs.
+// 2. headerRight toggling between an element and `null` across meals,
+//    which can leave a native header-transition snapshot ghost on iOS
+//    (still visible, no longer tappable). The "no permission" case must
+//    always render the same-sized edit-meal-icon-empty-slot placeholder
+//    instead of nothing, so the header option's presence never toggles.
 describe("EditIconOrNull (meal detail header edit icon)", () => {
   it("renders exactly one tappable edit icon when the current user is the author", () => {
     const user = User(author, "Author Name", "author@mail.com", [], "token");
@@ -64,7 +70,7 @@ describe("EditIconOrNull (meal detail header edit icon)", () => {
     expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
   });
 
-  it("renders nothing tappable when the current user has no edit permission", () => {
+  it("renders an empty, non-interactive placeholder when the current user has no edit permission", () => {
     const user = User("stranger-id", "Stranger", "stranger@mail.com", [], "token");
     renderWithUser(user);
 
@@ -72,6 +78,9 @@ describe("EditIconOrNull (meal detail header edit icon)", () => {
       screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
     ).toBe(0);
     expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(0);
+    // Must still render a same-sized placeholder rather than null, so
+    // headerRight's presence never toggles between meals (see file header).
+    expect(screen.queryAllByTestId("edit-meal-icon-empty-slot")).toHaveLength(1);
   });
 
   it("removes the icon after navigating from a meal you can edit to one you can't, without unmounting", () => {
@@ -97,5 +106,6 @@ describe("EditIconOrNull (meal detail header edit icon)", () => {
       screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
     ).toBe(0);
     expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(0);
+    expect(screen.queryAllByTestId("edit-meal-icon-empty-slot")).toHaveLength(1);
   });
 });
