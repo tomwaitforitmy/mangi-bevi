@@ -200,7 +200,7 @@ Cross-cutting navigate-call migration (full list from research.md Decision 5's g
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 - [x] T070 [P] Run `npm test` full suite; confirm 205/205 or higher passing (SC-005)
-- [x] T071 [P] Execute quickstart.md SC-001 manual walk (both auth states, `DEV_MODE` on/off, `DEBUG_MODE` on) — record pass/fail per row
+- [ ] T071 [P] Execute quickstart.md SC-001 manual walk (both auth states, `DEV_MODE` on/off, `DEBUG_MODE` on) — record pass/fail per row — not done, no simulator/device in this environment; static bundling (`expo export`, both platforms) and the full Jest suite are the automated substitute, see Execution Note
 - [ ] T072 [P] Execute quickstart.md SC-004 cold-start timing comparison (`main` vs. this branch) — record numbers, must stay within 5%
 - [x] T073 Update `CLAUDE.md`'s "Navigation & permissions gating" section to describe `app/` file-based routing instead of `navigation/MyNavigationContainer.js` (doc must not go stale)
 - [x] T074 Final grep sweep: no remaining references to `navigation/MyNavigationContainer`, `AuthenticatedTabNavigator`, `MealsStackContainer`, `ProfileStackContainer`, `LoginStackContainer`, `DebugStackContainer`, `NewMealStackContainer`, `FiltersStackContainer` anywhere in the repo (`grep -rn` each)
