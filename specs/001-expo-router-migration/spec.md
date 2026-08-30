@@ -102,3 +102,5 @@ As the developer, I can add a new screen to any stack by adding one file under `
 - Deep-link URL scheme/domain (custom scheme vs. universal links) is a technical decision deferred to `/speckit-plan`; this spec only requires that *some* working deep-link mechanism exists for meal detail.
 - Out of scope: visual/design changes, changing which screens exist, web-specific routing behavior, changing Redux state shape.
 - Out of scope: migrating `notifications/` push-notification *sending* logic — only that its existing deep-link targets keep resolving correctly after the routing change.
+- Out of scope: iOS 26 Liquid Glass tab bar (`expo-router/unstable-native-tabs`). Confirmed alpha as of SDK 57 ("API subject to change" per Expo docs) — deliberately not coupled to this migration so an unstable API can't put the P1 no-regression requirement at risk. `(app)/_layout.js` uses the stable `Tabs` API here; swapping to `NativeTabs` later is isolated to that one file, so nothing here needs rework. Tracked as a follow-up feature.
+- Out of scope: dark mode. Unrelated to routing; deferred as a separate feature (constitution Principle VI, minimal footprint).
