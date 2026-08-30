@@ -51,8 +51,8 @@ function buildStore({ user, friendsOfAuthor = [] }) {
   }));
 }
 
-// Renders the given route component for the given user and returns the
-// fully rendered output of whatever its Stack.Screen headerRight produces.
+// Renders the given route component for the given user and returns RTL's
+// render API bound to whatever its Stack.Screen headerRight produces.
 function renderHeaderRight(RouteComponent, user, { friendsOfAuthor } = {}) {
   mockCaptureOptions.mockClear();
   mockSearchParams = {
@@ -70,36 +70,41 @@ function renderHeaderRight(RouteComponent, user, { friendsOfAuthor } = {}) {
   const options = mockCaptureOptions.mock.calls.at(-1)[0];
   const headerRightElement = options.headerRight();
 
-  return render(<Provider store={store}>{headerRightElement}</Provider>).toJSON();
+  return render(<Provider store={store}>{headerRightElement}</Provider>);
 }
 
 describe.each([
   ["meal-detail route (app/(app)/meals/meal/[mealId].js)", MealDetailRoute],
   ["images route (app/(app)/meals/meal/[mealId]/images.js)", MealImagesRoute],
 ])("%s, header top-right corner", (_label, RouteComponent) => {
-  it("is dead empty for a user without edit rights", () => {
+  it("shows a locked, non-tappable icon (not the edit icon) for a user without edit rights", () => {
     const stranger = User("stranger-id", "Stranger", "s@mail.com", [], "token");
 
-    const tree = renderHeaderRight(RouteComponent, stranger);
+    const utils = renderHeaderRight(RouteComponent, stranger);
 
-    expect(tree).toBeNull();
+    expect(utils.UNSAFE_queryAllByProps({ name: "create-outline" })).toHaveLength(0);
+    expect(utils.queryAllByTestId("edit-meal-icon")).toHaveLength(0);
+    expect(utils.UNSAFE_queryAllByProps({ name: "lock-closed-outline" }).length).toBeGreaterThan(0);
+    expect(utils.queryAllByTestId("edit-meal-icon-disabled")).toHaveLength(1);
   });
 
   it("renders the edit icon for the author", () => {
     const authorUser = User(author, "Author", "a@mail.com", [], "token");
 
-    const tree = renderHeaderRight(RouteComponent, authorUser);
+    const utils = renderHeaderRight(RouteComponent, authorUser);
 
-    expect(tree).not.toBeNull();
+    expect(utils.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
+    expect(utils.queryAllByTestId("edit-meal-icon-disabled")).toHaveLength(0);
   });
 
   it("renders the edit icon for a friend of the author", () => {
     const friend = User("friend-id", "Friend", "f@mail.com", [], "token");
 
-    const tree = renderHeaderRight(RouteComponent, friend, {
+    const utils = renderHeaderRight(RouteComponent, friend, {
       friendsOfAuthor: ["friend-id"],
     });
 
-    expect(tree).not.toBeNull();
+    expect(utils.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
+    expect(utils.queryAllByTestId("edit-meal-icon-disabled")).toHaveLength(0);
   });
 });

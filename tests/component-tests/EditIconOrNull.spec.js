@@ -42,7 +42,9 @@ function renderWithUser(user, { mealId = ZATARMEALS[0].id, friendsOfAuthor } = {
 // The bug this guards against: a permission check that hides the icon's
 // glyph (create-outline) but still renders an empty, tappable Pressable —
 // looks blank, bumps on press, does nothing. Every "no permission" case
-// below must assert zero Pressables, not just zero glyphs.
+// below must assert zero create-outline Pressables AND the lock icon
+// instead, with nothing tappable at all (edit-meal-icon-disabled is a plain
+// View, not a Pressable).
 //
 // NOTE: this file only tests EditIconOrNull in isolation. It cannot catch a
 // bug in how a route wires headerRight up to this component — see
@@ -69,7 +71,7 @@ describe("EditIconOrNull (meal detail header edit icon)", () => {
     expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
   });
 
-  it("renders nothing tappable when the current user has no edit permission", () => {
+  it("renders a locked, non-tappable icon when the current user has no edit permission", () => {
     const user = User("stranger-id", "Stranger", "stranger@mail.com", [], "token");
     renderWithUser(user);
 
@@ -77,9 +79,13 @@ describe("EditIconOrNull (meal detail header edit icon)", () => {
       screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
     ).toBe(0);
     expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(0);
+    expect(
+      screen.UNSAFE_queryAllByProps({ name: "lock-closed-outline" }).length,
+    ).toBeGreaterThan(0);
+    expect(screen.queryAllByTestId("edit-meal-icon-disabled")).toHaveLength(1);
   });
 
-  it("removes the icon after navigating from a meal you can edit to one you can't, without unmounting", () => {
+  it("switches from the edit icon to the locked icon after navigating from a meal you can edit to one you can't, without unmounting", () => {
     // Simulates following a linked-meal link: the same header component
     // instance gets new props (mealId) rather than being remounted fresh.
     const user = User(author, "Author Name", "author@mail.com", [], "token");
@@ -91,6 +97,7 @@ describe("EditIconOrNull (meal detail header edit icon)", () => {
       </Provider>,
     );
     expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
+    expect(screen.queryAllByTestId("edit-meal-icon-disabled")).toHaveLength(0);
 
     rerender(
       <Provider store={store}>
@@ -102,5 +109,6 @@ describe("EditIconOrNull (meal detail header edit icon)", () => {
       screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
     ).toBe(0);
     expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(0);
+    expect(screen.queryAllByTestId("edit-meal-icon-disabled")).toHaveLength(1);
   });
 });
