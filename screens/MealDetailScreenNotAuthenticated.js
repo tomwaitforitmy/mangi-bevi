@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "expo-router/react-navigation";
 import {
   StyleSheet,
   ScrollView,
@@ -14,10 +14,12 @@ import MyListItem from "../components/MyListItem";
 import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
-function MealDetailScreenNotAuthenticated({ route, navigation }) {
-  const { mealId, selectedTabMealDetail } = route.params;
+function MealDetailScreenNotAuthenticated() {
+  const { mealId, selectedTabMealDetail } = useLocalSearchParams();
+  const navigation = useNavigation();
+  const router = useRouter();
   const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
 
@@ -103,9 +105,12 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
             <Pressable
               onPress={() => {
                 //We navigate to another instance if logged out
-                navigation.navigate(NAVIGATION_TITLES.LOGGED_OUT_IMAGES, {
-                  mealId: selectedMeal.id,
-                  mealTitle: selectedMeal.title,
+                router.push({
+                  pathname: "/detail/[mealId]/images",
+                  params: {
+                    mealId: selectedMeal.id,
+                    mealTitle: selectedMeal.title,
+                  },
                 });
               }}>
               <Image
@@ -136,7 +141,7 @@ function MealDetailScreenNotAuthenticated({ route, navigation }) {
       <MyButton
         style={styles.loginButton}
         onPress={() => {
-          navigation.navigate(NAVIGATION_TITLES.LOGIN);
+          router.push("/login");
         }}>
         {"Login or sign up"}
       </MyButton>

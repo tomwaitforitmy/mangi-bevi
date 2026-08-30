@@ -4,8 +4,10 @@ import { View, StyleSheet, RefreshControl, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAll } from "../firebase/fetchAll";
 import MyButton from "../components/MyButton";
+import { useRouter } from "expo-router";
 
-function UserMealsScreen({ navigation }) {
+function UserMealsScreen() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const userMealsData = useSelector((state) => state.users.userMealsData);
 
@@ -25,7 +27,7 @@ function UserMealsScreen({ navigation }) {
           </Text>
           <MyButton
             onPress={() => {
-              navigation.jumpTo("New");
+              router.push("/new");
             }}>
             {"Add"}
           </MyButton>
@@ -40,7 +42,6 @@ function UserMealsScreen({ navigation }) {
           />
         }
         mealsList={userMealsData}
-        navigation={navigation}
         isAuthenticated={true}
       />
     </View>

@@ -64,10 +64,13 @@ import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { newMealCreated } from "../notifications/NewMealCreated";
 import { getPermission, pickImage } from "../common_functions/PickImage";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useNavigation } from "expo-router/react-navigation";
 
-function NewScreen({ route, navigation }) {
-  const mealId = route.params?.mealId;
+function NewScreen() {
+  const { mealId } = useLocalSearchParams();
+  const navigation = useNavigation();
+  const router = useRouter();
   const user = useSelector((state) => state.users.user);
   const users = useSelector((state) => state.users.users);
   const meals = useSelector((state) => state.meals.meals);
@@ -267,17 +270,15 @@ function NewScreen({ route, navigation }) {
       await dispatch(mealsAction.editMeal(editedMeal, inputMeal));
       formDispatch({ type: SUBMITTED });
 
-      //First pop (delete) the current edit screen.
-      //Otherwise it would be the target for the next back button.
-      navigation.pop();
-
-      //Second go back to the edit screen with updated params.
-      //This is easily done with "replace".
-      navigation.replace(NAVIGATION_TITLES.STACK_MEAL_DETAILS, {
-        mealId: mealId,
-        mealTitle: formState.title,
-        isAuthenticated: true,
-        selectedTabMealDetail: formState.selectedTab,
+      //Dismiss back to the already-open meal detail screen with updated
+      //params, instead of pushing a new instance on top of it.
+      router.dismissTo({
+        pathname: "/meals/meal/[mealId]",
+        params: {
+          mealId: mealId,
+          mealTitle: formState.title,
+          selectedTabMealDetail: formState.selectedTab,
+        },
       });
     };
 
@@ -343,6 +344,7 @@ function NewScreen({ route, navigation }) {
     formState,
     mealId,
     navigation,
+    router,
     user,
     inputMeal,
     finishIngredientInput,
@@ -380,12 +382,11 @@ function NewScreen({ route, navigation }) {
   const onRequestCloseModal = () => {
     formDispatch({ type: SUBMITTED });
 
-    navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
-      screen: NAVIGATION_TITLES.STACK_MEAL_DETAILS,
+    router.push({
+      pathname: "/meals/meal/[mealId]",
       params: {
         mealId: formState.newCreatedId,
         mealTitle: formState.title,
-        isAuthenticated: true,
       },
     });
   };

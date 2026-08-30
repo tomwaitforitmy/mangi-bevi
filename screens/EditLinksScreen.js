@@ -7,10 +7,11 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import { PrepareSelectedLinks } from "../common_functions/PrepareSelectedLinks";
 import SearchInput from "../components/SearchInput";
 import { FastFilterMeals } from "../common_functions/FastFilterMeals";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
-function EditLinksScreen({ navigation, route }) {
-  const { mealId } = route.params;
+function EditLinksScreen() {
+  const { mealId } = useLocalSearchParams();
+  const router = useRouter();
 
   const allMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = allMeals.find((meal) => meal.id === mealId);
@@ -41,10 +42,9 @@ function EditLinksScreen({ navigation, route }) {
     await editLinks(dispatch, selectedMeal, mealsToLink, localAvailableMeals);
     setIsLoading(false);
 
-    navigation.popTo(NAVIGATION_TITLES.STACK_MEAL_DETAILS, {
-      mealId: selectedMeal.id,
-      mealTitle: selectedMeal.title,
-      isAuthenticated: true,
+    router.dismissTo({
+      pathname: "/meals/meal/[mealId]",
+      params: { mealId: selectedMeal.id, mealTitle: selectedMeal.title },
     });
   };
 

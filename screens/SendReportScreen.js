@@ -13,14 +13,17 @@ import * as reportsAction from "../store/actions/reportsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Report from "../models/Report";
 import Colors from "../constants/Colors";
+import { useLocalSearchParams } from "expo-router";
+import { useNavigation } from "expo-router/react-navigation";
 
-function SendReportScreen({ navigation, route }) {
+function SendReportScreen() {
+  const navigation = useNavigation();
   const user = useSelector((state) => state.users.user);
   //Todo: description can be replaced by useRef.
   //No need to re-render every time the user enters a letter.
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { mealId, mealTitle } = route.params;
+  const { mealId, mealTitle } = useLocalSearchParams();
 
   const dispatch = useDispatch();
 

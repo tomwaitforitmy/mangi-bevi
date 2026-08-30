@@ -25,11 +25,12 @@ import { enableAndFilter } from "../data/AvailableSettings";
 import SelectSortingModal from "../components/SelectSortingModal";
 import { LAST_CREATED } from "../data/AllowedSortingOptions";
 import { SortMealsBy } from "../common_functions/SortMealBy";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 import Ionicons from "@react-native-vector-icons/ionicons";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import { useRouter } from "expo-router";
 
-function MealsScreen({ navigation }) {
+function MealsScreen() {
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -50,9 +51,7 @@ function MealsScreen({ navigation }) {
   const filtersActive = filterTags.length > 0;
 
   const onPressTagsActiveHandler = () => {
-    navigation.navigate(NAVIGATION_TITLES.TAB_FILTERS, {
-      screen: NAVIGATION_TITLES.STACK_FILTER,
-    });
+    router.push("/filters");
   };
 
   const onToggleFavorites = () => {
@@ -150,17 +149,13 @@ function MealsScreen({ navigation }) {
         console.log("Push clicked on " + title);
 
         //Todo: This can be tested again now with bottom-tabs and navigation 7
-        navigation.navigate(NAVIGATION_TITLES.STACK_MEALS, {
-          // mealId: mangiId,
-          // mealTitle: title,
-          // isAuthenticated: true,
-        });
+        router.push("/meals");
       });
 
     return () => {
       subscriptionPushClicked.remove();
     };
-  }, [navigation]);
+  }, [router]);
 
   const onSelectSort = (sort) => {
     setSelectedSortingType(sort);
@@ -299,7 +294,6 @@ function MealsScreen({ navigation }) {
             />
           }
           mealsList={filteredMeals}
-          navigation={navigation}
           searchTerm={searchTerm}
           isAuthenticated={true}
           userFavorites={user?.favorites}

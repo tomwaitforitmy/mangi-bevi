@@ -1,7 +1,7 @@
 import React from "react";
 import Colors from "../../constants/Colors";
 import Ionicons from "@react-native-vector-icons/ionicons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "expo-router/react-navigation";
 import { Pressable } from "react-native";
 import {
   HEADER_ICON_CONTAINER_STYLE,

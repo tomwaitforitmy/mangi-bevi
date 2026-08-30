@@ -7,12 +7,14 @@ import SearchInput from "../components/SearchInput";
 import MultiSelectUsersList from "../components/MultiSelectUsersList";
 import * as usersActions from "../store/actions/usersAction";
 import { FastFilterUsers } from "../common_functions/FastFilterUsers";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import { useRouter } from "expo-router";
 
-function EditFriendsScreen({ navigation, route }) {
+function EditFriendsScreen() {
   //This is called when users.users AND state.users.user change
   //However, I don't understand why it is called between begin/end editUser once
   console.log("render call");
+
+  const router = useRouter();
 
   const allUsers = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.users.user);
@@ -41,7 +43,7 @@ function EditFriendsScreen({ navigation, route }) {
 
     setIsLoading(false);
 
-    navigation.popTo(NAVIGATION_TITLES.STACK_USER_PROFILE);
+    router.dismissTo("/profile");
   };
 
   if (searchTerm) {

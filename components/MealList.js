@@ -1,30 +1,25 @@
 import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 import Colors from "../constants/Colors";
 import MealItem from "./MealItem";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 
 const MealList = (props) => {
+  const router = useRouter();
+
   const renderMealItem = (itemData) => {
     return (
       <MealItem
         title={itemData.item.title}
         onSelectMeal={() => {
+          const params = {
+            mealId: itemData.item.id,
+            mealTitle: itemData.item.title,
+          };
           if (props.isAuthenticated) {
-            props.navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
-              screen: NAVIGATION_TITLES.STACK_MEAL_DETAILS,
-              params: {
-                mealId: itemData.item.id,
-                mealTitle: itemData.item.title,
-                isAuthenticated: props.isAuthenticated,
-              },
-            });
+            router.push({ pathname: "/meals/meal/[mealId]", params });
           } else {
-            props.navigation.navigate(NAVIGATION_TITLES.LOGGED_OUT_DETAILS, {
-              mealId: itemData.item.id,
-              mealTitle: itemData.item.title,
-              isAuthenticated: props.isAuthenticated,
-            });
+            router.push({ pathname: "/detail/[mealId]", params });
           }
         }}
         image={itemData.item.primaryImageUrl}

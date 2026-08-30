@@ -105,9 +105,21 @@ exercising create/edit flows so test data stays identifiable and disposable.
 
 ### Navigation & permissions gating
 
-`navigation/MyNavigationContainer.js` defines the tab/stack structure and switches between
-authenticated and not-authenticated screen sets (e.g. `MealsScreen` vs
-`MealsScreenNotAuthenticated`, `MealDetailScreen` vs `MealDetailScreenNotAuthenticated`).
+File-based routing via **Expo Router**, under `app/`. `app/_layout.js` is the root: global setup
+(Redux `Provider`, splash hold, etc., moved from the old `App.js`) plus a `Stack.Protected` split
+between `app/(app)/` (authenticated, `Tabs`: Meals/Dev/Filters/Profile/New) and `app/(auth)/`
+(not authenticated, plain `Stack` — `MealsScreenNotAuthenticated`/`MealDetailScreenNotAuthenticated`
+are real, separate implementations, not a login wall). `app/debug.js` is the `EXPO_PUBLIC_DEBUG_MODE`
+override, gated in `app/_layout.js` ahead of the auth split. `app/meal/[mealId].js` is a small
+unconditional redirector owning the public `mangibevi://meal/{mealId}` deep link — it forwards to
+`(app)/meals/meal/[mealId]` or `(auth)/detail/[mealId]` depending on auth state; the two groups
+deliberately do **not** share that path (Expo Router can't disambiguate an identical path across
+two `Stack.Protected` groups from a URL alone). Screen components (`screens/*.js`) read params via
+`useLocalSearchParams()` and navigate via `useRouter()`, not the React Navigation `route`/`navigation`
+props (Expo Router never passes those). Anything from `@react-navigation/*` must be imported from
+`expo-router/react-navigation` instead — Expo Router SDK 56+ rejects direct `@react-navigation/*`
+imports in application code. See `specs/001-expo-router-migration/` for the full route table and
+the reasoning behind the auth-split design.
 
 ### Image pipeline
 
@@ -118,6 +130,9 @@ then write the resulting URLs onto the meal.
 
 ### Directory map
 
+- `app/` — Expo Router file-based routes (see "Navigation & permissions gating" above); each file
+  is a thin wrapper (header config via `<Stack.Screen options={{...}}/>`) around a `screens/`
+  component.
 - `screens/` — full-page components, connect to Redux directly.
 - `components/` — reusable UI, generally prop-driven rather than Redux-connected.
 - `common_functions/` — pure utility functions (filters, validators, getters); one function per

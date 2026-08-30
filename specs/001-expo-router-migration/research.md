@@ -69,7 +69,30 @@ Additionally: `AddTagScreen.js` and `EditLinksScreen.js` call `navigation.popTo(
 
 **Alternatives considered**: A compatibility shim that fabricates a `route` object so screens don't need touching — rejected as needless indirection (constitution Principle VI) for a one-line change per screen.
 
-## Decision 6: Language
+## Decision 6: `@react-navigation/*` imports must move to `expo-router/react-navigation`
+
+**Decision found during implementation** (not caught by planning-phase research): as of SDK 56+,
+Expo Router's bundler hard-fails on any application code importing directly from
+`@react-navigation/native`, `@react-navigation/core`, or `@react-navigation/elements` —
+*"Expo Router no longer supports importing from external `@react-navigation/*` packages in
+application code."* Confirmed live: `npx expo export` failed with exactly this error the first
+time it was run against the migrated tree. The runtime behavior is identical, only the import
+source moves: `@react-navigation/native` → `expo-router/react-navigation`,
+`@react-navigation/elements` → `expo-router/react-navigation` too. Affected: `useNavigation`
+(kept — still valid for `setOptions`/`goBack`/`setParams`, none of which depend on the screen-name
+registry, per Decision 5) in `MealDetailScreen.js`, `MealDetailScreenNotAuthenticated.js`,
+`NewScreen.js`, `AddTagScreen.js`, `SendReportScreen.js`, `ManageAccountScreen.js`,
+`components/HeaderIcons/GlobalBackIcon.js`; `useFocusEffect` in `MealDetailScreen.js` and
+`MealDetailScreenNotAuthenticated.js`; `useHeaderHeight` (from `@react-navigation/elements`) in
+`components/MyKeyboardAvoidingView.js`. All fixed by changing only the import source — zero
+logic changes. An `EXPO_ROUTER_DISABLE_RN_NAVIGATION_CHECK=1` escape hatch exists but is
+documented as a temporary shim for third-party libraries, not for application code — not used
+here.
+
+**Verification**: `npx expo export --platform ios` and `--platform android` both bundle clean
+(2200+ modules, zero errors) after this fix; `npx expo-doctor` reports 21/21 checks passing.
+
+## Decision 7: Language
 
 **Decision**: All new files under `app/` are `.js`, matching constitution Principle IV, even though Expo Router's own starter templates default to `.tsx`.
 

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "expo-router/react-navigation";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   StyleSheet,
   ScrollView,
@@ -27,11 +28,12 @@ import CookedByUserList from "../components/CookedByUserList";
 import { WasMarkedThisWeek } from "../common_functions/WasMarkedThisWeek";
 import MealCookedByUser from "../models/MealCookedByUser";
 import { markedAsCooked } from "../notifications/MarkedAsCooked";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
 import * as usersActions from "../store/actions/usersAction";
 
-function MealDetailScreen({ route, navigation }) {
-  const { mealId, selectedTabMealDetail } = route.params;
+function MealDetailScreen() {
+  const { mealId, selectedTabMealDetail } = useLocalSearchParams();
+  const navigation = useNavigation();
+  const router = useRouter();
   const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
   const mealCookedByUser = useSelector(
@@ -216,8 +218,8 @@ function MealDetailScreen({ route, navigation }) {
             <Text style={styles.subtitle}>{selectedMeal.title}</Text>
             <Pressable
               onPress={() => {
-                navigation.navigate(NAVIGATION_TITLES.TAB_MEALS, {
-                  screen: NAVIGATION_TITLES.STACK_IMAGES,
+                router.push({
+                  pathname: "/meals/meal/[mealId]/images",
                   params: {
                     mealId: selectedMeal.id,
                     mealTitle: selectedMeal.title,
@@ -260,11 +262,7 @@ function MealDetailScreen({ route, navigation }) {
             <MyListItem key={step} title={step} searchTerm={searchTerm} />
           ))}
         {linkedMeals.length > 0 && selectedTab === TITLES.INFO && (
-          <LinkedMealsList
-            meals={linkedMeals}
-            navigation={navigation}
-            isAuthenticated={true}
-          />
+          <LinkedMealsList meals={linkedMeals} isAuthenticated={true} />
         )}
 
         {selectedTab === TITLES.INFO && (
@@ -278,7 +276,6 @@ function MealDetailScreen({ route, navigation }) {
       </ScrollView>
       <MealSpeedDial
         mealId={selectedMeal.id}
-        navigation={navigation}
         isFavorite={isFavorite}
         onPressFavorite={() => onToggleFavorite()}
         onPressReact={() => setShowSelectReactionModal(true)}

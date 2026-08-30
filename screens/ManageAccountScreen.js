@@ -29,8 +29,10 @@ import loginFormReducer, {
 import { ResetSecureStorage } from "../common_functions/CredentialStorage";
 import Colors from "../constants/Colors";
 import { textInputStyles } from "../constants/TextInputStyles";
+import { useNavigation } from "expo-router/react-navigation";
 
-function ManageAccountScreen({ navigation }) {
+function ManageAccountScreen() {
+  const navigation = useNavigation();
   const user = useSelector((state) => state.users.user);
   const users = useSelector((state) => state.users.users);
   const existingUserNames = users.map((u) => u.name);

@@ -28,10 +28,13 @@ import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
 import SaveIcon from "../components/HeaderIcons/SaveIcon";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useNavigation } from "expo-router/react-navigation";
 
-function AddTagScreen({ route, navigation }) {
-  const { mealId } = route.params;
+function AddTagScreen() {
+  const { mealId } = useLocalSearchParams();
+  const navigation = useNavigation();
+  const router = useRouter();
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
@@ -65,12 +68,11 @@ function AddTagScreen({ route, navigation }) {
     };
 
     await saveTags(selectedMeal, addedTags);
-    navigation.popTo(NAVIGATION_TITLES.STACK_MEAL_DETAILS, {
-      mealId: selectedMeal.id,
-      mealTitle: selectedMeal.title,
-      isAuthenticated: true,
+    router.dismissTo({
+      pathname: "/meals/meal/[mealId]",
+      params: { mealId: selectedMeal.id, mealTitle: selectedMeal.title },
     });
-  }, [addedTags, dispatch, navigation, selectedMeal]);
+  }, [addedTags, dispatch, router, selectedMeal]);
 
   //Todo: Is this maybe a derived state?
   useEffect(() => {

@@ -2,6 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useReducer } from "react";
 import { View, StyleSheet, Alert, TextInput, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "expo-router";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/authAction";
@@ -27,7 +28,8 @@ import {
   SaveCredentialsToStorage,
 } from "../common_functions/CredentialStorage";
 
-function AuthenticationContent({ navigation, login, passwordReset }) {
+function AuthenticationContent({ login, passwordReset }) {
+  const router = useRouter();
   const initialState = {
     email: "",
     emailError: "",
@@ -147,7 +149,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
     } finally {
       //successful password reset ends here
       formDispatch({ type: SUBMITTED });
-      navigation.replace("LoginScreen");
+      router.replace("/login");
     }
   };
 
@@ -273,12 +275,12 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
             <View>
               <MyButton
                 style={styles.switchButton}
-                onPress={() => navigation.replace("SignUpScreen")}>
+                onPress={() => router.replace("/sign-up")}>
                 {"Create new account"}
               </MyButton>
               <MyButton
                 style={styles.switchButton}
-                onPress={() => navigation.replace("PasswordResetScreen")}>
+                onPress={() => router.replace("/password-reset")}>
                 {"Forgot your password?"}
               </MyButton>
             </View>
@@ -286,7 +288,7 @@ function AuthenticationContent({ navigation, login, passwordReset }) {
           {(newAccount || passwordReset) && (
             <MyButton
               style={styles.switchButton}
-              onPress={() => navigation.replace("LoginScreen")}>
+              onPress={() => router.replace("/login")}>
               {"Back to login"}
             </MyButton>
           )}

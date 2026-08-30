@@ -9,9 +9,10 @@ import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import SearchInput from "../components/SearchInput";
 import * as searchAction from "../store/actions/searchAction";
 import MyButton from "../components/MyButton";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import { useRouter } from "expo-router";
 
-function MealsScreenNotAuthenticated({ navigation }) {
+function MealsScreenNotAuthenticated() {
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -56,7 +57,6 @@ function MealsScreenNotAuthenticated({ navigation }) {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           mealsList={filteredMeals}
-          navigation={navigation}
           searchTerm={searchTerm}
           isAuthenticated={false}
         />
@@ -64,7 +64,7 @@ function MealsScreenNotAuthenticated({ navigation }) {
         <MyButton
           style={styles.loginButton}
           onPress={() => {
-            navigation.navigate(NAVIGATION_TITLES.LOGIN);
+            router.push("/login");
           }}>
           {"Login or sign up"}
         </MyButton>

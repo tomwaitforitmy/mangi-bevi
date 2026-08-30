@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import MyLevelViewContainer from "../components/MyLevelViewContainer";
 import Constants from "expo-constants";
-import { NAVIGATION_TITLES } from "../constants/NavigationTitles";
+import { useRouter } from "expo-router";
 
-function ProfileScreen({ navigation }) {
+function ProfileScreen() {
+  const router = useRouter();
   const user = useSelector((state) => state.users.user);
   const userStats = useSelector((state) => state.users.userStats);
   const userMealsData = useSelector((state) => state.users.userMealsData);
@@ -22,28 +23,19 @@ function ProfileScreen({ navigation }) {
           />
           <MyButton
             onPress={() => {
-              navigation.navigate(NAVIGATION_TITLES.STACK_USER_MEALS);
+              router.push("/profile/meals");
             }}>
             {"View your Mangis"}
           </MyButton>
           <Text style={styles.bene}>Name: {user.name} </Text>
           <Text style={styles.bene}>Email: {user.email}</Text>
-          <MyButton
-            onPress={() =>
-              navigation.navigate(NAVIGATION_TITLES.STACK_MANAGE_ACCOUNT)
-            }>
+          <MyButton onPress={() => router.push("/profile/account")}>
             {"Manage Account"}
           </MyButton>
-          <MyButton
-            onPress={() =>
-              navigation.navigate(NAVIGATION_TITLES.STACK_EDIT_FRIENDS)
-            }>
+          <MyButton onPress={() => router.push("/profile/friends")}>
             {"Friends"}
           </MyButton>
-          <MyButton
-            onPress={() =>
-              navigation.navigate(NAVIGATION_TITLES.STACK_SETTINGS)
-            }>
+          <MyButton onPress={() => router.push("/profile/settings")}>
             {"Settings"}
           </MyButton>
           <Text style={styles.bene}>

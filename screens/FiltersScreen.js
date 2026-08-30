@@ -5,7 +5,7 @@ import TagList from "../components/TagList";
 import * as tagActions from "../store/actions/tagsAction";
 import AndOrTagFilterSwitch from "../components/Switches/AndOrTagFilterSwitch";
 
-function FiltersScreen({ navigation }) {
+function FiltersScreen() {
   const dispatch = useDispatch();
 
   const filterTags = useSelector((state) => state.tags.filterTags);
