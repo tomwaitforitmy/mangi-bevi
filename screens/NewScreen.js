@@ -142,11 +142,22 @@ function NewScreen() {
       changesMade = !MealEquals(inputMeal, editedMeal);
     }
 
+    // NewScreen is used both as a tab root (app/(app)/new.js, no nested Stack)
+    // and as a pushed screen (meal/[mealId]/edit.js). At the tab root there is
+    // no navigator to pop, so router.canGoBack() (whole-app state, not just the
+    // nearest navigator) must be checked before calling back() to avoid a
+    // "GO_BACK not handled by any navigator" warning on Android hardware back.
+    const goBackIfPossible = () => {
+      if (router.canGoBack()) {
+        router.back();
+      }
+    };
+
     if (anyImageToUpload || changesMade || anyImageToDelete) {
       Alert.alert("Hold on!", "Do you want to discard your changes?", [
         {
           text: "Discard",
-          onPress: () => navigation.goBack(),
+          onPress: goBackIfPossible,
           style: "cancel",
         },
         {
@@ -154,12 +165,17 @@ function NewScreen() {
           onPress: saveMealHandler,
         },
       ]);
-    } else {
-      navigation.goBack();
+      return true;
     }
 
-    return true;
-  }, [formState, mealId, inputMeal, saveMealHandler, navigation]);
+    if (router.canGoBack()) {
+      router.back();
+      return true;
+    }
+    // At the tab root there's nothing to go back to; let the OS handle the
+    // hardware back press natively instead of swallowing it as a no-op.
+    return false;
+  }, [formState, mealId, inputMeal, saveMealHandler, router]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
