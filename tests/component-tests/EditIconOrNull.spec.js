@@ -11,39 +11,91 @@ jest.mock("expo-router", () => ({
 }));
 
 const author = ZATARMEALS[0].authorId;
+const otherAuthor = ZATARMEALS[1].authorId;
 
-function renderWithUser(user) {
-  const state = {
+function buildState({ friendsOfAuthor = [], user }) {
+  return {
     users: {
-      users: [{ id: author, meals: [ZATARMEALS[0].id], friends: [] }],
+      users: [
+        { id: author, meals: [ZATARMEALS[0].id], friends: friendsOfAuthor },
+        { id: otherAuthor, meals: [ZATARMEALS[1].id], friends: [] },
+      ],
       user,
       userStats: null,
       userMealsData: null,
     },
   };
-  const store = createStore(() => state);
-
-  return render(
-    <Provider store={store}>
-      <EditIconOrNull mealId={ZATARMEALS[0].id} currentTab="Info" />
-    </Provider>,
-  );
 }
 
+function renderWithUser(user, { mealId = ZATARMEALS[0].id, friendsOfAuthor } = {}) {
+  const store = createStore(() => buildState({ friendsOfAuthor, user }));
+
+  const utils = render(
+    <Provider store={store}>
+      <EditIconOrNull mealId={mealId} currentTab="Info" />
+    </Provider>,
+  );
+
+  return { ...utils, store };
+}
+
+// The bug this guards against: a permission check that hides the icon's
+// glyph (create-outline) but still renders an empty, tappable Pressable —
+// looks blank, bumps on press, does nothing. Every "no permission" case
+// below must assert zero Pressables, not just zero glyphs.
 describe("EditIconOrNull (meal detail header edit icon)", () => {
-  it("renders the edit icon when the current user is the author", () => {
+  it("renders exactly one tappable edit icon when the current user is the author", () => {
     const user = User(author, "Author Name", "author@mail.com", [], "token");
-    const { UNSAFE_root } = renderWithUser(user);
-    expect(UNSAFE_root).toBeTruthy();
-    // Ionicons "create-outline" is rendered by EditMangiIcon when permitted
+    renderWithUser(user);
+
     expect(
       screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
     ).toBeGreaterThan(0);
+    expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
   });
 
-  it("renders nothing when the current user has no edit permission", () => {
-    const user = User("someone-else", "Other", "other@mail.com", [], "token");
+  it("renders exactly one tappable edit icon when the current user is a friend of the author", () => {
+    const user = User("friend-id", "Friend", "friend@mail.com", [], "token");
+    renderWithUser(user, { friendsOfAuthor: ["friend-id"] });
+
+    expect(
+      screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
+    ).toBeGreaterThan(0);
+    expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
+  });
+
+  it("renders nothing tappable when the current user has no edit permission", () => {
+    const user = User("stranger-id", "Stranger", "stranger@mail.com", [], "token");
     renderWithUser(user);
-    expect(screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length).toBe(0);
+
+    expect(
+      screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
+    ).toBe(0);
+    expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(0);
+  });
+
+  it("removes the icon after navigating from a meal you can edit to one you can't, without unmounting", () => {
+    // Simulates following a linked-meal link: the same header component
+    // instance gets new props (mealId) rather than being remounted fresh.
+    const user = User(author, "Author Name", "author@mail.com", [], "token");
+    const store = createStore(() => buildState({ user }));
+
+    const { rerender } = render(
+      <Provider store={store}>
+        <EditIconOrNull mealId={ZATARMEALS[0].id} currentTab="Info" />
+      </Provider>,
+    );
+    expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(1);
+
+    rerender(
+      <Provider store={store}>
+        <EditIconOrNull mealId={ZATARMEALS[1].id} currentTab="Info" />
+      </Provider>,
+    );
+
+    expect(
+      screen.UNSAFE_queryAllByProps({ name: "create-outline" }).length,
+    ).toBe(0);
+    expect(screen.queryAllByTestId("edit-meal-icon")).toHaveLength(0);
   });
 });

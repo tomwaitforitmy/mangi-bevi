@@ -27,6 +27,7 @@ const EditMangiIcon = ({ mealId, currentTab }) => {
 
   return (
     <Pressable
+      testID="edit-meal-icon"
       onPress={() => onHeaderIconPress(router, mealId, currentTab, dispatch)}
       hitSlop={HEADER_ICON_HIT_SLOP}
       style={HEADER_ICON_CONTAINER_STYLE}>

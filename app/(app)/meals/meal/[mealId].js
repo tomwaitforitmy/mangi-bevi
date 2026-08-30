@@ -19,7 +19,14 @@ export default function MealDetailRoute() {
           title,
           headerLeft: GlobalBackButtonComponent,
           headerRight: () => (
-            <EditIconOrNull mealId={mealId} currentTab={currentTabViewed} />
+            // Keyed by mealId so the native header fully remounts this icon
+            // on navigation instead of reconciling in place — guards against
+            // a stale header button surviving a permission change.
+            <EditIconOrNull
+              key={mealId}
+              mealId={mealId}
+              currentTab={currentTabViewed}
+            />
           ),
         }}
       />
