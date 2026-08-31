@@ -118,8 +118,11 @@ two `Stack.Protected` groups from a URL alone). Screen components (`screens/*.js
 `useLocalSearchParams()` and navigate via `useRouter()`, not the React Navigation `route`/`navigation`
 props (Expo Router never passes those). Anything from `@react-navigation/*` must be imported from
 `expo-router/react-navigation` instead — Expo Router SDK 56+ rejects direct `@react-navigation/*`
-imports in application code. See `specs/001-expo-router-migration/` for the full route table and
-the reasoning behind the auth-split design.
+imports in application code. `expo-router/react-navigation` resolves entirely to react-navigation
+source code vendored *inside* `expo-router` itself (`expo-router/build/react-navigation/`), not to
+the `@react-navigation/*` npm packages — so those packages are not project dependencies; don't
+re-add them. See `specs/001-expo-router-migration/` for the full route table and the reasoning
+behind the auth-split design.
 
 `app/(app)/_layout.js` is a **`NativeTabs`** (`expo-router/unstable-native-tabs`), a real native
 tab bar (UITabBarController on iOS — picks up iOS 26 Liquid Glass automatically; BottomNavigationView
