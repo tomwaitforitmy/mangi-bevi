@@ -24,10 +24,6 @@
     "@react-native-vector-icons/ionicons": "^13.1.2",
     "@react-native-vector-icons/material-design-icons": "^13.1.2",
     "@react-native-vector-icons/material-icons": "^13.1.2",
-    "@react-navigation/bottom-tabs": "^7.3.17",
-    "@react-navigation/elements": "^2.4.6",
-    "@react-navigation/native": "^7.1.13",
-    "@react-navigation/native-stack": "^7.3.16",
     "@reduxjs/toolkit": "^2.8.2",
     "@rneui/themed": "^5.0.0",
     "@supabase/supabase-js": "^2.50.5",
@@ -98,7 +94,7 @@
       "\\firebase\\.[jt]s?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|@react-native-async-storage/.*|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|expo-router|expo-linking|standard-navigation|react-navigation|react-native-elements|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-redux)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|@react-native-async-storage/.*|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|expo-router|expo-linking|standard-navigation|react-navigation|react-native-elements|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-redux)"
     ]
   },
   "private": true,
