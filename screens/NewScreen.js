@@ -370,7 +370,9 @@ function NewScreen() {
     imageUploadTarget,
   ]);
 
-  if (formState.isLoading) {
+  // NativeTabs mounts every tab immediately (unlike the old lazy JS Tabs), so
+  // this can render before MealsScreen's fetchAll() has populated the user.
+  if (formState.isLoading || !userStats || !userMealsData) {
     return <LoadingIndicator />;
   }
 

@@ -8,6 +8,7 @@ import AndOrTagFilterSwitch from "../components/Switches/AndOrTagFilterSwitch";
 function FiltersScreen() {
   const dispatch = useDispatch();
 
+  const user = useSelector((state) => state.users.user);
   const filterTags = useSelector((state) => state.tags.filterTags);
 
   const availableFilterTags = useSelector(
@@ -32,7 +33,12 @@ function FiltersScreen() {
       <ScrollView style={styles.tagLists}>
         <Text style={styles.subtitle}>Active Tag Filters</Text>
         <TagList tags={filterTags} onPressTag={removeTagHandler} />
-        <AndOrTagFilterSwitch />
+        {/* NativeTabs mounts every tab immediately (unlike the old lazy JS
+            Tabs), so this can render before MealsScreen's fetchAll() has
+            populated the user. AndOrTagFilterSwitch also seeds its switch
+            state from the user only on mount, so it must not mount until
+            the user is loaded, not just be null-guarded internally. */}
+        {user && <AndOrTagFilterSwitch />}
         <Text style={styles.subtitle}>Available Tags</Text>
         <TagList tags={availableFilterTags} onPressTag={addTagHandler} />
       </ScrollView>

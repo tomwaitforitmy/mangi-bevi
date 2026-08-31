@@ -5,12 +5,19 @@ import MyButton from "../components/MyButton";
 import MyLevelViewContainer from "../components/MyLevelViewContainer";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function ProfileScreen() {
   const router = useRouter();
   const user = useSelector((state) => state.users.user);
   const userStats = useSelector((state) => state.users.userStats);
   const userMealsData = useSelector((state) => state.users.userMealsData);
+
+  // NativeTabs mounts every tab immediately (unlike the old lazy JS Tabs), so
+  // this can render before MealsScreen's fetchAll() has populated the user.
+  if (!user || !userStats || !userMealsData) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <View style={styles.container}>
