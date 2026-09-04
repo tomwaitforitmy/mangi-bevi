@@ -30,11 +30,13 @@ import MyButton from "../components/MyButton";
 import SaveIcon from "../components/HeaderIcons/SaveIcon";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useNavigation } from "expo-router/react-navigation";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function AddTagScreen() {
   const { mealId } = useLocalSearchParams();
   const navigation = useNavigation();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
@@ -164,7 +166,11 @@ function AddTagScreen() {
 
   return (
     <MyKeyboardAvoidingView extraOffset={0} style={{ width: "100%" }}>
-      <View style={styles.container}>
+      {/* NativeTabs' native tab bar overlaps content (edge-to-edge) instead
+          of reserving space for itself like the old JS bottom tabs did, so
+          the "Create new tag" input/button would otherwise render (and be
+          touchable) underneath the tab bar. */}
+      <View style={[styles.container, { paddingBottom: insets.bottom }]}>
         <ScrollView style={styles.tagLists}>
           <Text style={styles.subtitle}>Added Tags</Text>
           <TagList

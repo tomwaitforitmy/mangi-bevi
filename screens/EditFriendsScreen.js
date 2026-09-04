@@ -8,6 +8,7 @@ import MultiSelectUsersList from "../components/MultiSelectUsersList";
 import * as usersActions from "../store/actions/usersAction";
 import { FastFilterUsers } from "../common_functions/FastFilterUsers";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function EditFriendsScreen() {
   //This is called when users.users AND state.users.user change
@@ -15,6 +16,7 @@ function EditFriendsScreen() {
   console.log("render call");
 
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const allUsers = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.users.user);
@@ -55,7 +57,10 @@ function EditFriendsScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    // NativeTabs' native tab bar overlaps content (edge-to-edge) instead of
+    // reserving space for itself like the old JS bottom tabs did, so the
+    // "Done selecting" button would otherwise render underneath the tab bar.
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       <SearchInput
         onChangeText={onChangeText}
         numberOfLabels={

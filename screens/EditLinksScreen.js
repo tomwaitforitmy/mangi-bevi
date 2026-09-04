@@ -8,10 +8,12 @@ import { PrepareSelectedLinks } from "../common_functions/PrepareSelectedLinks";
 import SearchInput from "../components/SearchInput";
 import { FastFilterMeals } from "../common_functions/FastFilterMeals";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function EditLinksScreen() {
   const { mealId } = useLocalSearchParams();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const allMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = allMeals.find((meal) => meal.id === mealId);
@@ -57,7 +59,10 @@ function EditLinksScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    // NativeTabs' native tab bar overlaps content (edge-to-edge) instead of
+    // reserving space for itself like the old JS bottom tabs did, so the
+    // "Done selecting" button would otherwise render underneath the tab bar.
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       <SearchInput
         onChangeText={onChangeText}
         numberOfLabels={
