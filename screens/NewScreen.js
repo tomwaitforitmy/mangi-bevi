@@ -66,6 +66,7 @@ import { newMealCreated } from "../notifications/NewMealCreated";
 import { getPermission, pickImage } from "../common_functions/PickImage";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useNavigation } from "expo-router/react-navigation";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function NewScreen() {
   const { mealId } = useLocalSearchParams();
@@ -103,6 +104,7 @@ function NewScreen() {
   }, []);
   const childRef = React.createRef();
   const windowWidth = useWindowDimensions().width;
+  const insets = useSafeAreaInsets();
 
   const [formState, formDispatch] = useReducer(
     newMealFormReducer,
@@ -566,7 +568,12 @@ function NewScreen() {
   };
 
   return (
-    <View style={styles.screenContainer}>
+    // NativeTabs' native tab bar overlaps content (edge-to-edge) instead of
+    // reserving space for itself like the old JS bottom tabs did, so the
+    // bottom-anchored ingredient/step input in InputListViewContainer would
+    // otherwise render (and be touchable) underneath the tab bar.
+    <View
+      style={[styles.screenContainer, { paddingBottom: insets.bottom }]}>
       <LevelsViewModal
         countIngredients={userStats.countIngredients}
         countTags={userStats.countTags}
