@@ -9,7 +9,11 @@ import { DEV_MODE } from "../../data/Environment";
 export default function AuthenticatedTabsLayout() {
   return (
     <NativeTabs
-      iconColor={{ default: Colors.second, selected: Colors.navigationIcon }}
+      // On Android the bar itself is painted Colors.primary (see
+      // backgroundColor below), so the selected icon stays white for
+      // contrast; on iOS the bar has no background of ours to clash with, so
+      // the selected icon can be the app's actual primary blue.
+      iconColor={{ default: Colors.second, selected: Colors.headerIconColor }}
       // iOS 26's Liquid Glass is the native tab bar's own material — Apple's
       // HIG says not to paint over it with a custom background. Android has
       // no glass material, so it keeps the brand color there.
