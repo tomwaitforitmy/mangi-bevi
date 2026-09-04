@@ -18,6 +18,7 @@ const initialState = {
   addedTags: [],
   filterTags: [],
   availableFilterTags: [],
+  tagsLoaded: false,
 };
 
 const tagsReducer = (state = initialState, action) => {
@@ -102,6 +103,7 @@ const tagsReducer = (state = initialState, action) => {
       return {
         ...state,
         tags: action.tags,
+        tagsLoaded: true,
       };
     }
     case CREATE_TAG: {

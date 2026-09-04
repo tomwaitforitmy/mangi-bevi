@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import TagList from "../components/TagList";
 import * as tagActions from "../store/actions/tagsAction";
 import AndOrTagFilterSwitch from "../components/Switches/AndOrTagFilterSwitch";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function FiltersScreen() {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.users.user);
+  const tagsLoaded = useSelector((state) => state.tags.tagsLoaded);
   const filterTags = useSelector((state) => state.tags.filterTags);
 
   const availableFilterTags = useSelector(
@@ -17,8 +19,16 @@ function FiltersScreen() {
 
   //Todo: What is this useEffect exactly for?
   useEffect(() => {
-    dispatch(tagActions.setFilterTags([]));
-  }, [dispatch]);
+    // NativeTabs mounts every tab immediately (unlike the old lazy JS
+    // Tabs), so this can fire before fetchTags() replaces the dummy
+    // placeholder tags. SET_FILTER_TAGS derives filterTags/
+    // availableFilterTags from state.tags.tags at dispatch time (not a
+    // live selector), so dispatching too early permanently locks them
+    // to the dummy data until this fires again.
+    if (tagsLoaded) {
+      dispatch(tagActions.setFilterTags([]));
+    }
+  }, [dispatch, tagsLoaded]);
 
   const addTagHandler = (tag) => {
     dispatch(tagActions.addFilterTag(tag));
@@ -27,6 +37,10 @@ function FiltersScreen() {
   const removeTagHandler = (tag) => {
     dispatch(tagActions.removeFilterTag(tag));
   };
+
+  if (!tagsLoaded) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <View style={styles.screen}>
