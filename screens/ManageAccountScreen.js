@@ -27,11 +27,13 @@ import loginFormReducer, {
   SUBMITTED,
 } from "../store/formReducers/accountFormReducer";
 import { ResetSecureStorage } from "../common_functions/CredentialStorage";
-import Colors from "../constants/Colors";
-import { textInputStyles } from "../constants/TextInputStyles";
+import { useAppTheme } from "../theme/useAppTheme";
+import { getTextInputStyles } from "../constants/TextInputStyles";
 import { useNavigation } from "expo-router/react-navigation";
 
 function ManageAccountScreen() {
+  const theme = useAppTheme();
+  const textInputStyles = getTextInputStyles(theme);
   const navigation = useNavigation();
   const user = useSelector((state) => state.users.user);
   const users = useSelector((state) => state.users.users);
@@ -172,7 +174,7 @@ function ManageAccountScreen() {
               formState.userError && textInputStyles.inputError,
             ]}
             placeholder="Name"
-            placeholderTextColor={Colors.textInputPlaceholderColor}
+            placeholderTextColor={theme.colors.textInputPlaceholderColor}
             onChangeText={(value) =>
               formDispatch({ type: EDIT_FIELD, value: value, field: "user" })
             }
@@ -188,7 +190,7 @@ function ManageAccountScreen() {
               formState.emailError && textInputStyles.inputError,
             ]}
             placeholder="Email"
-            placeholderTextColor={Colors.textInputPlaceholderColor}
+            placeholderTextColor={theme.colors.textInputPlaceholderColor}
             onChangeText={(value) =>
               formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
             }

@@ -1,5 +1,5 @@
 import React from "react";
-import Colors from "../../constants/Colors";
+import { useAppTheme } from "../../theme/useAppTheme";
 import * as authActions from "../../store/actions/authAction";
 import Ionicons from "@react-native-vector-icons/ionicons";
 import { Alert, Pressable } from "react-native";
@@ -27,6 +27,8 @@ const onHeaderIconPress = () => {
 };
 
 const LogoutIcon = () => {
+  const theme = useAppTheme();
+
   return (
     <Pressable
       onPress={() => onHeaderIconPress()}
@@ -36,7 +38,7 @@ const LogoutIcon = () => {
       <Ionicons
         name={"exit-outline"}
         size={HEADER_ICON_SIZE}
-        color={Colors.headerIconColor}
+        color={theme.colors.headerIconColor}
       />
     </Pressable>
   );

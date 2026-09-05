@@ -21,8 +21,8 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
 import * as usersAction from "../store/actions/usersAction";
 import Meal from "../models/Meal";
-import Colors from "../constants/Colors";
-import { textInputStyles } from "../constants/TextInputStyles";
+import { useAppTheme } from "../theme/useAppTheme";
+import { getTextInputStyles } from "../constants/TextInputStyles";
 import newMealFormReducer, {
   CHANGE_PAGE_TITLE,
   CHANGE_TITLE,
@@ -69,6 +69,8 @@ import { useNavigation } from "expo-router/react-navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function NewScreen() {
+  const theme = useAppTheme();
+  const textInputStyles = getTextInputStyles(theme);
   const { mealId } = useLocalSearchParams();
   const navigation = useNavigation();
   const router = useRouter();
@@ -422,7 +424,7 @@ function NewScreen() {
         <View style={styles.enterTitleInput}>
           <TextInput
             style={textInputStyles.input}
-            placeholderTextColor={Colors.textInputPlaceholderColor}
+            placeholderTextColor={theme.colors.textInputPlaceholderColor}
             value={formState.title}
             placeholder="Enter title"
             onChangeText={(value) => {

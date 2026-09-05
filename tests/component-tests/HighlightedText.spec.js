@@ -1,10 +1,10 @@
 import React from "react";
 import { render, screen } from "@testing-library/react-native";
 import HighlightedText from "../../components/HighlightedText.js";
-import Colors from "../../constants/Colors";
+import lightTheme from "../../theme/lightTheme";
 
 describe("HighlightedText", () => {
-  const expectedColor = Colors.searchTermHighlight;
+  const expectedColor = lightTheme.colors.searchTermHighlight;
 
   it("renders the correct text", () => {
     render(<HighlightedText text="Tomatoes" />);
@@ -26,7 +26,7 @@ describe("HighlightedText", () => {
       <HighlightedText
         text="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
         searchTerm="trillion"
-        highlightColor={Colors.searchTermHighlight}
+        highlightColor={expectedColor}
       />,
     );
     expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
@@ -58,7 +58,7 @@ describe("HighlightedText", () => {
       <HighlightedText
         text="10000 million trillion billion trillion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
         searchTerm="trillion"
-        highlightColor={Colors.searchTermHighlight}
+        highlightColor={expectedColor}
       />,
     );
 
@@ -74,7 +74,7 @@ describe("HighlightedText", () => {
       <HighlightedText
         text="trillion"
         searchTerm="trillion"
-        highlightColor={Colors.searchTermHighlight}
+        highlightColor={expectedColor}
       />,
     );
 

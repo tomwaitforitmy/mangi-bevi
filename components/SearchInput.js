@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 const SearchInput = ({
@@ -11,11 +11,14 @@ const SearchInput = ({
   showSortIcon,
   onSortPress,
 }) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
+
   return (
     <View style={[styles.textContainer, style]}>
       <TextInput
         placeholder="Enter text to search 🍕"
-        placeholderTextColor={Colors.searchTextPlaceholder}
+        placeholderTextColor={theme.colors.searchTextPlaceholder}
         onChangeText={onChangeText}
         style={styles.searchTerm}
         autoCorrect={false}
@@ -27,7 +30,7 @@ const SearchInput = ({
         <Pressable onPress={onSortPress} style={styles.icon}>
           <MaterialDesignIcons
             name="sort"
-            color={Colors.navigationIcon}
+            color={theme.colors.navigationIcon}
             size={24}
           />
         </Pressable>
@@ -36,33 +39,34 @@ const SearchInput = ({
   );
 };
 
-const styles = StyleSheet.create({
-  textContainer: {
-    backgroundColor: Colors.primary,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 5,
-  },
-  searchTerm: {
-    backgroundColor: Colors.screenBackGround,
-    fontSize: 20,
-    margin: 3,
-    paddingLeft: 15,
-    borderRadius: 25,
-    color: "black",
-    minHeight: 30,
-    flex: 1, // Takes the remaining space
-  },
-  label: {
-    color: Colors.white,
-    textAlign: "center",
-    textAlignVertical: "center",
-    marginHorizontal: 10,
-  },
-  icon: {
-    //example how to style icon
-    // paddingHorizontal: 5,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    textContainer: {
+      backgroundColor: theme.colors.primary,
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 5,
+    },
+    searchTerm: {
+      backgroundColor: theme.colors.screenBackGround,
+      fontSize: 20,
+      margin: 3,
+      paddingLeft: 15,
+      borderRadius: 25,
+      color: theme.colors.onBackground,
+      minHeight: 30,
+      flex: 1, // Takes the remaining space
+    },
+    label: {
+      color: theme.colors.white,
+      textAlign: "center",
+      textAlignVertical: "center",
+      marginHorizontal: 10,
+    },
+    icon: {
+      //example how to style icon
+      // paddingHorizontal: 5,
+    },
+  });
 
 export default SearchInput;

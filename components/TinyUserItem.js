@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import HighlightedText from "./HighlightedText";
 
 const TinyUserItem = ({ user, onPressUser, searchTerm }) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const isSelectable = onPressUser ? false : true;
 
   //State here is needed to trigger re-render on press
@@ -42,42 +44,44 @@ const TinyUserItem = ({ user, onPressUser, searchTerm }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  rowContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.white,
-    padding: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 5,
-    borderWidth: 1,
-    borderColor: Colors.selectedMealBorderColor,
-  },
-  rowContainerSelected: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.selectedMealBackground,
-    padding: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 5,
-    borderWidth: 1,
-    borderColor: Colors.second,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 18,
-  },
-  selectedIndicator: {
-    backgroundColor: Colors.transparent,
-    padding: 5,
-  },
-  selectedIndicatorText: {
-    fontSize: 26,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    rowContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: theme.colors.white,
+      padding: 5,
+      marginLeft: 5,
+      marginRight: 5,
+      marginTop: 5,
+      borderWidth: 1,
+      borderColor: theme.colors.selectedMealBorderColor,
+    },
+    rowContainerSelected: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: theme.colors.selectedMealBackground,
+      padding: 5,
+      marginLeft: 5,
+      marginRight: 5,
+      marginTop: 5,
+      borderWidth: 1,
+      borderColor: theme.colors.second,
+    },
+    textContainer: {
+      flex: 1,
+    },
+    title: {
+      fontSize: 18,
+      color: theme.colors.black,
+    },
+    selectedIndicator: {
+      backgroundColor: theme.colors.transparent,
+      padding: 5,
+    },
+    selectedIndicatorText: {
+      fontSize: 26,
+    },
+  });
 
 export default TinyUserItem;

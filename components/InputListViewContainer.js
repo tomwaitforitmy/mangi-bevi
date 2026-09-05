@@ -9,10 +9,12 @@ import {
   InteractionManager,
 } from "react-native";
 import MyListItem from "./MyListItem";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import Ionicons from "@react-native-vector-icons/ionicons";
 
 const InputListViewContainer = (props) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const scrollViewRef = useRef(null);
 
   //This whole useEffect is just for the first time when the "edit" icon is pressed.
@@ -69,8 +71,8 @@ const InputListViewContainer = (props) => {
             multiline={true}
             ref={props.inputRef}
             placeholder="Enter text"
-            placeholderTextColor={Colors.textInputPlaceholderColor}
-            selectionColor={Colors.white}
+            placeholderTextColor={theme.colors.textInputPlaceholderColor}
+            selectionColor={theme.colors.white}
             onChangeText={(value) => props.onChangeText(value)}
             returnKeyType="default"
             onEndEditing={() => {
@@ -78,7 +80,7 @@ const InputListViewContainer = (props) => {
             }}
           />
           <View style={styles.sendIconContainer}>
-            <Ionicons name="arrow-up" color={Colors.white} size={38} />
+            <Ionicons name="arrow-up" color={theme.colors.white} size={38} />
           </View>
         </View>
       </ScrollView>
@@ -86,33 +88,34 @@ const InputListViewContainer = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center", // Aligns input and send icon vertically
-  },
-  container: {
-    flexGrow: 1,
-  },
-  input: {
-    color: Colors.white,
-    backgroundColor: Colors.textInputBackground,
-    width: "85%",
-    minHeight: 60,
-    maxHeight: 60,
-    marginVertical: 10, // Add some vertical margin for space between input and items
-    fontSize: 20,
-    borderRadius: 10,
-    paddingHorizontal: 6, //to align text with rounded corners
-  },
-  sendIconContainer: {
-    backgroundColor: Colors.primary,
-    justifyContent: "center",
-    borderRadius: 20,
-    marginVertical: 10,
-    marginLeft: 5,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    inputContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center", // Aligns input and send icon vertically
+    },
+    container: {
+      flexGrow: 1,
+    },
+    input: {
+      color: theme.colors.white,
+      backgroundColor: theme.colors.textInputBackground,
+      width: "85%",
+      minHeight: 60,
+      maxHeight: 60,
+      marginVertical: 10, // Add some vertical margin for space between input and items
+      fontSize: 20,
+      borderRadius: 10,
+      paddingHorizontal: 6, //to align text with rounded corners
+    },
+    sendIconContainer: {
+      backgroundColor: theme.colors.primary,
+      justifyContent: "center",
+      borderRadius: 20,
+      marginVertical: 10,
+      marginLeft: 5,
+    },
+  });
 
 export default InputListViewContainer;

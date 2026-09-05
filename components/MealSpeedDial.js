@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import { Share, StyleSheet } from "react-native";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import { SpeedDial } from "@rneui/themed";
 import { GetMealSummary } from "../common_functions/GetMealSummary";
 import { useSelector } from "react-redux";
@@ -13,6 +13,8 @@ import { GetAuthorNameByMealId } from "../common_functions/GetAuthorName";
 import { useRouter } from "expo-router";
 
 const MealSpeedDial = (props) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const { mealId } = props;
   const router = useRouter();
 
@@ -101,16 +103,16 @@ const MealSpeedDial = (props) => {
   return (
     <SpeedDial
       placement="right"
-      color={Colors.speedDialBackground}
+      color={theme.colors.speedDialBackground}
       isOpen={formState.isOpen}
       icon={{
         name: "add",
-        color: Colors.speedDialIcon,
+        color: theme.colors.speedDialIcon,
         type: defaultIconType,
       }}
       openIcon={{
         name: "close",
-        color: Colors.speedDialIcon,
+        color: theme.colors.speedDialIcon,
         type: defaultIconType,
       }}
       onOpen={() => formDispatch({ type: OPEN })}
@@ -119,12 +121,12 @@ const MealSpeedDial = (props) => {
         <SpeedDial.Action
           icon={{
             name: "star-off",
-            color: Colors.speedDialIcon,
+            color: theme.colors.speedDialIcon,
             type: IconTypes.materialDesign,
           }}
           title="Remove Favorite"
           titleStyle={styles.actionTitle}
-          color={Colors.speedDialBackground}
+          color={theme.colors.speedDialBackground}
           onPress={onPressFavorite}
         />
       )}
@@ -132,80 +134,80 @@ const MealSpeedDial = (props) => {
         <SpeedDial.Action
           icon={{
             name: "star",
-            color: Colors.speedDialIcon,
+            color: theme.colors.speedDialIcon,
             type: IconTypes.materialDesign,
           }}
           title="Favorite"
           titleStyle={styles.actionTitle}
-          color={Colors.speedDialBackground}
+          color={theme.colors.speedDialBackground}
           onPress={onPressFavorite}
         />
       )}
       <SpeedDial.Action
         icon={{
           name: "pricetags",
-          color: Colors.speedDialIcon,
+          color: theme.colors.speedDialIcon,
           type: defaultIconType,
         }}
         title="Tags"
         titleStyle={styles.actionTitle}
-        color={Colors.speedDialBackground}
+        color={theme.colors.speedDialBackground}
         onPress={navigateToAddTag}
       />
       <SpeedDial.Action
         icon={{
           name: "share-social",
-          color: Colors.speedDialIcon,
+          color: theme.colors.speedDialIcon,
           type: defaultIconType,
         }}
         title="Share"
         titleStyle={styles.actionTitle}
-        color={Colors.speedDialBackground}
+        color={theme.colors.speedDialBackground}
         onPress={shareMeal}
       />
       <SpeedDial.Action
         icon={{
           name: "link",
-          color: Colors.speedDialIcon,
+          color: theme.colors.speedDialIcon,
           type: IconTypes.feather,
         }}
         title="Links"
         titleStyle={styles.actionTitle}
-        color={Colors.speedDialBackground}
+        color={theme.colors.speedDialBackground}
         onPress={navigateToEditLinks}
       />
       <SpeedDial.Action
         icon={{
           name: "report",
-          color: Colors.speedDialIcon,
+          color: theme.colors.speedDialIcon,
           type: IconTypes.material,
         }}
         title="Report"
         titleStyle={styles.actionTitle}
-        color={Colors.speedDialBackground}
+        color={theme.colors.speedDialBackground}
         onPress={navigateToReport}
       />
       <SpeedDial.Action
         icon={{
           name: "heart",
-          color: Colors.speedDialIcon,
+          color: theme.colors.speedDialIcon,
           type: IconTypes.fontAwesome,
         }}
         title="React"
         titleStyle={styles.actionTitle}
-        color={Colors.speedDialBackground}
+        color={theme.colors.speedDialBackground}
         onPress={onPressReact}
       />
       {props.enableMarkCooked && (
         <SpeedDial.Action
           icon={{
             name: "chef-hat",
-            color: Colors.speedDialIcon,
+            color: theme.colors.speedDialIcon,
             type: IconTypes.materialDesign,
           }}
           title="Mark as cooked"
           titleStyle={styles.actionTitle}
-          color={Colors.speedDialBackground}
+          color={theme.colors.speedDialBackground}
           onPress={onPressMarkCooked}
         />
       )}
@@ -213,12 +215,13 @@ const MealSpeedDial = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  actionTitle: {
-    color: Colors.speedDialActionText,
-    fontWeight: "600",
-    backgroundColor: Colors.speedDialActionBackground,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    actionTitle: {
+      color: theme.colors.speedDialActionText,
+      fontWeight: "600",
+      backgroundColor: theme.colors.speedDialActionBackground,
+    },
+  });
 
 export default MealSpeedDial;

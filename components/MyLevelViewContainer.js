@@ -7,9 +7,10 @@ import MaterialDesignIcons from "@react-native-vector-icons/material-design-icon
 import FontAwesome5 from "@react-native-vector-icons/fontawesome5";
 import Ionicons from "@react-native-vector-icons/ionicons";
 import { INGREDIENT_REWARDS } from "../data/IngredientRewards";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 
 const MyLevelViewContainer = (props) => {
+  const theme = useAppTheme();
   const iconSize = 50;
 
   const myChefIcon = () => {
@@ -19,7 +20,7 @@ const MyLevelViewContainer = (props) => {
   };
 
   const myTagIcon = () => {
-    return <Ionicons name="pricetags" size={iconSize} color={Colors.primary} />;
+    return <Ionicons name="pricetags" size={iconSize} color={theme.colors.primary} />;
   };
 
   const myCarrotIcon = () => {

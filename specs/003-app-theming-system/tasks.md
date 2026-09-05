@@ -27,12 +27,12 @@ before the P2 "Colorful" story, even though spec.md lists US2 second.
 
 ## Phase 1: Setup
 
-- [ ] T001 Create the `theme/` directory with empty placeholder files: `theme/lightTheme.js`,
+- [X] T001 Create the `theme/` directory with empty placeholder files: `theme/lightTheme.js`,
       `theme/darkTheme.js`, `theme/colorfulTheme.js`, `theme/ThemeProvider.js`,
       `theme/useAppTheme.js`, `theme/useAppearanceSelection.js`, `theme/AppearanceOptions.js`
       (per plan.md Project Structure). No new dependency install — `react-native-paper` is
       already in `package.json`.
-- [ ] T002 [P] Define the appearance enum and AsyncStorage key in `theme/AppearanceOptions.js`:
+- [X] T002 [P] Define the appearance enum and AsyncStorage key in `theme/AppearanceOptions.js`:
       `LIGHT`, `DARK`, `COLORFUL`, `AUTOMATIC` constants plus a `STORAGE_KEY` string, following
       the naming style already used for storage keys in `common_functions/CredentialStorage.js`.
 
@@ -53,36 +53,36 @@ the real brand palette.
 
 > Write these tests FIRST; confirm they FAIL before implementing the code below.
 
-- [ ] T003 [P] Failing unit test for appearance resolution in
+- [X] T003 [P] Failing unit test for appearance resolution in
       `tests/unit-tests/ResolveAppearance.test.js` — covers: explicit selection passthrough,
       `automatic` + device `"dark"` → `"dark"`, `automatic` + device `"light"`/`null` → `"light"`,
       unrecognized selection → treated as `automatic` (per data-model.md).
-- [ ] T004 [P] Failing unit test for contrast math in
+- [X] T004 [P] Failing unit test for contrast math in
       `tests/unit-tests/GetContrastRatio.test.js` — covers known WCAG reference pairs (e.g.
       black-on-white ≈ 21:1, same-color ≈ 1:1) plus a couple of representative mid-contrast pairs.
-- [ ] T005 [P] Failing component test in `tests/component-tests/ThemeProvider.spec.js` — renders a
+- [X] T005 [P] Failing component test in `tests/component-tests/ThemeProvider.spec.js` — renders a
       consumer under `theme/ThemeProvider.js` with Paper's stock `MD3LightTheme`/`MD3DarkTheme`,
       changes the appearance selection, asserts the consumer re-renders with the new theme's
       colors without unmounting.
 
 ### Implementation for Foundational phase
 
-- [ ] T006 [P] Implement `common_functions/ResolveAppearance.js` per contracts/theme-api.md
+- [X] T006 [P] Implement `common_functions/ResolveAppearance.js` per contracts/theme-api.md
       (`ResolveAppearance(selection, deviceColorScheme)`) — makes T003 pass.
-- [ ] T007 [P] Implement `common_functions/GetContrastRatio.js` (WCAG relative-luminance contrast
+- [X] T007 [P] Implement `common_functions/GetContrastRatio.js` (WCAG relative-luminance contrast
       ratio formula) — makes T004 pass.
-- [ ] T008 Implement `theme/useAppearanceSelection.js`: reads/writes the persisted selection via
+- [X] T008 Implement `theme/useAppearanceSelection.js`: reads/writes the persisted selection via
       `@react-native-async-storage/async-storage` under `AppearanceOptions.STORAGE_KEY`, defaults
       to `AUTOMATIC` before the stored value loads (FR-008). Depends on T002, T006.
-- [ ] T009 Implement `theme/useAppTheme.js`: thin wrapper re-exporting React Native Paper's
+- [X] T009 Implement `theme/useAppTheme.js`: thin wrapper re-exporting React Native Paper's
       `useTheme()` for app call sites, per contracts/theme-api.md. Depends on T002.
-- [ ] T010 Implement `theme/ThemeProvider.js`: wraps children in Paper's `PaperProvider` using
+- [X] T010 Implement `theme/ThemeProvider.js`: wraps children in Paper's `PaperProvider` using
       the theme resolved from `useAppearanceSelection()` + `ResolveAppearance()` +
       `useColorScheme()`; bridges the resolved theme into `expo-router/react-navigation`'s
       `ThemeProvider` for native-stack chrome (per CLAUDE.md's mandatory import rule). Uses
       Paper's stock `MD3LightTheme`/`MD3DarkTheme` as the light/dark source for now. Depends on
       T008, T009 — makes T005 pass.
-- [ ] T011 Wire `theme/ThemeProvider.js` into `app/_layout.js`, wrapping `RootNavigator` (inside
+- [X] T011 Wire `theme/ThemeProvider.js` into `app/_layout.js`, wrapping `RootNavigator` (inside
       the existing `Provider`/`GestureHandlerRootView` nesting). Depends on T010.
 
 **Checkpoint**: App builds and runs, following the OS light/dark setting via Paper's stock theme.
@@ -100,16 +100,16 @@ screen shows the old hard-coded palette.
 
 ### Tests for User Story 1
 
-- [ ] T012 [P] [US1] Failing unit test `tests/unit-tests/ThemeContrast.test.js` — iterates
+- [X] T012 [P] [US1] Failing unit test `tests/unit-tests/ThemeContrast.test.js` — iterates
       `lightTheme` and `darkTheme`'s text/background and icon/background token pairs, asserts
       each meets WCAG AA via `GetContrastRatio` (FR-010, SC-006).
-- [ ] T013 [P] [US1] Failing component test `tests/component-tests/AppearancePicker.spec.js` —
+- [X] T013 [P] [US1] Failing component test `tests/component-tests/AppearancePicker.spec.js` —
       selecting an option calls the persistence hook and the picker reflects a previously-stored
       selection on mount (SC-003).
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Build `theme/lightTheme.js`: extend Paper's `MD3LightTheme` with a genuinely
+- [X] T014 [P] [US1] Build `theme/lightTheme.js`: extend Paper's `MD3LightTheme` with a genuinely
       refreshed brand palette (FR-005 — not a mechanical rename) plus app-specific tokens ported
       from `constants/Colors.js` (`tagBackground`, `tagText`, `tagBorderColor`,
       `speedDialBackground`, `speedDialIcon`, `speedDialActionBackground`,
@@ -117,57 +117,57 @@ screen shows the old hard-coded palette.
       `myTabMenuBackground`, `textInputBackground`, `textInputPlaceholderColor`,
       `searchTextPlaceholder`, `searchTermHighlight`, `selectedMealBackground`,
       `selectedMealBorderColor`, `levelView*` keys — full list in `constants/Colors.js`).
-- [ ] T015 [P] [US1] Build `theme/darkTheme.js`: same token shape as T014, genuinely restyled for
+- [X] T015 [P] [US1] Build `theme/darkTheme.js`: same token shape as T014, genuinely restyled for
       dark (not an auto-inverted light theme), per FR-005/FR-001.
-- [ ] T016 [US1] Create `components/AppearancePicker.js`: Light/Dark/Automatic selector UI using
+- [X] T016 [US1] Create `components/AppearancePicker.js`: Light/Dark/Automatic selector UI using
       `theme/useAppearanceSelection.js` and `theme/useAppTheme.js`. Depends on T008, T009, T014,
       T015.
-- [ ] T017 [US1] Wire `components/AppearancePicker.js` into `screens/SettingsScreen.js` (same
+- [X] T017 [US1] Wire `components/AppearancePicker.js` into `screens/SettingsScreen.js` (same
       pattern as the existing `NotificationsSwitch` composition already in that screen). Depends
       on T016.
-- [ ] T018 [US1] Update `theme/ThemeProvider.js` to resolve `light`/`dark` from `theme/lightTheme.js`
+- [X] T018 [US1] Update `theme/ThemeProvider.js` to resolve `light`/`dark` from `theme/lightTheme.js`
       / `theme/darkTheme.js` instead of Paper's stock themes. Depends on T010, T014, T015 — makes
       T012 meaningful (was passing trivially against stock Paper themes before).
 
 **Migrate every screen/component off `constants/Colors.js` onto `theme/useAppTheme.js`**
 (36 files; all independent, no cross-file dependencies — safe to parallelize):
 
-- [ ] T019 [P] [US1] Migrate `screens/DevScreen.js`
-- [ ] T020 [P] [US1] Migrate `screens/ManageAccountScreen.js`
-- [ ] T021 [P] [US1] Migrate `screens/AddTagScreen.js`
-- [ ] T022 [P] [US1] Migrate `screens/SendReportScreen.js`
-- [ ] T023 [P] [US1] Migrate `screens/NewScreen.js`
-- [ ] T024 [P] [US1] Migrate `screens/DebugScreen.js`
-- [ ] T025 [P] [US1] Migrate `screens/MealsScreen.js`
-- [ ] T026 [P] [US1] Migrate `components/LoadingIndicator.js`
-- [ ] T027 [P] [US1] Migrate `components/LevelView.js`
-- [ ] T028 [P] [US1] Migrate `components/MealItem.js`
-- [ ] T029 [P] [US1] Migrate `components/DraggableItemList.js`
-- [ ] T030 [P] [US1] Migrate `components/MyTabMenu.js`
-- [ ] T031 [P] [US1] Migrate `components/SearchInput.js`
-- [ ] T032 [P] [US1] Migrate `components/SelectSortingModal.js`
-- [ ] T033 [P] [US1] Migrate `components/AuthorBox.js`
-- [ ] T034 [P] [US1] Migrate `components/MyListItem.js`
-- [ ] T035 [P] [US1] Migrate `components/TinyUserItem.js`
-- [ ] T036 [P] [US1] Migrate `components/TagList.js`
-- [ ] T037 [P] [US1] Migrate `components/MealSpeedDial.js`
-- [ ] T038 [P] [US1] Migrate `components/LevelsViewModal.js`
-- [ ] T039 [P] [US1] Migrate `components/MealList.js`
-- [ ] T040 [P] [US1] Migrate `components/MyLevelViewContainer.js`
-- [ ] T041 [P] [US1] Migrate `components/InputListViewContainer.js`
-- [ ] T042 [P] [US1] Migrate `components/SelectReactionModal.js`
-- [ ] T043 [P] [US1] Migrate `components/HeaderIcons/GlobalBackIcon.js`
-- [ ] T044 [P] [US1] Migrate `components/MyButton.js`
-- [ ] T045 [P] [US1] Migrate `components/AuthenticationContent.js`
-- [ ] T046 [P] [US1] Migrate `components/TinyMealItem.js`
-- [ ] T047 [P] [US1] Migrate `components/HeaderIcons/SaveIcon.js`
-- [ ] T048 [P] [US1] Migrate `components/HeaderIcons/HeaderBackIcon.js`
-- [ ] T049 [P] [US1] Migrate `components/HeaderIcons/EditMangiIcon.js`
-- [ ] T050 [P] [US1] Migrate `components/HeaderIcons/LogoutIcon.js`
-- [ ] T051 [P] [US1] Migrate `components/HeaderIcons/EditMangiIconDisabled.js`
-- [ ] T052 [P] [US1] Migrate `components/ImageSwipe.js`
-- [ ] T053 [P] [US1] Migrate `components/Switches/MySwitch.js`
-- [ ] T054 [P] [US1] Migrate `app/(app)/_layout.js`
+- [X] T019 [P] [US1] Migrate `screens/DevScreen.js`
+- [X] T020 [P] [US1] Migrate `screens/ManageAccountScreen.js`
+- [X] T021 [P] [US1] Migrate `screens/AddTagScreen.js`
+- [X] T022 [P] [US1] Migrate `screens/SendReportScreen.js`
+- [X] T023 [P] [US1] Migrate `screens/NewScreen.js`
+- [X] T024 [P] [US1] Migrate `screens/DebugScreen.js`
+- [X] T025 [P] [US1] Migrate `screens/MealsScreen.js`
+- [X] T026 [P] [US1] Migrate `components/LoadingIndicator.js`
+- [X] T027 [P] [US1] Migrate `components/LevelView.js`
+- [X] T028 [P] [US1] Migrate `components/MealItem.js`
+- [X] T029 [P] [US1] Migrate `components/DraggableItemList.js`
+- [X] T030 [P] [US1] Migrate `components/MyTabMenu.js`
+- [X] T031 [P] [US1] Migrate `components/SearchInput.js`
+- [X] T032 [P] [US1] Migrate `components/SelectSortingModal.js`
+- [X] T033 [P] [US1] Migrate `components/AuthorBox.js`
+- [X] T034 [P] [US1] Migrate `components/MyListItem.js`
+- [X] T035 [P] [US1] Migrate `components/TinyUserItem.js`
+- [X] T036 [P] [US1] Migrate `components/TagList.js`
+- [X] T037 [P] [US1] Migrate `components/MealSpeedDial.js`
+- [X] T038 [P] [US1] Migrate `components/LevelsViewModal.js`
+- [X] T039 [P] [US1] Migrate `components/MealList.js`
+- [X] T040 [P] [US1] Migrate `components/MyLevelViewContainer.js`
+- [X] T041 [P] [US1] Migrate `components/InputListViewContainer.js`
+- [X] T042 [P] [US1] Migrate `components/SelectReactionModal.js`
+- [X] T043 [P] [US1] Migrate `components/HeaderIcons/GlobalBackIcon.js`
+- [X] T044 [P] [US1] Migrate `components/MyButton.js`
+- [X] T045 [P] [US1] Migrate `components/AuthenticationContent.js`
+- [X] T046 [P] [US1] Migrate `components/TinyMealItem.js`
+- [X] T047 [P] [US1] Migrate `components/HeaderIcons/SaveIcon.js`
+- [X] T048 [P] [US1] Migrate `components/HeaderIcons/HeaderBackIcon.js`
+- [X] T049 [P] [US1] Migrate `components/HeaderIcons/EditMangiIcon.js`
+- [X] T050 [P] [US1] Migrate `components/HeaderIcons/LogoutIcon.js`
+- [X] T051 [P] [US1] Migrate `components/HeaderIcons/EditMangiIconDisabled.js`
+- [X] T052 [P] [US1] Migrate `components/ImageSwipe.js`
+- [X] T053 [P] [US1] Migrate `components/Switches/MySwitch.js`
+- [X] T054 [P] [US1] Migrate `app/(app)/_layout.js`
 - [ ] T055 [US1] Run quickstart.md steps 1–2 and 4–7 (Light/Dark/Automatic portions) against a
       running build; fix any screen still showing the old palette. Depends on T019-T054.
 
@@ -186,21 +186,21 @@ outside `theme/` returns none; `constants/Colors.js` no longer exists.
 
 ### Tests for User Story 3
 
-- [ ] T056 [P] [US3] Failing test `tests/unit-tests/NoHardcodedColorLiterals.test.js` — greps
+- [X] T056 [P] [US3] Failing test `tests/unit-tests/NoHardcodedColorLiterals.test.js` — greps
       `screens/`, `components/`, `app/` for hex/rgba color literals outside `theme/`, asserts the
       result is empty (excluding documented one-off exceptions, e.g. debug-only UI, listed
       inline in the test).
-- [ ] T057 [P] [US3] Failing test `tests/unit-tests/ThemeTokenParity.test.js` — asserts
+- [X] T057 [P] [US3] Failing test `tests/unit-tests/ThemeTokenParity.test.js` — asserts
       `lightTheme.colors` and `darkTheme.colors` expose identical key sets (data-model.md
       validation rule).
 
 ### Implementation for User Story 3
 
-- [ ] T058 [US3] Remove any stray literal colors T056 flags (expected: the ~2 files identified in
+- [X] T058 [US3] Remove any stray literal colors T056 flags (expected: the ~2 files identified in
       plan.md's scope note) by sourcing them from `theme/useAppTheme.js` instead. Depends on T056.
-- [ ] T059 [US3] Delete `constants/Colors.js` now that T019-T054 and T058 leave zero importers.
+- [X] T059 [US3] Delete `constants/Colors.js` now that T019-T054 and T058 leave zero importers.
       Depends on all of Phase 3's migration tasks (T019-T054) and T058.
-- [ ] T060 [US3] Confirm T057 passes (token parity between `theme/lightTheme.js` and
+- [X] T060 [US3] Confirm T057 passes (token parity between `theme/lightTheme.js` and
       `theme/darkTheme.js`). Depends on T014, T015, T057.
 
 **Checkpoint**: No hard-coded colors remain anywhere in the app; the old palette file is gone;
@@ -218,18 +218,18 @@ fallback to the old palette.
 
 ### Tests for User Story 2
 
-- [ ] T061 [P] [US2] Extend `tests/unit-tests/ThemeTokenParity.test.js` to also assert
+- [X] T061 [P] [US2] Extend `tests/unit-tests/ThemeTokenParity.test.js` to also assert
       `colorfulTheme.colors` matches the same key set as light/dark.
-- [ ] T062 [P] [US2] Extend `tests/unit-tests/ThemeContrast.test.js` to also assert
+- [X] T062 [P] [US2] Extend `tests/unit-tests/ThemeContrast.test.js` to also assert
       `colorfulTheme`'s token pairs meet WCAG AA (FR-010, SC-006).
 
 ### Implementation for User Story 2
 
-- [ ] T063 [US2] Build `theme/colorfulTheme.js`: vibrant MD3-shaped theme using the exact token
+- [X] T063 [US2] Build `theme/colorfulTheme.js`: vibrant MD3-shaped theme using the exact token
       keys established in `theme/lightTheme.js`/`theme/darkTheme.js` (T014, T015) so T061 passes.
-- [ ] T064 [US2] Add the "Colorful" option to `components/AppearancePicker.js`. Depends on T016,
+- [X] T064 [US2] Add the "Colorful" option to `components/AppearancePicker.js`. Depends on T016,
       T063.
-- [ ] T065 [US2] Extend `theme/ThemeProvider.js`'s theme-name → theme-object lookup to include
+- [X] T065 [US2] Extend `theme/ThemeProvider.js`'s theme-name → theme-object lookup to include
       `colorful` → `theme/colorfulTheme.js`. Depends on T018, T063.
 
 **Checkpoint**: All three appearances plus Automatic are fully functional across the whole app —
@@ -241,10 +241,10 @@ feature complete.
 
 - [ ] T066 [P] Run the full `quickstart.md` validation end-to-end (all steps, all three
       appearances).
-- [ ] T067 [P] Add a short "Theming" entry to the root `CLAUDE.md` Architecture section
+- [X] T067 [P] Add a short "Theming" entry to the root `CLAUDE.md` Architecture section
       documenting the new `theme/` directory, mirroring how `firebase/`/`appwrite/` are already
       documented there.
-- [ ] T068 Run `npm test` (full suite) and confirm no regressions outside this feature's new
+- [X] T068 Run `npm test` (full suite) and confirm no regressions outside this feature's new
       tests. (`npm run lint` remains a known pre-existing gap per the project constitution — not
       a gate for this feature.)
 

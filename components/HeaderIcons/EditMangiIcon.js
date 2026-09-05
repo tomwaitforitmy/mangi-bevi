@@ -2,7 +2,7 @@ import React from "react";
 import Ionicons from "@react-native-vector-icons/ionicons";
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
-import Colors from "../../constants/Colors";
+import { useAppTheme } from "../../theme/useAppTheme";
 import { useDispatch } from "react-redux";
 import { setCurrentTabViewed } from "../../store/actions/uiAction";
 import {
@@ -24,6 +24,7 @@ const onHeaderIconPress = (router, mealId, currentTab, dispatch) => {
 const EditMangiIcon = ({ mealId, currentTab }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const theme = useAppTheme();
 
   return (
     <Pressable
@@ -34,7 +35,7 @@ const EditMangiIcon = ({ mealId, currentTab }) => {
       <Ionicons
         name="create-outline"
         size={HEADER_ICON_SIZE}
-        color={Colors.headerIconColor}
+        color={theme.colors.headerIconColor}
       />
     </Pressable>
   );

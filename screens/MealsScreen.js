@@ -8,7 +8,7 @@ import {
   Text,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import { fetchAll } from "../firebase/fetchAll";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { FastFilterMeals } from "../common_functions/FastFilterMeals";
@@ -30,6 +30,8 @@ import MaterialDesignIcons from "@react-native-vector-icons/material-design-icon
 import { useRouter } from "expo-router";
 
 function MealsScreen() {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -255,7 +257,7 @@ function MealsScreen() {
               onPress={() => onToggleFavorites()}>
               <MaterialDesignIcons
                 name="star"
-                color={Colors.navigationIcon}
+                color={theme.colors.navigationIcon}
                 size={20}
               />
             </Pressable>
@@ -269,7 +271,7 @@ function MealsScreen() {
               onPress={() => onToggleFavorites()}>
               <MaterialDesignIcons
                 name="star-outline"
-                color={Colors.navigationIcon}
+                color={theme.colors.navigationIcon}
                 size={20}
               />
             </Pressable>
@@ -281,7 +283,7 @@ function MealsScreen() {
                 pressed && styles.chipPressed,
               ]}
               onPress={() => onPressTagsActiveHandler()}>
-              <Ionicons name="filter" size={20} color={Colors.navigationIcon} />
+              <Ionicons name="filter" size={20} color={theme.colors.navigationIcon} />
               <Text style={styles.chipText}>Active filters</Text>
             </Pressable>
           )}
@@ -303,50 +305,51 @@ function MealsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  mealsScreen: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  container: {
-    flex: 1,
-  },
-  overlay: {
-    flex: 1,
-    position: "absolute",
-    left: 0,
-    top: 0,
-    marginTop: 5,
-    marginLeft: 5,
-    zIndex: 1,
-    opacity: 0.95,
-    flexDirection: "row",
-  },
-  chip: {
-    backgroundColor: Colors.primary,
-    borderRadius: 20,
-    padding: 8,
-    marginRight: 4,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  filterChip: {
-    backgroundColor: Colors.second,
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  chipPressed: {
-    opacity: 0.7,
-  },
-  chipText: {
-    color: Colors.navigationIcon,
-    fontSize: 14,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    mealsScreen: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    container: {
+      flex: 1,
+    },
+    overlay: {
+      flex: 1,
+      position: "absolute",
+      left: 0,
+      top: 0,
+      marginTop: 5,
+      marginLeft: 5,
+      zIndex: 1,
+      opacity: 0.95,
+      flexDirection: "row",
+    },
+    chip: {
+      backgroundColor: theme.colors.primary,
+      borderRadius: 20,
+      padding: 8,
+      marginRight: 4,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    filterChip: {
+      backgroundColor: theme.colors.second,
+      borderRadius: 20,
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    chipPressed: {
+      opacity: 0.7,
+    },
+    chipText: {
+      color: theme.colors.navigationIcon,
+      fontSize: 14,
+    },
+  });
 
 export default MealsScreen;

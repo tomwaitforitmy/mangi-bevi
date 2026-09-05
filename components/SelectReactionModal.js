@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import MyButton from "./MyButton";
 import SelectReactionBox from "./SelectReactionBox";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,8 @@ const SelectReactionModal = ({
   onReactionSelected,
   selectedMeal,
 }) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const user = useSelector((state) => state.users.user);
   const users = useSelector((state) => state.users.users);
   const userHasReactedBefore = selectedMeal.reactions.find(
@@ -106,24 +108,25 @@ const SelectReactionModal = ({
   );
 };
 
-const styles = StyleSheet.create({
-  safeAreaView: {
-    flex: 1,
-    backgroundColor: Colors.screenBackGround,
-    alignItems: "center",
-  },
-  modelView: {
-    flex: 1,
-    justifyContent: "center",
-    paddingTop: 22,
-    padding: 4,
-    backgroundColor: Colors.screenBackGround,
-  },
-  modalText: {
-    fontSize: 24,
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    safeAreaView: {
+      flex: 1,
+      backgroundColor: theme.colors.screenBackGround,
+      alignItems: "center",
+    },
+    modelView: {
+      flex: 1,
+      justifyContent: "center",
+      paddingTop: 22,
+      padding: 4,
+      backgroundColor: theme.colors.screenBackGround,
+    },
+    modalText: {
+      fontSize: 24,
+      marginBottom: 15,
+      textAlign: "center",
+    },
+  });
 
 export default SelectReactionModal;

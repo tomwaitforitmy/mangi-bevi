@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable } from "react-native";
 import Ionicons from "@react-native-vector-icons/ionicons";
-import Colors from "../../constants/Colors";
+import { useAppTheme } from "../../theme/useAppTheme";
 import {
   HEADER_ICON_CONTAINER_STYLE,
   HEADER_ICON_HIT_SLOP,
@@ -9,6 +9,8 @@ import {
 } from "./HeaderIconConfig";
 
 const SaveIcon = ({ onPress }) => {
+  const theme = useAppTheme();
+
   return (
     <Pressable
       onPress={onPress}
@@ -17,7 +19,7 @@ const SaveIcon = ({ onPress }) => {
       <Ionicons
         name="save"
         size={HEADER_ICON_SIZE}
-        color={Colors.headerIconColor}
+        color={theme.colors.headerIconColor}
       />
     </Pressable>
   );

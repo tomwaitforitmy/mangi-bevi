@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import MyButton from "./MyButton";
 import MyLevelViewContainer from "./MyLevelViewContainer";
 
@@ -12,6 +12,9 @@ const LevelsViewModal = ({
   countTags,
   countIngredients,
 }) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
+
   return (
     <Modal
       animationType="slide"
@@ -34,25 +37,26 @@ const LevelsViewModal = ({
   );
 };
 
-const styles = StyleSheet.create({
-  safeAreaView: {
-    flex: 1,
-    backgroundColor: Colors.screenBackGround,
-  },
-  modelView: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "stretch",
-    paddingTop: 22,
-    padding: 4,
-    width: "100%",
-    backgroundColor: Colors.screenBackGround,
-  },
-  modalText: {
-    fontSize: 24,
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    safeAreaView: {
+      flex: 1,
+      backgroundColor: theme.colors.screenBackGround,
+    },
+    modelView: {
+      flex: 1,
+      justifyContent: "flex-start",
+      alignItems: "stretch",
+      paddingTop: 22,
+      padding: 4,
+      width: "100%",
+      backgroundColor: theme.colors.screenBackGround,
+    },
+    modalText: {
+      fontSize: 24,
+      marginBottom: 15,
+      textAlign: "center",
+    },
+  });
 
 export default LevelsViewModal;

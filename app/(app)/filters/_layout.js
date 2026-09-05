@@ -1,6 +1,8 @@
 import { Stack } from "expo-router";
-import { defaultScreenOptions } from "../../../constants/DefaultScreenOptions";
+import { getDefaultScreenOptions } from "../../../constants/DefaultScreenOptions";
+import { useAppTheme } from "../../../theme/useAppTheme";
 
 export default function FiltersStackLayout() {
-  return <Stack screenOptions={defaultScreenOptions} />;
+  const theme = useAppTheme();
+  return <Stack screenOptions={getDefaultScreenOptions(theme)} />;
 }

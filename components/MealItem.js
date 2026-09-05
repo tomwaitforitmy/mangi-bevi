@@ -1,11 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import HighlightedText from "./HighlightedText";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import ReactionsBox from "./ReactionsBox";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 const MealItem = (props) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
+
   return (
     <View style={{ ...styles.mealItem, ...props.style }}>
       <TouchableOpacity onPress={props.onSelectMeal}>
@@ -21,7 +24,11 @@ const MealItem = (props) => {
           />
           {props.isFavorite && (
             <View style={styles.starBackground}>
-              <MaterialDesignIcons name="star" color="#FFD700" size={22} />
+              <MaterialDesignIcons
+                name="star"
+                color={theme.colors.ratingStar}
+                size={22}
+              />
             </View>
           )}
         </View>
@@ -36,56 +43,57 @@ const MealItem = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  reactions: {
-    alignSelf: "flex-end",
-    position: "absolute",
-    zIndex: 1,
-  },
-  favoriteIcon: {
-    position: "absolute",
-    bottom: 5,
-    right: 5,
-    zIndex: 2,
-  },
-  starBackground: {
-    position: "absolute",
-    bottom: 5,
-    right: 5,
-    zIndex: 2,
-    backgroundColor: "rgba(5, 113, 255, 0.7)",
-    borderRadius: 20,
-    padding: 4,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  mealItem: {
-    flex: 1,
-    height: 200,
-    borderRadius: 10,
-    overflow: "hidden",
-    marginBottom: 20,
-  },
-  imageContainer: {
-    height: "85%",
-    borderRadius: 3,
-  },
-  backgroundImage: {
-    height: "100%",
-  },
-  title: {
-    fontSize: 20,
-    overflow: "hidden",
-    textAlignVertical: "center",
-    color: "black",
-  },
-  titleContainer: {
-    borderRadius: 3,
-    justifyContent: "center",
-    height: "15%",
-    paddingHorizontal: 5,
-    backgroundColor: Colors.white,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    reactions: {
+      alignSelf: "flex-end",
+      position: "absolute",
+      zIndex: 1,
+    },
+    favoriteIcon: {
+      position: "absolute",
+      bottom: 5,
+      right: 5,
+      zIndex: 2,
+    },
+    starBackground: {
+      position: "absolute",
+      bottom: 5,
+      right: 5,
+      zIndex: 2,
+      backgroundColor: theme.colors.primaryOverlay,
+      borderRadius: 20,
+      padding: 4,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    mealItem: {
+      flex: 1,
+      height: 200,
+      borderRadius: 10,
+      overflow: "hidden",
+      marginBottom: 20,
+    },
+    imageContainer: {
+      height: "85%",
+      borderRadius: 3,
+    },
+    backgroundImage: {
+      height: "100%",
+    },
+    title: {
+      fontSize: 20,
+      overflow: "hidden",
+      textAlignVertical: "center",
+      color: theme.colors.black,
+    },
+    titleContainer: {
+      borderRadius: 3,
+      justifyContent: "center",
+      height: "15%",
+      paddingHorizontal: 5,
+      backgroundColor: theme.colors.white,
+    },
+  });
 
 export default MealItem;

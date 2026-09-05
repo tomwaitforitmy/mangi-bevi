@@ -1,12 +1,10 @@
-import Colors from "./Colors";
-
-export const defaultScreenOptions = {
+export const getDefaultScreenOptions = (theme) => ({
   headerShown: true,
   headerStyle: {
-    backgroundColor: Colors.primary,
+    backgroundColor: theme.colors.primary,
   },
-  headerTintColor: Colors.white,
+  headerTintColor: theme.colors.onPrimary,
   headerTitleStyle: {
     fontWeight: "bold",
   },
-};
+});

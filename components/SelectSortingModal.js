@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import SelectSortingBox from "./SelectSortingBox";
 import MyButton from "./MyButton";
 import { useDispatch } from "react-redux";
@@ -13,6 +13,8 @@ const SelectSortingModal = ({
   onSelectSort,
   selectedItem,
 }) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const [selectedSort, setSelectedSort] = useState(selectedItem);
   const onSelectSortInternal = (sort) => {
     setSelectedSort(sort);
@@ -64,18 +66,20 @@ const SelectSortingModal = ({
   );
 };
 
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 25,
-    backgroundColor: Colors.screenBackGround,
-  },
-  modalText: {
-    fontSize: 24,
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    modalContainer: {
+      flex: 1,
+      justifyContent: "center",
+      padding: 25,
+      backgroundColor: theme.colors.screenBackGround,
+    },
+    modalText: {
+      fontSize: 24,
+      marginBottom: 15,
+      textAlign: "center",
+      color: theme.colors.onBackground,
+    },
+  });
 
 export default SelectSortingModal;

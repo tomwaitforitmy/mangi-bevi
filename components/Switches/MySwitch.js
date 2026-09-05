@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
+import { useAppTheme } from "../../theme/useAppTheme";
 
 const MySwitch = ({
   descriptionText,
@@ -11,13 +11,15 @@ const MySwitch = ({
   value,
   modeOnOff,
 }) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const trueFalseText =
     value === true ? (
       <Text style={styles.trueFalseText}>{trueText}</Text>
     ) : (
       <Text style={styles.trueFalseText}>{falseText}</Text>
     );
-  const falseColor = modeOnOff ? "grey" : Colors.primary;
+  const falseColor = modeOnOff ? theme.colors.gray : theme.colors.primary;
 
   return (
     <View style={{ ...styles.container, ...style }}>
@@ -28,9 +30,9 @@ const MySwitch = ({
       <Switch
         trackColor={{
           false: falseColor,
-          true: Colors.second,
+          true: theme.colors.second,
         }} //track is part in the background
-        thumbColor={Colors.white} //thumb is the toggle in the front
+        thumbColor={theme.colors.white} //thumb is the toggle in the front
         ios_backgroundColor={falseColor}
         onValueChange={(v) => onValueChange(v)}
         value={value}
@@ -39,26 +41,27 @@ const MySwitch = ({
   );
 };
 
-const styles = StyleSheet.create({
-  descriptionText: {
-    fontSize: 16,
-    textAlign: "left",
-    color: "grey",
-  },
-  trueFalseText: {
-    fontWeight: "bold",
-  },
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 5,
-    width: "100%",
-    backgroundColor: "white",
-    borderColor: Colors.screenBackGround,
-    borderWidth: 1,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    descriptionText: {
+      fontSize: 16,
+      textAlign: "left",
+      color: theme.colors.onSurfaceVariant,
+    },
+    trueFalseText: {
+      fontWeight: "bold",
+    },
+    container: {
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: 5,
+      width: "100%",
+      backgroundColor: theme.colors.white,
+      borderColor: theme.colors.screenBackGround,
+      borderWidth: 1,
+    },
+  });
 
 export default MySwitch;

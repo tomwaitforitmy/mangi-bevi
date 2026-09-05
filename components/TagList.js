@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 
-const CustomChip = ({ tag, onPress, onLongPress }) => {
+const CustomChip = ({ tag, onPress, onLongPress, styles }) => {
   return (
     <Pressable
       style={({ pressed }) => [styles.chip, pressed && styles.chipPressed]}
@@ -14,6 +14,9 @@ const CustomChip = ({ tag, onPress, onLongPress }) => {
 };
 
 const TagList = (props) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
+
   const onPressTagHandler = (tag) => {
     if (props.onPressTag) {
       props.onPressTag(tag);
@@ -38,6 +41,7 @@ const TagList = (props) => {
             tag={tag}
             onPress={onPressTagHandler}
             onLongPress={onLongPressTagHandler}
+            styles={styles}
           />
         </View>
       ))}
@@ -45,36 +49,37 @@ const TagList = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  tagsContainer: {
-    flex: 1,
-    flexDirection: "row",
-    width: "100%",
-    flexWrap: "wrap",
-    alignItems: "flex-start",
-    padding: 3,
-  },
-  chip: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.tagBackground,
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    margin: 1,
-    borderWidth: 1,
-    borderColor: Colors.tagBorderColor,
-  },
-  chipSelected: {
-    backgroundColor: Colors.primary,
-  },
-  chipPressed: {
-    opacity: 0.7,
-  },
-  chipText: {
-    color: Colors.tagText,
-    fontSize: 14,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    tagsContainer: {
+      flex: 1,
+      flexDirection: "row",
+      width: "100%",
+      flexWrap: "wrap",
+      alignItems: "flex-start",
+      padding: 3,
+    },
+    chip: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: theme.colors.tagBackground,
+      borderRadius: 20,
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      margin: 1,
+      borderWidth: 1,
+      borderColor: theme.colors.tagBorderColor,
+    },
+    chipSelected: {
+      backgroundColor: theme.colors.primary,
+    },
+    chipPressed: {
+      opacity: 0.7,
+    },
+    chipText: {
+      color: theme.colors.tagText,
+      fontSize: 14,
+    },
+  });
 
 export default TagList;

@@ -1,5 +1,5 @@
 import React from "react";
-import Colors from "../../constants/Colors";
+import { useAppTheme } from "../../theme/useAppTheme";
 import Ionicons from "@react-native-vector-icons/ionicons";
 import { useNavigation } from "expo-router/react-navigation";
 import { Pressable } from "react-native";
@@ -11,6 +11,7 @@ import {
 
 const GlobalBackIcon = () => {
   const navigation = useNavigation();
+  const theme = useAppTheme();
 
   //Android gestures somehow need this to
   //prevent error messages where sometimes
@@ -29,7 +30,7 @@ const GlobalBackIcon = () => {
       <Ionicons
         name="chevron-back"
         size={HEADER_ICON_SIZE}
-        style={{ color: Colors.headerIconColor }}
+        style={{ color: theme.colors.headerIconColor }}
       />
     </Pressable>
   );

@@ -22,8 +22,8 @@ import tagFormReducer, {
   SUBMITTED,
   EDIT_TAG_TITLE,
 } from "../store/formReducers/tagFormReducer";
-import Colors from "../constants/Colors";
-import { textInputStyles } from "../constants/TextInputStyles";
+import { useAppTheme } from "../theme/useAppTheme";
+import { getTextInputStyles } from "../constants/TextInputStyles";
 import Tag from "../models/Tag";
 import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
@@ -33,6 +33,8 @@ import { useNavigation } from "expo-router/react-navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function AddTagScreen() {
+  const theme = useAppTheme();
+  const textInputStyles = getTextInputStyles(theme);
   const { mealId } = useLocalSearchParams();
   const navigation = useNavigation();
   const router = useRouter();
@@ -188,7 +190,7 @@ function AddTagScreen() {
         <View>
           <TextInput
             style={textInputStyles.input}
-            placeholderTextColor={Colors.textInputPlaceholderColor}
+            placeholderTextColor={theme.colors.textInputPlaceholderColor}
             placeholder="Enter tag"
             onChangeText={(value) =>
               formDispatch({ type: EDIT_TAG_TITLE, value })

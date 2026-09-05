@@ -4,7 +4,7 @@ import { View, StyleSheet, Alert, TextInput, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "expo-router";
 import LoadingIndicator from "../components/LoadingIndicator";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import * as authActions from "../store/actions/authAction";
 import * as userActions from "../store/actions/usersAction";
 import loginFormReducer, {
@@ -30,6 +30,8 @@ import {
 
 function AuthenticationContent({ login, passwordReset }) {
   const router = useRouter();
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const initialState = {
     email: "",
     emailError: "",
@@ -162,11 +164,11 @@ function AuthenticationContent({ login, passwordReset }) {
   return (
     <MyKeyboardAvoidingView extraOffset={0}>
       <LinearGradient
-        colors={[Colors.second, Colors.primary]}
+        colors={[theme.colors.second, theme.colors.primary]}
         style={styles.gradient}>
         <View style={styles.innerContainer}>
           <TextInput
-            placeholderTextColor="white"
+            placeholderTextColor={theme.colors.onPrimary}
             placeholder="Email"
             style={[styles.input, formState.emailError && styles.inputError]}
             onChangeText={(value) =>
@@ -180,7 +182,7 @@ function AuthenticationContent({ login, passwordReset }) {
           {newAccount && (
             <>
               <TextInput
-                placeholderTextColor="white"
+                placeholderTextColor={theme.colors.onPrimary}
                 placeholder="Confirm Email"
                 style={[
                   styles.input,
@@ -205,7 +207,7 @@ function AuthenticationContent({ login, passwordReset }) {
           {!passwordReset && (
             <>
               <TextInput
-                placeholderTextColor="white"
+                placeholderTextColor={theme.colors.onPrimary}
                 placeholder="Password"
                 style={[
                   styles.input,
@@ -229,7 +231,7 @@ function AuthenticationContent({ login, passwordReset }) {
           {newAccount && (
             <>
               <TextInput
-                placeholderTextColor="white"
+                placeholderTextColor={theme.colors.onPrimary}
                 placeholder="Confirm Password"
                 style={[
                   styles.input,
@@ -251,7 +253,7 @@ function AuthenticationContent({ login, passwordReset }) {
                 </Text>
               ) : null}
               <TextInput
-                placeholderTextColor="white"
+                placeholderTextColor={theme.colors.onPrimary}
                 placeholder="User Name"
                 style={[styles.input, formState.userError && styles.inputError]}
                 onChangeText={(value) =>
@@ -298,40 +300,41 @@ function AuthenticationContent({ login, passwordReset }) {
   );
 }
 
-const styles = StyleSheet.create({
-  input: {
-    color: "white",
-    borderBottomColor: "white",
-    borderBottomWidth: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    marginBottom: 4,
-    fontSize: 16,
-  },
-  inputError: {
-    borderBottomColor: "red",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    marginHorizontal: 4,
-    marginBottom: 10,
-  },
-  switchButton: {
-    marginTop: 5,
-  },
-  innerContainer: {
-    padding: 10,
-    width: "80%",
-    maxWidth: 400,
-    maxHeight: 400,
-  },
-  gradient: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    input: {
+      color: theme.colors.onPrimary,
+      borderBottomColor: theme.colors.onPrimary,
+      borderBottomWidth: 1,
+      paddingVertical: 8,
+      paddingHorizontal: 4,
+      marginBottom: 4,
+      fontSize: 16,
+    },
+    inputError: {
+      borderBottomColor: theme.colors.error,
+    },
+    errorText: {
+      color: theme.colors.error,
+      fontSize: 12,
+      marginHorizontal: 4,
+      marginBottom: 10,
+    },
+    switchButton: {
+      marginTop: 5,
+    },
+    innerContainer: {
+      padding: 10,
+      width: "80%",
+      maxWidth: 400,
+      maxHeight: 400,
+    },
+    gradient: {
+      width: "100%",
+      height: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  });
 
 export default AuthenticationContent;

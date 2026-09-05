@@ -1,7 +1,7 @@
 import React, { memo, useState } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import MyListItem from "../components/MyListItem";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import IconTypes from "../constants/IconTypes";
 import ReorderableList, {
   reorderItems,
@@ -10,6 +10,8 @@ import ReorderableList, {
 
 const Card = memo(({ title }) => {
   const drag = useReorderableDrag();
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
 
   return (
     <Pressable style={styles.card} onLongPress={drag}>
@@ -23,6 +25,8 @@ const Card = memo(({ title }) => {
 });
 
 function DraggableItemList(props) {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const listWithIds = props.data.map((text, index) => ({
     id: index,
     text: text,
@@ -53,14 +57,15 @@ function DraggableItemList(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  card: {
-    backgroundColor: Colors.screenBackGround,
-    width: "100%",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    card: {
+      backgroundColor: theme.colors.screenBackGround,
+      width: "100%",
+    },
+  });
 
 export default DraggableItemList;

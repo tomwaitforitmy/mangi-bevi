@@ -1,5 +1,5 @@
 import React from "react";
-import Colors from "../../constants/Colors";
+import { useAppTheme } from "../../theme/useAppTheme";
 import Ionicons from "@react-native-vector-icons/ionicons";
 import { Pressable } from "react-native";
 import {
@@ -9,6 +9,8 @@ import {
 } from "./HeaderIconConfig";
 
 const HeaderBackIcon = ({ backAction }) => {
+  const theme = useAppTheme();
+
   return (
     <Pressable
       onPress={backAction}
@@ -17,7 +19,7 @@ const HeaderBackIcon = ({ backAction }) => {
       <Ionicons
         name="chevron-back"
         size={HEADER_ICON_SIZE}
-        style={{ color: Colors.headerIconColor }}
+        style={{ color: theme.colors.headerIconColor }}
       />
     </Pressable>
   );

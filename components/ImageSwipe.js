@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import LoadingIndicator from "./LoadingIndicator";
 import SwipeableImage from "./SwipeableImage";
 
 const ImageSwipe = (props) => {
+  const theme = useAppTheme();
   const images = props.images.map((item, index) => {
     var rObj = {};
     rObj.url = item;
@@ -37,7 +38,7 @@ const ImageSwipe = (props) => {
         />
       )}
       saveToLocalByLongPress={false}
-      backgroundColor={Colors.screenBackGround}
+      backgroundColor={theme.colors.screenBackGround}
     />
   );
 };

@@ -1,11 +1,13 @@
 import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import MealItem from "./MealItem";
 
 const MealList = (props) => {
   const router = useRouter();
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
 
   const renderMealItem = (itemData) => {
     return (
@@ -42,15 +44,16 @@ const MealList = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    width: "99%", //I chose that here, because without the width, the screen was slightly smaller than 100
-    backgroundColor: Colors.screenBackGround,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    list: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 5,
+      width: "99%", //I chose that here, because without the width, the screen was slightly smaller than 100
+      backgroundColor: theme.colors.screenBackGround,
+    },
+  });
 
 export default MealList;

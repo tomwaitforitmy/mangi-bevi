@@ -4,7 +4,7 @@ import { GetLevelPercent } from "../common_functions/GetLevelPercent";
 import { GetNextReward, GetReward } from "../common_functions/GetReward";
 
 import Level from "../models/Level";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,6 +13,8 @@ import Animated, {
 } from "react-native-reanimated";
 
 const LevelView = (props) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const rewards = props.rewards;
   const value = props.value;
   const nextReward = GetNextReward(value, rewards);
@@ -89,79 +91,80 @@ const LevelView = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  //contains icon and rightSideSuperContainer
-  container: {
-    borderColor: "grey",
-    borderWidth: StyleSheet.hairlineWidth,
-    margin: 4,
-    backgroundColor: Colors.levelViewBackground,
-    padding: 4,
-    flexDirection: "row",
-    height: 100,
-  },
-  //contains all elements on the right (everything except the icon)
-  rightSideSuperContainer: {
-    backgroundColor: Colors.levelViewBackground,
-    width: "70%",
-    height: "100%",
-    flexDirection: "column",
-  },
-  iconContainer: {
-    backgroundColor: Colors.levelViewBackground,
-    width: "30%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  rewardCategoryText: {
-    fontSize: 12,
-    color: Colors.levelViewTexts,
-  },
-  levelBarContainer: {
-    backgroundColor: Colors.levelViewBarBackground,
-    height: "25%",
-    borderColor: Colors.levelViewBarBackgroundBorder,
-    borderWidth: 2,
-    borderRadius: 10,
-    alignItems: "flex-start",
-    justifyContent: "center",
-    overflow: "hidden",
-  },
-  levelBar: {
-    backgroundColor: Colors.levelViewBar,
-    height: "100%",
-  },
-  currentTitleContainer: {
-    backgroundColor: Colors.levelViewBackground,
-    width: "100%",
-    height: "50%",
-    justifyContent: "center",
-  },
-  currentTitleText: {
-    color: Colors.levelViewTexts,
-    fontSize: 18,
-  },
-  nextTitleContainer: {
-    backgroundColor: Colors.levelViewBackground,
-    width: "100%",
-    height: "25%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  nextTitleText: {
-    color: Colors.levelViewTexts,
-    fontSize: 12,
-    width: "80%",
-  },
-  //value of / to upperThreshold text
-  valueOfLevelText: {
-    color: Colors.levelViewTexts,
-    fontSize: 12,
-    width: "20%",
-    textAlign: "right",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    //contains icon and rightSideSuperContainer
+    container: {
+      borderColor: "grey",
+      borderWidth: StyleSheet.hairlineWidth,
+      margin: 4,
+      backgroundColor: theme.colors.levelViewBackground,
+      padding: 4,
+      flexDirection: "row",
+      height: 100,
+    },
+    //contains all elements on the right (everything except the icon)
+    rightSideSuperContainer: {
+      backgroundColor: theme.colors.levelViewBackground,
+      width: "70%",
+      height: "100%",
+      flexDirection: "column",
+    },
+    iconContainer: {
+      backgroundColor: theme.colors.levelViewBackground,
+      width: "30%",
+      height: "100%",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    rewardCategoryText: {
+      fontSize: 12,
+      color: theme.colors.levelViewTexts,
+    },
+    levelBarContainer: {
+      backgroundColor: theme.colors.levelViewBarBackground,
+      height: "25%",
+      borderColor: theme.colors.levelViewBarBackgroundBorder,
+      borderWidth: 2,
+      borderRadius: 10,
+      alignItems: "flex-start",
+      justifyContent: "center",
+      overflow: "hidden",
+    },
+    levelBar: {
+      backgroundColor: theme.colors.levelViewBar,
+      height: "100%",
+    },
+    currentTitleContainer: {
+      backgroundColor: theme.colors.levelViewBackground,
+      width: "100%",
+      height: "50%",
+      justifyContent: "center",
+    },
+    currentTitleText: {
+      color: theme.colors.levelViewTexts,
+      fontSize: 18,
+    },
+    nextTitleContainer: {
+      backgroundColor: theme.colors.levelViewBackground,
+      width: "100%",
+      height: "25%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    nextTitleText: {
+      color: theme.colors.levelViewTexts,
+      fontSize: 12,
+      width: "80%",
+    },
+    //value of / to upperThreshold text
+    valueOfLevelText: {
+      color: theme.colors.levelViewTexts,
+      fontSize: 12,
+      width: "20%",
+      textAlign: "right",
+    },
+  });
 
 export default LevelView;

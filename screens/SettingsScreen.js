@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import AppearancePicker from "../components/AppearancePicker";
 import NotificationsSwitch from "../components/Switches/NotificationsSwitch";
 import NotificationsForNewMealsSwitch from "../components/Switches/NotificationsForNewMealsSwitch";
 import NotificationsForNewMealsForFriendsOnlySwitch from "../components/Switches/NotificationsForNewMealsForFriendsOnlySwitch";
@@ -26,6 +27,8 @@ function SettingsScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headline}>Appearance</Text>
+      <AppearancePicker />
       <Text style={styles.headline}>Push notifications</Text>
       <NotificationsSwitch onValueChanged={(v) => onValueChanged(v)} />
       {showNotificationSettings && (
@@ -41,7 +44,6 @@ function SettingsScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    height: 250,
     alignItems: "flex-start",
     justifyContent: "flex-start",
   },

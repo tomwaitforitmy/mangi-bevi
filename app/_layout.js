@@ -18,6 +18,7 @@ import * as authActions from "../store/actions/authAction";
 import { LoadCredentials } from "../common_functions/CredentialStorage";
 import { useAuthState } from "../common_functions/useAuthState";
 import { DEBUG_MODE } from "../data/Environment";
+import ThemeProvider from "../theme/ThemeProvider";
 
 LogBox.ignoreLogs([
   "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45.",
@@ -119,7 +120,9 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <RootNavigator />
+        <ThemeProvider>
+          <RootNavigator />
+        </ThemeProvider>
       </GestureHandlerRootView>
     </Provider>
   );

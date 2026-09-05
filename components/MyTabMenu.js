@@ -11,10 +11,12 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 
 const MyTabMenu = memo(
   forwardRef(({ titles, windowWidth, onTabPress, initialIndex }, ref) => {
+    const theme = useAppTheme();
+    const styles = getStyles(theme);
     const paddingLeftRight = 5;
     const numberOfTabs = titles.length;
     //we remove 2 times the site padding and we have 2 pixel less (one for each side of grey background)
@@ -85,37 +87,38 @@ const MyTabMenu = memo(
   }),
 );
 
-const styles = StyleSheet.create({
-  text: {
-    textAlign: "center",
-  },
-  menuButton: {
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  selectedButton: {
-    backgroundColor: Colors.screenBackGround,
-    height: "100%",
-    borderRadius: 5,
-  },
-  buttonGroup: {
-    flex: 1,
-    alignItems: "center",
-    width: "100%",
-    flexDirection: "row",
-    maxHeight: 35,
-    backgroundColor: Colors.myTabMenuBackground,
-    borderRadius: 5,
-    paddingBottom: 2,
-    marginBottom: 5,
-  },
-  container: {
-    paddingTop: 5,
-    minHeight: 35,
-    alignItems: "center",
-    width: "100%",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    text: {
+      textAlign: "center",
+    },
+    menuButton: {
+      height: "100%",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    selectedButton: {
+      backgroundColor: theme.colors.screenBackGround,
+      height: "100%",
+      borderRadius: 5,
+    },
+    buttonGroup: {
+      flex: 1,
+      alignItems: "center",
+      width: "100%",
+      flexDirection: "row",
+      maxHeight: 35,
+      backgroundColor: theme.colors.myTabMenuBackground,
+      borderRadius: 5,
+      paddingBottom: 2,
+      marginBottom: 5,
+    },
+    container: {
+      paddingTop: 5,
+      minHeight: 35,
+      alignItems: "center",
+      width: "100%",
+    },
+  });
 
 export default MyTabMenu;

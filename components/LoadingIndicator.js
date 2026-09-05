@@ -1,11 +1,13 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 
 const LoadingIndicator = (props) => {
+  const theme = useAppTheme();
+
   return (
     <View style={{ ...styles.container, ...props.style }}>
-      <ActivityIndicator size="large" color={Colors.primary} />
+      <ActivityIndicator size="large" color={theme.colors.primary} />
     </View>
   );
 };

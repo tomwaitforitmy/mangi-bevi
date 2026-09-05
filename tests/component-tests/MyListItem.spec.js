@@ -1,18 +1,25 @@
 import React from "react";
+import { PaperProvider } from "react-native-paper";
 import { render, screen } from "@testing-library/react-native";
 import MyListItem from "../../components/MyListItem";
-import Colors from "../../constants/Colors";
+import lightTheme from "../../theme/lightTheme";
 
 describe("MyListItem", () => {
-  const expectedColor = Colors.searchTermHighlight;
+  const expectedColor = lightTheme.colors.searchTermHighlight;
 
   it("renders the correct title", () => {
-    render(<MyListItem title="Tomatoes" />);
+    render(
+      <PaperProvider theme={lightTheme}>
+        <MyListItem title="Tomatoes" />
+      </PaperProvider>,
+    );
     expect(screen.queryByText("Tomatoes")).toBeTruthy();
   });
   it("renders long titles", () => {
     render(
-      <MyListItem title="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce. They stayed happily warm forever until they reached my belly." />,
+      <PaperProvider theme={lightTheme}>
+        <MyListItem title="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce. They stayed happily warm forever until they reached my belly." />
+      </PaperProvider>,
     );
     expect(
       screen.queryByText(
@@ -23,20 +30,24 @@ describe("MyListItem", () => {
 
   it("renders red text with given search term", () => {
     render(
-      <MyListItem
-        title="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
-        searchTerm="trillion"
-      />,
+      <PaperProvider theme={lightTheme}>
+        <MyListItem
+          title="10000 million trillion billion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
+          searchTerm="trillion"
+        />
+      </PaperProvider>,
     );
     expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
   });
 
   it("renders red text with given search term twice", () => {
     render(
-      <MyListItem
-        title="10000 million trillion billion trillion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
-        searchTerm="trillion"
-      />,
+      <PaperProvider theme={lightTheme}>
+        <MyListItem
+          title="10000 million trillion billion trillion tomatoes went on a long trip into a hot pan to get sweet nice tomato sauce"
+          searchTerm="trillion"
+        />
+      </PaperProvider>,
     );
 
     const foundTerms = screen.getAllByText("trillion");
@@ -47,7 +58,11 @@ describe("MyListItem", () => {
   });
 
   it("renders red text with given search term twice even if that's the only text", () => {
-    render(<MyListItem title="trillion trillion" searchTerm="trillion" />);
+    render(
+      <PaperProvider theme={lightTheme}>
+        <MyListItem title="trillion trillion" searchTerm="trillion" />
+      </PaperProvider>,
+    );
 
     const foundTerms = screen.getAllByText("trillion");
 
@@ -58,10 +73,12 @@ describe("MyListItem", () => {
 
   it("renders red text with given search term twice if that's start and end of the text", () => {
     render(
-      <MyListItem
-        title="trillion some stuff between trillion"
-        searchTerm="trillion"
-      />,
+      <PaperProvider theme={lightTheme}>
+        <MyListItem
+          title="trillion some stuff between trillion"
+          searchTerm="trillion"
+        />
+      </PaperProvider>,
     );
 
     const foundTerms = screen.getAllByText("trillion");
@@ -72,13 +89,21 @@ describe("MyListItem", () => {
   });
 
   it("renders everything red, if full string matches", () => {
-    render(<MyListItem title="trillion" searchTerm="trillion" />);
+    render(
+      <PaperProvider theme={lightTheme}>
+        <MyListItem title="trillion" searchTerm="trillion" />
+      </PaperProvider>,
+    );
 
     expect(screen.getByText("trillion").props.style.color).toBe(expectedColor);
   });
 
   it("renders nothing red, if nothing matches", () => {
-    render(<MyListItem title="million" searchTerm="trillion" />);
+    render(
+      <PaperProvider theme={lightTheme}>
+        <MyListItem title="million" searchTerm="trillion" />
+      </PaperProvider>,
+    );
 
     expect(screen.queryByText("trillion")).toBeFalsy();
     expect(screen.getByText("million")).toBeTruthy();

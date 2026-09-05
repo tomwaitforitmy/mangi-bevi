@@ -1,6 +1,8 @@
 import { Stack } from "expo-router";
-import { defaultScreenOptions } from "../../../constants/DefaultScreenOptions";
+import { getDefaultScreenOptions } from "../../../constants/DefaultScreenOptions";
+import { useAppTheme } from "../../../theme/useAppTheme";
 
 export default function DevStackLayout() {
-  return <Stack screenOptions={defaultScreenOptions} />;
+  const theme = useAppTheme();
+  return <Stack screenOptions={getDefaultScreenOptions(theme)} />;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Button, ScrollView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTestMangis } from "../firebase/deleteTestMangis";
-import Colors from "../constants/Colors";
+import { useAppTheme } from "../theme/useAppTheme";
 import { getPermission, pickImage } from "../common_functions/PickImage";
 import { uploadImageToSupabase } from "../supabase/uploadImageToSupabase";
 import { UploadImagesAndEditMeal } from "../common_functions/Integration/UploadImagesAndEditMeal";
@@ -10,6 +10,8 @@ import { GetImagesToUpload } from "../image_processing/GetImagesToUpload";
 import * as mealsAction from "../store/actions/mealsAction";
 
 function DevScreen({ navigation }) {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const allMeals = useSelector((state) => state.meals.meals);
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
@@ -97,46 +99,47 @@ function DevScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center", // Aligns input and send button vertically
-  },
-  image: {
-    width: "100%",
-    height: 200,
-  },
-  container: {
-    flexGrow: 1,
-  },
-  input: {
-    color: "white",
-    backgroundColor: Colors.primary,
-    width: "80%",
-    minHeight: 60,
-    maxHeight: 60,
-    marginVertical: 10, // Add some vertical margin for spacing
-    fontSize: 20,
-    borderRadius: 10, // Rounded corners
-    paddingHorizontal: 10, // Inner padding for text input
-  },
-  sendButtonContainer: {
-    width: 40, // Set width and height to the same value for a perfect circle
-    height: 40,
-    backgroundColor: Colors.primary,
-    justifyContent: "center",
-    borderRadius: 20, // Half of the width/height for a circle
-    marginVertical: 10,
-    marginLeft: 5,
-  },
-  sendButtonText: {
-    fontSize: 40, // Large "+"
-    color: Colors.white,
-    textAlign: "center", // Ensures centering
-    textAlignVertical: "center", // For vertical centering on Android
-    lineHeight: 42, // Match the button height to vertically center the +
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    inputContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center", // Aligns input and send button vertically
+    },
+    image: {
+      width: "100%",
+      height: 200,
+    },
+    container: {
+      flexGrow: 1,
+    },
+    input: {
+      color: theme.colors.onPrimary,
+      backgroundColor: theme.colors.primary,
+      width: "80%",
+      minHeight: 60,
+      maxHeight: 60,
+      marginVertical: 10, // Add some vertical margin for spacing
+      fontSize: 20,
+      borderRadius: 10, // Rounded corners
+      paddingHorizontal: 10, // Inner padding for text input
+    },
+    sendButtonContainer: {
+      width: 40, // Set width and height to the same value for a perfect circle
+      height: 40,
+      backgroundColor: theme.colors.primary,
+      justifyContent: "center",
+      borderRadius: 20, // Half of the width/height for a circle
+      marginVertical: 10,
+      marginLeft: 5,
+    },
+    sendButtonText: {
+      fontSize: 40, // Large "+"
+      color: theme.colors.onPrimary,
+      textAlign: "center", // Ensures centering
+      textAlignVertical: "center", // For vertical centering on Android
+      lineHeight: 42, // Match the button height to vertically center the +
+    },
+  });
 
 export default DevScreen;

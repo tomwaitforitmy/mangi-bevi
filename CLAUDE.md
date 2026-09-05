@@ -102,6 +102,19 @@ No app-code fix is known; where a stale header icon would be misleading (e.g. an
 user shouldn't have), prefer always rendering *something* in that slot (see
 `components/HeaderIcons/EditMangiIconDisabled.js`) over toggling between an element and `null`.
 
+### Theming
+
+`theme/` holds the central, per-appearance style source (Light, Dark, Colorful — see
+`theme/lightTheme.js`/`darkTheme.js`/`colorfulTheme.js`), built on **React Native Paper**'s MD3
+theme shape. `theme/ThemeProvider.js` (wrapped around the app root in `app/_layout.js`) resolves
+the active theme from the user's `theme/AppearanceOptions.js` selection (Light/Dark/Colorful/
+Automatic, persisted locally via AsyncStorage — device-only, not synced to the user's account) and
+also feeds it into `expo-router`'s navigation `ThemeProvider` so native-stack chrome matches.
+Screens/components consume colors via `theme/useAppTheme()` (`theme.colors.*`), never via a
+hard-coded literal or the old `constants/Colors.js` (removed) — `common_functions/
+ResolveAppearance.js` and `common_functions/GetContrastRatio.js` back the resolution and WCAG AA
+contrast checks respectively. See `specs/003-app-theming-system/` for the full design.
+
 ### Image pipeline
 
 `image_processing/` (compress, resize, get-images-to-upload, delete) feeds into
