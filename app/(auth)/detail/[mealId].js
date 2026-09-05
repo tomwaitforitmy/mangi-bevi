@@ -14,7 +14,14 @@ export default function AuthMealDetailRoute() {
   return (
     <>
       <Stack.Screen
-        options={{ title, headerLeft: GlobalBackButtonComponent }}
+        options={{
+          title,
+          // See app/(app)/meals/meal/[mealId].js for why this is forced off,
+          // and why the option name here differs from react-native-screens'
+          // own native prop name.
+          fullScreenGestureEnabled: false,
+          headerLeft: GlobalBackButtonComponent,
+        }}
       />
       <MealDetailScreenNotAuthenticated />
     </>
