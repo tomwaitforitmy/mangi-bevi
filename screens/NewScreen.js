@@ -190,10 +190,15 @@ function NewScreen() {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => <HeaderBackIcon backAction={backAction} />,
+      // Creating has nothing to go back to (NewScreen is the tab root
+      // there); editing needs the back icon to return to the meal detail
+      // screen. mealId is fixed for the life of this screen (it comes from
+      // the route), so this never toggles mid-mount.
+      headerLeft: () =>
+        mealId ? <HeaderBackIcon backAction={backAction} /> : null,
       headerRight: () => <SaveIcon onPress={saveMealHandler} />,
     });
-  }, [navigation, formState, backAction, saveMealHandler]);
+  }, [navigation, formState, backAction, saveMealHandler, mealId]);
 
   // Ask for permissions only when the component is mounted
   // This interferes with keyboard input if called too often on Android
