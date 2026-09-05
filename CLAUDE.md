@@ -25,33 +25,11 @@ There is **no server-side/backend code**. The client talks directly to:
 
 ## Commands
 
-```bash
-npm start                  # expo start
-npm run dev                # dev-client build, APP_VARIANT=development
-npm run android             # expo run:android
-npm run ios                 # expo run:ios
-npm test                    # jest (all tests)
-npx jest tests/unit-tests/HasEditPermission.test.js   # single test file
-npx jest -t "test name"     # single test by name
-npm run lint                 # eslint .
-npm run prerelease           # fish scripts/prerelease.fish (bumps version etc.)
-```
-
-Test layout: `tests/unit-tests/`, `tests/component-tests/`, `tests/integration/`. Jest preset is
-`jest-expo`.
-
 Release flow (see `newRelease.md`): `npm run prerelease` → `git push --tags` → wait for the EAS
 workflow → manually promote the build in App Store Connect and Google Play Console (no auto-
 publish to stores).
 
 ## Architecture
-
-### State: Redux Toolkit
-
-`store/actions/*.js` + `store/reducers/*.js`, one pair per domain (meals, users, tags, search,
-features, reports, mealCookedByUser). Actions are plain constants; reducers do immutable
-switch-case updates. `store/formReducers/` holds reducers backing multi-step forms (new meal,
-account, tag, meal speed-dial).
 
 ### Concurrency-safe meal writes (read before touching `mealsAction.js`)
 
@@ -105,37 +83,16 @@ exercising create/edit flows so test data stays identifiable and disposable.
 
 ### Navigation & permissions gating
 
-File-based routing via **Expo Router**, under `app/`. `app/_layout.js` is the root: global setup
-(Redux `Provider`, splash hold, etc., moved from the old `App.js`) plus a `Stack.Protected` split
-between `app/(app)/` (authenticated, `Tabs`: Meals/Dev/Filters/Profile/New) and `app/(auth)/`
-(not authenticated, plain `Stack` — `MealsScreenNotAuthenticated`/`MealDetailScreenNotAuthenticated`
-are real, separate implementations, not a login wall). `app/debug.js` is the `EXPO_PUBLIC_DEBUG_MODE`
-override, gated in `app/_layout.js` ahead of the auth split. `app/meal/[mealId].js` is a small
-unconditional redirector owning the public `mangibevi://meal/{mealId}` deep link — it forwards to
-`(app)/meals/meal/[mealId]` or `(auth)/detail/[mealId]` depending on auth state; the two groups
-deliberately do **not** share that path (Expo Router can't disambiguate an identical path across
-two `Stack.Protected` groups from a URL alone). Screen components (`screens/*.js`) read params via
-`useLocalSearchParams()` and navigate via `useRouter()`, not the React Navigation `route`/`navigation`
-props (Expo Router never passes those). Anything from `@react-navigation/*` must be imported from
-`expo-router/react-navigation` instead — Expo Router SDK 56+ rejects direct `@react-navigation/*`
-imports in application code. `expo-router/react-navigation` resolves entirely to react-navigation
-source code vendored *inside* `expo-router` itself (`expo-router/build/react-navigation/`), not to
-the `@react-navigation/*` npm packages — so those packages are not project dependencies; don't
-re-add them. See `specs/001-expo-router-migration/` for the full route table and the reasoning
-behind the auth-split design.
+File-based routing via **Expo Router**, under `app/` — see `app/CLAUDE.md` for the route/tab
+structure. Two rules apply project-wide, not just under `app/`:
 
-`app/(app)/_layout.js` is a **`NativeTabs`** (`expo-router/unstable-native-tabs`), a real native
-tab bar (UITabBarController on iOS — picks up iOS 26 Liquid Glass automatically; BottomNavigationView
-on Android), not a JS-drawn one. A native tab controller has no per-tab header of its own, so every
-one of the 5 tabs is its own folder with a single-screen `Stack` (`_layout.js` + `index.js`),
-mirroring what `meals/`/`profile/` already needed — headers are exclusively a `Stack` concern here.
-Tab icons use `NativeTabs.Trigger.Icon` + `NativeTabs.Trigger.VectorIcon`
-(`family={Ionicons|MaterialDesignIcons}`, not the old `tabBarIcon` render-prop), with separate
-`default`/`selected` icon names where the old code had outline/filled variants.
-`hidden={!DEV_MODE}` replaces the old `href: DEV_MODE ? undefined : null` trick for hiding the Dev
-tab in production. Don't set an iOS `backgroundColor` on `NativeTabs` — Apple's HIG says not to
-paint over the native Liquid Glass material; Android has no glass material and keeps an explicit
-brand background.
+Screen components (`screens/*.js`) read params via `useLocalSearchParams()` and navigate via
+`useRouter()`, not the React Navigation `route`/`navigation` props (Expo Router never passes
+those). Anything from `@react-navigation/*` must be imported from `expo-router/react-navigation`
+instead — Expo Router SDK 56+ rejects direct `@react-navigation/*` imports in application code.
+`expo-router/react-navigation` resolves entirely to react-navigation source code vendored *inside*
+`expo-router` itself (`expo-router/build/react-navigation/`), not to the `@react-navigation/*` npm
+packages — so those packages are not project dependencies; don't re-add them.
 
 Native-stack headers (all `Stack.Screen`-based headers, not just tabs) have a known open upstream
 bug on iOS 26 in `react-native-screens`: a `headerRight`/`headerLeft` element can visually persist
@@ -151,23 +108,6 @@ user shouldn't have), prefer always rendering *something* in that slot (see
 `common_functions/Integration/UploadImagesAndCreateMeal.js` /
 `UploadImagesAndEditMeal.js`, which upload to Appwrite (`appwrite/uploadImageToAppwrite.js`) and
 then write the resulting URLs onto the meal.
-
-### Directory map
-
-- `app/` — Expo Router file-based routes (see "Navigation & permissions gating" above); each file
-  is a thin wrapper (header config via `<Stack.Screen options={{...}}/>`) around a `screens/`
-  component.
-- `screens/` — full-page components, connect to Redux directly.
-- `components/` — reusable UI, generally prop-driven rather than Redux-connected.
-- `common_functions/` — pure utility functions (filters, validators, getters); one function per
-  file, matching test per file in `tests/unit-tests/`.
-- `models/` — plain object constructor functions (`Meal`, `User`, `Tag`, `Reaction`, `Report`,
-  `Reward`, `Level`, `Setting`, `MealCookedByUser`, `MovableData`, `UserStats`).
-- `firebase/`, `appwrite/`, `supabase/` — backend integrations (see above).
-- `notifications/` — Expo push notification triggers (new meal, marked as cooked, reaction given)
-  and registration.
-- `data/` — static config/constants: allowed reactions, sorting options, settings, reward
-  thresholds, dummy data for tests/stories.
 
 ## Notes
 
