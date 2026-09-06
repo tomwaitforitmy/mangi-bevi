@@ -207,10 +207,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "center",
     alignItems: "stretch",
     padding: 5,
     width: "100%",
+  },
+  // Was undefined (typo'd unused key) before, leaving the ScrollView
+  // unstyled: combined with the container's old justifyContent: "center",
+  // it wasn't tall enough to force the input row to the bottom, so
+  // shrinking the container (e.g. when the keyboard opens) centered the
+  // whole tag-list-plus-input block, leaving a matching empty gap below it.
+  tagLists: {
+    flex: 1,
   },
   subtitle: {
     fontSize: 22,
