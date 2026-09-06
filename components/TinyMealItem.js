@@ -38,7 +38,11 @@ const TinyMealItem = ({ meal, onPressMeal, searchTerm }) => {
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.title}>
-          <HighlightedText text={meal.title} searchTerm={searchTerm} />
+          <HighlightedText
+            text={meal.title}
+            searchTerm={searchTerm}
+            highlightColor={theme.colors.searchTermHighlight}
+          />
         </Text>
       </View>
       {isSelectable && isSelected && (

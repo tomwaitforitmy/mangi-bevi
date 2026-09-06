@@ -32,7 +32,11 @@ const TinyUserItem = ({ user, onPressUser, searchTerm }) => {
       accessibilityRole="button">
       <View style={styles.textContainer}>
         <Text style={styles.title}>
-          <HighlightedText text={user.name} searchTerm={searchTerm} />
+          <HighlightedText
+            text={user.name}
+            searchTerm={searchTerm}
+            highlightColor={theme.colors.searchTermHighlight}
+          />
         </Text>
       </View>
       {isSelectable && isSelected && (

@@ -36,7 +36,11 @@ const MealItem = (props) => {
         <View style={styles.titleContainer}>
           {/* ellipsizeMode="tail" -> "..." on android */}
           <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-            <HighlightedText text={props.title} searchTerm={props.searchTerm} />
+            <HighlightedText
+              text={props.title}
+              searchTerm={props.searchTerm}
+              highlightColor={theme.colors.searchTermHighlight}
+            />
           </Text>
         </View>
       </TouchableOpacity>
