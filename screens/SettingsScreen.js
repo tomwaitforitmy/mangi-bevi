@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import AppearancePicker from "../components/AppearancePicker";
 import NotificationsSwitch from "../components/Switches/NotificationsSwitch";
 import NotificationsForNewMealsSwitch from "../components/Switches/NotificationsForNewMealsSwitch";
@@ -28,12 +28,12 @@ function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      {DEV_MODE && (
+      {(DEV_MODE || Platform.OS === "android") && (
         <>
-          {/* Hidden outside DEV_MODE: iOS 26's NativeTabs bar has a known
-              upstream bug where the tab bar doesn't reliably follow
-              dark/light switches (see CLAUDE.md's Theming section). Keeping
-              this dev-only avoids exposing that breakage to real users. */}
+          {/* Hidden on iOS outside DEV_MODE: iOS 26's NativeTabs bar has a
+              known upstream bug where the tab bar doesn't reliably follow
+              dark/light switches (see CLAUDE.md's Theming section). Android
+              doesn't have that bug, so it's always shown there. */}
           <Text style={styles.headline}>Appearance</Text>
           <AppearancePicker />
         </>
