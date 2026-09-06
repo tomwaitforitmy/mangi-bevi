@@ -56,6 +56,7 @@ const getStyles = (theme) =>
       fontSize: 24,
       marginBottom: 15,
       textAlign: "center",
+      color: theme.colors.onBackground,
     },
   });
 

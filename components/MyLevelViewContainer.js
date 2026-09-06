@@ -15,7 +15,11 @@ const MyLevelViewContainer = (props) => {
 
   const myChefIcon = () => {
     return (
-      <MaterialDesignIcons name="chef-hat" size={iconSize} color="black" />
+      <MaterialDesignIcons
+        name="chef-hat"
+        size={iconSize}
+        color={theme.colors.onBackground}
+      />
     );
   };
 
