@@ -1,7 +1,14 @@
 import { Platform } from "react-native";
 import { MD3DarkTheme } from "react-native-paper";
 
-const primary = "#8FB8FF";
+const primary = "#7EC8FF";
+
+// - Sky Signal #7EC8FF — safest choice, closest lift of your current light-mode blue
+// - Dusk Iris #A5B4FC — blue drifted toward violet, more distinctive
+// - Pomodoro #FF8A80 — soft coral red (named for the tomato)
+// - Basil #6EE7B7 — fresh mint green (named for the herb)
+// - Saffron #FCD34D — golden yellow (named for the spice)
+// https://claude.ai/code/artifact/c99c18b4-48ef-4fdf-b2da-7f31d1cc8420
 
 // See theme/lightTheme.js for the token-shape and ink/paper-role rationale.
 // This is a genuine dark palette (near-black layered surfaces, a lightened/
