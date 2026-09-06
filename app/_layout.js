@@ -5,6 +5,7 @@ import { LogBox } from "react-native";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import * as Notifications from "expo-notifications";
+import Constants, { ExecutionEnvironment } from "expo-constants";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider, useDispatch } from "react-redux";
 import mealsReducer from "../store/reducers/mealsReducer";
@@ -28,15 +29,21 @@ LogBox.ignoreLogs([
   "`expo-notifications` functionality is not fully supported in Expo Go",
 ]); //Ignore a warning from my third parties
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    };
-  },
-});
+// Remote push notification handling was removed from Expo Go on Android in
+// SDK 53 and throws instead of just warning there (LogBox's suppressions
+// above are for the warnings a dev build still logs) — skip setup entirely
+// when running in Expo Go rather than crashing on launch.
+if (Constants.executionEnvironment !== ExecutionEnvironment.StoreClient) {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => {
+      return {
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+      };
+    },
+  });
+}
 
 const store = configureStore({
   reducer: {
