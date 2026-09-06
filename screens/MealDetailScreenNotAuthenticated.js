@@ -16,6 +16,7 @@ import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useAppTheme } from "../theme/useAppTheme";
+import { GetPlaceholderImageUrl } from "../common_functions/GetPlaceholderImageUrl";
 
 function MealDetailScreenNotAuthenticated() {
   const theme = useAppTheme();
@@ -120,7 +121,7 @@ function MealDetailScreenNotAuthenticated() {
                 source={{
                   uri: selectedMeal.primaryImageUrl
                     ? selectedMeal.primaryImageUrl
-                    : "https://dummyimage.com/300x200&text=No+image+yet",
+                    : GetPlaceholderImageUrl(theme),
                 }}
                 style={styles.image}
               />

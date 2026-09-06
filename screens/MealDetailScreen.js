@@ -30,6 +30,7 @@ import MealCookedByUser from "../models/MealCookedByUser";
 import { markedAsCooked } from "../notifications/MarkedAsCooked";
 import * as usersActions from "../store/actions/usersAction";
 import { useAppTheme } from "../theme/useAppTheme";
+import { GetPlaceholderImageUrl } from "../common_functions/GetPlaceholderImageUrl";
 
 function MealDetailScreen() {
   const theme = useAppTheme();
@@ -233,7 +234,7 @@ function MealDetailScreen() {
                 source={{
                   uri: selectedMeal.primaryImageUrl
                     ? selectedMeal.primaryImageUrl
-                    : "https://dummyimage.com/300x200&text=No+image+yet",
+                    : GetPlaceholderImageUrl(theme),
                 }}
                 style={styles.image}
               />

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import HighlightedText from "./HighlightedText";
 import { useAppTheme } from "../theme/useAppTheme";
+import { GetPlaceholderImageUrl } from "../common_functions/GetPlaceholderImageUrl";
 import ReactionsBox from "./ReactionsBox";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
@@ -18,7 +19,7 @@ const MealItem = (props) => {
             source={{
               uri: props.image
                 ? props.image
-                : "https://dummyimage.com/300x200&text=No+image+yet",
+                : GetPlaceholderImageUrl(theme),
             }}
             style={styles.backgroundImage}
           />
