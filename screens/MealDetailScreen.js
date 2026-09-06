@@ -12,6 +12,7 @@ import {
   Pressable,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MyListItem from "../components/MyListItem";
 import MealSpeedDial from "../components/MealSpeedDial";
 import TagList from "../components/TagList";
@@ -44,13 +45,16 @@ function MealDetailScreen() {
   // dismissing back here after a save, since the tab active at save time
   // can differ from the one active when Edit was pressed (e.g. entered on
   // Ingredients, switched to Steps, saved) -- route params alone weren't
-  // reliably picked up by this already-mounted screen. Takes priority over
-  // selectedTabMealDetail when present, and gets cleared once read below
-  // so it can't leak into a later, unrelated meal.
+  // reliably picked up by this already-mounted screen.
+  //
+  // Read via a ref (not a reactive dependency below) on purpose: this
+  // screen stays mounted while Edit is open, so EditMangiIcon's own write
+  // to this same value (for the opposite, entering-edit direction) would
+  // otherwise immediately re-trigger the focus effect below while still
+  // focused and consume/clear it before NewScreen ever gets to read it.
   const pendingTabViewed = useSelector((state) => state.ui.currentTabViewed);
-  const initiallySelectedTab =
-    pendingTabViewed ?? selectedTabMealDetail ?? TITLES.INFO;
-  const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
+  const pendingTabViewedRef = useRef(pendingTabViewed);
+  pendingTabViewedRef.current = pendingTabViewed;
   const mealCookedByUser = useSelector(
     (state) => state.mealsCookedByUser.mealCookedByUser,
   );
@@ -169,7 +173,14 @@ function MealDetailScreen() {
 
   const linkedMeals = GetLinkedMeals(availableMeals, selectedMeal.links);
 
-  const [selectedTab, setSelectedTab] = useState(initiallySelectedTab);
+  const [selectedTab, setSelectedTab] = useState(
+    selectedTabMealDetail ?? TITLES.INFO,
+  );
+  // Derived from the live selectedTab state (not the route param it was
+  // seeded from) so MyTabMenu's indicator stays in sync with whatever tab
+  // is actually showing, including when the focus effect below resumes a
+  // different tab after returning from edit.
+  const initialIndex = mealTabMenuTitleArray.indexOf(selectedTab);
   const [showSelectReactionModal, setShowSelectReactionModal] = useState(false);
 
   const onRequestCloseModal = () => {
@@ -183,15 +194,14 @@ function MealDetailScreen() {
   //update the view when the screen comes into focus
   useFocusEffect(
     useCallback(() => {
-      ChangeSelectedTab(initiallySelectedTab);
+      const pending = pendingTabViewedRef.current;
+      ChangeSelectedTab(pending ?? selectedTabMealDetail ?? TITLES.INFO);
       // Consume the one-shot signal from NewScreen so it can't affect a
-      // later, unrelated meal -- selectedTabMealDetail (still set from the
-      // same round trip) keeps initiallySelectedTab resolving to the same
-      // tab once this clears, so this doesn't cause a visible flip back.
-      if (pendingTabViewed) {
+      // later, unrelated meal.
+      if (pending) {
         dispatch(setCurrentTabViewed(null));
       }
-    }, [ChangeSelectedTab, initiallySelectedTab, pendingTabViewed, dispatch]),
+    }, [ChangeSelectedTab, selectedTabMealDetail, dispatch]),
   );
 
   useEffect(() => {
@@ -203,6 +213,7 @@ function MealDetailScreen() {
   }, [dispatch, mealId]);
 
   const windowWidth = useWindowDimensions().width;
+  const insets = useSafeAreaInsets();
 
   const touchX = useRef(0);
 
@@ -233,7 +244,11 @@ function MealDetailScreen() {
       />
       <ScrollView
         style={[styles.container, { flex: 1, width: "100%" }]}
-        contentContainerStyle={{ flexGrow: 1 }}>
+        // NativeTabs' native tab bar overlaps content (edge-to-edge)
+        // instead of reserving space for itself like the old JS bottom
+        // tabs did, so the last row of a long ingredients/steps list
+        // otherwise ends up half-hidden underneath it.
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom }}>
         {selectedTab === TITLES.INFO && (
           <View>
             <Text style={styles.subtitle}>{selectedMeal.title}</Text>
