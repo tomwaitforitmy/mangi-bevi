@@ -1,6 +1,8 @@
 import { Platform } from "react-native";
 import { MD3DarkTheme } from "react-native-paper";
 
+const primary = "#8FB8FF";
+
 // See theme/lightTheme.js for the token-shape and ink/paper-role rationale.
 // This is a genuine dark palette (near-black layered surfaces, a lightened/
 // desaturated primary for eye comfort) — not an automatic inversion of
@@ -10,7 +12,7 @@ export default {
   dark: true,
   colors: {
     ...MD3DarkTheme.colors,
-    primary: "#8FB8FF",
+    primary,
     onPrimary: "#0B1F44",
     second: "#3FC6FF",
     background: "#121317",
@@ -28,9 +30,9 @@ export default {
 
     navigationIcon: "#0B1F44",
     speedDialIcon: "#0B1F44",
-    speedDialActionBackground: "#8FB8FF",
+    speedDialActionBackground: primary,
     speedDialActionText: "#0B1F44",
-    speedDialBackground: "#8FB8FF",
+    speedDialBackground: primary,
     screenBackGround: "#121317",
     hyperlink: "#9DBCFF",
     levelViewBackground: "#20232A",
@@ -44,9 +46,9 @@ export default {
     selectedMealBorderColor: "#33456E",
     transparent: "rgba(0, 0, 0, 0.0)",
     myTabMenuBackground: "#20232A",
-    textInputBackground: "#8FB8FF",
+    textInputBackground: primary,
     textInputPlaceholderColor: "#132241",
-    headerIconColor: Platform.OS === "ios" ? "#8FB8FF" : "#0B1F44",
+    headerIconColor: Platform.OS === "ios" ? primary : "#0B1F44",
     tagBackground: "#24272E",
     tagText: "#E7E9EC",
     tagBorderColor: "rgba(231,233,236,0.16)",

@@ -1,6 +1,8 @@
 import { Platform } from "react-native";
 import { MD3LightTheme } from "react-native-paper";
 
+const primary = "#0B63F6";
+
 // Extends React Native Paper's stock MD3 light theme with the app's brand
 // colors and every app-specific token that used to live in
 // constants/Colors.js (see contracts/theme-api.md — this token set is a
@@ -17,7 +19,7 @@ export default {
   dark: false,
   colors: {
     ...MD3LightTheme.colors,
-    primary: "#0B63F6",
+    primary,
     onPrimary: "#FFFFFF",
     second: "#0B74B8",
     background: "#F5F7FB",
@@ -35,9 +37,9 @@ export default {
 
     navigationIcon: "#FFFFFF",
     speedDialIcon: "#FFFFFF",
-    speedDialActionBackground: "#0B63F6",
+    speedDialActionBackground: primary,
     speedDialActionText: "#FFFFFF",
-    speedDialBackground: "#0B63F6",
+    speedDialBackground: primary,
     screenBackGround: "#F5F7FB",
     hyperlink: "#1D4FD8",
     levelViewBackground: "#FFFFFF",
@@ -51,9 +53,9 @@ export default {
     selectedMealBorderColor: "#B9CFFA",
     transparent: "rgba(0, 0, 0, 0.0)",
     myTabMenuBackground: "#EDEFF3",
-    textInputBackground: "#0B63F6",
+    textInputBackground: primary,
     textInputPlaceholderColor: "#F4F7FF",
-    headerIconColor: Platform.OS === "ios" ? "#0B63F6" : "#FFFFFF",
+    headerIconColor: Platform.OS === "ios" ? primary : "#FFFFFF",
     tagBackground: "#FFFFFF",
     tagText: "#1B1D22",
     tagBorderColor: "rgba(27,29,34,0.12)",

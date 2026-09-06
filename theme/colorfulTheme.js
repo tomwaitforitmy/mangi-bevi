@@ -1,6 +1,8 @@
 import { Platform } from "react-native";
 import { MD3LightTheme } from "react-native-paper";
 
+const primary = "#7C3AED";
+
 // See theme/lightTheme.js for the token-shape and ink/paper-role rationale.
 // A vibrant third appearance (User Story 2) — violet/coral on a warm cream
 // ground — built on the light MD3 base since it's a light-background theme,
@@ -11,7 +13,7 @@ export default {
   dark: false,
   colors: {
     ...MD3LightTheme.colors,
-    primary: "#7C3AED",
+    primary,
     onPrimary: "#FFFFFF",
     second: "#D6304B",
     background: "#FFF7ED",
@@ -33,7 +35,7 @@ export default {
     speedDialActionText: "#FFFFFF",
     speedDialBackground: "#C22641",
     screenBackGround: "#FFF7ED",
-    hyperlink: "#7C3AED",
+    hyperlink: primary,
     levelViewBackground: "#FFFFFF",
     levelViewBarBackground: "#FEF3C7",
     levelViewBar: "#92400E",
@@ -45,9 +47,9 @@ export default {
     selectedMealBorderColor: "#C9A4F5",
     transparent: "rgba(0, 0, 0, 0.0)",
     myTabMenuBackground: "#F3E8FF",
-    textInputBackground: "#7C3AED",
+    textInputBackground: primary,
     textInputPlaceholderColor: "#F3E8FF",
-    headerIconColor: Platform.OS === "ios" ? "#7C3AED" : "#FFFFFF",
+    headerIconColor: Platform.OS === "ios" ? primary : "#FFFFFF",
     tagBackground: "#FFFFFF",
     tagText: "#241832",
     tagBorderColor: "rgba(36,24,50,0.14)",
