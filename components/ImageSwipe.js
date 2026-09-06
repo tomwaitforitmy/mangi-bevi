@@ -7,7 +7,13 @@ import SwipeableImage from "./SwipeableImage";
 
 const ImageSwipe = (props) => {
   const theme = useAppTheme();
-  const styles = getStyles(theme);
+  // Default (38) matches react-native-image-zoom-viewer's own default,
+  // fine when this component isn't sitting directly under a real native-
+  // stack header (e.g. NewScreen's inline preview). ImagesScreen, a
+  // full-screen header'd route, passes an explicit larger value so the
+  // indicator clears its header instead of rendering underneath it.
+  const indicatorTopOffset = props.indicatorTopOffset ?? 38;
+  const styles = getStyles(theme, indicatorTopOffset);
   const images = props.images.map((item, index) => {
     var rObj = {};
     rObj.url = item;
@@ -56,7 +62,7 @@ const ImageSwipe = (props) => {
   );
 };
 
-const getStyles = (theme) =>
+const getStyles = (theme, indicatorTopOffset) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -81,7 +87,7 @@ const getStyles = (theme) =>
       position: "absolute",
       left: 0,
       right: 0,
-      top: 38,
+      top: indicatorTopOffset,
       zIndex: 13,
       justifyContent: "center",
       alignItems: "center",
