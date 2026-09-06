@@ -29,6 +29,7 @@ import { WasMarkedThisWeek } from "../common_functions/WasMarkedThisWeek";
 import MealCookedByUser from "../models/MealCookedByUser";
 import { markedAsCooked } from "../notifications/MarkedAsCooked";
 import * as usersActions from "../store/actions/usersAction";
+import { setCurrentTabViewed } from "../store/actions/uiAction";
 import { useAppTheme } from "../theme/useAppTheme";
 import { GetPlaceholderImageUrl } from "../common_functions/GetPlaceholderImageUrl";
 
@@ -38,7 +39,17 @@ function MealDetailScreen() {
   const { mealId, selectedTabMealDetail } = useLocalSearchParams();
   const navigation = useNavigation();
   const router = useRouter();
-  const initiallySelectedTab = selectedTabMealDetail ?? TITLES.INFO;
+  const dispatch = useDispatch();
+  // NewScreen sets this (via dispatch, not a route param) right before
+  // dismissing back here after a save, since the tab active at save time
+  // can differ from the one active when Edit was pressed (e.g. entered on
+  // Ingredients, switched to Steps, saved) -- route params alone weren't
+  // reliably picked up by this already-mounted screen. Takes priority over
+  // selectedTabMealDetail when present, and gets cleared once read below
+  // so it can't leak into a later, unrelated meal.
+  const pendingTabViewed = useSelector((state) => state.ui.currentTabViewed);
+  const initiallySelectedTab =
+    pendingTabViewed ?? selectedTabMealDetail ?? TITLES.INFO;
   const initialIndex = mealTabMenuTitleArray.indexOf(initiallySelectedTab);
   const mealCookedByUser = useSelector(
     (state) => state.mealsCookedByUser.mealCookedByUser,
@@ -51,7 +62,6 @@ function MealDetailScreen() {
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
   const authorName = GetAuthorName(selectedMeal.authorId, users);
   const editorName = GetAuthorName(selectedMeal.editorId, users);
-  const dispatch = useDispatch();
 
   const allTags = useSelector((state) => state.tags.tags);
   const tagList = [];
@@ -174,7 +184,14 @@ function MealDetailScreen() {
   useFocusEffect(
     useCallback(() => {
       ChangeSelectedTab(initiallySelectedTab);
-    }, [ChangeSelectedTab, initiallySelectedTab]),
+      // Consume the one-shot signal from NewScreen so it can't affect a
+      // later, unrelated meal -- selectedTabMealDetail (still set from the
+      // same round trip) keeps initiallySelectedTab resolving to the same
+      // tab once this clears, so this doesn't cause a visible flip back.
+      if (pendingTabViewed) {
+        dispatch(setCurrentTabViewed(null));
+      }
+    }, [ChangeSelectedTab, initiallySelectedTab, pendingTabViewed, dispatch]),
   );
 
   useEffect(() => {

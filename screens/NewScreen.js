@@ -20,6 +20,7 @@ import {
 import LoadingIndicator from "../components/LoadingIndicator";
 import * as mealsAction from "../store/actions/mealsAction";
 import * as usersAction from "../store/actions/usersAction";
+import { setCurrentTabViewed } from "../store/actions/uiAction";
 import Meal from "../models/Meal";
 import { useAppTheme } from "../theme/useAppTheme";
 import { getTextInputStyles } from "../constants/TextInputStyles";
@@ -294,6 +295,12 @@ function NewScreen() {
 
       await dispatch(mealsAction.editMeal(editedMeal, inputMeal));
       formDispatch({ type: SUBMITTED });
+
+      // The already-open meal detail screen (which we're dismissing back
+      // to) reads this to resume on whatever tab was active here at save
+      // time -- may differ from the tab that was active when Edit was
+      // pressed, e.g. entered on Ingredients, switched to Steps, saved.
+      dispatch(setCurrentTabViewed(formState.selectedTab));
 
       //Dismiss back to the already-open meal detail screen with updated
       //params, instead of pushing a new instance on top of it.
