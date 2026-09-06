@@ -7,7 +7,10 @@ const LinkedMealsList = (props) => {
   const router = useRouter();
 
   const navigateToMeal = (meal) => {
-    router.push({
+    // Linked meals can chain into each other (and even cycle back), so
+    // push() here would grow the stack without bound as someone follows
+    // links. replace() keeps the back stack at a constant depth.
+    router.replace({
       pathname: "/meals/meal/[mealId]",
       params: { mealId: meal.id, mealTitle: meal.title },
     });
