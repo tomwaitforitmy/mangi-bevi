@@ -113,6 +113,7 @@ const tagsReducer = (state = initialState, action) => {
         ...state,
         tags: state.tags.concat(newTag),
         availableTags: state.availableTags.concat(newTag),
+        availableFilterTags: state.availableFilterTags.concat(newTag),
       };
     }
     case DELETE_TAG: {

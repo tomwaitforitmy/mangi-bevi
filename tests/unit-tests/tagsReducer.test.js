@@ -15,7 +15,7 @@ jest.mock("../../store/actions/authAction", () => ({
 }));
 
 import tagsReducer from "../../store/reducers/tagsReducer";
-import { DELETE_TAG } from "../../store/actions/tagsAction";
+import { CREATE_TAG, DELETE_TAG } from "../../store/actions/tagsAction";
 import Tag from "../../models/Tag";
 
 describe("tagsReducer DELETE_TAG", () => {
@@ -38,5 +38,27 @@ describe("tagsReducer DELETE_TAG", () => {
     expect(result.addedTags).toEqual([]);
     expect(result.filterTags).toEqual([]);
     expect(result.availableFilterTags).toEqual([otherTag]);
+  });
+});
+
+describe("tagsReducer CREATE_TAG", () => {
+  it("also adds the new tag to availableFilterTags", () => {
+    const existingTag = Tag("Vegan", "tag-1");
+    const newTag = Tag("Spicy", "tag-2");
+
+    const state = {
+      tags: [existingTag],
+      availableTags: [existingTag],
+      addedTags: [],
+      filterTags: [],
+      availableFilterTags: [existingTag],
+      tagsLoaded: true,
+    };
+
+    const result = tagsReducer(state, { type: CREATE_TAG, tag: newTag });
+
+    expect(result.tags).toEqual([existingTag, newTag]);
+    expect(result.availableTags).toEqual([existingTag, newTag]);
+    expect(result.availableFilterTags).toEqual([existingTag, newTag]);
   });
 });
