@@ -115,6 +115,17 @@ hard-coded literal or the old `constants/Colors.js` (removed) — `common_functi
 ResolveAppearance.js` and `common_functions/GetContrastRatio.js` back the resolution and WCAG AA
 contrast checks respectively. See `specs/003-app-theming-system/` for the full design.
 
+`app/(app)/_layout.js`'s `NativeTabs` (see `app/CLAUDE.md`) has a known open upstream bug on iOS
+26: the Liquid Glass tab bar ignores `backgroundColor`/`iconColor`/`blurEffect` props entirely on
+that OS version (those only apply on iOS ≤18 per Expo's own docs) and instead derives its tint by
+reflecting whatever's rendered behind it — and that reflection intermittently gets stuck showing
+the wrong appearance per-tab after a light/dark switch (tab bar staying light in dark mode, or an
+icon's tint inverting). Confirmed upstream, not an app bug: expo/expo#41360, #39930, #39969,
+#42364, all open, labeled "Upstream: React Native Screens"/"Upstream: iOS". No working app-level
+fix is known — remounting `NativeTabs` via `key`, `freezeOnBlur`, and `detachInactiveScreens` have
+all been tried upstream and failed. Don't attempt a JS workaround for this without checking those
+issues first for a new upstream fix.
+
 ### Image pipeline
 
 `image_processing/` (compress, resize, get-images-to-upload, delete) feeds into
