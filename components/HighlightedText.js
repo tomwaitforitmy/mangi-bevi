@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import { SplitTextToHighlight } from "../common_functions/SplitTextToHighlight";
+import { useAppTheme } from "../theme/useAppTheme";
 
 const HighlightedText = ({ text, searchTerm, highlightColor }) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const ValidSearchTerm = (s) => {
     return s ? true : false;
   };
@@ -34,10 +37,12 @@ const HighlightedText = ({ text, searchTerm, highlightColor }) => {
   return <Text style={styles.regularText}>{text}</Text>;
 };
 
-const styles = StyleSheet.create({
-  regularText: {
-    fontSize: 16,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    regularText: {
+      fontSize: 16,
+      color: theme.colors.onBackground,
+    },
+  });
 
 export default HighlightedText;
