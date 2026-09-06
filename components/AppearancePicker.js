@@ -1,8 +1,8 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useAppTheme } from "../theme/useAppTheme";
+import { StyleSheet, View } from "react-native";
 import { useAppearanceSelection } from "../theme/useAppearanceSelection";
 import { LIGHT, DARK, COLORFUL, AUTOMATIC } from "../theme/AppearanceOptions";
+import MySwitch from "./Switches/MySwitch";
 
 const OPTIONS = [
   { value: LIGHT, label: "Light" },
@@ -11,58 +11,29 @@ const OPTIONS = [
   { value: AUTOMATIC, label: "Automatic" },
 ];
 
-const getStyles = (theme) =>
-  StyleSheet.create({
-    container: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      gap: 8,
-    },
-    option: {
-      paddingVertical: 8,
-      paddingHorizontal: 14,
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: theme.colors.outline,
-      backgroundColor: theme.colors.surface,
-    },
-    optionSelected: {
-      backgroundColor: theme.colors.primary,
-      borderColor: theme.colors.primary,
-    },
-    optionText: {
-      color: theme.colors.onSurface,
-    },
-    optionTextSelected: {
-      color: theme.colors.onPrimary,
-      fontWeight: "bold",
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
+});
 
 const AppearancePicker = () => {
-  const theme = useAppTheme();
-  const styles = getStyles(theme);
   const { selection, setSelection } = useAppearanceSelection();
 
   return (
     <View style={styles.container} testID="appearance-picker">
-      {OPTIONS.map((option) => {
-        const isSelected = option.value === selection;
-        return (
-          <Pressable
-            key={option.value}
-            testID={`appearance-option-${option.value}`}
-            style={[styles.option, isSelected && styles.optionSelected]}
-            onPress={() => setSelection(option.value)}
-          >
-            <Text
-              style={[styles.optionText, isSelected && styles.optionTextSelected]}
-            >
-              {option.label}
-            </Text>
-          </Pressable>
-        );
-      })}
+      {OPTIONS.map((option) => (
+        <MySwitch
+          key={option.value}
+          testID={`appearance-option-${option.value}`}
+          descriptionText={option.label}
+          modeOnOff={true}
+          value={option.value === selection}
+          // Exactly one option is always selected; switching one on selects
+          // it, switching the active one off has no next state so it's a no-op.
+          onValueChange={(v) => v && setSelection(option.value)}
+        />
+      ))}
     </View>
   );
 };

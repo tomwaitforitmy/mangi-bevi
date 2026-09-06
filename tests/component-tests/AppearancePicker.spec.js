@@ -5,11 +5,7 @@ import ThemeProvider from "../../theme/ThemeProvider";
 import AppearancePicker from "../../components/AppearancePicker";
 import { DARK, AUTOMATIC, STORAGE_KEY } from "../../theme/AppearanceOptions";
 
-const isMarkedSelected = (testId) => {
-  const style = screen.getByTestId(testId).props.style;
-  // style is [baseStyle, isSelected && selectedStyle]
-  return Boolean(style[1]);
-};
+const isSelected = (testId) => screen.getByTestId(testId).props.value === true;
 
 describe("AppearancePicker", () => {
   afterEach(async () => {
@@ -23,8 +19,8 @@ describe("AppearancePicker", () => {
       </ThemeProvider>,
     );
 
-    expect(isMarkedSelected(`appearance-option-${AUTOMATIC}`)).toBe(true);
-    expect(isMarkedSelected(`appearance-option-${DARK}`)).toBe(false);
+    expect(isSelected(`appearance-option-${AUTOMATIC}`)).toBe(true);
+    expect(isSelected(`appearance-option-${DARK}`)).toBe(false);
   });
 
   it("persists a new selection and marks it selected immediately", async () => {
@@ -34,10 +30,10 @@ describe("AppearancePicker", () => {
       </ThemeProvider>,
     );
 
-    fireEvent.press(screen.getByTestId(`appearance-option-${DARK}`));
+    fireEvent(screen.getByTestId(`appearance-option-${DARK}`), "valueChange", true);
 
-    expect(isMarkedSelected(`appearance-option-${DARK}`)).toBe(true);
-    expect(isMarkedSelected(`appearance-option-${AUTOMATIC}`)).toBe(false);
+    expect(isSelected(`appearance-option-${DARK}`)).toBe(true);
+    expect(isSelected(`appearance-option-${AUTOMATIC}`)).toBe(false);
 
     await waitFor(async () => {
       expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe(DARK);
@@ -54,7 +50,19 @@ describe("AppearancePicker", () => {
     );
 
     await waitFor(() => {
-      expect(isMarkedSelected(`appearance-option-${DARK}`)).toBe(true);
+      expect(isSelected(`appearance-option-${DARK}`)).toBe(true);
     });
+  });
+
+  it("switching the active option off is a no-op", async () => {
+    render(
+      <ThemeProvider>
+        <AppearancePicker />
+      </ThemeProvider>,
+    );
+
+    fireEvent(screen.getByTestId(`appearance-option-${AUTOMATIC}`), "valueChange", false);
+
+    expect(isSelected(`appearance-option-${AUTOMATIC}`)).toBe(true);
   });
 });

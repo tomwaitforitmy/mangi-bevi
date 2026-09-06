@@ -10,6 +10,7 @@ const MySwitch = ({
   onValueChange,
   value,
   modeOnOff,
+  testID,
 }) => {
   const theme = useAppTheme();
   const styles = getStyles(theme);
@@ -28,6 +29,7 @@ const MySwitch = ({
         {trueFalseText}
       </Text>
       <Switch
+        testID={testID}
         trackColor={{
           false: falseColor,
           true: theme.colors.second,
@@ -52,7 +54,6 @@ const getStyles = (theme) =>
       fontWeight: "bold",
     },
     container: {
-      flex: 1,
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
