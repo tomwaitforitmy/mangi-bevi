@@ -31,7 +31,7 @@ export const getTagsUrl = (token) => {
 };
 
 export const getTagUrl = (id, token) => {
-  return BASE + `meals/${id}.json?auth=${token}`;
+  return BASE + `tags/${id}.json?auth=${token}`;
 };
 
 export const getMealsCookedByUserUrl = (token) => {
