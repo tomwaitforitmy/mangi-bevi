@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { CountReactions } from "../common_functions/CountReactions";
+import { useAppTheme } from "../theme/useAppTheme";
 
 const ReactionsBox = (props) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const reactionAmounts = CountReactions(props.reactions);
   const getEmojiContent = (reactAmounts) => {
     let content = [];
@@ -41,19 +44,21 @@ const ReactionsBox = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, flexDirection: "row" },
-  emoji: {
-    borderRadius: 11,
-    // height: 28, only needed on DevScreen with buttons?
-    padding: 5,
-    backgroundColor: "lightblue",
-    overflow: "hidden",
-    margin: 1,
-    fontSize: 15,
-    textAlign: "center",
-    textAlignVertical: "center",
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    container: { flex: 1, flexDirection: "row" },
+    emoji: {
+      borderRadius: 11,
+      // height: 28, only needed on DevScreen with buttons?
+      padding: 5,
+      backgroundColor: theme.colors.surfaceVariant,
+      overflow: "hidden",
+      margin: 1,
+      fontSize: 15,
+      textAlign: "center",
+      textAlignVertical: "center",
+      color: theme.colors.onSurfaceVariant,
+    },
+  });
 
 export default ReactionsBox;
