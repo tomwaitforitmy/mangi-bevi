@@ -6,8 +6,11 @@ import MyLevelViewContainer from "../components/MyLevelViewContainer";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { useAppTheme } from "../theme/useAppTheme";
 
 function ProfileScreen() {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const router = useRouter();
   const user = useSelector((state) => state.users.user);
   const userStats = useSelector((state) => state.users.userStats);
@@ -54,17 +57,19 @@ function ProfileScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "stretch",
-  },
-  bene: {
-    fontSize: 14,
-    lineHeight: 30,
-    margin: 5,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "column",
+      alignItems: "stretch",
+    },
+    bene: {
+      fontSize: 14,
+      lineHeight: 30,
+      margin: 5,
+      color: theme.colors.onBackground,
+    },
+  });
 
 export default ProfileScreen;

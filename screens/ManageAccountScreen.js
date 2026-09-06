@@ -33,6 +33,7 @@ import { useNavigation } from "expo-router/react-navigation";
 
 function ManageAccountScreen() {
   const theme = useAppTheme();
+  const styles = getStyles(theme);
   const textInputStyles = getTextInputStyles(theme);
   const navigation = useNavigation();
   const user = useSelector((state) => state.users.user);
@@ -211,17 +212,19 @@ function ManageAccountScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "stretch",
-    margin: 5,
-  },
-  label: {
-    fontSize: 16,
-    lineHeight: 30,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "column",
+      alignItems: "stretch",
+      margin: 5,
+    },
+    label: {
+      fontSize: 16,
+      lineHeight: 30,
+      color: theme.colors.onBackground,
+    },
+  });
 
 export default ManageAccountScreen;
