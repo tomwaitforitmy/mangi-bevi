@@ -293,6 +293,9 @@ function MealsScreen() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => onRefresh()}
+              tintColor={theme.colors.primary}
+              colors={[theme.colors.primary]}
+              progressBackgroundColor={theme.colors.surface}
             />
           }
           mealsList={filteredMeals}

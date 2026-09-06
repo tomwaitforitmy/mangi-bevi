@@ -5,8 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAll } from "../firebase/fetchAll";
 import MyButton from "../components/MyButton";
 import { useRouter } from "expo-router";
+import { useAppTheme } from "../theme/useAppTheme";
 
 function UserMealsScreen() {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const router = useRouter();
   const dispatch = useDispatch();
   const userMealsData = useSelector((state) => state.users.userMealsData);
@@ -39,6 +42,9 @@ function UserMealsScreen() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => onRefresh()}
+            tintColor={theme.colors.primary}
+            colors={[theme.colors.primary]}
+            progressBackgroundColor={theme.colors.surface}
           />
         }
         mealsList={userMealsData}
@@ -48,17 +54,19 @@ function UserMealsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  mealsScreen: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bene: {
-    fontSize: 14,
-    lineHeight: 30,
-    margin: 5,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    mealsScreen: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    bene: {
+      fontSize: 14,
+      lineHeight: 30,
+      margin: 5,
+      color: theme.colors.onBackground,
+    },
+  });
 
 export default UserMealsScreen;

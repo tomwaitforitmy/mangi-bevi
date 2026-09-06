@@ -10,8 +10,10 @@ import SearchInput from "../components/SearchInput";
 import * as searchAction from "../store/actions/searchAction";
 import MyButton from "../components/MyButton";
 import { useRouter } from "expo-router";
+import { useAppTheme } from "../theme/useAppTheme";
 
 function MealsScreenNotAuthenticated() {
+  const theme = useAppTheme();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -54,7 +56,13 @@ function MealsScreenNotAuthenticated() {
       <View style={styles.mealsScreen}>
         <MealList
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={theme.colors.primary}
+              colors={[theme.colors.primary]}
+              progressBackgroundColor={theme.colors.surface}
+            />
           }
           mealsList={filteredMeals}
           searchTerm={searchTerm}
