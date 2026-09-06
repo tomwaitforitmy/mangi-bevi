@@ -5,6 +5,7 @@
     "slug": "mangi-bevi",
     "version": "1.81.1",
     "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
     "icon": "./assets/noodles.png",
     "updates": {
       "fallbackToCacheTimeout": 0,
