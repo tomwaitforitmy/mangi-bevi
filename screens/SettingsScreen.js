@@ -7,6 +7,7 @@ import NotificationsForNewMealsForFriendsOnlySwitch from "../components/Switches
 import NotificationsForReactionsSwitch from "../components/Switches/NotificationsForReactionsSwitch";
 import { useSelector } from "react-redux";
 import { enableNotifications } from "../data/AvailableSettings";
+import { DEV_MODE } from "../data/Environment";
 
 function SettingsScreen() {
   const user = useSelector((state) => state.users.user);
@@ -27,8 +28,16 @@ function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headline}>Appearance</Text>
-      <AppearancePicker />
+      {DEV_MODE && (
+        <>
+          {/* Hidden outside DEV_MODE: iOS 26's NativeTabs bar has a known
+              upstream bug where the tab bar doesn't reliably follow
+              dark/light switches (see CLAUDE.md's Theming section). Keeping
+              this dev-only avoids exposing that breakage to real users. */}
+          <Text style={styles.headline}>Appearance</Text>
+          <AppearancePicker />
+        </>
+      )}
       <Text style={styles.headline}>Push notifications</Text>
       <NotificationsSwitch onValueChanged={(v) => onValueChanged(v)} />
       {showNotificationSettings && (
