@@ -91,6 +91,7 @@ const getStyles = (theme) =>
   StyleSheet.create({
     text: {
       textAlign: "center",
+      color: theme.colors.onBackground,
     },
     menuButton: {
       height: "100%",

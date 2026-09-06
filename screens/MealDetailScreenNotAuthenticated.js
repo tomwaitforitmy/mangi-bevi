@@ -15,8 +15,11 @@ import MyButton from "../components/MyButton";
 import MyTabMenu from "../components/MyTabMenu";
 import { TITLES, mealTabMenuTitleArray } from "../constants/TabMenuTitles";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useAppTheme } from "../theme/useAppTheme";
 
 function MealDetailScreenNotAuthenticated() {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const { mealId, selectedTabMealDetail } = useLocalSearchParams();
   const navigation = useNavigation();
   const router = useRouter();
@@ -149,27 +152,29 @@ function MealDetailScreenNotAuthenticated() {
   );
 }
 
-const styles = StyleSheet.create({
-  reactions: {
-    justifyContent: "center",
-  },
-  loginButton: {
-    borderRadius: 0,
-    height: "10%",
-  },
-  subtitle: {
-    paddingTop: 10,
-    paddingBottom: 15,
-    fontSize: 22,
-    textAlign: "center",
-  },
-  image: {
-    width: "100%",
-    height: 200,
-  },
-  container: {
-    flex: 1,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    reactions: {
+      justifyContent: "center",
+    },
+    loginButton: {
+      borderRadius: 0,
+      height: "10%",
+    },
+    subtitle: {
+      paddingTop: 10,
+      paddingBottom: 15,
+      fontSize: 22,
+      textAlign: "center",
+      color: theme.colors.onBackground,
+    },
+    image: {
+      width: "100%",
+      height: 200,
+    },
+    container: {
+      flex: 1,
+    },
+  });
 
 export default MealDetailScreenNotAuthenticated;

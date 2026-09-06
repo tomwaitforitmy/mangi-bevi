@@ -75,12 +75,14 @@ const getStyles = (theme) =>
       alignItems: "center",
       paddingVertical: 10,
       borderBottomWidth: 1,
+      borderBottomColor: theme.colors.outline,
     },
     textContainer: {
       flex: 1,
     },
     text: {
       fontSize: 16,
+      color: theme.colors.onBackground,
     },
   });
 

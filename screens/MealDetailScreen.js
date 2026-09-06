@@ -29,8 +29,11 @@ import { WasMarkedThisWeek } from "../common_functions/WasMarkedThisWeek";
 import MealCookedByUser from "../models/MealCookedByUser";
 import { markedAsCooked } from "../notifications/MarkedAsCooked";
 import * as usersActions from "../store/actions/usersAction";
+import { useAppTheme } from "../theme/useAppTheme";
 
 function MealDetailScreen() {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const { mealId, selectedTabMealDetail } = useLocalSearchParams();
   const navigation = useNavigation();
   const router = useRouter();
@@ -286,27 +289,29 @@ function MealDetailScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  reactions: {
-    justifyContent: "center",
-  },
-  loginButton: {
-    borderRadius: 0,
-    height: "10%",
-  },
-  subtitle: {
-    paddingTop: 10,
-    paddingBottom: 15,
-    fontSize: 22,
-    textAlign: "center",
-  },
-  image: {
-    width: "100%",
-    height: 200,
-  },
-  container: {
-    flex: 1,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    reactions: {
+      justifyContent: "center",
+    },
+    loginButton: {
+      borderRadius: 0,
+      height: "10%",
+    },
+    subtitle: {
+      paddingTop: 10,
+      paddingBottom: 15,
+      fontSize: 22,
+      textAlign: "center",
+      color: theme.colors.onBackground,
+    },
+    image: {
+      width: "100%",
+      height: 200,
+    },
+    container: {
+      flex: 1,
+    },
+  });
 
 export default MealDetailScreen;

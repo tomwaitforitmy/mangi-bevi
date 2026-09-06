@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { GetAuthorName } from "../common_functions/GetAuthorName";
+import { useAppTheme } from "../theme/useAppTheme";
 
 const ReactionsList = (props) => {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const { reactions, users } = props;
 
   const generateListContent = () => {
@@ -27,18 +30,20 @@ const ReactionsList = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "flex-start",
-  },
-  text: {
-    borderRadius: 11,
-    padding: 5,
-    overflow: "hidden",
-    margin: 1,
-    fontSize: 15,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "flex-start",
+    },
+    text: {
+      borderRadius: 11,
+      padding: 5,
+      overflow: "hidden",
+      margin: 1,
+      fontSize: 15,
+      color: theme.colors.onBackground,
+    },
+  });
 
 export default ReactionsList;

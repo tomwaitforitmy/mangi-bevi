@@ -42,6 +42,7 @@ const getStyles = (theme) =>
       paddingLeft: 12,
       paddingBottom: 10,
       paddingTop: 10,
+      color: theme.colors.onBackground,
     },
     authorHighlighted: {
       fontWeight: "bold",
