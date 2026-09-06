@@ -8,8 +8,11 @@ import NotificationsForReactionsSwitch from "../components/Switches/Notification
 import { useSelector } from "react-redux";
 import { enableNotifications } from "../data/AvailableSettings";
 import { DEV_MODE } from "../data/Environment";
+import { useAppTheme } from "../theme/useAppTheme";
 
 function SettingsScreen() {
+  const theme = useAppTheme();
+  const styles = getStyles(theme);
   const user = useSelector((state) => state.users.user);
   let initialShowNotificationSettings = true;
   const foundSetting = user.settings.find(
@@ -51,16 +54,18 @@ function SettingsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-  },
-  headline: {
-    fontSize: 16,
-    lineHeight: 30,
-    margin: 5,
-  },
-});
+const getStyles = (theme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: "flex-start",
+      justifyContent: "flex-start",
+    },
+    headline: {
+      fontSize: 16,
+      lineHeight: 30,
+      margin: 5,
+      color: theme.colors.onBackground,
+    },
+  });
 
 export default SettingsScreen;
