@@ -42,23 +42,23 @@ function AddTagScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  // MyKeyboardAvoidingView (behavior="padding"/"height" + keyboardVerticalOffset
-  // derived from useHeaderHeight()) produced a huge, unshrinking gap here on
-  // both platforms — the offset math it relies on isn't reliable in this
-  // NativeTabs+Stack nesting. Tracking the keyboard's own reported height
-  // directly sidesteps that: no view-position math, just the real number
-  // from the OS.
+  // MyKeyboardAvoidingView (behavior="padding" + keyboardVerticalOffset
+  // derived from useHeaderHeight()) produced a huge, unshrinking gap here —
+  // the offset math it relies on isn't reliable in this NativeTabs+Stack
+  // nesting. Tracking the keyboard's own reported height directly sidesteps
+  // that: no view-position math, just the real number from the OS. iOS only:
+  // Android's windowSoftInputMode="adjustResize" already resizes the whole
+  // window for the keyboard, so this would double it there.
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
-    const showEvent =
-      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
-    const hideEvent =
-      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
-    const showSub = Keyboard.addListener(showEvent, (e) =>
+    if (Platform.OS !== "ios") {
+      return;
+    }
+    const showSub = Keyboard.addListener("keyboardWillShow", (e) =>
       setKeyboardHeight(e.endCoordinates.height),
     );
-    const hideSub = Keyboard.addListener(hideEvent, () =>
+    const hideSub = Keyboard.addListener("keyboardWillHide", () =>
       setKeyboardHeight(0),
     );
     return () => {
@@ -197,8 +197,9 @@ function AddTagScreen() {
     // NativeTabs' native tab bar overlaps content (edge-to-edge) instead of
     // reserving space for itself like the old JS bottom tabs did, so the
     // "Create new tag" input/button would otherwise render (and be
-    // touchable) underneath the tab bar; keyboardHeight (falling back to
-    // insets.bottom when no keyboard is up) reserves that space instead.
+    // touchable) underneath the tab bar; insets.bottom reserves that space.
+    // keyboardHeight (iOS only, see above) adds the keyboard's own height on
+    // top when it's up.
     <View
       style={[
         styles.container,
