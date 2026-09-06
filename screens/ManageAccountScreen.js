@@ -174,7 +174,7 @@ function ManageAccountScreen() {
               formState.userError && textInputStyles.inputError,
             ]}
             placeholder="Name"
-            placeholderTextColor={theme.colors.textInputPlaceholderColor}
+            placeholderTextColor={textInputStyles.placeholderTextColor}
             onChangeText={(value) =>
               formDispatch({ type: EDIT_FIELD, value: value, field: "user" })
             }
@@ -190,7 +190,7 @@ function ManageAccountScreen() {
               formState.emailError && textInputStyles.inputError,
             ]}
             placeholder="Email"
-            placeholderTextColor={theme.colors.textInputPlaceholderColor}
+            placeholderTextColor={textInputStyles.placeholderTextColor}
             onChangeText={(value) =>
               formDispatch({ type: EDIT_FIELD, value: value, field: "email" })
             }

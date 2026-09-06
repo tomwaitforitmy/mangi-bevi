@@ -13,12 +13,14 @@ import * as reportsAction from "../store/actions/reportsAction";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Report from "../models/Report";
 import { useAppTheme } from "../theme/useAppTheme";
+import { getTextInputStyles } from "../constants/TextInputStyles";
 import { useLocalSearchParams } from "expo-router";
 import { useNavigation } from "expo-router/react-navigation";
 
 function SendReportScreen() {
   const theme = useAppTheme();
   const styles = getStyles(theme);
+  const textInputStyles = getTextInputStyles(theme);
   const navigation = useNavigation();
   const user = useSelector((state) => state.users.user);
   //Todo: description can be replaced by useRef.
@@ -74,6 +76,7 @@ function SendReportScreen() {
             onChangeText={(text) => setDescription(text)}
             value={description}
             style={styles.descriptionInput}
+            placeholderTextColor={textInputStyles.placeholderTextColor}
             placeholder="Please write a description."
           />
           <MyButton onPress={() => sendReport()}>{"Send Report"}</MyButton>
@@ -94,8 +97,13 @@ const getStyles = (theme) =>
     description: {
       fontSize: 14,
       margin: 5,
+      color: theme.colors.onBackground,
     },
-    descriptionInput: { padding: 10, backgroundColor: theme.colors.white },
+    descriptionInput: {
+      padding: 10,
+      backgroundColor: theme.colors.white,
+      color: theme.colors.black,
+    },
   });
 
 export default SendReportScreen;

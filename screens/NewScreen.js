@@ -424,7 +424,7 @@ function NewScreen() {
         <View style={styles.enterTitleInput}>
           <TextInput
             style={textInputStyles.input}
-            placeholderTextColor={theme.colors.textInputPlaceholderColor}
+            placeholderTextColor={textInputStyles.placeholderTextColor}
             value={formState.title}
             placeholder="Enter title"
             onChangeText={(value) => {

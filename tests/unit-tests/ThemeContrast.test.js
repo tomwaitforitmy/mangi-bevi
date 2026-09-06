@@ -19,6 +19,10 @@ const TEXT_PAIRS = [
   ["searchTextPlaceholder", "screenBackGround", NORMAL_TEXT_MIN],
   ["speedDialActionText", "speedDialActionBackground", NORMAL_TEXT_MIN],
   ["textInputPlaceholderColor", "textInputBackground", NORMAL_TEXT_MIN],
+  // Paired with constants/TextInputStyles.js's `input` (white bg/black text)
+  // and `placeholderTextColor` — see white role's file-header note in
+  // theme/lightTheme.js for why "white" (not "surface") is the right token.
+  ["onSurfaceVariant", "white", NORMAL_TEXT_MIN],
 ];
 
 const ICON_OR_GRAPHIC_PAIRS = [

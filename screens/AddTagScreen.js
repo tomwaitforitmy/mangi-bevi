@@ -190,7 +190,7 @@ function AddTagScreen() {
         <View>
           <TextInput
             style={textInputStyles.input}
-            placeholderTextColor={theme.colors.textInputPlaceholderColor}
+            placeholderTextColor={textInputStyles.placeholderTextColor}
             placeholder="Enter tag"
             onChangeText={(value) =>
               formDispatch({ type: EDIT_TAG_TITLE, value })

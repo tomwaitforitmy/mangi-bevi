@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
-export const getTextInputStyles = (theme) =>
-  StyleSheet.create({
+export const getTextInputStyles = (theme) => ({
+  ...StyleSheet.create({
     input: {
       color: theme.colors.black,
       backgroundColor: theme.colors.white,
@@ -22,4 +22,10 @@ export const getTextInputStyles = (theme) =>
       marginHorizontal: 5,
       marginBottom: 5,
     },
-  });
+  }),
+  // Paired with `input`'s white/black background+text — NOT
+  // theme.colors.textInputPlaceholderColor, which is calibrated for the
+  // differently-colored textInputBackground (see InputListViewContainer.js)
+  // and is unreadable against this white/black pairing.
+  placeholderTextColor: theme.colors.onSurfaceVariant,
+});
