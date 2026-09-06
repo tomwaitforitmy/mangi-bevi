@@ -164,11 +164,11 @@ function AuthenticationContent({ login, passwordReset }) {
   return (
     <MyKeyboardAvoidingView extraOffset={0}>
       <LinearGradient
-        colors={[theme.colors.second, theme.colors.primary]}
+        colors={[theme.colors.authGradientStart, theme.colors.authGradientEnd]}
         style={styles.gradient}>
         <View style={styles.innerContainer}>
           <TextInput
-            placeholderTextColor={theme.colors.onPrimary}
+            placeholderTextColor={theme.colors.authOnGradient}
             placeholder="Email"
             style={[styles.input, formState.emailError && styles.inputError]}
             onChangeText={(value) =>
@@ -182,7 +182,7 @@ function AuthenticationContent({ login, passwordReset }) {
           {newAccount && (
             <>
               <TextInput
-                placeholderTextColor={theme.colors.onPrimary}
+                placeholderTextColor={theme.colors.authOnGradient}
                 placeholder="Confirm Email"
                 style={[
                   styles.input,
@@ -207,7 +207,7 @@ function AuthenticationContent({ login, passwordReset }) {
           {!passwordReset && (
             <>
               <TextInput
-                placeholderTextColor={theme.colors.onPrimary}
+                placeholderTextColor={theme.colors.authOnGradient}
                 placeholder="Password"
                 style={[
                   styles.input,
@@ -231,7 +231,7 @@ function AuthenticationContent({ login, passwordReset }) {
           {newAccount && (
             <>
               <TextInput
-                placeholderTextColor={theme.colors.onPrimary}
+                placeholderTextColor={theme.colors.authOnGradient}
                 placeholder="Confirm Password"
                 style={[
                   styles.input,
@@ -253,7 +253,7 @@ function AuthenticationContent({ login, passwordReset }) {
                 </Text>
               ) : null}
               <TextInput
-                placeholderTextColor={theme.colors.onPrimary}
+                placeholderTextColor={theme.colors.authOnGradient}
                 placeholder="User Name"
                 style={[styles.input, formState.userError && styles.inputError]}
                 onChangeText={(value) =>
@@ -270,7 +270,7 @@ function AuthenticationContent({ login, passwordReset }) {
               ) : null}
             </>
           )}
-          <MyButton onPress={authHandler}>
+          <MyButton style={styles.authButton} onPress={authHandler}>
             {login ? "Login" : passwordReset ? "Reset password" : "Sign up"}
           </MyButton>
           {login && (
@@ -303,8 +303,8 @@ function AuthenticationContent({ login, passwordReset }) {
 const getStyles = (theme) =>
   StyleSheet.create({
     input: {
-      color: theme.colors.onPrimary,
-      borderBottomColor: theme.colors.onPrimary,
+      color: theme.colors.authOnGradient,
+      borderBottomColor: theme.colors.authOnGradient,
       borderBottomWidth: 1,
       paddingVertical: 8,
       paddingHorizontal: 4,
@@ -320,8 +320,17 @@ const getStyles = (theme) =>
       marginHorizontal: 4,
       marginBottom: 10,
     },
+    // MyButton's default background is theme.colors.primary, which can be
+    // the same color as (or very close to) this screen's own gradient —
+    // without a border the button can visually melt into its background.
+    authButton: {
+      borderWidth: 1.5,
+      borderColor: theme.colors.authOnGradient,
+    },
     switchButton: {
       marginTop: 5,
+      borderWidth: 1.5,
+      borderColor: theme.colors.authOnGradient,
     },
     innerContainer: {
       padding: 10,

@@ -54,6 +54,12 @@ export default {
     transparent: "rgba(0, 0, 0, 0.0)",
     myTabMenuBackground: "#D5DBE8",
     myTabMenuSelectedBackground: "#FFFFFF",
+    // Login/signup screen's full-screen gradient. Same as second/primary
+    // here (already reads well against a light background) — only dark
+    // mode needed dedicated, deliberately muted values (see darkTheme.js).
+    authGradientStart: "#0B74B8",
+    authGradientEnd: "#0B63F6",
+    authOnGradient: "#FFFFFF",
     textInputBackground: primary,
     textInputPlaceholderColor: "#F4F7FF",
     headerIconColor: Platform.OS === "ios" ? primary : "#FFFFFF",

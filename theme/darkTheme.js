@@ -54,6 +54,20 @@ export default {
     transparent: "rgba(0, 0, 0, 0.0)",
     myTabMenuBackground: "#31353F",
     myTabMenuSelectedBackground: "#474C58",
+    // Login/signup screen's full-screen gradient. Unlike every other
+    // screen, this one used second/primary directly as a full-screen
+    // wash — fine in light mode, but those are light pastel accent colors
+    // here, so the result was ~10:1 contrast against the app's own dark
+    // background: a screen that looked like a different, unfinished app.
+    // Deliberately muted (dark navy to a moderate blue) so it reads as
+    // this theme's login screen, not a bright accent color blown up to
+    // fill the whole screen.
+    authGradientStart: "#1B2F4D",
+    authGradientEnd: "#345788",
+    // Unlike light/colorful, this gradient is darker overall than
+    // onPrimary ("#0B1F44", designed for the light pastel `primary`) can
+    // read against — light text is needed here instead.
+    authOnGradient: "#E7E9EC",
     textInputBackground: primary,
     textInputPlaceholderColor: "#132241",
     headerIconColor: Platform.OS === "ios" ? primary : "#0B1F44",

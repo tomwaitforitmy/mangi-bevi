@@ -23,6 +23,10 @@ const TEXT_PAIRS = [
   // and `placeholderTextColor` — see white role's file-header note in
   // theme/lightTheme.js for why "white" (not "surface") is the right token.
   ["onSurfaceVariant", "white", NORMAL_TEXT_MIN],
+  // AuthenticationContent's full-screen gradient — checked against both
+  // ends since text overlays the whole gradient, not just one end.
+  ["authOnGradient", "authGradientStart", NORMAL_TEXT_MIN],
+  ["authOnGradient", "authGradientEnd", NORMAL_TEXT_MIN],
 ];
 
 const ICON_OR_GRAPHIC_PAIRS = [
