@@ -41,7 +41,12 @@ export default ({ config }) => ({
     ...config.ios,
     bundleIdentifier: getUniqueIdentifier(),
   },
-  plugins: [...(config.plugins ?? []), "expo-asset", "expo-status-bar"],
+  plugins: [
+    ...(config.plugins ?? []),
+    "expo-asset",
+    "expo-status-bar",
+    "expo-font",
+  ],
   experiments: {
     ...(config.experiments ?? {}),
     reactCompiler: true,
