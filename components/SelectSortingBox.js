@@ -45,8 +45,13 @@ const getStyles = (theme) =>
     },
     selectedItem: {
       borderRadius: 11,
-      backgroundColor: theme.colors.selectedMealBackground,
-      color: theme.colors.onBackground,
+      // selectedMealBackground is nearly indistinguishable from
+      // surfaceVariant in every theme (a near-1:1 contrast ratio) -- it
+      // was designed as a subtle tint elsewhere, not a visible selection
+      // indicator. theme.colors.primary reads clearly as "selected" in
+      // all three themes.
+      backgroundColor: theme.colors.primary,
+      color: theme.colors.onPrimary,
     },
   });
 
