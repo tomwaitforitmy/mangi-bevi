@@ -123,6 +123,10 @@ const tagsReducer = (state = initialState, action) => {
         tags: state.tags.filter((t) => t.id !== deleteId),
         availableTags: state.availableTags.filter((t) => t.id !== deleteId),
         addedTags: state.addedTags.filter((t) => t.id !== deleteId),
+        filterTags: state.filterTags.filter((t) => t.id !== deleteId),
+        availableFilterTags: state.availableFilterTags.filter(
+          (t) => t.id !== deleteId,
+        ),
       };
     }
 
