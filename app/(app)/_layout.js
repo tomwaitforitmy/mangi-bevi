@@ -11,19 +11,29 @@ export default function AuthenticatedTabsLayout() {
 
   return (
     <NativeTabs
-      // On Android the bar itself is painted theme.colors.primary (see
-      // backgroundColor below), so the selected icon stays white for
-      // contrast; on iOS the bar has no background of ours to clash with, so
-      // the selected icon can be the app's actual primary blue.
+      // Same color scheme on both platforms now, matching iOS's look: brand
+      // primary for the selected icon/label, "second" for inactive — these
+      // are designed for contrast against a neutral surface, not a painted
+      // brand-color bar (that mismatch was the earlier Android readability
+      // bug: "second" barely shows up against a primary-colored background).
       iconColor={{
         default: theme.colors.second,
-        selected: theme.colors.headerIconColor,
+        selected: theme.colors.primary,
       }}
+      labelStyle={{
+        default: { color: theme.colors.second },
+        selected: { color: theme.colors.primary },
+      }}
+      // Android-only "pill" behind the selected icon; a light primary tint
+      // keeps it on-brand while giving more contrast than the mismatched
+      // default. No iOS equivalent to match — iOS has no such indicator.
+      indicatorColor={theme.colors.selectedMealBackground}
       // iOS 26's Liquid Glass is the native tab bar's own material — Apple's
       // HIG says not to paint over it with a custom background. Android has
-      // no glass material, so it keeps the brand color there.
+      // no glass material; theme.colors.surface is its closest neutral
+      // equivalent, replacing the old brand-colored bar.
       backgroundColor={
-        Platform.OS === "android" ? theme.colors.primary : undefined
+        Platform.OS === "android" ? theme.colors.surface : undefined
       }>
       <NativeTabs.Trigger name="meals">
         <NativeTabs.Trigger.Label>
