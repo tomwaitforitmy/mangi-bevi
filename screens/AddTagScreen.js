@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useReducer,
+  useState,
 } from "react";
 import {
   StyleSheet,
@@ -11,6 +12,8 @@ import {
   Alert,
   ScrollView,
   TextInput,
+  Keyboard,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as mealsAction from "../store/actions/mealsAction";
@@ -25,7 +28,6 @@ import tagFormReducer, {
 import { useAppTheme } from "../theme/useAppTheme";
 import { getTextInputStyles } from "../constants/TextInputStyles";
 import Tag from "../models/Tag";
-import MyKeyboardAvoidingView from "../components/MyKeyboardAvoidingView";
 import MyButton from "../components/MyButton";
 import SaveIcon from "../components/HeaderIcons/SaveIcon";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -39,6 +41,31 @@ function AddTagScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+
+  // MyKeyboardAvoidingView (behavior="padding"/"height" + keyboardVerticalOffset
+  // derived from useHeaderHeight()) produced a huge, unshrinking gap here on
+  // both platforms — the offset math it relies on isn't reliable in this
+  // NativeTabs+Stack nesting. Tracking the keyboard's own reported height
+  // directly sidesteps that: no view-position math, just the real number
+  // from the OS.
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showEvent =
+      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+    const hideEvent =
+      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+    const showSub = Keyboard.addListener(showEvent, (e) =>
+      setKeyboardHeight(e.endCoordinates.height),
+    );
+    const hideSub = Keyboard.addListener(hideEvent, () =>
+      setKeyboardHeight(0),
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
@@ -167,47 +194,49 @@ function AddTagScreen() {
   }
 
   return (
-    <MyKeyboardAvoidingView extraOffset={0} style={{ width: "100%" }}>
-      {/* NativeTabs' native tab bar overlaps content (edge-to-edge) instead
-          of reserving space for itself like the old JS bottom tabs did, so
-          the "Create new tag" input/button would otherwise render (and be
-          touchable) underneath the tab bar. */}
-      <View style={[styles.container, { paddingBottom: insets.bottom }]}>
-        <ScrollView
-          style={styles.tagLists}
-          // iOS gives the first scroll view under a NativeTabs screen
-          // automatic content-inset adjustment, which also reacts to the
-          // keyboard — stacking with MyKeyboardAvoidingView's own manual
-          // shift and roughly doubling it. We already handle both the
-          // tab-bar-safe-area and keyboard spacing ourselves, so opt out.
-          contentInsetAdjustmentBehavior="never"
-          automaticallyAdjustKeyboardInsets={false}>
-          <Text style={styles.subtitle}>Added Tags</Text>
-          <TagList
-            tags={addedTags}
-            onPressTag={removeTagHandler}
-            onLongPressTag={deleteTagHandler}
-          />
-          <Text style={styles.subtitle}>Available Tags</Text>
-          <TagList
-            tags={availableTags}
-            onPressTag={addTagHandler}
-            onLongPressTag={deleteTagHandler}
-          />
-        </ScrollView>
-        <View>
-          <TextInput
-            style={textInputStyles.input}
-            placeholderTextColor={textInputStyles.placeholderTextColor}
-            placeholder="Enter tag"
-            onChangeText={(value) =>
-              formDispatch({ type: EDIT_TAG_TITLE, value })
-            }
-          />
-          <MyButton onPress={createTagHandler}>{"Create new tag"}</MyButton>
-        </View>
+    // NativeTabs' native tab bar overlaps content (edge-to-edge) instead of
+    // reserving space for itself like the old JS bottom tabs did, so the
+    // "Create new tag" input/button would otherwise render (and be
+    // touchable) underneath the tab bar; keyboardHeight (falling back to
+    // insets.bottom when no keyboard is up) reserves that space instead.
+    <View
+      style={[
+        styles.container,
+        { paddingBottom: keyboardHeight || insets.bottom },
+      ]}>
+      <ScrollView
+        style={styles.tagLists}
+        // iOS gives the first scroll view under a NativeTabs screen
+        // automatic content-inset adjustment, which also reacts to the
+        // keyboard — we already handle keyboard spacing ourselves above,
+        // so opt out to avoid it double-shifting things.
+        contentInsetAdjustmentBehavior="never"
+        automaticallyAdjustKeyboardInsets={false}>
+        <Text style={styles.subtitle}>Added Tags</Text>
+        <TagList
+          tags={addedTags}
+          onPressTag={removeTagHandler}
+          onLongPressTag={deleteTagHandler}
+        />
+        <Text style={styles.subtitle}>Available Tags</Text>
+        <TagList
+          tags={availableTags}
+          onPressTag={addTagHandler}
+          onLongPressTag={deleteTagHandler}
+        />
+      </ScrollView>
+      <View>
+        <TextInput
+          style={textInputStyles.input}
+          placeholderTextColor={textInputStyles.placeholderTextColor}
+          placeholder="Enter tag"
+          onChangeText={(value) =>
+            formDispatch({ type: EDIT_TAG_TITLE, value })
+          }
+        />
+        <MyButton onPress={createTagHandler}>{"Create new tag"}</MyButton>
       </View>
-    </MyKeyboardAvoidingView>
+    </View>
   );
 }
 
