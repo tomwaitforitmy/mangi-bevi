@@ -173,7 +173,15 @@ function AddTagScreen() {
           the "Create new tag" input/button would otherwise render (and be
           touchable) underneath the tab bar. */}
       <View style={[styles.container, { paddingBottom: insets.bottom }]}>
-        <ScrollView style={styles.tagLists}>
+        <ScrollView
+          style={styles.tagLists}
+          // iOS gives the first scroll view under a NativeTabs screen
+          // automatic content-inset adjustment, which also reacts to the
+          // keyboard — stacking with MyKeyboardAvoidingView's own manual
+          // shift and roughly doubling it. We already handle both the
+          // tab-bar-safe-area and keyboard spacing ourselves, so opt out.
+          contentInsetAdjustmentBehavior="never"
+          automaticallyAdjustKeyboardInsets={false}>
           <Text style={styles.subtitle}>Added Tags</Text>
           <TagList
             tags={addedTags}
