@@ -14,7 +14,15 @@ export default function AuthMealImagesRoute() {
   return (
     <>
       <Stack.Screen
-        options={{ title, headerLeft: GlobalBackButtonComponent }}
+        options={{
+          title,
+          // See app/(app)/meals/meal/[mealId].js for why this is forced
+          // off: iOS 26 defaults the edge-swipe-back gesture to the whole
+          // screen, swallowing this screen's own left/right swipe between
+          // images (the same finger motion).
+          fullScreenGestureEnabled: false,
+          headerLeft: GlobalBackButtonComponent,
+        }}
       />
       <ImagesScreen />
     </>
