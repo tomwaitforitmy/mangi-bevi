@@ -220,11 +220,17 @@ function MealsScreen() {
   if (DEV_MODE) {
     //To find corrupt data
     filteredMeals.map((m) => {
-      if (ContainsArray(m.ingredients)) {
+      if (!Array.isArray(m.ingredients)) {
+        console.error("⚡⚡⚡ Found meal with missing/non-array INGREDIENTS");
+        console.error(m.title);
+      } else if (ContainsArray(m.ingredients)) {
         console.error("⚡⚡⚡ Found corrupt INGREDIENTS");
         console.error(m.title);
       }
-      if (ContainsArray(m.steps)) {
+      if (!Array.isArray(m.steps)) {
+        console.error("⚡⚡⚡ Found meal with missing/non-array STEPS");
+        console.error(m.title);
+      } else if (ContainsArray(m.steps)) {
         console.error("⚡⚡⚡ Found corrupt STEPS");
         console.error(m.title);
       }
