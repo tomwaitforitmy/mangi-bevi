@@ -99,7 +99,7 @@ const getStyles = (theme) =>
       justifyContent: "center",
     },
     selectedButton: {
-      backgroundColor: theme.colors.screenBackGround,
+      backgroundColor: theme.colors.myTabMenuSelectedBackground,
       height: "100%",
       borderRadius: 5,
     },
