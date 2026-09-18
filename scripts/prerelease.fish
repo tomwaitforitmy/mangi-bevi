@@ -97,6 +97,22 @@ node -e "
 "
 echo "✓ Synced version into app.json"
 
+echo "→ Regenerating open source license data..."
+node scripts/generate-license-data.js
+if test $status -ne 0
+    echo "✗ License data generation failed. Aborting release."
+    exit 1
+end
+echo "✓ License data regenerated."
+
+echo "→ Regenerating developer-hours estimate..."
+node scripts/generate-dev-hours-data.js
+if test $status -ne 0
+    echo "✗ Dev-hours data generation failed. Aborting release."
+    exit 1
+end
+echo "✓ Dev-hours data regenerated."
+
 echo "→ Committing and pushing..."
 git add -A
 git commit -m "chore: bump version to $new_version"

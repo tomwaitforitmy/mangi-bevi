@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import MyButton from "../components/MyButton";
 import MyLevelViewContainer from "../components/MyLevelViewContainer";
-import Constants from "expo-constants";
 import { useRouter } from "expo-router";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { useAppTheme } from "../theme/useAppTheme";
@@ -48,9 +47,9 @@ function ProfileScreen() {
           <MyButton onPress={() => router.push("/profile/settings")}>
             {"Settings"}
           </MyButton>
-          <Text style={styles.bene}>
-            Mangi & Bevi version: {Constants.expoConfig.version}
-          </Text>
+          <MyButton onPress={() => router.push("/profile/about")}>
+            {"About"}
+          </MyButton>
         </View>
       </ScrollView>
     </View>
