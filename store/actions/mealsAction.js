@@ -362,6 +362,27 @@ const mergeThreeWayPrimitiveArray = (baseOriginal, baseEdited, baseServer) => {
   }
 
   for (let i = 0; i <= len; i += 1) {
+    // Insertions that sit right before (or, at i === len, after) this slot
+    // — edited's insertions first, then server's — skipping any gap already
+    // consumed by the reconciliation pass above. Must run BEFORE the slot
+    // itself is emitted below: these are, by definition, the side's items
+    // that come before original index i, so emitting the slot first would
+    // place them after it instead — harmless when the only gap is the
+    // trailing one (i === len, nothing "after" to misorder against), which
+    // is why a full-list reversal happened to come out right, but wrong for
+    // any gap at an interior index, e.g. a single-item rotation or a
+    // shuffle with more than one contiguous run.
+    if (!consumedFromEditedGap.has(i)) {
+      for (const item of editedAlign.gapsBeforeOriginalIndex[i]) {
+        addResultItem(item);
+      }
+    }
+    if (!consumedFromServerGap.has(i)) {
+      for (const item of serverAlign.gapsBeforeOriginalIndex[i]) {
+        addResultItem(item);
+      }
+    }
+
     if (i < len) {
       if (reconciledKept[i] !== null) {
         for (const item of reconciledKept[i]) {
@@ -383,20 +404,6 @@ const mergeThreeWayPrimitiveArray = (baseOriginal, baseEdited, baseServer) => {
         for (const item of kept) {
           addResultItem(item);
         }
-      }
-    }
-
-    // Insertions that sit right before (or, at i === len, after) this slot
-    // — edited's insertions first, then server's — skipping any gap already
-    // consumed by the reconciliation pass above.
-    if (!consumedFromEditedGap.has(i)) {
-      for (const item of editedAlign.gapsBeforeOriginalIndex[i]) {
-        addResultItem(item);
-      }
-    }
-    if (!consumedFromServerGap.has(i)) {
-      for (const item of serverAlign.gapsBeforeOriginalIndex[i]) {
-        addResultItem(item);
       }
     }
   }

@@ -413,4 +413,57 @@ describe("mealsAction three-way merge (original, edited, server)", () => {
     expect(merged.ingredients).toEqual(["ingredient1"]);
     expect(merged.tags).toEqual(["tag1"]);
   });
+
+  // Regression: a same-editor, no-concurrent-change reorder (e.g. dragging
+  // steps/ingredients in NewScreen's sort mode, then saving) must round-trip
+  // through the merge exactly as reordered. mergeThreeWayPrimitiveArray's
+  // main loop used to emit a matched slot's item before the gap of
+  // unmatched/inserted items that belongs immediately in front of it, for
+  // the same loop index -- backwards from what "gap sits before this slot"
+  // requires. A full-list reversal's only gap happens to fall at the very
+  // end (nothing after it to misorder against), which is why that case
+  // alone looked fine; any reorder with an interior gap -- a single-item
+  // rotation, an adjacent swap, a shuffle -- came out scrambled.
+  describe("reordering (no concurrent change)", () => {
+    const scenarios = [
+      ["full reversal", ["1", "2", "3", "4", "5"], ["5", "4", "3", "2", "1"]],
+      ["rotate left by one", ["1", "2", "3", "4", "5"], ["2", "3", "4", "5", "1"]],
+      ["rotate right by one", ["1", "2", "3", "4", "5"], ["5", "1", "2", "3", "4"]],
+      ["adjacent swap", ["1", "2", "3", "4", "5"], ["1", "3", "2", "4", "5"]],
+      ["arbitrary shuffle", ["1", "2", "3", "4", "5"], ["3", "1", "5", "2", "4"]],
+    ];
+
+    it.each(scenarios)("%s round-trips exactly", (_name, original, edited) => {
+      const { threeWayMerge } = loadHelpers();
+      const merged = threeWayMerge(
+        { steps: original },
+        { steps: edited },
+        { steps: original },
+      );
+      expect(merged.steps).toEqual(edited);
+    });
+
+    it("round-trips 200 random permutations of an 8-item list", () => {
+      const { threeWayMerge } = loadHelpers();
+      const original = ["a", "b", "c", "d", "e", "f", "g", "h"];
+      const shuffle = (arr) => {
+        const copy = [...arr];
+        for (let i = copy.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      };
+
+      for (let attempt = 0; attempt < 200; attempt += 1) {
+        const edited = shuffle(original);
+        const merged = threeWayMerge(
+          { steps: original },
+          { steps: edited },
+          { steps: original },
+        );
+        expect(merged.steps).toEqual(edited);
+      }
+    });
+  });
 });
