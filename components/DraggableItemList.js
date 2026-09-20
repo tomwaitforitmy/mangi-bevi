@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import MyListItem from "../components/MyListItem";
 import { useAppTheme } from "../theme/useAppTheme";
@@ -33,9 +33,16 @@ function DraggableItemList(props) {
   }));
 
   const [data, setData] = useState(listWithIds);
+  // Reordering several items in quick succession fires onReorder again
+  // before React has committed the previous setData, so handleReorder's
+  // `data` closure can be stale -- reorderItems would then be applied on
+  // top of an outdated order and silently drop the previous move. A ref
+  // updated synchronously on every call sidesteps that race.
+  const dataRef = useRef(data);
 
   const handleReorder = ({ from, to }) => {
-    const reorderedItems = reorderItems(data, from, to);
+    const reorderedItems = reorderItems(dataRef.current, from, to);
+    dataRef.current = reorderedItems;
     setData(reorderedItems);
     const dataAsArray = reorderedItems.map((item) => item.text);
     props.onSortEnd(dataAsArray);
