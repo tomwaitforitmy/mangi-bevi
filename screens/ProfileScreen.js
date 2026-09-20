@@ -25,21 +25,21 @@ function ProfileScreen() {
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.bene}>
+          <Text style={styles.bene}>Name: {user.name} </Text>
+          <Text style={styles.bene}>Email: {user.email}</Text>
           <MyLevelViewContainer
             numberOfRecipes={userMealsData.length}
             numberOfTags={userStats.countTags}
             numberOfIngredients={userStats.countIngredients}
           />
+          <MyButton onPress={() => router.push("/profile/account")}>
+            {"Manage Account"}
+          </MyButton>
           <MyButton
             onPress={() => {
               router.push("/profile/meals");
             }}>
             {"View your Mangis"}
-          </MyButton>
-          <Text style={styles.bene}>Name: {user.name} </Text>
-          <Text style={styles.bene}>Email: {user.email}</Text>
-          <MyButton onPress={() => router.push("/profile/account")}>
-            {"Manage Account"}
           </MyButton>
           <MyButton onPress={() => router.push("/profile/friends")}>
             {"Friends"}
@@ -64,8 +64,7 @@ const getStyles = (theme) =>
       alignItems: "stretch",
     },
     bene: {
-      fontSize: 14,
-      lineHeight: 30,
+      fontSize: 18,
       margin: 5,
       color: theme.colors.onBackground,
     },
