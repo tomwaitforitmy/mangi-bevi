@@ -55,6 +55,14 @@ Background/design rationale: `docs/optimistic-transaction-design.md`. Tests:
 Any new write path touching `meal` (or another multi-client-edited resource) should follow this
 same pattern rather than reintroducing a full-object PATCH.
 
+**Bug lesson (fixed):** `mergeThreeWayPrimitiveArray`'s main loop emitted a matched slot before the
+insertion-gap that belongs right in front of it (same loop index, wrong order) — so any pure
+reorder (drag steps/ingredients, no concurrent edit at all) with an interior gap came out
+scrambled on save. A full-list reversal happened to dodge it (its one gap sits at the very end),
+which is why that case alone looked fine — don't trust a reversal-only test for this code again.
+Fuzz-tested (200 random permutations) in `mealsAction.threeWayMerge.test.js`; keep that green on
+any future edit to `mergeThreeWayPrimitiveArray`/`alignToOriginal`.
+
 ### Friends & edit permissions
 
 Users can add other users as friends (`User.friends`, managed in
@@ -80,6 +88,28 @@ contributed. Threshold tables: `data/RecipeRewards.js`, `data/IngredientRewards.
 `EXPO_PUBLIC_DEBUG_MODE`. When `DEV_MODE` is true, `createMeal` flags new meals
 `isTestMangi: true`; `firebase/deleteTestMangis.js` cleans these up. Prefer DEV_MODE on when
 exercising create/edit flows so test data stays identifiable and disposable.
+
+### MyTabMenu / DraggableItemList: recurring bug sources
+
+`components/MyTabMenu.js`: a tab press starts a `withSpring` animation, but screens that derive its
+`initialIndex` prop from the same state the press just updated (e.g. `MealDetailScreen`) re-render
+and, via the prop-resync `useEffect`, instantly snap `position.value` to that same target —
+cutting the spring off before it bounces. Fixed via `selfAnimatedTargetRef`: the resync effect now
+only fires when the incoming target differs from what a press/swipe here just animated toward.
+Don't let that effect run unconditionally on every `initialIndex` change again.
+
+`components/DraggableItemList.js` (steps/ingredients drag-reorder): two separate races, both
+fixed — (1) `handleReorder` read the list from a stale React state closure across
+quick-successive reorders (fixed with a ref updated synchronously); (2)
+`react-native-reorderable-list` re-enables dragging before our `data` prop commits into the
+rendered list (fixed via `dragEnabled`, re-enabled only by an effect on `data`). Note: the
+user-visible "wrong order after saving" bug was **not** this component — it was the three-way
+merge (see above). Check the merge first if reordering breaks again.
+
+`MealDetailScreen`'s focus effect used to re-derive the selected tab on *every* focus, falling
+back to Info once the one-shot "resume this tab" redux signal was consumed — a spurious extra
+focus firing (or returning from any sub-navigation, e.g. images) could reset the tab. Fixed: the
+effect is now a no-op with no pending signal; don't reintroduce a fallback-to-default there.
 
 ### Navigation & permissions gating
 
@@ -125,6 +155,11 @@ icon's tint inverting). Confirmed upstream, not an app bug: expo/expo#41360, #39
 fix is known — remounting `NativeTabs` via `key`, `freezeOnBlur`, and `detachInactiveScreens` have
 all been tried upstream and failed. Don't attempt a JS workaround for this without checking those
 issues first for a new upstream fix.
+
+Also because `NativeTabs` overlaps content edge-to-edge: any list/scroll view on a tab screen
+needs `contentContainerStyle={{ paddingBottom: insets.bottom }}` or its last row hides under the
+bar (rubber-bands back on release, looks like a scroll bug). `MealList.js` was missing this; fixed.
+`NewScreen.js`/`MealDetailScreen.js` already had it — check new lists follow suit.
 
 ### Image pipeline
 

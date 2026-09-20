@@ -110,6 +110,13 @@ Helper functions use pure, functional style with clear naming:
 - `mealsAction.js` does a three-way merge (`threeWayMerge`/`buildMealUpdatePayloadThreeWay`) for array fields (ingredients, steps, imageUrls, tags, links, reactions) to avoid lost updates from concurrent edits.
 - `editMeal`, `editLinks`, `editReactions`, `deleteMeal` all go through `runOptimisticTransaction`. New meal-write code must too — never reintroduce a full-object PATCH.
 - Design doc: `docs/optimistic-transaction-design.md`.
+- **Bug lesson (fixed)**: `mergeThreeWayPrimitiveArray` in `mealsAction.js` emitted a matched item before the insertion-gap in front of it (wrong order) — any pure reorder (drag steps/ingredients, zero concurrent edits) with an interior gap came out scrambled on save. A full-list reversal dodged it (gap always at the end) — don't test only with reversals here again. Fuzz test (200 random permutations) lives in `tests/unit-tests/mealsAction.threeWayMerge.test.js`; keep it green.
+
+### MyTabMenu / DraggableItemList: recurring bug sources
+
+- `components/MyTabMenu.js`: a tab press animates via `withSpring`, but screens deriving its `initialIndex` from the same state the press updates (e.g. `MealDetailScreen`) re-render and a resync `useEffect` used to instantly snap the position, killing the bounce. Fixed via `selfAnimatedTargetRef` — resync only fires for externally-caused index changes now.
+- `components/DraggableItemList.js`: two races fixed — stale-closure reorder (now uses a ref) and the drag library re-enabling drag before our `data` commits (now gated by `dragEnabled` + an effect on `data`).
+- The "wrong order after saving" bug users actually hit was in the three-way merge, not these components — check the merge first if reordering ever looks wrong again.
 
 ## External Dependencies & Integrations
 
