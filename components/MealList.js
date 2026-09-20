@@ -1,6 +1,7 @@
 import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppTheme } from "../theme/useAppTheme";
 import MealItem from "./MealItem";
 
@@ -8,6 +9,7 @@ const MealList = (props) => {
   const router = useRouter();
   const theme = useAppTheme();
   const styles = getStyles(theme);
+  const insets = useSafeAreaInsets();
 
   const renderMealItem = (itemData) => {
     return (
@@ -39,6 +41,12 @@ const MealList = (props) => {
         data={props.mealsList}
         renderItem={renderMealItem}
         style={{ width: "100%" }}
+        // NativeTabs' native tab bar overlaps content (edge-to-edge)
+        // instead of reserving space for itself like the old JS bottom
+        // tabs did, so the last meal in the list otherwise ends up
+        // partially hidden underneath it (see MealDetailScreen/NewScreen
+        // for the same fix).
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
       />
     </View>
   );
