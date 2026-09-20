@@ -191,17 +191,28 @@ function MealDetailScreen() {
     setShowSelectReactionModal(false);
   };
 
-  //update the view when the screen comes into focus
+  // Resume the tab NewScreen left us on, if any. Deliberately a no-op when
+  // there's no pending signal -- the initial tab is already seeded by
+  // useState(selectedTabMealDetail ?? TITLES.INFO) above, so this effect
+  // only needs to apply the one-shot override. Re-deriving from
+  // selectedTabMealDetail on every focus (the previous behavior) meant a
+  // second, spurious focus firing after the real one -- which does happen,
+  // e.g. on the pop from dismissTo -- would see the already-consumed
+  // pending as null and silently reset the tab back to Info/the route
+  // param, clobbering whatever the first (correct) firing just set. It
+  // also meant returning from an unrelated sub-navigation (e.g. the images
+  // screen) could reset the tab the user was actually on.
   useFocusEffect(
     useCallback(() => {
       const pending = pendingTabViewedRef.current;
-      ChangeSelectedTab(pending ?? selectedTabMealDetail ?? TITLES.INFO);
-      // Consume the one-shot signal from NewScreen so it can't affect a
-      // later, unrelated meal.
-      if (pending) {
-        dispatch(setCurrentTabViewed(null));
+      if (!pending) {
+        return;
       }
-    }, [ChangeSelectedTab, selectedTabMealDetail, dispatch]),
+      ChangeSelectedTab(pending);
+      // Consume the one-shot signal from NewScreen so it can't affect a
+      // later, unrelated meal (or a later, spurious focus firing here).
+      dispatch(setCurrentTabViewed(null));
+    }, [ChangeSelectedTab, dispatch]),
   );
 
   useEffect(() => {
