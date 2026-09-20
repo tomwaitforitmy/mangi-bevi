@@ -1,7 +1,7 @@
 {
-  "estimatedHours": 423.3,
-  "sessionCount": 329,
-  "commitCount": 1264,
-  "generatedAt": "2026-09-18T17:35:07.521Z",
+  "estimatedHours": 426.6,
+  "sessionCount": 331,
+  "commitCount": 1271,
+  "generatedAt": "2026-09-20T18:05:42.487Z",
   "methodology": "Estimated from this project's git commit history: consecutive commits less than 2 hours apart are treated as the same work session (their real time gap is counted); each new session adds a fixed 30-minute credit for its first commit. This is a standard, deliberately conservative approximation, not a precise time tracker."
 }
