@@ -6,15 +6,17 @@ import lightTheme from "../../theme/lightTheme";
 
 // react-native-reorderable-list's real ReorderableList pulls in reanimated/
 // worklets native machinery unavailable under Jest, and is irrelevant here
-// -- only its onReorder contract matters. reorderItems is reimplemented
-// (verbatim from the library's own src/utils.ts) rather than requireActual'd,
-// since that would also load the native parts.
+// -- only its onReorder/dragEnabled contract matters. reorderItems is
+// reimplemented (verbatim from the library's own src/utils.ts) rather than
+// requireActual'd, since that would also load the native parts.
 let capturedOnReorder;
+let mockDragEnabledHistory;
 
 jest.mock("react-native-reorderable-list", () => ({
   __esModule: true,
-  default: ({ onReorder }) => {
+  default: ({ onReorder, dragEnabled }) => {
     capturedOnReorder = onReorder;
+    mockDragEnabledHistory.push(dragEnabled);
     return null;
   },
   reorderItems: (data, from, to) => {
@@ -25,7 +27,18 @@ jest.mock("react-native-reorderable-list", () => ({
   useReorderableDrag: () => () => {},
 }));
 
+const renderList = (data, onSortEnd) =>
+  render(
+    <PaperProvider theme={lightTheme}>
+      <DraggableItemList data={data} onSortEnd={onSortEnd} />
+    </PaperProvider>,
+  );
+
 describe("DraggableItemList", () => {
+  beforeEach(() => {
+    mockDragEnabledHistory = [];
+  });
+
   // Regression test: SortingListViewContainer/DraggableItemList silently
   // dropped moves when items were reordered in quick succession (e.g.
   // reversing a 5-item steps list), because handleReorder used to read the
@@ -34,14 +47,7 @@ describe("DraggableItemList", () => {
   // its move on top of that, discarding the first move entirely.
   it("applies successive reorders fired before a re-render commits, without dropping the earlier move", () => {
     const onSortEnd = jest.fn();
-    render(
-      <PaperProvider theme={lightTheme}>
-        <DraggableItemList
-          data={["1", "2", "3", "4", "5"]}
-          onSortEnd={onSortEnd}
-        />
-      </PaperProvider>,
-    );
+    renderList(["1", "2", "3", "4", "5"], onSortEnd);
 
     act(() => {
       // move "1" (index 0) to the end: 2,3,4,5,1
@@ -51,5 +57,24 @@ describe("DraggableItemList", () => {
     });
 
     expect(onSortEnd).toHaveBeenLastCalledWith(["3", "4", "5", "2", "1"]);
+  });
+
+  // Regression test for the second, separate race: the library re-enables
+  // dragging (and can report a new gesture's from/to) the instant onReorder
+  // fires, independent of whether our data prop update has actually
+  // committed into the rendered list. A drag started in that gap would
+  // report indices for the order still on screen while we'd apply them to
+  // the already-advanced internal order -- silently wrong. Dragging must
+  // stay locked until the data update has committed.
+  it("locks dragging out between a reorder firing and its data committing", () => {
+    const onSortEnd = jest.fn();
+    renderList(["1", "2", "3", "4", "5"], onSortEnd);
+
+    act(() => {
+      capturedOnReorder({ from: 0, to: 4 });
+    });
+
+    expect(mockDragEnabledHistory).toContain(false);
+    expect(mockDragEnabledHistory[mockDragEnabledHistory.length - 1]).toBe(true);
   });
 });

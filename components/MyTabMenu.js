@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useMemo,
   useImperativeHandle,
+  useRef,
 } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
@@ -26,6 +27,16 @@ const MyTabMenu = memo(
     }, [windowWidth, paddingLeftRight, numberOfTabs]);
     let initialPosition = 1 + tabWith * initialIndex;
     const position = useSharedValue(initialPosition);
+    // Tracks the pixel target this component itself last animated toward
+    // (via handlePress/swipe below), so the resync effect further down can
+    // tell "the initialIndex prop changed because we just pressed a tab" --
+    // which is already being animated, and must be left alone -- apart from
+    // "initialIndex changed for an external reason" (e.g. MealDetailScreen
+    // resuming a saved tab after returning from edit), which does need the
+    // instant snap. Without this, a press's own withSpring animation gets
+    // immediately overwritten by the resync effect reacting to the very
+    // initialIndex change that press caused, killing the bounce.
+    const selfAnimatedTargetRef = useRef(initialPosition);
 
     useEffect(() => {
       console.log("🚨 MyTabMenu re-rendered");
@@ -50,13 +61,21 @@ const MyTabMenu = memo(
     });
 
     const handlePress = (index, text) => {
-      position.value = withSpring(1 + tabWith * index);
+      const target = 1 + tabWith * index;
+      selfAnimatedTargetRef.current = target;
+      position.value = withSpring(target);
       onTabPress(text);
       console.log(`📍 MyTabMenu - Tab Pressed: ${text}, Index: ${index}`);
     };
 
-    //update the view if the initial position changes
+    //update the view if the initial position changes for a reason other
+    //than this component's own animated press/swipe above (see comment on
+    //selfAnimatedTargetRef)
     useEffect(() => {
+      if (selfAnimatedTargetRef.current === initialPosition) {
+        return;
+      }
+      selfAnimatedTargetRef.current = initialPosition;
       position.value = initialPosition;
     }, [initialPosition, initialIndex, position]);
 
